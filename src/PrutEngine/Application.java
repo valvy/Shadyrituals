@@ -1,0 +1,164 @@
+/*
+ * Copyright (c) 2016, heikovanderheijden
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * * Redistributions of source code must retain the above copyright notice, this
+ *   list of conditions and the following disclaimer.
+ * * Redistributions in binary form must reproduce the above copyright notice,
+ *   this list of conditions and the following disclaimer in the documentation
+ *   and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
+package PrutEngine;
+
+import PrutEngine.Core.View;
+import PrutEngine.Scene;
+import org.lwjgl.glfw.*;
+
+import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.system.MemoryUtil.*;
+
+/**
+ *
+ * @author heikovanderheijden
+ */
+public final class Application {
+    
+    private static Application instance;
+    
+    
+    private GLFWErrorCallback errorCallback;
+    private GLFWKeyCallback   keyCallback;
+    private long window;
+ 
+    private Scene currentModel;
+    private final View view;
+    
+    public static Application getInstance(){
+        if(Application.instance == null){
+            Application.instance = new Application();
+        }
+        return Application.instance;
+    }
+    
+    private Application(){
+        this.init();
+        this.view = new View();
+ 
+    }
+    
+    
+    private void init(){
+        glfwSetErrorCallback(errorCallback = GLFWErrorCallback.createPrint(System.err));
+ 
+        // Initialize GLFW. Most GLFW functions will not work before doing this.
+        if ( glfwInit() != GLFW_TRUE )
+            throw new IllegalStateException("Unable to initialize GLFW");
+ 
+       
+        this.setWindowConfiguration();
+        int WIDTH = 700;
+        int HEIGHT = 700;
+
+
+        window = glfwCreateWindow(WIDTH, HEIGHT, "Hello World!", NULL, NULL);
+        if ( window == NULL )
+            throw new RuntimeException("Failed to create the GLFW window");
+ 
+        // Setup a key callback. It will be called every time a key is pressed, repeated or released.
+        glfwSetKeyCallback(window, keyCallback = new GLFWKeyCallback() {
+            @Override
+            public void invoke(long window, int key, int scancode, int action, int mods) {
+                if ( key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE )
+                    glfwSetWindowShouldClose(window, GLFW_TRUE); // We will detect this in our rendering loop
+            }
+        });
+ 
+        // Get the resolution of the primary monitor
+        GLFWVidMode vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+        // Center our window
+        glfwSetWindowPos(
+            window,
+            (vidmode.width() - WIDTH) / 2,
+            (vidmode.height() - HEIGHT) / 2
+        );
+ 
+        // Make the OpenGL context current
+        glfwMakeContextCurrent(window);
+        // Enable v-sync
+        glfwSwapInterval(1);
+ 
+        // Make the window visible
+        glfwShowWindow(window);
+    }
+    
+    private void setWindowConfiguration(){
+     
+        glfwDefaultWindowHints(); // optional, the current window hints are already the default
+        glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE); // the window will stay hidden after creation
+        glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE); // the window will be resizable
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4); //setup opengl version 4
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1); 
+        glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    }
+    
+    public void loadScene(Scene scene){
+        if(scene == null){
+            return;
+        }
+        scene.awake();
+        if(this.currentModel!= null){
+            this.currentModel.onQuit();
+            this.currentModel = scene;
+        }else{
+            this.currentModel = scene;
+            this.run();
+        }
+    }    
+    
+    private void loop(){
+        
+         while ( glfwWindowShouldClose(window) == GLFW_FALSE ) {
+             glfwSwapBuffers(window); // swap the color buffers
+             if(this.currentModel != null){
+                this.currentModel.draw(this.view);
+                this.currentModel.update(0);
+             }
+             glfwPollEvents();
+         }
+    }
+    
+    private void run(){
+        try{
+            this.loop();
+            if(this.currentModel != null){
+                this.currentModel.onQuit();
+            }
+          
+            glfwDestroyWindow(window);
+            keyCallback.release();
+        }finally{
+            glfwTerminate();
+            errorCallback.release();
+            
+        }
+    }
+    
+  
+}
