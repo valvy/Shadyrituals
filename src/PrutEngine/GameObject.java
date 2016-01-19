@@ -40,10 +40,19 @@ public abstract class GameObject{
         this.position = new Vector3<>(0f,0f,0f);
     }
     
-    
+    public void translate(Vector3<Float> pos){
+        this.position.x += pos.x;
+        this.position.y += pos.y;
+        this.position.z += pos.z;
+        if(renderer != null){
+            this.renderer.setPosition(this.position);
+        }
+        
+    }
     
     public void setRenderer(Renderer renderer){
         this.renderer = renderer;
+        this.renderer.setPosition(this.position);
     }
     
     /**

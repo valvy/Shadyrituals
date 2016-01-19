@@ -42,8 +42,8 @@ public class Camera extends GameObject{
         for(int dat : AssetManager.allPrograms()){
             int pos = glGetUniformLocation(dat, "projection_matrix");
             Matrix4x4 mat = new Matrix4x4();
-            mat.translate(this.getPosition());
-            mat = Matrix4x4.transpose(mat);
+          //  mat.translate(this.getPosition());
+            //mat = Matrix4x4.transpose(mat);
             
             mat = Matrix4x4.multiply(mat, this.getOrthographic(50, 700 / 700, 0.1f, 10000));
             glUniformMatrix4fv(pos,false,mat.getRawData());

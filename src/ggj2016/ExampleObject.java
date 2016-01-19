@@ -25,13 +25,18 @@ public final class ExampleObject extends GameObject {
         } catch (Exception ex) {
             Logger.getLogger(ExampleObject.class.getName()).log(Level.SEVERE, null, ex);
         }
-        this.setPosition(new Vector3<>(0f,0f,1.1f));
+        this.setPosition(new Vector3<>(0f,0f,-5.1f));
         
     }
     
     @Override
     public void update(float tpf) {
+       this.translate(new Vector3<Float>(
+                4 * tpf,
+                0f,
+                0f
         
+        ));
     }
     
 }

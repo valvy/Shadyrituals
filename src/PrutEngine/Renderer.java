@@ -69,6 +69,7 @@ public class Renderer {
     
     public void setPosition(Vector3<Float> pos){        
         this.pos.set(pos);
+        
 
     }
     
@@ -77,9 +78,9 @@ public class Renderer {
             glUseProgram(AssetManager.getProgram(this.program));
             Matrix4x4 mat = new Matrix4x4();
             
-            Matrix4x4 rotation = Matrix4x4.rotate(mat, 20, Vector3.Orientation.Z);
-           // mat.translate(pos);
-            mat = Matrix4x4.multiply(mat,rotation);
+           // Matrix4x4 rotation = Matrix4x4.rotate(mat, 20, Vector3.Orientation.Z);
+            mat.translate(pos);
+           // mat = Matrix4x4.multiply(mat,rotation);
             glUniformMatrix4fv(this.glPos,true,mat.getRawData());
             //glActiveTexture(GL_TEXTURE0);
             glBindTexture(GL_TEXTURE_2D, AssetManager.getTexture(this.texture));
