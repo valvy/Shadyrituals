@@ -29,8 +29,11 @@ import PrutEngine.Core.Data.GLProgram;
 import PrutEngine.Core.Data.Mesh;
 import PrutEngine.Core.Data.Resource;
 import PrutEngine.Core.Data.Shader;
+import PrutEngine.Core.Data.Texture;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Management of all the resources
@@ -60,7 +63,56 @@ public final class AssetManager {
      */
     private static final ArrayList<GLProgram> PROGRAMS = new ArrayList<>();
 
+    private static final ArrayList<Texture> TEXTURES = new ArrayList<>();
+    
     private static final ArrayList<Mesh> MESHES = new ArrayList<>();
+    
+    private static  int loadShader(String shaderName,Shader.Type type) throws IOException{
+        for(Shader shader : AssetManager.SHADERS){
+            if(shader.getDataLocation().equals(shaderName)){
+                return shader.getMemoryPosition();
+            }
+        }
+        
+        Shader result = new Shader(shaderName,AssetManager.uniqueNumber,type);
+        AssetManager.uniqueNumber++;
+        AssetManager.SHADERS.add(result);
+        return result.getMemoryPosition();
+    }
+    
+    public static int getTexture(int reference) throws AssetNotFoundException{
+        for(Texture tex : AssetManager.TEXTURES){
+            if(tex.getMemoryPosition() == reference){
+                
+                return tex.getTexture();
+            }
+        }
+        throw new AssetNotFoundException();
+    }
+    
+    public static int loadTexture(final String texture) throws IOException{
+        for(Texture tex : AssetManager.TEXTURES){
+            if(tex.getDataLocation().equals(texture)){
+                return tex.getMemoryPosition();
+            }
+        }
+        
+        Texture tex = new Texture(texture,AssetManager.uniqueNumber);
+        AssetManager.uniqueNumber++;
+        AssetManager.TEXTURES.add(tex);
+        
+        return tex.getMemoryPosition();
+    }
+    
+    private static int getShader(int reference) throws AssetNotFoundException{
+        for(Shader sh : AssetManager.SHADERS){
+            if(sh.getMemoryPosition() == reference){
+                
+                return sh.getShader();
+            }
+        }
+        throw new AssetNotFoundException();
+    }
     
     public static ArrayList<Integer> allPrograms(){
         final ArrayList<Integer> result = new ArrayList<>();
@@ -72,16 +124,18 @@ public final class AssetManager {
     }
     
     /**
-     * Loads and links two shaders into a opengl program.
+     * Loads and links shaders into a opengl program.
      * And stores the program into a reference to be used
-     * @param vertexShader
-     * @param fragmentShader
+     * @param shaders
      * @return  The program reference
      * @throws Exception 
      */
-    public static int loadProgram(final String vertexShader, final String fragmentShader) throws Exception{
+    public static int loadProgram(
+            final HashMap<String, Shader.Type> shaders
+    ) throws Exception{
         
-        final String programName = vertexShader + fragmentShader;
+        String programName = "";
+        programName = shaders.entrySet().stream().map((entry) -> entry.getKey()).reduce(programName, String::concat);
         //Check if program already exists
         for(GLProgram program : AssetManager.PROGRAMS){
             if(program.getDataLocation().equals(programName)){
@@ -89,34 +143,17 @@ public final class AssetManager {
             }
         }
         
-        Shader vShader = null;
-        Shader fShader = null;
-        //Check if the shaders do exist
-        for(Shader shader : AssetManager.SHADERS){
-            if(shader.getDataLocation().equals(vertexShader)){
-                vShader = shader;
-            }else if(shader.getDataLocation().equals(fragmentShader)){
-                fShader = shader;
-            }
-            if(vShader != null && fShader != null){
-                break;
-            }
+        ArrayList<Integer> shaderList = new ArrayList<>();
+        for (Map.Entry<String, Shader.Type> entry : shaders.entrySet()) {
+            String key = entry.getKey();
+            Shader.Type value = entry.getValue();
+            shaderList.add(AssetManager.getShader(AssetManager.loadShader(key, value)));
         }
         
-        //Create vertex shader if it does not exists...
-        if(vShader == null){
-            vShader = new Shader(vertexShader, AssetManager.uniqueNumber,Shader.Type.Vertex_Shader);
-            AssetManager.uniqueNumber++;
-            AssetManager.SHADERS.add(vShader);
-        }
-        
-        if(fShader == null){
-            fShader = new Shader(fragmentShader, AssetManager.uniqueNumber,Shader.Type.Fragment_Shader);
-            AssetManager.uniqueNumber++;
-            AssetManager.SHADERS.add(fShader);
-        }
-        
-        GLProgram program = new GLProgram(programName, AssetManager.uniqueNumber, vShader.getShader(), fShader.getShader());
+        GLProgram program = new GLProgram(
+                programName,
+                AssetManager.uniqueNumber, 
+                shaderList);
         AssetManager.uniqueNumber++;
         AssetManager.PROGRAMS.add(program);
        
@@ -213,7 +250,24 @@ public final class AssetManager {
     }
     
     
-    
+     public static void removeTexture(final int reference){
+
+        Texture tmp = null;
+        
+        for(Texture tex : AssetManager.TEXTURES){
+            if(tex.getMemoryPosition() == reference){
+                if(tex.removeRef()){
+                    tex.destroy();
+                    tmp = tex;
+                }
+            }
+        }
+        
+        if(tmp != null){
+            AssetManager.TEXTURES.remove(tmp);
+        }
+        
+    }
     
      /**
      * Removes an Mesh when it exists

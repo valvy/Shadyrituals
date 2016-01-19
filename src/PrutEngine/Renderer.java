@@ -25,10 +25,12 @@
  */
 package PrutEngine;
 
+import PrutEngine.Core.Data.Shader;
 import PrutEngine.Core.Data.Vector3;
 import PrutEngine.Core.Math.Matrix4x4;
 import ggj2016.ExampleScene;
 import java.nio.FloatBuffer;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.lwjgl.BufferUtils;
@@ -50,10 +52,18 @@ public class Renderer {
     
     private final int program;
     private final int mesh;
+    private final int texture;
     private int glPos;
     private final Vector3<Float> pos;
     public Renderer(final String vShader,final String fShader,final String texture, final String meshName) throws Exception{
-        this.program = AssetManager.loadProgram(vShader, fShader);
+        final HashMap<String, Shader.Type> dat = new HashMap<>();
+        dat.put(vShader, Shader.Type.Vertex_Shader);
+        dat.put(fShader, Shader.Type.Fragment_Shader);
+        this.program = AssetManager.loadProgram(dat);
+        
+        
+        this.texture = AssetManager.loadTexture(texture);
+       
         this.mesh = AssetManager.loadMesh(meshName);
         this.glPos = glGetUniformLocation(AssetManager.getProgram(this.program), "mv_matrix");
         this.pos = new Vector3<>(0f,0f,0f);
@@ -72,7 +82,7 @@ public class Renderer {
             
             Matrix4x4 rotation = Matrix4x4.rotate(mat, 190, Vector3.Orientation.Z);
             mat.translate(pos);
-            mat = Matrix4x4.multiply(mat,rotation);
+           // mat = Matrix4x4.multiply(mat,rotation);
             glUniformMatrix4fv(this.glPos,true,mat.getRawData());
             glBindVertexArray(AssetManager.getMeshVao(this.mesh));
             glDrawArrays(GL_TRIANGLES, 0, AssetManager.getMeshSize(this.mesh));

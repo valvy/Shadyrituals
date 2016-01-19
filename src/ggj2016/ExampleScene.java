@@ -5,30 +5,19 @@
  */
 package ggj2016;
 
-import PrutEngine.AssetManager;
-import PrutEngine.Core.Data.Vector3;
-import PrutEngine.Core.Math.Matrix4x4;
-import PrutEngine.GameObject;
-import PrutEngine.Renderer;
 import PrutEngine.Scene;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import static java.lang.System.exit;
 import static org.lwjgl.opengl.ARBImaging.GL_TABLE_TOO_LARGE;
-import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
 import static org.lwjgl.opengl.GL11.GL_INVALID_ENUM;
 import static org.lwjgl.opengl.GL11.GL_INVALID_OPERATION;
 import static org.lwjgl.opengl.GL11.GL_INVALID_VALUE;
+import static org.lwjgl.opengl.GL11.GL_LINE;
 import static org.lwjgl.opengl.GL11.GL_NO_ERROR;
 import static org.lwjgl.opengl.GL11.GL_OUT_OF_MEMORY;
 import static org.lwjgl.opengl.GL11.GL_STACK_OVERFLOW;
 import static org.lwjgl.opengl.GL11.GL_STACK_UNDERFLOW;
-import static org.lwjgl.opengl.GL11.GL_TRIANGLES;
-import static org.lwjgl.opengl.GL11.glDrawArrays;
-import static org.lwjgl.opengl.GL11.glGetError;
-import static org.lwjgl.opengl.GL20.glUseProgram;
 import static org.lwjgl.opengl.GL30.GL_INVALID_FRAMEBUFFER_OPERATION;
-import static org.lwjgl.opengl.GL30.glBindVertexArray;
 import static org.lwjgl.system.APIUtil.apiUnknownToken;
 //import org.lwjgl.opengl.
 /**
@@ -43,7 +32,6 @@ public class ExampleScene extends Scene{
     
     @Override
     public void awake(){
-        System.out.println("dsaf");
         this.addGameObject(new ExampleObject());
 
     }
@@ -80,6 +68,7 @@ public class ExampleScene extends Scene{
         int error = GL11.glGetError();
         while(error != GL_NO_ERROR){
             System.out.println(getErrorString(error));
+            exit(-1);
         }
 
     }

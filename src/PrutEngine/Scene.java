@@ -46,7 +46,7 @@ public abstract class Scene {
     
     public Scene(){
         this.gameObjects = new ArrayList<>();
-        this.camera = new Camera(new Vector3<>(-3f,0f,-5f));
+        this.camera = new Camera(new Vector3<>(2f,0f,-2.3f));
     }
     
     /**

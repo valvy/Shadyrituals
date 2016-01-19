@@ -25,6 +25,7 @@
  */
 package PrutEngine.Core.Data;
 
+import java.util.ArrayList;
 import org.lwjgl.opengl.GL20;
 import static org.lwjgl.opengl.GL20.GL_INFO_LOG_LENGTH;
 import static org.lwjgl.opengl.GL20.glAttachShader;
@@ -45,13 +46,15 @@ public final class GLProgram extends Resource{
     private final String errors;
   //  private final int position;
     
-    public GLProgram(final String fileLocation, final int position, final int vertexShader, final int fragmentShader){
+    public GLProgram(final String fileLocation, final int position, final ArrayList<Integer> shaders){
         super(fileLocation, position);
         this.program = glCreateProgram();
-        glAttachShader(this.program, vertexShader);
-        glAttachShader(this.program, fragmentShader);
+        shaders.stream().forEach((i) -> {
+            glAttachShader(this.program, i);
+        });
         glLinkProgram(this.program);
         this.errors = glGetProgramInfoLog(program, glGetProgrami(program, GL_INFO_LOG_LENGTH));
+        System.out.println(errors);
     }
 
     
