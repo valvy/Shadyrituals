@@ -20,7 +20,7 @@ public final class ExampleObject extends GameObject {
     
     public ExampleObject(){
         try {
-            this.setRenderer(new Renderer("Assets/Shaders/testV.glsl", "Assets/Shaders/testF.glsl","Assets/Textures/test", "Assets/Meshes/monkey.obj"));
+            this.setRenderer(new Renderer("Assets/Shaders/testV.glsl", "Assets/Shaders/testF.glsl","Assets/Textures/cube.bmp", "Cube"));
         
         } catch (Exception ex) {
             Logger.getLogger(ExampleObject.class.getName()).log(Level.SEVERE, null, ex);

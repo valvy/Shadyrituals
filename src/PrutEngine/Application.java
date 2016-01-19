@@ -132,13 +132,24 @@ public final class Application {
         }
     }    
     
+    private Thread thread ;
+    
     private void loop(){
-        
+       
+        double time_last_frame = System.nanoTime();
+         
          while ( glfwWindowShouldClose(window) == GLFW_FALSE ) {
+            // System.out.println(System.nanoTime() - startTime);
+          //   time_last_frame = System.nanoTime();
+             double tmp = System.nanoTime();
              glfwSwapBuffers(window); // swap the color buffers
              if(this.currentModel != null){
                 this.currentModel.draw(this.view);
-                this.currentModel.update(0);
+                double tpf = tmp -  time_last_frame;
+                time_last_frame = System.nanoTime();
+                if(tpf > 0){
+                    this.currentModel.update((float) (tpf / 10000000.0f));
+                }
              }
              glfwPollEvents();
          }

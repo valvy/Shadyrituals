@@ -29,17 +29,16 @@ import PrutEngine.Core.Data.Shader;
 import PrutEngine.Core.Data.Vector3;
 import PrutEngine.Core.Math.Matrix4x4;
 import ggj2016.ExampleScene;
-import java.nio.FloatBuffer;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.lwjgl.BufferUtils;
-import static org.lwjgl.opengl.GL11.GL_FALSE;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
 import static org.lwjgl.opengl.GL11.GL_TRIANGLES;
+import static org.lwjgl.opengl.GL11.glBindTexture;
 import static org.lwjgl.opengl.GL11.glDrawArrays;
-import org.lwjgl.opengl.GL20;
+import static org.lwjgl.opengl.GL20.glDisableVertexAttribArray;
+import static org.lwjgl.opengl.GL20.glEnableVertexAttribArray;
 import static org.lwjgl.opengl.GL20.glGetUniformLocation;
-import static org.lwjgl.opengl.GL20.glUniform4f;
 import static org.lwjgl.opengl.GL20.glUniformMatrix4fv;
 import static org.lwjgl.opengl.GL20.glUseProgram;
 import static org.lwjgl.opengl.GL30.glBindVertexArray;
@@ -62,8 +61,7 @@ public class Renderer {
         this.program = AssetManager.loadProgram(dat);
         
         
-        this.texture = AssetManager.loadTexture(texture);
-       
+       this.texture = AssetManager.loadTexture(texture);
         this.mesh = AssetManager.loadMesh(meshName);
         this.glPos = glGetUniformLocation(AssetManager.getProgram(this.program), "mv_matrix");
         this.pos = new Vector3<>(0f,0f,0f);
@@ -76,17 +74,20 @@ public class Renderer {
     
     public void render(){
         try {
-       
             glUseProgram(AssetManager.getProgram(this.program));
             Matrix4x4 mat = new Matrix4x4();
             
-            Matrix4x4 rotation = Matrix4x4.rotate(mat, 190, Vector3.Orientation.Z);
-            mat.translate(pos);
-           // mat = Matrix4x4.multiply(mat,rotation);
+            Matrix4x4 rotation = Matrix4x4.rotate(mat, 20, Vector3.Orientation.Z);
+           // mat.translate(pos);
+            mat = Matrix4x4.multiply(mat,rotation);
             glUniformMatrix4fv(this.glPos,true,mat.getRawData());
+            //glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_2D, AssetManager.getTexture(this.texture));
             glBindVertexArray(AssetManager.getMeshVao(this.mesh));
+            glEnableVertexAttribArray(0);
             glDrawArrays(GL_TRIANGLES, 0, AssetManager.getMeshSize(this.mesh));
-
+            glDisableVertexAttribArray(0);
+            glBindVertexArray(0);
         } catch (AssetManager.AssetNotFoundException ex) {
             Logger.getLogger(ExampleScene.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -95,5 +96,6 @@ public class Renderer {
     public void destroy(){
         AssetManager.removeMesh(this.mesh);
         AssetManager.removeProgram(this.program);
+        AssetManager.removeTexture(this.texture);
     }
 }

@@ -25,9 +25,9 @@
  */
 package PrutEngine.Core.Utilities;
 
+import PrutEngine.Core.Data.Vector2;
 import PrutEngine.Core.Data.Vector3;
 import PrutEngine.Debug;
-import com.sun.xml.internal.ws.util.StringUtils;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -52,19 +52,24 @@ public final class WaveFrontLoader {
     
     //The loaded data
     private final ArrayList<Vector3<Float>> vertex;
-  //  private final ArrayList<Vector3<Float>> vertexTexture;
+    private final ArrayList<Vector2<Float>> vertexTexture;
     private final ArrayList<Vector3<Float>> normals;
     private final ArrayList<Vector3<Vector3<Integer>>> faces;
     
     public WaveFrontLoader(final String path) throws IOException{
         this.vertex = new ArrayList<>();
-    //    this.vertexTexture = new ArrayList<>();
+        this.vertexTexture = new ArrayList<>();
         this.normals = new ArrayList<>();
         this.faces = new ArrayList<>();
         this.loadFile(path);
        
     }
     
+    private Vector2<Float> parseVector2f(final String line){
+        final Scanner fi = new Scanner(line);
+        final Vector2<Float> result = new Vector2<>(fi.nextFloat(),fi.nextFloat());
+        return result;
+    }
     
     
     private Vector3<Vector3<Integer>> parseFace(final String line){
@@ -95,9 +100,8 @@ public final class WaveFrontLoader {
         result.x = fi.nextFloat();
         result.y = fi.nextFloat();
         result.z = fi.nextFloat();
+        Debug.log(result + " " + line);
         
-        Debug.log(line);
-        Debug.log(result);
         return result;
     }
     
@@ -106,12 +110,13 @@ public final class WaveFrontLoader {
     }
     
     public FloatBuffer rawVertexData(){
-        final ArrayList<Float> rawData = new ArrayList<>();
-        for(Vector3<Vector3<Integer>> face : this.faces){
+       final ArrayList<Float> rawData = new ArrayList<>();
+        for(final Vector3<Vector3<Integer>> face : this.faces){
+          
             Vector3<Float> v = this.vertex.get(face.x.x -1);
             rawData.add(v.x);
             rawData.add(v.y);
-            rawData.add(v.z);
+            rawData.add(v.z);;
             v = this.vertex.get(face.y.x - 1);
             rawData.add(v.x);
             rawData.add(v.y);
@@ -119,14 +124,116 @@ public final class WaveFrontLoader {
             v = this.vertex.get(face.z.x - 1);
             rawData.add(v.x);
             rawData.add(v.y);
-            rawData.add(v.z);
+            rawData.add(v.z);        
         }
         
         FloatBuffer result = BufferUtils.createFloatBuffer(rawData.size());
-        rawData.stream().forEach((d) -> {
+        rawData.stream().forEach((d) -> {            
             result.put(d);
         });
         result.flip();
+        
+        return result;   
+    }/*
+        
+        float[] tmp = {
+                    -1.0f,-1.0f,-1.0f,
+        -1.0f,-1.0f, 1.0f,
+        -1.0f, 1.0f, 1.0f,
+        1.0f, 1.0f,-1.0f,
+        -1.0f,-1.0f,-1.0f,
+        -1.0f, 1.0f,-1.0f,
+        1.0f,-1.0f, 1.0f,
+        -1.0f,-1.0f,-1.0f,
+        1.0f,-1.0f,-1.0f,
+        1.0f, 1.0f,-1.0f,
+        1.0f,-1.0f,-1.0f,
+        -1.0f,-1.0f,-1.0f,
+        -1.0f,-1.0f,-1.0f,
+        -1.0f, 1.0f, 1.0f,
+        -1.0f, 1.0f,-1.0f,
+        1.0f,-1.0f, 1.0f,
+        -1.0f,-1.0f, 1.0f,
+        -1.0f,-1.0f,-1.0f,
+        -1.0f, 1.0f, 1.0f,
+        -1.0f,-1.0f, 1.0f,
+        1.0f,-1.0f, 1.0f,
+        1.0f, 1.0f, 1.0f,
+        1.0f,-1.0f,-1.0f,
+        1.0f, 1.0f,-1.0f,
+        1.0f,-1.0f,-1.0f,
+        1.0f, 1.0f, 1.0f,
+        1.0f,-1.0f, 1.0f,
+        1.0f, 1.0f, 1.0f,
+        1.0f, 1.0f,-1.0f,
+        -1.0f, 1.0f,-1.0f,
+        1.0f, 1.0f, 1.0f,
+        -1.0f, 1.0f,-1.0f,
+        -1.0f, 1.0f, 1.0f,
+        1.0f, 1.0f, 1.0f,
+        -1.0f, 1.0f, 1.0f,
+        1.0f,-1.0f, 1.0f
+        };
+
+        FloatBuffer result = BufferUtils.createFloatBuffer(tmp.length);
+        result.put(tmp);
+        result.flip();
+        return result;
+    }*/
+    
+    public FloatBuffer rawUVData(){
+        final FloatBuffer result = BufferUtils.createFloatBuffer(this.vertexTexture.size() * 2);
+        for(final Vector2<Float> uv : this.vertexTexture){
+           result.put(uv.x);
+          result.put(uv.y);
+
+        }
+        
+        result.flip();
+        /*
+        float[] tmp = {
+                  0.000059f, 1.0f-0.000004f,
+        0.000103f, 1.0f-0.336048f,
+        0.335973f, 1.0f-0.335903f,
+        1.000023f, 1.0f-0.000013f,
+        0.667979f, 1.0f-0.335851f,
+        0.999958f, 1.0f-0.336064f,
+        0.667979f, 1.0f-0.335851f,
+        0.336024f, 1.0f-0.671877f,
+        0.667969f, 1.0f-0.671889f,
+        1.000023f, 1.0f-0.000013f,
+        0.668104f, 1.0f-0.000013f,
+        0.667979f, 1.0f-0.335851f,
+        0.000059f, 1.0f-0.000004f,
+        0.335973f, 1.0f-0.335903f,
+        0.336098f, 1.0f-0.000071f,
+        0.667979f, 1.0f-0.335851f,
+        0.335973f, 1.0f-0.335903f,
+        0.336024f, 1.0f-0.671877f,
+        1.000004f, 1.0f-0.671847f,
+        0.999958f, 1.0f-0.336064f,
+        0.667979f, 1.0f-0.335851f,
+        0.668104f, 1.0f-0.000013f,
+        0.335973f, 1.0f-0.335903f,
+        0.667979f, 1.0f-0.335851f,
+        0.335973f, 1.0f-0.335903f,
+        0.668104f, 1.0f-0.000013f,
+        0.336098f, 1.0f-0.000071f,
+        0.000103f, 1.0f-0.336048f,
+        0.000004f, 1.0f-0.671870f,
+        0.336024f, 1.0f-0.671877f,
+        0.000103f, 1.0f-0.336048f,
+        0.336024f, 1.0f-0.671877f,
+        0.335973f, 1.0f-0.335903f,
+        0.667969f, 1.0f-0.671889f,
+        1.000004f, 1.0f-0.671847f,
+        0.667979f, 1.0f-0.335851f
+        };
+  
+                FloatBuffer result = BufferUtils.createFloatBuffer(tmp.length);
+        result.put(tmp);
+        result.flip();
+  */
         return result;
     }
     
@@ -140,7 +247,7 @@ public final class WaveFrontLoader {
                 if(line.startsWith(COMMENT)){
                     //Comment
                 }else if(line.startsWith(VERTEX_TEXTURE)){
-              //      this.vertexTexture.add(this.parseVector3f(line.substring(VERTEX_TEXTURE.length())));
+                    this.vertexTexture.add(this.parseVector2f(line.substring(VERTEX_TEXTURE.length())));
                 }else if(line.startsWith(VERTEX_NORMAL)) {
                     this.normals.add(this.parseVector3f(line.substring(VERTEX_NORMAL.length())));
                 } else if(line.startsWith(VERTEX)){
@@ -150,7 +257,7 @@ public final class WaveFrontLoader {
                     line = line.replace("/", " ");
                     this.faces.add(this.parseFace(line.substring(FACE.length())));
                 }else{
-                    Debug.log("parse error ignoring line");
+                    Debug.log("unkown command error ignoring line");
                 }
             }
         } finally {

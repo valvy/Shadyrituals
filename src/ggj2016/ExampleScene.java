@@ -5,6 +5,7 @@
  */
 package ggj2016;
 
+import PrutEngine.Debug;
 import PrutEngine.Scene;
 import static java.lang.System.exit;
 import static org.lwjgl.opengl.ARBImaging.GL_TABLE_TOO_LARGE;
@@ -66,6 +67,7 @@ public class ExampleScene extends Scene{
     public void update(float tpf) {
         super.update(tpf);
         int error = GL11.glGetError();
+        Debug.log(tpf);
         while(error != GL_NO_ERROR){
             System.out.println(getErrorString(error));
             exit(-1);
