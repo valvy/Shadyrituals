@@ -42,6 +42,8 @@ import static org.lwjgl.opengl.GL20.glGetUniformLocation;
 import static org.lwjgl.opengl.GL20.glUniformMatrix4fv;
 import static org.lwjgl.opengl.GL20.glUseProgram;
 import static org.lwjgl.opengl.GL30.glBindVertexArray;
+import static org.lwjgl.opengl.GL20.glGetUniformLocation;
+import static org.lwjgl.opengl.GL20.glUniformMatrix4fv;
 
 /**
  *
@@ -76,13 +78,10 @@ public class Renderer {
     public void render(){
         try {
             glUseProgram(AssetManager.getProgram(this.program));
-            Matrix4x4 mat = new Matrix4x4();
-            
-           // Matrix4x4 rotation = Matrix4x4.rotate(mat, 20, Vector3.Orientation.Z);
-            mat.translate(pos);
-           // mat = Matrix4x4.multiply(mat,rotation);
+            Matrix4x4 mat = Matrix4x4.identityMatrix();
+         //   mat = Matrix4x4.scale(mat, new Vector3<>(0.9f,0.9f,0.9f));
+             mat.translate(pos);
             glUniformMatrix4fv(this.glPos,true,mat.getRawData());
-            //glActiveTexture(GL_TEXTURE0);
             glBindTexture(GL_TEXTURE_2D, AssetManager.getTexture(this.texture));
             glBindVertexArray(AssetManager.getMeshVao(this.mesh));
             glEnableVertexAttribArray(0);

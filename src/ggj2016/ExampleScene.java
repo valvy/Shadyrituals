@@ -5,7 +5,8 @@
  */
 package ggj2016;
 
-import PrutEngine.Debug;
+import PrutEngine.Application;
+import PrutEngine.Core.View;
 import PrutEngine.Scene;
 import static java.lang.System.exit;
 import static org.lwjgl.opengl.ARBImaging.GL_TABLE_TOO_LARGE;
@@ -13,7 +14,6 @@ import org.lwjgl.opengl.GL11;
 import static org.lwjgl.opengl.GL11.GL_INVALID_ENUM;
 import static org.lwjgl.opengl.GL11.GL_INVALID_OPERATION;
 import static org.lwjgl.opengl.GL11.GL_INVALID_VALUE;
-import static org.lwjgl.opengl.GL11.GL_LINE;
 import static org.lwjgl.opengl.GL11.GL_NO_ERROR;
 import static org.lwjgl.opengl.GL11.GL_OUT_OF_MEMORY;
 import static org.lwjgl.opengl.GL11.GL_STACK_OVERFLOW;
@@ -33,43 +33,20 @@ public class ExampleScene extends Scene{
     
     @Override
     public void awake(){
+        Application.getInstance().getWindow().setWindowTitle("ExampleScene");
         this.addGameObject(new ExampleObject());
 
     }
     
-    	public static String getErrorString(int errorCode) {
-		switch ( errorCode ) {
-			case GL_NO_ERROR:
-				return "No error";
-			case GL_INVALID_ENUM:
-				return "Enum argument out of range";
-			case GL_INVALID_VALUE:
-				return "Numeric argument out of range";
-			case GL_INVALID_OPERATION:
-				return "Operation illegal in current state";
-			case GL_STACK_OVERFLOW:
-				return "Command would cause a stack overflow";
-			case GL_STACK_UNDERFLOW:
-				return "Command would cause a stack underflow";
-			case GL_OUT_OF_MEMORY:
-				return "Not enough memory left to execute command";
-			case GL_INVALID_FRAMEBUFFER_OPERATION:
-				return "Framebuffer object is not complete";
-			case GL_TABLE_TOO_LARGE:
-				return "The specified table is too large";
-			default:
-				return apiUnknownToken(errorCode);
-		}
-             
-	}
+
     
     @Override
     public void update(float tpf) {
         super.update(tpf);
         int error = GL11.glGetError();
-        Debug.log(tpf);
+     //   Debug.log(tpf);
         while(error != GL_NO_ERROR){
-            System.out.println(getErrorString(error));
+         //   System.out.println(getErrorString(error));
             exit(-1);
         }
 

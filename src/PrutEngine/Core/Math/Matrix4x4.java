@@ -38,11 +38,11 @@ public final class Matrix4x4 {
     private final Vector4<Vector4<Float>> mat;
     
     public Matrix4x4(){
-        this.mat = Matrix4x4.setIdentity().mat;
+        this.mat = Matrix4x4.identityMatrix().mat;
     }
     
     public Matrix4x4(Matrix4x4 other){
-        this.mat = Matrix4x4.setIdentity().mat;
+        this.mat = Matrix4x4.identityMatrix().mat;
         this.set(other);
     }
     
@@ -61,8 +61,17 @@ public final class Matrix4x4 {
         return mat.x.toString() + '\n' +  mat.y.toString() + '\n' + mat.z.toString() + '\n'+ mat.w.toString();
     }
     
+    
+    public static Matrix4x4 scale(Matrix4x4 mat, Vector3<Float> vec){
+        Matrix4x4 result = new Matrix4x4(mat);
+        result.mat.x.x *= vec.x;
+        result.mat.y.y *= vec.y;
+        result.mat.z.z *= vec.z;
+        return result;
+    }
+    
     public static Matrix4x4 transpose(Matrix4x4 mat){
-        Matrix4x4 result = new Matrix4x4();
+        Matrix4x4 result = Matrix4x4.identityMatrix();
         result.mat.x = new Vector4<>(mat.mat.x.x, mat.mat.y.x, mat.mat.z.x, mat.mat.w.x);
         result.mat.y = new Vector4<>(mat.mat.x.y, mat.mat.y.y, mat.mat.z.y, mat.mat.w.y);
         result.mat.z = new Vector4<>(mat.mat.x.z,mat.mat.y.z, mat.mat.z.z, mat.mat.w.z);
@@ -85,7 +94,7 @@ public final class Matrix4x4 {
     
     public static Matrix4x4 rotate(final Matrix4x4 mat1, final float angle, final Vector3.Orientation orientation){
         final double angleDegree = (angle * Math.PI) / 180;
-        final Matrix4x4 result = new Matrix4x4();
+        final Matrix4x4 result = Matrix4x4.identityMatrix();
         
         switch(orientation){
             case X:
@@ -145,7 +154,7 @@ public final class Matrix4x4 {
         this.mat.w = new Vector4<>(other.mat.w);
     }
     
-    public static Matrix4x4 setIdentity(){
+    public static Matrix4x4 identityMatrix(){
       return new Matrix4x4(
               new Vector4<>(1f,0f,0f,0f),
               new Vector4<>(0f,1f,0f,0f),

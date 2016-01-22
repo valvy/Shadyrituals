@@ -25,18 +25,39 @@
  */
 package PrutEngine.Core;
 
+import PrutEngine.Core.Data.Vector2;
+import PrutEngine.Debug;
 import PrutEngine.GameObject;
 import java.util.ArrayList;
+import static org.lwjgl.glfw.GLFW.glfwSetWindowSize;
+import static org.lwjgl.glfw.GLFW.glfwSetWindowTitle;
+import static org.lwjgl.opengl.ARBImaging.GL_TABLE_TOO_LARGE;
 import org.lwjgl.opengl.GL;
 import static org.lwjgl.opengl.GL11.GL_BLEND;
 import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
+import static org.lwjgl.opengl.GL11.GL_CULL_FACE;
+import static org.lwjgl.opengl.GL11.GL_CW;
 import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
+import static org.lwjgl.opengl.GL11.GL_DEPTH_TEST;
+import static org.lwjgl.opengl.GL11.GL_INVALID_ENUM;
+import static org.lwjgl.opengl.GL11.GL_INVALID_OPERATION;
+import static org.lwjgl.opengl.GL11.GL_INVALID_VALUE;
+import static org.lwjgl.opengl.GL11.GL_LEQUAL;
+import static org.lwjgl.opengl.GL11.GL_NO_ERROR;
 import static org.lwjgl.opengl.GL11.GL_ONE_MINUS_SRC_ALPHA;
+import static org.lwjgl.opengl.GL11.GL_OUT_OF_MEMORY;
 import static org.lwjgl.opengl.GL11.GL_SRC_ALPHA;
+import static org.lwjgl.opengl.GL11.GL_STACK_OVERFLOW;
+import static org.lwjgl.opengl.GL11.GL_STACK_UNDERFLOW;
 import static org.lwjgl.opengl.GL11.glBlendFunc;
 import static org.lwjgl.opengl.GL11.glClear;
 import static org.lwjgl.opengl.GL11.glClearColor;
+import static org.lwjgl.opengl.GL11.glDepthFunc;
 import static org.lwjgl.opengl.GL11.glEnable;
+import static org.lwjgl.opengl.GL11.glFrontFace;
+import static org.lwjgl.opengl.GL11.glGetError;
+import static org.lwjgl.opengl.GL30.GL_INVALID_FRAMEBUFFER_OPERATION;
+import static org.lwjgl.system.APIUtil.apiUnknownToken;
 
 
 /**
@@ -45,14 +66,49 @@ import static org.lwjgl.opengl.GL11.glEnable;
  */
 public final class View {
 
-    
-    public View(){
+    private final long WINDOW;
+    public View(long window){
+        this.WINDOW = window;
         GL.createCapabilities();
-glEnable(GL_BLEND);        
-glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glEnable(GL_CULL_FACE);
+        glEnable(GL_DEPTH_TEST);
+        glDepthFunc(GL_LEQUAL);
+        glFrontFace(GL_CW);
+    
     }
     
+    public void setWindowTitle(String title){
+        glfwSetWindowTitle(WINDOW, title);
+    }
     
+    public void setWindowSize(Vector2<Integer> size){
+        glfwSetWindowSize(WINDOW, size.x, size.y);
+    }
+    
+    public static String getErrorString(int errorCode) {
+	switch ( errorCode ) {
+            case GL_NO_ERROR:
+                return "No error";
+            case GL_INVALID_ENUM:
+                return "Enum argument out of range";
+            case GL_INVALID_VALUE:
+		return "Numeric argument out of range";
+            case GL_INVALID_OPERATION:
+                return "Operation illegal in current state";
+            case GL_STACK_OVERFLOW:
+		return "Command would cause a stack overflow";
+            case GL_STACK_UNDERFLOW:
+                return "Command would cause a stack underflow";
+            case GL_OUT_OF_MEMORY:
+		return "Not enough memory left to execute command";
+            case GL_INVALID_FRAMEBUFFER_OPERATION:
+		return "Framebuffer object is not complete";
+            case GL_TABLE_TOO_LARGE:
+		return "The specified table is too large";
+            default:
+		return apiUnknownToken(errorCode);
+	}     
+    }
     
     public void draw(ArrayList<GameObject> obj){  
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
@@ -60,6 +116,11 @@ glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         for(GameObject gameObject : obj){
             gameObject.draw();
+        }
+        
+        int error = glGetError();
+        while(error != GL_NO_ERROR){
+            Debug.log(getErrorString(error));
         }
     }
     

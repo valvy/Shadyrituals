@@ -38,7 +38,6 @@ public abstract class Scene {
      * The list with all the different gameobjects
      */
     private final ArrayList<GameObject> gameObjects;
-    
     /**
      * The main camera
      */
@@ -46,7 +45,7 @@ public abstract class Scene {
     
     public Scene(){
         this.gameObjects = new ArrayList<>();
-        this.camera = new Camera(new Vector3<>(2f,0f,-2.3f));
+        this.camera = new Camera(new Vector3<>(0f,0f,-10f));
     }
     
     /**

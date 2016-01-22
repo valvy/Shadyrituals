@@ -31,6 +31,12 @@ import PrutEngine.Core.Math.Vector4;
 import java.util.HashMap;
 import static org.lwjgl.opengl.GL20.glGetUniformLocation;
 import static org.lwjgl.opengl.GL20.glUniformMatrix4fv;
+import static org.lwjgl.opengl.GL20.glGetUniformLocation;
+import static org.lwjgl.opengl.GL20.glUniformMatrix4fv;
+import static org.lwjgl.opengl.GL20.glGetUniformLocation;
+import static org.lwjgl.opengl.GL20.glUniformMatrix4fv;
+import static org.lwjgl.opengl.GL20.glGetUniformLocation;
+import static org.lwjgl.opengl.GL20.glUniformMatrix4fv;
 
 /**
  *
@@ -41,30 +47,36 @@ public class Camera extends GameObject{
     private void setProgramLocations(){
         for(int dat : AssetManager.allPrograms()){
             int pos = glGetUniformLocation(dat, "projection_matrix");
-            Matrix4x4 mat = new Matrix4x4();
-          //  mat.translate(this.getPosition());
-            //mat = Matrix4x4.transpose(mat);
+            Matrix4x4 mat = Matrix4x4.identityMatrix();
             
-            mat = Matrix4x4.multiply(mat, this.getOrthographic(50, 700 / 700, 0.1f, 10000));
+            mat.translate(this.getPosition());
+            mat = Matrix4x4.transpose(mat);
+            mat = Matrix4x4.multiply(mat,this.perspective(50, 700 / 700, 0.1f, 100000));
+
             glUniformMatrix4fv(pos,false,mat.getRawData());
         }
         
     }
     
-    private Matrix4x4 getOrthographic(float fovy, float aspect, float near, float far){
+    
+    
+    
+    
+    private Matrix4x4 perspective(float fovy, float aspect, float near, float far){
 
-        float q = (float) (1.0 / Math.tan(0.5 * fovy) * Math.PI / 180);
-        float a = q / aspect;
-        float b = (near + far) / (near - far);
+        
+        float yscale = (float) (1.0 / Math.tan(0.5 * (fovy * (Math.PI / 180))));
+        float xscale = yscale / aspect;
+
+        float q = (near + far) / (near - far);
         float c = (2.0f * near * far) / (near - far);
-        
         return new Matrix4x4(
-                new Vector4<>(a,0f,0f,0f),
-                new Vector4<>(0f,q,0f,0f),
-                new Vector4<>(0f,0f,b,-1f),
-                new Vector4<>(0f,0f,c,0f));
-                
+                new Vector4<>(xscale,0f,0f,0f),
+                new Vector4<>(0f,yscale,0f,0f),
+                new Vector4<>(0f,0f,q,-1f),
+                new Vector4<>(0f,0f,c ,0f));
         
+
     }
     
     public Camera(final Vector3<Float> position){

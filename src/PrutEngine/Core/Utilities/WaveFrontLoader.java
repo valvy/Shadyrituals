@@ -100,7 +100,6 @@ public final class WaveFrontLoader {
         result.x = fi.nextFloat();
         result.y = fi.nextFloat();
         result.z = fi.nextFloat();
-        Debug.log(result + " " + line);
         
         return result;
     }
@@ -134,106 +133,28 @@ public final class WaveFrontLoader {
         result.flip();
         
         return result;   
-    }/*
-        
-        float[] tmp = {
-                    -1.0f,-1.0f,-1.0f,
-        -1.0f,-1.0f, 1.0f,
-        -1.0f, 1.0f, 1.0f,
-        1.0f, 1.0f,-1.0f,
-        -1.0f,-1.0f,-1.0f,
-        -1.0f, 1.0f,-1.0f,
-        1.0f,-1.0f, 1.0f,
-        -1.0f,-1.0f,-1.0f,
-        1.0f,-1.0f,-1.0f,
-        1.0f, 1.0f,-1.0f,
-        1.0f,-1.0f,-1.0f,
-        -1.0f,-1.0f,-1.0f,
-        -1.0f,-1.0f,-1.0f,
-        -1.0f, 1.0f, 1.0f,
-        -1.0f, 1.0f,-1.0f,
-        1.0f,-1.0f, 1.0f,
-        -1.0f,-1.0f, 1.0f,
-        -1.0f,-1.0f,-1.0f,
-        -1.0f, 1.0f, 1.0f,
-        -1.0f,-1.0f, 1.0f,
-        1.0f,-1.0f, 1.0f,
-        1.0f, 1.0f, 1.0f,
-        1.0f,-1.0f,-1.0f,
-        1.0f, 1.0f,-1.0f,
-        1.0f,-1.0f,-1.0f,
-        1.0f, 1.0f, 1.0f,
-        1.0f,-1.0f, 1.0f,
-        1.0f, 1.0f, 1.0f,
-        1.0f, 1.0f,-1.0f,
-        -1.0f, 1.0f,-1.0f,
-        1.0f, 1.0f, 1.0f,
-        -1.0f, 1.0f,-1.0f,
-        -1.0f, 1.0f, 1.0f,
-        1.0f, 1.0f, 1.0f,
-        -1.0f, 1.0f, 1.0f,
-        1.0f,-1.0f, 1.0f
-        };
-
-        FloatBuffer result = BufferUtils.createFloatBuffer(tmp.length);
-        result.put(tmp);
-        result.flip();
-        return result;
-    }*/
+    }
     
     public FloatBuffer rawUVData(){
-        final FloatBuffer result = BufferUtils.createFloatBuffer(this.vertexTexture.size() * 2);
-        for(final Vector2<Float> uv : this.vertexTexture){
-           result.put(uv.x);
-          result.put(uv.y);
-
+        final ArrayList<Float> rawData = new ArrayList<>();
+        for(final Vector3<Vector3<Integer>> face : this.faces){
+            Vector2<Float> v = this.vertexTexture.get(face.x.y -1);
+            rawData.add(v.x);
+            rawData.add(v.y);
+            v = this.vertexTexture.get(face.y.y - 1);
+            rawData.add(v.x);
+            rawData.add(v.y);
+            v = this.vertexTexture.get(face.z.y - 1);
+            rawData.add(v.x);
+            rawData.add(v.y);    
         }
         
+        FloatBuffer result = BufferUtils.createFloatBuffer(rawData.size());
+        rawData.stream().forEach((d) -> {            
+            result.put(d);
+        });
         result.flip();
-        /*
-        float[] tmp = {
-                  0.000059f, 1.0f-0.000004f,
-        0.000103f, 1.0f-0.336048f,
-        0.335973f, 1.0f-0.335903f,
-        1.000023f, 1.0f-0.000013f,
-        0.667979f, 1.0f-0.335851f,
-        0.999958f, 1.0f-0.336064f,
-        0.667979f, 1.0f-0.335851f,
-        0.336024f, 1.0f-0.671877f,
-        0.667969f, 1.0f-0.671889f,
-        1.000023f, 1.0f-0.000013f,
-        0.668104f, 1.0f-0.000013f,
-        0.667979f, 1.0f-0.335851f,
-        0.000059f, 1.0f-0.000004f,
-        0.335973f, 1.0f-0.335903f,
-        0.336098f, 1.0f-0.000071f,
-        0.667979f, 1.0f-0.335851f,
-        0.335973f, 1.0f-0.335903f,
-        0.336024f, 1.0f-0.671877f,
-        1.000004f, 1.0f-0.671847f,
-        0.999958f, 1.0f-0.336064f,
-        0.667979f, 1.0f-0.335851f,
-        0.668104f, 1.0f-0.000013f,
-        0.335973f, 1.0f-0.335903f,
-        0.667979f, 1.0f-0.335851f,
-        0.335973f, 1.0f-0.335903f,
-        0.668104f, 1.0f-0.000013f,
-        0.336098f, 1.0f-0.000071f,
-        0.000103f, 1.0f-0.336048f,
-        0.000004f, 1.0f-0.671870f,
-        0.336024f, 1.0f-0.671877f,
-        0.000103f, 1.0f-0.336048f,
-        0.336024f, 1.0f-0.671877f,
-        0.335973f, 1.0f-0.335903f,
-        0.667969f, 1.0f-0.671889f,
-        1.000004f, 1.0f-0.671847f,
-        0.667979f, 1.0f-0.335851f
-        };
-  
-                FloatBuffer result = BufferUtils.createFloatBuffer(tmp.length);
-        result.put(tmp);
-        result.flip();
-  */
+
         return result;
     }
     

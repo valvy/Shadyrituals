@@ -25,8 +25,10 @@
  */
 package PrutEngine;
 
+import PrutEngine.Core.Data.Vector2;
 import PrutEngine.Core.View;
 import PrutEngine.Scene;
+import java.util.Date;
 import org.lwjgl.glfw.*;
 
 import static org.lwjgl.glfw.GLFW.*;
@@ -58,7 +60,7 @@ public final class Application {
     
     private Application(){
         this.init();
-        this.view = new View();
+        this.view = new View(this.window);
  
     }
     
@@ -70,16 +72,18 @@ public final class Application {
         if ( glfwInit() != GLFW_TRUE )
             throw new IllegalStateException("Unable to initialize GLFW");
  
-       
+     
         this.setWindowConfiguration();
         int WIDTH = 700;
         int HEIGHT = 700;
 
 
-        window = glfwCreateWindow(WIDTH, HEIGHT, "Hello World!", NULL, NULL);
+        window = glfwCreateWindow(WIDTH, HEIGHT, "", NULL, NULL);
         if ( window == NULL )
             throw new RuntimeException("Failed to create the GLFW window");
  
+      
+        
         // Setup a key callback. It will be called every time a key is pressed, repeated or released.
         glfwSetKeyCallback(window, keyCallback = new GLFWKeyCallback() {
             @Override
@@ -118,6 +122,14 @@ public final class Application {
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     }
     
+    public View getWindow(){
+        return this.view;
+    }
+    
+    public int getKey(int key){
+        return glfwGetKey(window, key);
+    }
+    
     public void loadScene(Scene scene){
         if(scene == null){
             return;
@@ -135,21 +147,24 @@ public final class Application {
     private Thread thread ;
     
     private void loop(){
-       
-        double time_last_frame = System.nanoTime();
-         
+         long lastTime = 0;
          while ( glfwWindowShouldClose(window) == GLFW_FALSE ) {
-            // System.out.println(System.nanoTime() - startTime);
-          //   time_last_frame = System.nanoTime();
-             double tmp = System.nanoTime();
+             Date date = new Date();
+             long time = date.getTime();
+          
              glfwSwapBuffers(window); // swap the color buffers
              if(this.currentModel != null){
                 this.currentModel.draw(this.view);
-                double tpf = tmp -  time_last_frame;
-                time_last_frame = System.nanoTime();
-                if(tpf > 0){
-                    this.currentModel.update((float) (tpf / 10000000.0f));
+     
+                if(lastTime > 0){
+                    float tmp = (float)lastTime / 10000;
+                    this.currentModel.update(tmp);
                 }
+                 
+                date = new Date();
+                lastTime = date.getTime() - time;
+                
+                        
              }
              glfwPollEvents();
          }
