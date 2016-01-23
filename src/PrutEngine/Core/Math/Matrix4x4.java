@@ -25,7 +25,6 @@
  */
 package PrutEngine.Core.Math;
 
-import PrutEngine.Core.Data.Vector3;
 import java.nio.FloatBuffer;
 import org.lwjgl.BufferUtils;
 

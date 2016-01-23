@@ -25,7 +25,7 @@
  */
 package PrutEngine;
 
-import PrutEngine.Core.Data.Vector2;
+import PrutEngine.Core.Math.Vector2;
 import PrutEngine.Core.View;
 import PrutEngine.Scene;
 import java.util.Date;

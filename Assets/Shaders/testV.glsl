@@ -12,6 +12,7 @@ out vec2 UV;
 void main(){
     gl_Position =projection_matrix * mv_matrix *  position;
     UV = vertexUV;
+
 }
 
 

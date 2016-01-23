@@ -25,8 +25,8 @@
  */
 package PrutEngine.Core.Utilities;
 
-import PrutEngine.Core.Data.Vector2;
-import PrutEngine.Core.Data.Vector3;
+import PrutEngine.Core.Math.Vector2;
+import PrutEngine.Core.Math.Vector3;
 import PrutEngine.Debug;
 import java.io.BufferedReader;
 import java.io.FileInputStream;

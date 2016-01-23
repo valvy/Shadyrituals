@@ -23,7 +23,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package PrutEngine.Core.Data;
+package PrutEngine.Core.Math;
 
 /**
  *
@@ -39,17 +39,31 @@ public class Vector3<T> {
     }
     
     public T x, y ,z;
+    
     public Vector3(T x, T y, T z){
         this.x = x;
         this.y = y;
         this.z = z;
     }
     
-    public Vector3(Vector3<T> other){
+    public Vector3(final Vector3<T> other){
         this.set(other);
     }
     
-    public void set(Vector3<T> other){
+    public static float norm(final Vector3<Float> vec){
+        return (float) Math.sqrt(Math.pow(vec.x, 2) + Math.pow(vec.y, 2) + Math.pow(vec.z, 2));
+    }
+    
+    public static Vector3<Float> unitVector(final Vector3<Float> vec){
+        final float norm = Vector3.norm(vec);
+        return new Vector3<>(
+                vec.x / norm,
+                vec.y / norm,
+                vec.z / norm
+        );
+    }
+    
+    public void set(final Vector3<T> other){
         this.x = other.x;
         this.y = other.y;
         this.z = other.z;

@@ -25,7 +25,8 @@
  */
 package PrutEngine;
 
-import PrutEngine.Core.Data.Vector3;
+import PrutEngine.Core.Math.Vector3;
+import PrutEngine.Core.Math.Vector4;
 
 /**
  * An abstract representation a visible and invisible object in game.
@@ -33,27 +34,43 @@ import PrutEngine.Core.Data.Vector3;
  */
 public abstract class GameObject{
     private final Vector3<Float> position;
+    private final Vector4<Float> rotationX;
+    private final Vector4<Float> rotationY;
+    private final Vector4<Float> rotationZ;
     private Renderer renderer;
     
     public GameObject(){
         this.renderer = null;
         this.position = new Vector3<>(0f,0f,0f);
+        this.rotationX = new Vector4<>(0f,0f,0f,0f);
+        this.rotationY = new Vector4<>(0f,0f,0f,0f);
+        this.rotationZ = new Vector4<>(0f,0f,0f,0f);
     }
     
     public void translate(Vector3<Float> pos){
         this.position.x += pos.x;
         this.position.y += pos.y;
         this.position.z += pos.z;
-        if(renderer != null){
-            this.renderer.setPosition(this.position);
-        }
         
+    }
+    
+    public void rotate(final Vector3<Float> rot, final float angle, final Vector3.Orientation orientation){
+        switch(orientation){
+            case X:
+                this.rotationX.x = rot.x; this.rotationX.y = rot.y; this.rotationX.z = rot.z; this.rotationX.w = angle;
+                return;
+            case Y:
+                this.rotationY.x = rot.x; this.rotationY.y = rot.y; this.rotationY.z = rot.z; this.rotationY.w = angle;
+                return;
+            case Z:
+                this.rotationZ.x = rot.x; this.rotationZ.y = rot.y; this.rotationZ.z = rot.z; this.rotationZ.w = angle;
+        }
     }
     
     public void setRenderer(Renderer renderer){
         this.renderer = renderer;
-        this.renderer.setPosition(this.position);
     }
+    
     
     /**
      * Gets the position of the gameobject
@@ -69,14 +86,17 @@ public abstract class GameObject{
      */
     public void setPosition(final Vector3<Float> nposition){
         this.position.set(nposition);
-        if(renderer != null){
-            this.renderer.setPosition(this.position);
-        }
     }
     
     public void draw(){
         if(this.renderer != null){
-            this.renderer.render();
+            this.renderer.render(
+                    new Vector3<>(1f,1f,1f),//size
+                    this.position,
+                    this.rotationX,
+                    this.rotationY,
+                    this.rotationZ
+            );
            
         }
     }

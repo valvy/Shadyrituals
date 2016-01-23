@@ -25,7 +25,7 @@
  */
 package PrutEngine;
 
-import PrutEngine.Core.Data.Vector3;
+import PrutEngine.Core.Math.Vector3;
 import PrutEngine.Core.View;
 import java.util.ArrayList;
 

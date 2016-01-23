@@ -6,20 +6,13 @@
 package ggj2016;
 
 import PrutEngine.Application;
-import PrutEngine.Core.View;
+import PrutEngine.Core.Math.Quaternion;
+import PrutEngine.Core.Math.Vector3;
+import PrutEngine.Debug;
 import PrutEngine.Scene;
 import static java.lang.System.exit;
-import static org.lwjgl.opengl.ARBImaging.GL_TABLE_TOO_LARGE;
 import org.lwjgl.opengl.GL11;
-import static org.lwjgl.opengl.GL11.GL_INVALID_ENUM;
-import static org.lwjgl.opengl.GL11.GL_INVALID_OPERATION;
-import static org.lwjgl.opengl.GL11.GL_INVALID_VALUE;
 import static org.lwjgl.opengl.GL11.GL_NO_ERROR;
-import static org.lwjgl.opengl.GL11.GL_OUT_OF_MEMORY;
-import static org.lwjgl.opengl.GL11.GL_STACK_OVERFLOW;
-import static org.lwjgl.opengl.GL11.GL_STACK_UNDERFLOW;
-import static org.lwjgl.opengl.GL30.GL_INVALID_FRAMEBUFFER_OPERATION;
-import static org.lwjgl.system.APIUtil.apiUnknownToken;
 //import org.lwjgl.opengl.
 /**
  *
@@ -28,7 +21,7 @@ import static org.lwjgl.system.APIUtil.apiUnknownToken;
 public class ExampleScene extends Scene{
 
     public ExampleScene(){
-
+        Debug.log(Quaternion.rotateVector3(new Vector3<>(0f,1f,-1f),new Vector3<>(1f,0f,0f),90f));
     }
     
     @Override
@@ -43,13 +36,6 @@ public class ExampleScene extends Scene{
     @Override
     public void update(float tpf) {
         super.update(tpf);
-        int error = GL11.glGetError();
-     //   Debug.log(tpf);
-        while(error != GL_NO_ERROR){
-         //   System.out.println(getErrorString(error));
-            exit(-1);
-        }
-
     }
 
     @Override

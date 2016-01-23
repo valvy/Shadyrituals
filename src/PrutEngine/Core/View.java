@@ -25,7 +25,7 @@
  */
 package PrutEngine.Core;
 
-import PrutEngine.Core.Data.Vector2;
+import PrutEngine.Core.Math.Vector2;
 import PrutEngine.Debug;
 import PrutEngine.GameObject;
 import java.util.ArrayList;

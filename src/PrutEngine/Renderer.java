@@ -26,8 +26,9 @@
 package PrutEngine;
 
 import PrutEngine.Core.Data.Shader;
-import PrutEngine.Core.Data.Vector3;
+import PrutEngine.Core.Math.Vector3;
 import PrutEngine.Core.Math.Matrix4x4;
+import PrutEngine.Core.Math.Vector4;
 import ggj2016.ExampleScene;
 import java.util.HashMap;
 import java.util.logging.Level;
@@ -55,7 +56,6 @@ public class Renderer {
     private final int mesh;
     private final int texture;
     private int glPos;
-    private final Vector3<Float> pos;
     public Renderer(final String vShader,final String fShader,final String texture, final String meshName) throws Exception{
         final HashMap<String, Shader.Type> dat = new HashMap<>();
         dat.put(vShader, Shader.Type.Vertex_Shader);
@@ -63,24 +63,25 @@ public class Renderer {
         this.program = AssetManager.loadProgram(dat);
         
         
-       this.texture = AssetManager.loadTexture(texture);
+        this.texture = AssetManager.loadTexture(texture);
         this.mesh = AssetManager.loadMesh(meshName);
         this.glPos = glGetUniformLocation(AssetManager.getProgram(this.program), "mv_matrix");
-        this.pos = new Vector3<>(0f,0f,0f);
     }
-    
-    public void setPosition(Vector3<Float> pos){        
-        this.pos.set(pos);
-        
 
-    }
     
-    public void render(){
+    public void render(final Vector3<Float> size, final Vector3<Float> position, 
+            final Vector4<Float> rotationX,final Vector4<Float> rotationY, final Vector4<Float> rotationZ){
         try {
             glUseProgram(AssetManager.getProgram(this.program));
             Matrix4x4 mat = Matrix4x4.identityMatrix();
-         //   mat = Matrix4x4.scale(mat, new Vector3<>(0.9f,0.9f,0.9f));
-             mat.translate(pos);
+            mat = Matrix4x4.scale(mat, size); 
+            
+         //   mat = Matrix4x4.transpose(mat);
+            mat = Matrix4x4.rotate(mat, rotationY.w, Vector3.Orientation.Y);
+            mat = Matrix4x4.multiply(mat,Matrix4x4.rotate(mat, rotationX.w, Vector3.Orientation.X));
+            
+           // mat = Matrix4x4.rotate(mat, rotationY.w, Vector3.Orientation.Z);
+            mat.translate(position);
             glUniformMatrix4fv(this.glPos,true,mat.getRawData());
             glBindTexture(GL_TEXTURE_2D, AssetManager.getTexture(this.texture));
             glBindVertexArray(AssetManager.getMeshVao(this.mesh));
