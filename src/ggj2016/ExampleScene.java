@@ -10,18 +10,15 @@ import PrutEngine.Core.Math.Quaternion;
 import PrutEngine.Core.Math.Vector3;
 import PrutEngine.Debug;
 import PrutEngine.Scene;
-import static java.lang.System.exit;
-import org.lwjgl.opengl.GL11;
-import static org.lwjgl.opengl.GL11.GL_NO_ERROR;
 //import org.lwjgl.opengl.
 /**
  *
- * @author heikovanderheijden
+ * @author Heiko van der Heijden
  */
 public class ExampleScene extends Scene{
 
     public ExampleScene(){
-        Debug.log(Quaternion.rotateVector3(new Vector3<>(0f,1f,-1f),new Vector3<>(1f,0f,0f),90f));
+        Debug.log(Quaternion.quaternionToMatrix(Quaternion.rotateVector3(new Vector3<>(0f,1f,-1f),new Vector3<>(1f,0f,0f),90f)));
     }
     
     @Override

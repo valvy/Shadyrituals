@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016, heikovanderheijden
+ * Copyright (c) 2016, Heiko van der Heijden
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -39,8 +39,6 @@ import static org.lwjgl.opengl.GL11.glBindTexture;
 import static org.lwjgl.opengl.GL11.glDrawArrays;
 import static org.lwjgl.opengl.GL20.glDisableVertexAttribArray;
 import static org.lwjgl.opengl.GL20.glEnableVertexAttribArray;
-import static org.lwjgl.opengl.GL20.glGetUniformLocation;
-import static org.lwjgl.opengl.GL20.glUniformMatrix4fv;
 import static org.lwjgl.opengl.GL20.glUseProgram;
 import static org.lwjgl.opengl.GL30.glBindVertexArray;
 import static org.lwjgl.opengl.GL20.glGetUniformLocation;
@@ -48,7 +46,7 @@ import static org.lwjgl.opengl.GL20.glUniformMatrix4fv;
 
 /**
  *
- * @author heikovanderheijden
+ * @author Heiko van der Heijden
  */
 public class Renderer {
     
@@ -70,16 +68,16 @@ public class Renderer {
 
     
     public void render(final Vector3<Float> size, final Vector3<Float> position, 
-            final Vector4<Float> rotationX,final Vector4<Float> rotationY, final Vector4<Float> rotationZ){
+            final Matrix4x4 rotMat){
         try {
             glUseProgram(AssetManager.getProgram(this.program));
             Matrix4x4 mat = Matrix4x4.identityMatrix();
             mat = Matrix4x4.scale(mat, size); 
             
          //   mat = Matrix4x4.transpose(mat);
-            mat = Matrix4x4.rotate(mat, rotationY.w, Vector3.Orientation.Y);
-            mat = Matrix4x4.multiply(mat,Matrix4x4.rotate(mat, rotationX.w, Vector3.Orientation.X));
-            
+           // mat = Matrix4x4.rotate(mat, rotationY.w, Vector3.Orientation.Y);
+            //mat = Matrix4x4.multiply(mat,Matrix4x4.rotate(mat, rotationX.w, Vector3.Orientation.X));
+            mat = Matrix4x4.multiply(mat, rotMat);
            // mat = Matrix4x4.rotate(mat, rotationY.w, Vector3.Orientation.Z);
             mat.translate(position);
             glUniformMatrix4fv(this.glPos,true,mat.getRawData());

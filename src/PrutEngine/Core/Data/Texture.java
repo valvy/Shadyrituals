@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016, heikovanderheijden
+ * Copyright (c) 2016, Heiko van der Heijden
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -55,7 +55,7 @@ import static org.lwjgl.opengl.GL12.GL_CLAMP_TO_EDGE;
 
 /**
  *
- * @author heikovanderheijden
+ * @author Heiko van der Heijden
  */
 public class Texture extends Resource{
     private final int textureID;

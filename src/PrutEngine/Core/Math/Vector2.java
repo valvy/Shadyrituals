@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016, heikovanderheijden
+ * Copyright (c) 2016, Heiko van der Heijden
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -27,7 +27,7 @@ package PrutEngine.Core.Math;
 
 /**
  *
- * @author heikovanderheijden
+ * @author Heiko van der Heijden
  */
 public class Vector2<T> {
     public T x, y;

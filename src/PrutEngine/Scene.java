@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016, heikovanderheijden
+ * Copyright (c) 2016, Heiko van der Heijden
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -31,7 +31,7 @@ import java.util.ArrayList;
 
 /**
  * An abstract Model to be used for all game logic.
- * @author heikovanderheijden
+ * @author Heiko van der Heijden
  */
 public abstract class Scene {
     /**

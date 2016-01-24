@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016, heikovanderheijden
+ * Copyright (c) 2016, Heiko van der Heijden
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -30,7 +30,7 @@ import org.lwjgl.BufferUtils;
 
 /**
  *
- * @author heikovanderheijden
+ * @author Heiko van der Heijden
  */
 public final class Primitives {
     public static class Cube {

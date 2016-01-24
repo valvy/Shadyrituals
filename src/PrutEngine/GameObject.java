@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016, heikovanderheijden
+ * Copyright (c) 2016, Heiko van der Heijden
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,26 +25,27 @@
  */
 package PrutEngine;
 
+import PrutEngine.Core.Math.Matrix4x4;
+import PrutEngine.Core.Math.Quaternion;
 import PrutEngine.Core.Math.Vector3;
 import PrutEngine.Core.Math.Vector4;
 
 /**
  * An abstract representation a visible and invisible object in game.
- * @author heikovanderheijden
+ * @author Heiko van der Heijden
  */
 public abstract class GameObject{
     private final Vector3<Float> position;
-    private final Vector4<Float> rotationX;
-    private final Vector4<Float> rotationY;
-    private final Vector4<Float> rotationZ;
+    private final Matrix4x4 rotationMatrix;
+    private final Quaternion quaternion;
     private Renderer renderer;
     
     public GameObject(){
         this.renderer = null;
         this.position = new Vector3<>(0f,0f,0f);
-        this.rotationX = new Vector4<>(0f,0f,0f,0f);
-        this.rotationY = new Vector4<>(0f,0f,0f,0f);
-        this.rotationZ = new Vector4<>(0f,0f,0f,0f);
+
+        this.rotationMatrix = new Matrix4x4();
+        this.quaternion = new Quaternion();
     }
     
     public void translate(Vector3<Float> pos){
@@ -54,17 +55,17 @@ public abstract class GameObject{
         
     }
     
-    public void rotate(final Vector3<Float> rot, final float angle, final Vector3.Orientation orientation){
-        switch(orientation){
-            case X:
-                this.rotationX.x = rot.x; this.rotationX.y = rot.y; this.rotationX.z = rot.z; this.rotationX.w = angle;
-                return;
-            case Y:
-                this.rotationY.x = rot.x; this.rotationY.y = rot.y; this.rotationY.z = rot.z; this.rotationY.w = angle;
-                return;
-            case Z:
-                this.rotationZ.x = rot.x; this.rotationZ.y = rot.y; this.rotationZ.z = rot.z; this.rotationZ.w = angle;
-        }
+    public void rotate (final Quaternion q){
+ 
+        this.rotationMatrix.set(Quaternion.quaternionToMatrix(q));
+    }
+    
+    public void rotate(final Vector3<Float> rot ,final float angle){
+        this.rotationMatrix.set(Matrix4x4.multiply(rotationMatrix, Matrix4x4.rotate(angle, rot)));
+    }
+    
+    public Matrix4x4 getRotationMatrix(){
+        return new Matrix4x4(this.rotationMatrix);
     }
     
     public void setRenderer(Renderer renderer){
@@ -93,9 +94,7 @@ public abstract class GameObject{
             this.renderer.render(
                     new Vector3<>(1f,1f,1f),//size
                     this.position,
-                    this.rotationX,
-                    this.rotationY,
-                    this.rotationZ
+                    this.rotationMatrix
             );
            
         }

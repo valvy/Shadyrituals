@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016, heikovanderheijden
+ * Copyright (c) 2016, Heiko van der Heijden
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -27,23 +27,28 @@ package PrutEngine;
 
 import PrutEngine.Core.Math.Vector3;
 import PrutEngine.Core.Math.Matrix4x4;
+import PrutEngine.Core.Math.Quaternion;
 import PrutEngine.Core.Math.Vector4;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_RIGHT;
+import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
 import static org.lwjgl.opengl.GL20.glGetUniformLocation;
 import static org.lwjgl.opengl.GL20.glUniformMatrix4fv;
 
 /**
  *
- * @author heikovanderheijden
+ * @author Heiko van der Heijden
  */
 public class Camera extends GameObject{
     
     private float vovy = 50f, aspect = 1, near = 0.1f, far = 10000f;
     
     private void setProgramLocations(){
-        AssetManager.allPrograms().stream().map((dat) -> glGetUniformLocation(dat, "projection_matrix")).forEach((pos) -> {
+        AssetManager.allPrograms().stream().map((dat) -> glGetUniformLocation(dat, "projection_matrix")).forEach((Integer pos) -> {
             Matrix4x4 mat = Matrix4x4.identityMatrix();
-            
+            mat = Matrix4x4.multiply(mat, Matrix4x4.transpose(this.getRotationMatrix()));
+           
             mat.translate(this.getPosition());
+            
             mat = Matrix4x4.transpose(mat);
             mat = Matrix4x4.multiply(mat,this.perspective(vovy, aspect, near, far));
 
@@ -80,14 +85,19 @@ public class Camera extends GameObject{
     
     public Camera(final Vector3<Float> position){
         super();
-        
+ 
    
         this.setPosition(position);
     }
-    
+    float speed = 100f;
+    float tmp = 0;
     @Override
     public void update(float tpf) {
-      this.setProgramLocations();
+
+        this.setProgramLocations();
+        tmp += speed * tpf;
+        Quaternion tmp2 = Quaternion.rotateVector3(this.getPosition(),new Vector3<>(0f,10f,0f),tmp);
+        this.rotate(tmp2);
     }
     
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016, heikovanderheijden
+ * Copyright (c) 2016, Heiko van der Heijden
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,16 +25,21 @@
  */
 package PrutEngine.Core.Math;
 
-import PrutEngine.Debug;
-
 /**
  *
- * @author heikovanderheijden
+ * @author Heiko van der Heijden
  */
 public class Quaternion {
+
+
     public final Vector3<Float> imaginary;
     public float real;
  
+    public Quaternion(){
+        this.imaginary = new Vector3<>(0f,0f,0f);
+        this.real = 0;
+    }
+    
     public static Quaternion rotateVector3(final Vector3<Float> from, final Vector3<Float> around, final float angle){
 
         //Calculate the norm
@@ -70,6 +75,28 @@ public class Quaternion {
                 -quat.imaginary.z));
         
     }
+    
+    public static Matrix4x4 quaternionToMatrix(final Quaternion q){
+        return new Matrix4x4(
+                new Vector4<>(
+                        q.real * q.real + q.imaginary.x * q.imaginary.x - q.imaginary.y * q.imaginary.y - q.imaginary.z * q.imaginary.z,
+                        2f * (q.imaginary.x * q.imaginary.y + q.real * q.imaginary.z),
+                        2f * (q.imaginary.x * q.imaginary.z - q.real * q.imaginary.y),
+                        0f),
+                new Vector4<>(
+                        2f * (q.imaginary.x * q.imaginary.y - q.real * q.imaginary.z),
+                        q.real * q.real - q.imaginary.x * q.imaginary.x + q.imaginary.y * q.imaginary.y - q.imaginary.z * q.imaginary.z,
+                        2f * (q.imaginary.y * q.imaginary.z + q.real * q.imaginary.x),
+                        0f),
+                new Vector4<>(
+                        2 * (q.imaginary.x * q.imaginary.z + q.real * q.imaginary.y),
+                        2 * (q.imaginary.y * q.imaginary.z - q.real * q.imaginary.x),
+                        q.real * q.real - q.imaginary.x * q.imaginary.x - q.imaginary.y * q.imaginary.y + q.imaginary.z * q.imaginary.z,
+                        0f),
+                new Vector4<>(0f,0f,0f,1f)
+        );
+    }
+    
     
     public void set(Quaternion quat){
         this.real = quat.real;

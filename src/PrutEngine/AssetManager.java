@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016, heikovanderheijden
+ * Copyright (c) 2016, Heiko van der Heijden
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -27,7 +27,6 @@ package PrutEngine;
 
 import PrutEngine.Core.Data.GLProgram;
 import PrutEngine.Core.Data.Mesh;
-import PrutEngine.Core.Data.Resource;
 import PrutEngine.Core.Data.Shader;
 import PrutEngine.Core.Data.Texture;
 import java.io.IOException;
@@ -38,7 +37,7 @@ import java.util.Map;
 /**
  * Management of all the resources
  * Making sure a resource is only loaded once
- * @author heikovanderheijden
+ * @author Heiko van der Heijden
  */
 public final class AssetManager {
     /**

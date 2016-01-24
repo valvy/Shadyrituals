@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016, heikovanderheijden
+ * Copyright (c) 2016, Heiko van der Heijden
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -27,7 +27,7 @@ package PrutEngine;
 
 /**
  * The class containing all the various methods for debugging
- * @author heikovanderheijden
+ * @author Heiko van der Heijden
  */
 public final class Debug {
     private final static boolean DEBUG = true;

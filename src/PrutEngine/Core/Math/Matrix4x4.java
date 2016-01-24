@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016, heikovanderheijden
+ * Copyright (c) 2016, Heiko van der Heijden
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -30,7 +30,7 @@ import org.lwjgl.BufferUtils;
 
 /**
  *
- * @author heikovanderheijden
+ * @author Heiko van der Heijden
  */
 public final class Matrix4x4 {
     
@@ -45,10 +45,21 @@ public final class Matrix4x4 {
         this.set(other);
     }
     
+    /**
+     * Initializes a matrix with specified rows
+     * @param row1
+     * @param row2
+     * @param row3
+     * @param row4 
+     */
     public Matrix4x4(Vector4<Float> row1, Vector4<Float> row2, Vector4<Float> row3, Vector4<Float> row4){
         this.mat = new Vector4<Vector4<Float>> (row1,row2,row3,row4);
     }
     
+    /**
+     * Translates an matrix
+     * @param vector 
+     */
     public void translate(Vector3<Float> vector){
         this.mat.x.w += vector.x;
         this.mat.y.w += vector.y;
@@ -61,6 +72,12 @@ public final class Matrix4x4 {
     }
     
     
+    /**
+     * Scales an matrix with the specified values
+     * @param mat The Matrix you wish to scale
+     * @param vec   The values of each axis you wish to scale
+     * @return  the scaled matrix
+     */
     public static Matrix4x4 scale(Matrix4x4 mat, Vector3<Float> vec){
         Matrix4x4 result = new Matrix4x4(mat);
         result.mat.x.x *= vec.x;
@@ -69,6 +86,11 @@ public final class Matrix4x4 {
         return result;
     }
     
+    /**
+     * Transposes a matrix, (Which is more or less mirroring on the diagonal line)
+     * @param mat the matrix you wish to transpose
+     * @return the transposed matrix
+     */
     public static Matrix4x4 transpose(Matrix4x4 mat){
         Matrix4x4 result = Matrix4x4.identityMatrix();
         result.mat.x = new Vector4<>(mat.mat.x.x, mat.mat.y.x, mat.mat.z.x, mat.mat.w.x);
@@ -78,6 +100,10 @@ public final class Matrix4x4 {
         return result;
     }
     
+    /**
+     * Places all the values of the matrix for use in opengl
+     * @return 
+     */
     public FloatBuffer getRawData(){
         float buffer[] = {
             mat.x.x,mat.x.y,mat.x.z,mat.x.w,
@@ -91,29 +117,41 @@ public final class Matrix4x4 {
         return result;
     }
     
-    public static Matrix4x4 rotate(final Matrix4x4 mat1, final float angle, final Vector3.Orientation orientation){
-        final double angleDegree = (angle * Math.PI) / 180;
-        final Matrix4x4 result = Matrix4x4.identityMatrix();
-        
-        switch(orientation){
-            case X:
-            result.mat.y.y = (float)Math.cos(angleDegree); result.mat.y.z = (float)Math.sin(angleDegree);
-            result.mat.z.y = (float)-Math.sin(angleDegree); result.mat.z.z = (float)Math.cos(angleDegree);
-            return result;
-            case Y:
-            result.mat.x.x = (float)Math.cos(angleDegree); result.mat.x.z = (float)Math.sin(angleDegree);
-            result.mat.z.x = (float)-Math.sin(angleDegree); result.mat.z.z = (float)Math.cos(angleDegree);
-            return result;
-            case Z:
-            result.mat.x.x = (float)Math.cos(angleDegree); result.mat.x.y = (float)Math.sin(angleDegree);
-            result.mat.y.y = (float)-Math.sin(angleDegree); result.mat.y.y = (float)Math.cos(angleDegree);
-            return result;
-        }
-        //Stupid java this will never be called
+    public static Matrix4x4 lookAt(final Vector3<Float> eye,final Vector3<Float> center,final Vector3<Float> up){
         return null;
     }
+
+    /**
+     * Gets an rotation matrix from a vector and angle
+     * @param angle the angle in degrees
+     * @param around   The position to rotate around
+     * @return rotation matrix
+     */
+    public static Matrix4x4 rotate(final float angle, final Vector3<Float> around){
+    //    Matrix4x4 rotation = new Matrix4x4();
+        //get radians
+        float rad = (float) Math.toRadians(angle);
+        final float x2 = around.x * around.x;
+        final float y2 = around.y * around.y;
+        final float z2 = around.z * around.z;
+        final float c = (float) Math.cos(rad);
+        final float s = (float)Math.sin(rad);
+        final float omc = 1.0f - c;
+        
+        return new Matrix4x4(
+                new Vector4<>(x2 * omc + c,around.y * around.x * omc + around.z * s,around.x * around.z * omc - around.y * s,0f),
+                new Vector4<>(around.x * around.y * omc - around.z * s,y2 * omc + c,around.y * around.z  * omc + around.x * s,0f),
+                new Vector4<>(around.x * around.z * omc + around.y * s,around.y * around.z * omc - around.x * s,z2 * omc + c,0f),
+                new Vector4<>(0f,0f,0f,1f)
+        );
+    }
     
-    
+    /**
+     * Multiplies two different matrices with each other
+     * @param mat1 the first matrix
+     * @param mat2 the second matrix
+     * @return the multiplied matrix
+     */
     public static Matrix4x4 multiply(final Matrix4x4 mat1, final Matrix4x4 mat2){
         
         Matrix4x4 result = new Matrix4x4();
@@ -146,13 +184,20 @@ public final class Matrix4x4 {
         return result;
     }
     
+    /**
+     * Sets the matrix values in this one
+     * @param other the matrix you wish to copy
+     */
     public void set(Matrix4x4 other){
         this.mat.x = new Vector4<>(other.mat.x);
         this.mat.y = new Vector4<>(other.mat.y);
         this.mat.z = new Vector4<>(other.mat.z);
         this.mat.w = new Vector4<>(other.mat.w);
     }
-    
+    /**
+     * returns an identity matrix
+     * @return Matrix
+     */
     public static Matrix4x4 identityMatrix(){
       return new Matrix4x4(
               new Vector4<>(1f,0f,0f,0f),

@@ -6,7 +6,9 @@
 package ggj2016;
 
 import PrutEngine.Application;
+import PrutEngine.Core.Math.Quaternion;
 import PrutEngine.Core.Math.Vector3;
+import PrutEngine.Debug;
 import PrutEngine.GameObject;
 import PrutEngine.Renderer;
 import static java.awt.SystemColor.window;
@@ -23,7 +25,7 @@ import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
 
 /**
  *
- * @author heikovanderheijden
+ * @author Heiko van der Heijden
  */
 public final class ExampleObject extends GameObject {
     
@@ -43,11 +45,13 @@ public final class ExampleObject extends GameObject {
     @Override
     public void update(float tpf) {
         tmp += speed * tpf;
-       
-        this.rotate(new Vector3<>(10f,10f,10f), tmp, Vector3.Orientation.Y);
-         this.rotate(new Vector3<>(10f,10f,10f), tmp * 10, Vector3.Orientation.X);
-      //   this.rotate(new Vector3<>(10f,10f,10f), tmp, Vector3.Orientation.Z);
-       if(Application.getInstance().getKey(GLFW_KEY_RIGHT) == GLFW_PRESS){
+        Quaternion tmp2 = Quaternion.rotateVector3(new Vector3<>(0f,1f,-1f),new Vector3<>(1f,0f,0f),tmp);
+        //this.rotate(new Vector3<>(10f,10f,10f), tmp, Vector3.Orientation.Y);
+        //this.rotate(new Vector3<>(0f,10f,0f), 100 * tpf);
+      //  this.rotate(new Vector3<>(10f,0f,0f), 100 * tpf);
+         // this.rotate(tmp2);
+         // Debug.log(Quaternion.quaternionToMatrix(tmp2));
+    /*   if(Application.getInstance().getKey(GLFW_KEY_RIGHT) == GLFW_PRESS){
             this.translate(new Vector3<Float>(
                speed * tpf,
                 0f,
@@ -97,7 +101,7 @@ public final class ExampleObject extends GameObject {
         
             ));
        }
-       
+       */
        
        
     }
