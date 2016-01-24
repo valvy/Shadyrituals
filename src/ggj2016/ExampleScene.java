@@ -24,8 +24,14 @@ public class ExampleScene extends Scene{
     @Override
     public void awake(){
         Application.getInstance().getWindow().setWindowTitle("ExampleScene");
-        this.setCamera(new ExampleCamera(new Vector3<>(0f,0f,-10f)));
+        this.setCamera(new ExampleCamera(new Vector3<>(0f,0f,-4f)));
         this.addGameObject(new ExampleObject());
+        for(int x = 0; x < 100; x++){
+            for(int y = 1; y < 30; y++){
+                 this.addGameObject(new PalmTree(new Vector3<>((float)-x * 3,0f,(float)-y * 3)));
+            }
+        }
+       
         
 
     }

@@ -4,11 +4,12 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/Users/heikovanderheijden/NetBeansProjects/GGJ2016/src/PrutEngine/Core/Math/Vector4.java</file>
+            <file>file:/Users/heikovanderheijden/NetBeansProjects/GGJ2016/src/ggj2016/ExampleCamera.java</file>
             <file>file:/Users/heikovanderheijden/NetBeansProjects/GGJ2016/src/ggj2016/ExampleObject.java</file>
             <file>file:/Users/heikovanderheijden/NetBeansProjects/GGJ2016/src/PrutEngine/Core/Utilities/Primitives.java</file>
-            <file>file:/Users/heikovanderheijden/NetBeansProjects/GGJ2016/src/PrutEngine/Core/Data/Vector3.java</file>
             <file>file:/Users/heikovanderheijden/NetBeansProjects/GGJ2016/src/PrutEngine/AssetManager.java</file>
             <file>file:/Users/heikovanderheijden/NetBeansProjects/GGJ2016/Assets/Textures/test.png</file>
+            <file>file:/Users/heikovanderheijden/NetBeansProjects/GGJ2016/src/PrutEngine/Core/Math/Quaternion.java</file>
             <file>file:/Users/heikovanderheijden/NetBeansProjects/GGJ2016/src/ggj2016/Main.java</file>
             <file>file:/Users/heikovanderheijden/NetBeansProjects/GGJ2016/src/PrutEngine/Scene.java</file>
             <file>file:/Users/heikovanderheijden/NetBeansProjects/GGJ2016/Assets/Meshes/monkey.obj</file>
@@ -23,11 +24,14 @@
             <file>file:/Users/heikovanderheijden/NetBeansProjects/GGJ2016/Assets/Meshes/cube.obj</file>
             <file>file:/Users/heikovanderheijden/NetBeansProjects/GGJ2016/src/PrutEngine/Core/Data/Texture.java</file>
             <file>file:/Users/heikovanderheijden/NetBeansProjects/GGJ2016/src/PrutEngine/Camera.java</file>
+            <file>file:/Users/heikovanderheijden/NetBeansProjects/GGJ2016/src/PrutEngine/Core/Math/Vector2.java</file>
             <file>file:/Users/heikovanderheijden/NetBeansProjects/GGJ2016/src/PrutEngine/Renderer.java</file>
             <file>file:/Users/heikovanderheijden/NetBeansProjects/GGJ2016/src/PrutEngine/GameObject.java</file>
-            <file>file:/Users/heikovanderheijden/NetBeansProjects/GGJ2016/src/PrutEngine/Core/Data/Vector2.java</file>
+            <file>file:/Users/heikovanderheijden/NetBeansProjects/GGJ2016/src/ggj2016/PalmTree.java</file>
+            <file>file:/Users/heikovanderheijden/NetBeansProjects/GGJ2016/src/PrutEngine/Core/Math/Vector3.java</file>
             <file>file:/Users/heikovanderheijden/NetBeansProjects/GGJ2016/src/PrutEngine/Core/Data/Mesh.java</file>
             <file>file:/Users/heikovanderheijden/NetBeansProjects/GGJ2016/src/PrutEngine/Core/Math/Matrix4x4.java</file>
+            <file>file:/Users/heikovanderheijden/NetBeansProjects/GGJ2016/Assets/Meshes/PalmTree.mtl</file>
             <file>file:/Users/heikovanderheijden/NetBeansProjects/GGJ2016/Assets/Shaders/testF.glsl</file>
             <file>file:/Users/heikovanderheijden/NetBeansProjects/GGJ2016/Assets/Shaders/testV.glsl</file>
         </group>

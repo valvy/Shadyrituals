@@ -44,8 +44,8 @@ public class Camera extends GameObject{
     
     private void setProgramLocations(){
         AssetManager.allPrograms().stream().map((dat) -> glGetUniformLocation(dat, "projection_matrix")).forEach((Integer pos) -> {
-            Matrix4x4 mat = Matrix4x4.identityMatrix();
-            mat = Matrix4x4.multiply(mat, Matrix4x4.transpose(this.getRotationMatrix()));
+            Matrix4x4 mat = Matrix4x4.transpose(this.getRotationMatrix());
+           // mat = Matrix4x4.multiply(mat, Matrix4x4.transpose(this.getRotationMatrix()));
            
             mat.translate(this.getPosition());
             

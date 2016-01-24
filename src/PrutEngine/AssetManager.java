@@ -207,6 +207,7 @@ public final class AssetManager {
         
         for(Mesh mesh : AssetManager.MESHES){
             if(mesh.getDataLocation().equals(path)){
+            //    Debug.log("adsf");
                 return mesh.addRef();
             }
         }

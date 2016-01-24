@@ -45,61 +45,10 @@ public final class ExampleObject extends GameObject {
     @Override
     public void update(float tpf) {
         tmp += speed * tpf;
-        this.rotate(new Vector3<>(0f,10f,0f), speed * tpf);
         this.rotate(new Vector3<>(10f,0f,0f), speed * tpf);
 
           
-         // Debug.log(Quaternion.quaternionToMatrix(tmp2));
-      if(Application.getInstance().getKeyboardKey(GLFW_KEY_RIGHT) == GLFW_PRESS){
-            this.translate(new Vector3<>(
-               -speed * tpf,
-                0f,
-                0f
-        
-            ));
-       }
-        if(Application.getInstance().getKeyboardKey(GLFW_KEY_LEFT) == GLFW_PRESS){
-            this.translate(new Vector3<>(
-               speed * tpf,
-                0f,
-                0f
-        
-            ));
-       }
-       if(Application.getInstance().getKeyboardKey(GLFW_KEY_UP) == GLFW_PRESS){
-            this.translate(new Vector3<>(
-                0f,
-                speed * tpf,
-                0f
-        
-            ));
-       } 
-        if(Application.getInstance().getKeyboardKey(GLFW_KEY_DOWN) == GLFW_PRESS){
-            this.translate(new Vector3<>(
-                0f,
-                -speed * tpf,
-                0f
-        
-            ));
-       } 
-        
-        if(Application.getInstance().getKeyboardKey(GLFW_KEY_W) == GLFW_PRESS){
-            this.translate(new Vector3<>(
-                0f,
-                0f,
-                speed * tpf
-        
-            ));
-        }
-            
-        if(Application.getInstance().getKeyboardKey(GLFW_KEY_S) == GLFW_PRESS){
-            this.translate(new Vector3<>(
-                0f,
-                0f,
-                -speed * tpf
-        
-            ));
-       }
+     
        
        
        

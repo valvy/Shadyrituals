@@ -1,13 +1,13 @@
 #version 410 core
 
-//out vec4 color;
-out vec3 color;
+out vec4 color;
+//out vec3 color;
 in vec2 UV;
 
 
 uniform sampler2D text;
 
 void main(void){
-    color = texture(text,UV).rgb;//vec4(texture(text,UV).rgb,UV);
+    color = vec4(texture(text,UV).rgb,UV);
 
 }

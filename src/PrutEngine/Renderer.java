@@ -93,12 +93,12 @@ public class Renderer {
             Matrix4x4 mat = Matrix4x4.identityMatrix();
             mat = Matrix4x4.scale(mat, size); 
             
-         //   mat = Matrix4x4.transpose(mat);
-           // mat = Matrix4x4.rotate(mat, rotationY.w, Vector3.Orientation.Y);
-            //mat = Matrix4x4.multiply(mat,Matrix4x4.rotate(mat, rotationX.w, Vector3.Orientation.X));
+           
+           
+            Matrix4x4 pos = Matrix4x4.identityMatrix();
+            pos.translate(position);
+            mat = Matrix4x4.multiply(mat,pos);
             mat = Matrix4x4.multiply(mat, rotMat);
-           // mat = Matrix4x4.rotate(mat, rotationY.w, Vector3.Orientation.Z);
-            mat.translate(position);
             glUniformMatrix4fv(this.glPos,true,mat.getRawData());
             glBindTexture(GL_TEXTURE_2D, AssetManager.getTexture(this.texture));
             glBindVertexArray(AssetManager.getMeshVao(this.mesh));
