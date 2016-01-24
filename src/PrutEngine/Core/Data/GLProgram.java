@@ -35,7 +35,8 @@ import static org.lwjgl.opengl.GL20.glGetProgrami;
 import static org.lwjgl.opengl.GL20.glLinkProgram;
 
 /**
- *
+ * Manages the opengl program, 
+ * making sure it is destroyed when it needs to be destroyed
  * @author Heiko van der Heijden
  */
 public final class GLProgram extends Resource{

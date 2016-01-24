@@ -26,7 +26,8 @@
 package PrutEngine.Core.Math;
 
 /**
- *
+ * Manages the data of quaternions
+ * This can be used to handle rotations without problems of a gimbal lock
  * @author Heiko van der Heijden
  */
 public class Quaternion {
@@ -37,9 +38,16 @@ public class Quaternion {
  
     public Quaternion(){
         this.imaginary = new Vector3<>(0f,0f,0f);
-        this.real = 0;
+        this.real = 1;
     }
     
+    /**
+     * Rotate an vector around an other vector with the specified angle
+     * @param from
+     * @param around
+     * @param angle
+     * @return 
+     */
     public static Quaternion rotateVector3(final Vector3<Float> from, final Vector3<Float> around, final float angle){
 
         //Calculate the norm
@@ -60,6 +68,11 @@ public class Quaternion {
                         new Quaternion(new Vector4<>(0f,from.x,from.y,from.z)))
                 , quat);
     }
+
+    public Quaternion(Quaternion quaternion) {
+        this.imaginary = new Vector3<>(quaternion.imaginary);
+        this.real = quaternion.real;
+    }
     
 
     @Override
@@ -67,6 +80,12 @@ public class Quaternion {
         return real + " " + imaginary.toString();
     }
     
+    /**
+     * Conjugate the specified quaternion
+     * (x, -i,-j,-k)
+     * @param quat
+     * @return 
+     */
     public static Quaternion conjugate(final Quaternion quat){
         return new Quaternion(new Vector4<>(
                 quat.real, 
@@ -76,6 +95,11 @@ public class Quaternion {
         
     }
     
+    /**
+     * Converts the quaternion to a matrix
+     * @param q
+     * @return 
+     */
     public static Matrix4x4 quaternionToMatrix(final Quaternion q){
         return new Matrix4x4(
                 new Vector4<>(
@@ -97,12 +121,23 @@ public class Quaternion {
         );
     }
     
-    
+    /**
+     * Copy the contents of another quaternion and places it in this one
+     * @param quat 
+     */
     public void set(Quaternion quat){
         this.real = quat.real;
         this.imaginary.set(quat.imaginary);
     }
     
+    /**
+     * Copy the contents of a vector4 and places it in this quaternion
+     * X = real number
+     * Y = imaginary.i
+     * Z = imaginary.j
+     * W = imaginary.k
+     * @param vec 
+     */
     public void set(Vector4<Float> vec){
         this.real = vec.x;
         this.imaginary.x = vec.y;
@@ -110,6 +145,12 @@ public class Quaternion {
         this.imaginary.z = vec.w;
     }
     
+    /**
+     * Multiplies two quaternions with each other
+     * @param quat1
+     * @param quat2
+     * @return 
+     */
     public static Quaternion multiply(final Quaternion quat1, final Quaternion quat2){
         return new Quaternion(new Vector4<>(
                 quat1.real * quat2.real - quat1.imaginary.x * quat2.imaginary.x - quat1.imaginary.y * quat2.imaginary.y - quat1.imaginary.z * quat2.imaginary.z,

@@ -61,12 +61,17 @@ import static org.lwjgl.system.APIUtil.apiUnknownToken;
 
 
 /**
- *
+ * the window of the app, manages the rendering.
  * @author Heiko van der Heijden
  */
 public final class View {
 
     private final long WINDOW;
+    
+    /**
+     * initializes the window 
+     * @param window 
+     */
     public View(long window){
         this.WINDOW = window;
         GL.createCapabilities();
@@ -76,11 +81,18 @@ public final class View {
         glFrontFace(GL_CW);
     
     }
-    
+    /**
+     * sets the title of the window
+     * @param title 
+     */
     public void setWindowTitle(String title){
         glfwSetWindowTitle(WINDOW, title);
     }
     
+    /**
+     * Sets the size of the window
+     * @param size 
+     */
     public void setWindowSize(Vector2<Integer> size){
         glfwSetWindowSize(WINDOW, size.x, size.y);
     }
@@ -110,13 +122,17 @@ public final class View {
 	}     
     }
     
+    /**
+     * Draws the various gameobjects
+     * @param obj 
+     */
     public void draw(ArrayList<GameObject> obj){  
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        for(GameObject gameObject : obj){
+        obj.stream().forEach((gameObject) -> {
             gameObject.draw();
-        }
+        });
         
         int error = glGetError();
         while(error != GL_NO_ERROR){

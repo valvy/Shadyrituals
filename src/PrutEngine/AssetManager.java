@@ -62,10 +62,24 @@ public final class AssetManager {
      */
     private static final ArrayList<GLProgram> PROGRAMS = new ArrayList<>();
 
+    /**
+     * A list containing all the textures
+     */
     private static final ArrayList<Texture> TEXTURES = new ArrayList<>();
     
+    /**
+     * A list containing all the 3d meshes
+     */
     private static final ArrayList<Mesh> MESHES = new ArrayList<>();
     
+    
+    /**
+     * Loads an shader and passes the reference if the shader does not exists
+     * @param shaderName    The relative path of the shader.
+     * @param type  the type of the shader (Vertex_shader/FragmentShader/etc)
+     * @return  An reference you can use for this shader
+     * @throws IOException Calls when the shader could not be found
+     */
     private static  int loadShader(String shaderName,Shader.Type type) throws IOException{
         for(Shader shader : AssetManager.SHADERS){
             if(shader.getDataLocation().equals(shaderName)){
@@ -79,6 +93,13 @@ public final class AssetManager {
         return result.getMemoryPosition();
     }
     
+    
+    /**
+     * Gets the texture from the stack
+     * @param reference The code you received while loading the asset
+     * @return  the opengl pointer
+     * @throws PrutEngine.AssetManager.AssetNotFoundException When the asset is already deleted
+     */
     public static int getTexture(int reference) throws AssetNotFoundException{
         for(Texture tex : AssetManager.TEXTURES){
             if(tex.getMemoryPosition() == reference){
@@ -89,6 +110,13 @@ public final class AssetManager {
         throw new AssetNotFoundException();
     }
     
+    
+    /**
+     * Loads an texture on the stack
+     * @param texture   the relative path
+     * @return  a reference you can use for the texture
+     * @throws IOException 
+     */
     public static int loadTexture(final String texture) throws IOException{
         for(Texture tex : AssetManager.TEXTURES){
             if(tex.getDataLocation().equals(texture)){
@@ -103,6 +131,12 @@ public final class AssetManager {
         return tex.getMemoryPosition();
     }
     
+    /**
+     * Gets the opengl data for a shader
+     * @param reference the reference you received while loading the shader
+     * @return  the raw shader data
+     * @throws PrutEngine.AssetManager.AssetNotFoundException 
+     */
     private static int getShader(int reference) throws AssetNotFoundException{
         for(Shader sh : AssetManager.SHADERS){
             if(sh.getMemoryPosition() == reference){
@@ -113,6 +147,10 @@ public final class AssetManager {
         throw new AssetNotFoundException();
     }
     
+    /**
+     * Gets a list of all the raw data programs, this is specificly designed for the camera.
+     * @return 
+     */
     public static ArrayList<Integer> allPrograms(){
         final ArrayList<Integer> result = new ArrayList<>();
         AssetManager.PROGRAMS.stream().forEach((pr) -> {
@@ -159,6 +197,12 @@ public final class AssetManager {
         return program.getMemoryPosition();
     }
     
+    /**
+     * Loads an mesh from the specified relative path
+     * @param path  the relative path where the 3d mesh is located
+     * @return  the reference you can use to use this asset
+     * @throws IOException  When the 3d mesh does not exists
+     */
     public static int loadMesh(final String path) throws IOException{
         
         for(Mesh mesh : AssetManager.MESHES){
@@ -190,10 +234,12 @@ public final class AssetManager {
         throw new AssetNotFoundException();
     }
     
-
-    
-    
-    
+    /**
+     * Get the amount of vertices in a mesh
+     * @param reference the reference you received when loading in the mesh
+     * @return  the amount of vertices
+     * @throws PrutEngine.AssetManager.AssetNotFoundException 
+     */
     public static int getMeshSize(final int reference) throws AssetNotFoundException{
         for(Mesh mesh : AssetManager.MESHES){
             if(mesh.getMemoryPosition() == reference){
@@ -203,6 +249,12 @@ public final class AssetManager {
         throw new AssetNotFoundException();
     }
     
+    /**
+     * Gets the vertex array object from specified mesh
+     * @param reference the mesh you wish to have it's vao
+     * @return  the vao
+     * @throws PrutEngine.AssetManager.AssetNotFoundException 
+     */
     public static int getMeshVao(final int reference) throws AssetNotFoundException{
         for(Mesh mesh : AssetManager.MESHES){
             if(mesh.getMemoryPosition() == reference){
@@ -248,7 +300,10 @@ public final class AssetManager {
         
     }
     
-    
+    /**
+     * Removes an texture from the stack
+     * @param reference 
+     */
      public static void removeTexture(final int reference){
 
         Texture tmp = null;

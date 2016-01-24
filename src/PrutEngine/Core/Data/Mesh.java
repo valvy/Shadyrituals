@@ -43,7 +43,9 @@ import static org.lwjgl.opengl.GL30.glDeleteVertexArrays;
 import static org.lwjgl.opengl.GL30.glGenVertexArrays;
 
 /**
- *
+ * Manages the data of a single 3d mesh
+ * It loads all the data in opengl data
+ * Such as an vertex array object.
  * @author Heiko van der Heijden
  */
 public final class Mesh extends Resource{
@@ -78,6 +80,13 @@ public final class Mesh extends Resource{
        
     }
     
+    /**
+     * Binds an vertex buffer object to it's position in a vertex array object (VAO)
+     * @param position the position of array
+     * @param amount   the size of an item (Vertex = 3) (UV = 2)
+     * @param buffer   The actual data you wish to store
+     * @return the vertex buffer object
+     */
     private int bindVBO(int position, int amount, final FloatBuffer buffer){
         glBindVertexArray(vao);
         int res = glGenBuffers();
@@ -89,10 +98,18 @@ public final class Mesh extends Resource{
         return res;
     }
     
+    /**
+     * Gets the vertex amount
+     * @return 
+     */
     public int getSize(){
         return this.size;
     }
     
+    /**
+     * Gets the vertex array object 
+     * @return 
+     */
     public int getVao(){
         return this.vao;
     }

@@ -89,15 +89,12 @@ public class Camera extends GameObject{
    
         this.setPosition(position);
     }
-    float speed = 100f;
-    float tmp = 0;
+
     @Override
     public void update(float tpf) {
 
         this.setProgramLocations();
-        tmp += speed * tpf;
-        Quaternion tmp2 = Quaternion.rotateVector3(this.getPosition(),new Vector3<>(0f,10f,0f),tmp);
-        this.rotate(tmp2);
+
     }
     
 }

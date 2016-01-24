@@ -45,38 +45,37 @@ public final class ExampleObject extends GameObject {
     @Override
     public void update(float tpf) {
         tmp += speed * tpf;
-        Quaternion tmp2 = Quaternion.rotateVector3(new Vector3<>(0f,1f,-1f),new Vector3<>(1f,0f,0f),tmp);
-        //this.rotate(new Vector3<>(10f,10f,10f), tmp, Vector3.Orientation.Y);
-        //this.rotate(new Vector3<>(0f,10f,0f), 100 * tpf);
-      //  this.rotate(new Vector3<>(10f,0f,0f), 100 * tpf);
-         // this.rotate(tmp2);
+        this.rotate(new Vector3<>(0f,10f,0f), speed * tpf);
+        this.rotate(new Vector3<>(10f,0f,0f), speed * tpf);
+
+          
          // Debug.log(Quaternion.quaternionToMatrix(tmp2));
-    /*   if(Application.getInstance().getKey(GLFW_KEY_RIGHT) == GLFW_PRESS){
-            this.translate(new Vector3<Float>(
-               speed * tpf,
-                0f,
-                0f
-        
-            ));
-       }
-        if(Application.getInstance().getKey(GLFW_KEY_LEFT) == GLFW_PRESS){
-            this.translate(new Vector3<Float>(
+      if(Application.getInstance().getKeyboardKey(GLFW_KEY_RIGHT) == GLFW_PRESS){
+            this.translate(new Vector3<>(
                -speed * tpf,
                 0f,
                 0f
         
             ));
        }
-       if(Application.getInstance().getKey(GLFW_KEY_UP) == GLFW_PRESS){
-            this.translate(new Vector3<Float>(
+        if(Application.getInstance().getKeyboardKey(GLFW_KEY_LEFT) == GLFW_PRESS){
+            this.translate(new Vector3<>(
+               speed * tpf,
+                0f,
+                0f
+        
+            ));
+       }
+       if(Application.getInstance().getKeyboardKey(GLFW_KEY_UP) == GLFW_PRESS){
+            this.translate(new Vector3<>(
                 0f,
                 speed * tpf,
                 0f
         
             ));
        } 
-        if(Application.getInstance().getKey(GLFW_KEY_DOWN) == GLFW_PRESS){
-            this.translate(new Vector3<Float>(
+        if(Application.getInstance().getKeyboardKey(GLFW_KEY_DOWN) == GLFW_PRESS){
+            this.translate(new Vector3<>(
                 0f,
                 -speed * tpf,
                 0f
@@ -84,8 +83,8 @@ public final class ExampleObject extends GameObject {
             ));
        } 
         
-        if(Application.getInstance().getKey(GLFW_KEY_W) == GLFW_PRESS){
-            this.translate(new Vector3<Float>(
+        if(Application.getInstance().getKeyboardKey(GLFW_KEY_W) == GLFW_PRESS){
+            this.translate(new Vector3<>(
                 0f,
                 0f,
                 speed * tpf
@@ -93,15 +92,15 @@ public final class ExampleObject extends GameObject {
             ));
         }
             
-        if(Application.getInstance().getKey(GLFW_KEY_S) == GLFW_PRESS){
-            this.translate(new Vector3<Float>(
+        if(Application.getInstance().getKeyboardKey(GLFW_KEY_S) == GLFW_PRESS){
+            this.translate(new Vector3<>(
                 0f,
                 0f,
                 -speed * tpf
         
             ));
        }
-       */
+       
        
        
     }

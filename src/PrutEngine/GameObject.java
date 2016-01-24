@@ -28,7 +28,6 @@ package PrutEngine;
 import PrutEngine.Core.Math.Matrix4x4;
 import PrutEngine.Core.Math.Quaternion;
 import PrutEngine.Core.Math.Vector3;
-import PrutEngine.Core.Math.Vector4;
 
 /**
  * An abstract representation a visible and invisible object in game.
@@ -37,7 +36,6 @@ import PrutEngine.Core.Math.Vector4;
 public abstract class GameObject{
     private final Vector3<Float> position;
     private final Matrix4x4 rotationMatrix;
-    private final Quaternion quaternion;
     private Renderer renderer;
     
     public GameObject(){
@@ -45,8 +43,8 @@ public abstract class GameObject{
         this.position = new Vector3<>(0f,0f,0f);
 
         this.rotationMatrix = new Matrix4x4();
-        this.quaternion = new Quaternion();
     }
+
     
     public void translate(Vector3<Float> pos){
         this.position.x += pos.x;
@@ -57,11 +55,13 @@ public abstract class GameObject{
     
     public void rotate (final Quaternion q){
  
+      //  this.quaternion.set(Quaternion.multiply(this.quaternion,q));
         this.rotationMatrix.set(Quaternion.quaternionToMatrix(q));
     }
     
     public void rotate(final Vector3<Float> rot ,final float angle){
         this.rotationMatrix.set(Matrix4x4.multiply(rotationMatrix, Matrix4x4.rotate(angle, rot)));
+      //  this.quaternion.set(Quaternion.multiply(this.quaternion, Quaternion.rotateVector3(this.position, rot, angle)));
     }
     
     public Matrix4x4 getRotationMatrix(){
@@ -95,6 +95,7 @@ public abstract class GameObject{
                     new Vector3<>(1f,1f,1f),//size
                     this.position,
                     this.rotationMatrix
+                    
             );
            
         }

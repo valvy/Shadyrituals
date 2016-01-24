@@ -29,13 +29,16 @@ import java.nio.FloatBuffer;
 import org.lwjgl.BufferUtils;
 
 /**
- *
+ * An 4 by 4 matrix, 
+ * containing various mathematical tools to calculate difficult 3d math
  * @author Heiko van der Heijden
  */
 public final class Matrix4x4 {
     
     private final Vector4<Vector4<Float>> mat;
-    
+    /**
+     * Loads the matrix with an identity matrix
+     */
     public Matrix4x4(){
         this.mat = Matrix4x4.identityMatrix().mat;
     }
@@ -116,10 +119,7 @@ public final class Matrix4x4 {
         result.flip();
         return result;
     }
-    
-    public static Matrix4x4 lookAt(final Vector3<Float> eye,final Vector3<Float> center,final Vector3<Float> up){
-        return null;
-    }
+
 
     /**
      * Gets an rotation matrix from a vector and angle

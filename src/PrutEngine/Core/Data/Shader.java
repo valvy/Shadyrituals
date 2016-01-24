@@ -36,7 +36,7 @@ import static org.lwjgl.opengl.GL20.glDeleteShader;
 import static org.lwjgl.opengl.GL20.glShaderSource;
 
 /**
- *
+ * Manages the various opengl shaders in the program
  * @author Heiko van der Heijden
  */
 public final class Shader extends Resource {
@@ -55,10 +55,21 @@ public final class Shader extends Resource {
         this.shader = loadShader(fileLocation, type);
     }
     
+    /**
+     * Get the opengl shader
+     * @return 
+     */
     public int getShader(){
         return this.shader;
     }
     
+    /**
+     * Loads an shader
+     * @param fileLocation
+     * @param type
+     * @return
+     * @throws IOException 
+     */
     private int loadShader(final String fileLocation,final Type type) throws IOException{
         final String src = this.loadFile(fileLocation);
         

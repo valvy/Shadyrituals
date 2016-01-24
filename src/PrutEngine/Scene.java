@@ -41,11 +41,15 @@ public abstract class Scene {
     /**
      * The main camera
      */
-    protected final Camera camera;
+    protected Camera camera;
     
     public Scene(){
         this.gameObjects = new ArrayList<>();
         this.camera = new Camera(new Vector3<>(0f,0f,-10f));
+    }
+    
+    public void setCamera(Camera cam){
+        this.camera = cam;
     }
     
     /**

@@ -29,15 +29,14 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.URL;
-import javax.imageio.ImageIO;
 
 /**
- *
+ * The base class containing basic garbage collecting
+ * And reference counting
  * @author Heiko van der Heijden
  */
 public abstract class Resource {
-    private int memoryPosition;
+    private final int memoryPosition;
     private final String dataLocation;
     private int amountOfRef;
 
@@ -47,6 +46,12 @@ public abstract class Resource {
 	return this.dataLocation;
     }
     
+    /**
+     * Loads an ascii file
+     * @param path
+     * @return
+     * @throws IOException 
+     */
     protected String loadFile(final String path) throws IOException{
         final BufferedReader br;
 
@@ -69,17 +74,29 @@ public abstract class Resource {
         this.memoryPosition = position;
     }
 
+    /**
+     * Removes an reference
+     * And when the reference is null it requests to destroy itself
+     * @return is the amount of references zero?
+     */
     public boolean removeRef() {
 	this.amountOfRef--;
 	return amountOfRef == 0;
     }
 
-
+    /**
+     * Add an reference to the resource
+     * @return the position it can use this resource
+     */
     public int addRef(){
 	this.amountOfRef++;
         return this.memoryPosition;
     }
 
+    /**
+     * get it's unique position
+     * @return the unique position
+     */
     public int getMemoryPosition() {
 	return this.memoryPosition;
     }

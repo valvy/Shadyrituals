@@ -25,9 +25,7 @@
  */
 package PrutEngine;
 
-import PrutEngine.Core.Math.Vector2;
 import PrutEngine.Core.View;
-import PrutEngine.Scene;
 import java.util.Date;
 import org.lwjgl.glfw.*;
 
@@ -36,7 +34,8 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
 /**
- *
+ * The class that regulates all the input.
+ * (It's a singleton) 
  * @author Heiko van der Heijden
  */
 public final class Application {
@@ -51,6 +50,11 @@ public final class Application {
     private Scene currentModel;
     private final View view;
     
+    /**
+     * Gets the instance of the application
+     * if the instance does not exists, it makes a new instance
+     * @return 
+     */
     public static Application getInstance(){
         if(Application.instance == null){
             Application.instance = new Application();
@@ -126,10 +130,20 @@ public final class Application {
         return this.view;
     }
     
-    public int getKey(int key){
+    /**
+     * Gets an key from the keyboard
+     * @param key
+     * @return glfw keycode
+     */
+    public int getKeyboardKey(int key){
         return glfwGetKey(window, key);
     }
     
+    /**
+     * Loads a scene new scene
+     * This will call the Awake method and destroys the old scene
+     * @param scene 
+     */
     public void loadScene(Scene scene){
         if(scene == null){
             return;

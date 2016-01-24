@@ -24,7 +24,9 @@ public class ExampleScene extends Scene{
     @Override
     public void awake(){
         Application.getInstance().getWindow().setWindowTitle("ExampleScene");
+        this.setCamera(new ExampleCamera(new Vector3<>(0f,0f,-10f)));
         this.addGameObject(new ExampleObject());
+        
 
     }
     

@@ -45,15 +45,28 @@ import static org.lwjgl.opengl.GL20.glGetUniformLocation;
 import static org.lwjgl.opengl.GL20.glUniformMatrix4fv;
 
 /**
- *
+ * Manages the rendering of an gameobject.
  * @author Heiko van der Heijden
  */
 public class Renderer {
-    
+    /**
+     * An reference to the opengl program
+     */
     private final int program;
+    /**
+     * the reference to the 3d mesh
+     */
     private final int mesh;
+    /**
+     * the reference to it's texture
+     */
     private final int texture;
-    private int glPos;
+    
+    /**
+     * the reference to the mv_matrix shader 
+     */
+    private final int glPos;
+    
     public Renderer(final String vShader,final String fShader,final String texture, final String meshName) throws Exception{
         final HashMap<String, Shader.Type> dat = new HashMap<>();
         dat.put(vShader, Shader.Type.Vertex_Shader);
@@ -67,6 +80,12 @@ public class Renderer {
     }
 
     
+    /**
+     * Renders the various attributes on screen
+     * @param size
+     * @param position
+     * @param rotMat 
+     */
     public void render(final Vector3<Float> size, final Vector3<Float> position, 
             final Matrix4x4 rotMat){
         try {
@@ -92,6 +111,9 @@ public class Renderer {
         }
     }
     
+    /**
+     * clean the various assets it used
+     */
     public void destroy(){
         AssetManager.removeMesh(this.mesh);
         AssetManager.removeProgram(this.program);
