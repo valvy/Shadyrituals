@@ -75,6 +75,15 @@ public class Quaternion {
     }
     
 
+    
+    
+    public void add(Quaternion quat){
+        this.imaginary.x += quat.imaginary.x;
+        this.imaginary.y += quat.imaginary.y;
+        this.imaginary.z += quat.imaginary.z;
+        this.real += quat.real;
+    }
+
     @Override
     public String toString(){
         return real + " " + imaginary.toString();
@@ -143,6 +152,15 @@ public class Quaternion {
         this.imaginary.x = vec.y;
         this.imaginary.y = vec.z;
         this.imaginary.z = vec.w;
+    }
+    
+    
+    public static Vector3<Float> multiply(final Quaternion quat, final Vector3<Float> vec){
+        final Quaternion vecQuat = new Quaternion();
+        vecQuat.real = 0;
+        vecQuat.imaginary.set(Vector3.unitVector(vec));
+        final Quaternion res = Quaternion.multiply(quat, Quaternion.multiply(vecQuat, Quaternion.conjugate(quat)));
+        return new Vector3(res.imaginary.x,res.imaginary.y,res.imaginary.z);
     }
     
     /**

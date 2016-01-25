@@ -27,10 +27,9 @@ package ggj2016;
 
 import PrutEngine.Application;
 import PrutEngine.Camera;
+import PrutEngine.Core.Math.Quaternion;
 import PrutEngine.Core.Math.Vector3;
 import PrutEngine.Debug;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_A;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_D;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_DOWN;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_LEFT;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_RIGHT;
@@ -44,7 +43,8 @@ import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
  * @author Heiko van der Heijden
  */
 public final class ExampleCamera extends Camera{
-    private final float speed =100;
+    private final float speed =100f;
+    private float look = 0;
     public ExampleCamera(Vector3<Float> position) {
         super(position);
     }
@@ -52,13 +52,22 @@ public final class ExampleCamera extends Camera{
     @Override
     public void update(float tpf){
         super.update(tpf);
-        Debug.log(this.getRotationMatrix());
+        look += speed * tpf;
             // Debug.log(Quaternion.quaternionToMatrix(tmp2));
       if(Application.getInstance().getKeyboardKey(GLFW_KEY_RIGHT) == GLFW_PRESS){
-            this.rotate(new Vector3<Float>(0f,10f,0f), speed * tpf);
+          
+          
+       /*   Quaternion tmp = Quaternion.rotateVector3(
+                  new Vector3<>(0f,0f,1f),
+                  this.getPosition()
+                  ,look);
+          this.rotate(tmp);*/
+            this.rotate(new Vector3<Float>(0f,10f,0f), -speed * tpf);
        }
         if(Application.getInstance().getKeyboardKey(GLFW_KEY_LEFT) == GLFW_PRESS){
-        this.rotate(new Vector3<Float>(0f,-10f,0f), speed * tpf);
+          //            Quaternion tmp = Quaternion.rotateVector3(new Vector3<>(10f,0f,0f), new Vector3<>(0f,0f,1f), 10f);
+         // this.rotate(tmp);
+            this.rotate(new Vector3<Float>(0f,10f,0f), speed * tpf);
        }
        if(Application.getInstance().getKeyboardKey(GLFW_KEY_UP) == GLFW_PRESS){
             this.translate(new Vector3<>(

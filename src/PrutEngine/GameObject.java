@@ -36,13 +36,14 @@ import PrutEngine.Core.Math.Vector3;
 public abstract class GameObject{
     private final Vector3<Float> position;
     private final Matrix4x4 rotationMatrix;
+    private final Quaternion quaternion;
     private Renderer renderer;
     
     public GameObject(){
         this.renderer = null;
         this.position = new Vector3<>(0f,0f,0f);
-
         this.rotationMatrix = new Matrix4x4();
+        this.quaternion = new Quaternion();
     }
 
     
@@ -60,8 +61,11 @@ public abstract class GameObject{
     }
     
     public void rotate(final Vector3<Float> rot ,final float angle){
-        this.rotationMatrix.set(Matrix4x4.multiply(rotationMatrix, Matrix4x4.rotate(angle, rot)));
-      //  this.quaternion.set(Quaternion.multiply(this.quaternion, Quaternion.rotateVector3(this.position, rot, angle)));
+        
+       this.rotationMatrix.set(Matrix4x4.multiply( Matrix4x4.rotate(angle, rot),rotationMatrix));
+  //     this.quaternion.add(Quaternion.rotateVector3(new Vector3<>(0f,0f,0f), rot, angle));
+     
+      
     }
     
     public Matrix4x4 getRotationMatrix(){
@@ -79,6 +83,11 @@ public abstract class GameObject{
      */
     public Vector3<Float> getPosition(){
         return new Vector3<>(this.position);
+    }
+    
+    public Vector3<Float> getForward(){
+
+        return new Vector3<>(0f,0f,0f);
     }
     
     /**

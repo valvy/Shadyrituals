@@ -27,10 +27,7 @@ package PrutEngine;
 
 import PrutEngine.Core.Math.Vector3;
 import PrutEngine.Core.Math.Matrix4x4;
-import PrutEngine.Core.Math.Quaternion;
 import PrutEngine.Core.Math.Vector4;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_RIGHT;
-import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
 import static org.lwjgl.opengl.GL20.glGetUniformLocation;
 import static org.lwjgl.opengl.GL20.glUniformMatrix4fv;
 
@@ -43,18 +40,19 @@ public class Camera extends GameObject{
     private float vovy = 50f, aspect = 1, near = 0.1f, far = 10000f;
     
     private void setProgramLocations(){
+        final Matrix4x4 perspective = Matrix4x4.multiply(Matrix4x4.transpose(this.getRotationMatrix()),this.perspective(vovy, aspect, near, far));
+        final Matrix4x4 matPosition = Matrix4x4.identityMatrix();
+        matPosition.translate(this.getPosition());
+        //Set the projection
         AssetManager.allPrograms().stream().map((dat) -> glGetUniformLocation(dat, "projection_matrix")).forEach((Integer pos) -> {
-            Matrix4x4 mat = Matrix4x4.transpose(this.getRotationMatrix());
-           // mat = Matrix4x4.multiply(mat, Matrix4x4.transpose(this.getRotationMatrix()));
-           
-            mat.translate(this.getPosition());
-            
-            mat = Matrix4x4.transpose(mat);
-            mat = Matrix4x4.multiply(mat,this.perspective(vovy, aspect, near, far));
-
-            glUniformMatrix4fv(pos,false,mat.getRawData());
+            glUniformMatrix4fv(pos,false,perspective.getRawData());
         });
         
+        //Set the position of the camera
+        AssetManager.allPrograms().stream().map((dat) -> glGetUniformLocation(dat, "cam_matrix")).forEach((Integer pos) -> {
+                glUniformMatrix4fv(pos,true,matPosition.getRawData());
+        });
+ 
     }
     
     public void setPerspective(float vovy, float aspect, float near, float far){

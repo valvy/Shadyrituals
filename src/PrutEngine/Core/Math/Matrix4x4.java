@@ -35,7 +35,10 @@ import org.lwjgl.BufferUtils;
  */
 public final class Matrix4x4 {
     
-    private final Vector4<Vector4<Float>> mat;
+    /**
+     *
+     */
+    public final Vector4<Vector4<Float>> mat;
     /**
      * Loads the matrix with an identity matrix
      */

@@ -45,8 +45,9 @@ public final class ExampleObject extends GameObject {
     @Override
     public void update(float tpf) {
         tmp += speed * tpf;
-        this.rotate(new Vector3<>(10f,0f,0f), speed * tpf);
-
+        Quaternion quat = Quaternion.rotateVector3(new Vector3<>(1f,1f,1f), this.getPosition(),tmp);
+    //    this.rotate(new Vector3<>(10f,0f,0f), speed * tpf);
+       this.rotate(quat);
           
      
        
