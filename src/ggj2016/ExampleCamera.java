@@ -27,9 +27,7 @@ package ggj2016;
 
 import PrutEngine.Application;
 import PrutEngine.Camera;
-import PrutEngine.Core.Math.Quaternion;
 import PrutEngine.Core.Math.Vector3;
-import PrutEngine.Debug;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_DOWN;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_LEFT;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_RIGHT;
@@ -44,64 +42,60 @@ import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
  */
 public final class ExampleCamera extends Camera{
     private final float speed =100f;
-    private float look = 0;
+    private final float rotSpeed = 1000;
+
     public ExampleCamera(Vector3<Float> position) {
         super(position);
+  
     }
     
     @Override
     public void update(float tpf){
         super.update(tpf);
-        look += speed * tpf;
-            // Debug.log(Quaternion.quaternionToMatrix(tmp2));
       if(Application.getInstance().getKeyboardKey(GLFW_KEY_RIGHT) == GLFW_PRESS){
-          
-          
-       /*   Quaternion tmp = Quaternion.rotateVector3(
-                  new Vector3<>(0f,0f,1f),
-                  this.getPosition()
-                  ,look);
-          this.rotate(tmp);*/
-            this.rotate(new Vector3<Float>(0f,10f,0f), -speed * tpf);
+          this.rotate(new Vector3<>(0f,1f,0f),rotSpeed * tpf);
+         //   this.ro
        }
         if(Application.getInstance().getKeyboardKey(GLFW_KEY_LEFT) == GLFW_PRESS){
-          //            Quaternion tmp = Quaternion.rotateVector3(new Vector3<>(10f,0f,0f), new Vector3<>(0f,0f,1f), 10f);
-         // this.rotate(tmp);
-            this.rotate(new Vector3<Float>(0f,10f,0f), speed * tpf);
+
+            this.rotate(new Vector3<Float>(0f,1f,0f), -rotSpeed * tpf);
        }
        if(Application.getInstance().getKeyboardKey(GLFW_KEY_UP) == GLFW_PRESS){
             this.translate(new Vector3<>(
                 0f,
                 0f,
-                speed * tpf
+                1f
         
-            ));
+            ), speed * tpf);
+        //  this.translate(this.getRotationQuaternion().imaginary, -speed * tpf);
        } 
        if(Application.getInstance().getKeyboardKey(GLFW_KEY_DOWN) == GLFW_PRESS){
             this.translate(new Vector3<>(
                 0f,
                 0f,
-                -speed * tpf
+                -1f
         
-            ));
+            ), speed * tpf);
+          // this.translate(t);
+           
        } 
         
         if(Application.getInstance().getKeyboardKey(GLFW_KEY_W) == GLFW_PRESS){
             this.translate(new Vector3<>(
                 0f,
-                -speed * tpf,
+                -1f,
                 0f
         
-            ));
+            ), speed * tpf);
        } 
         
         if(Application.getInstance().getKeyboardKey(GLFW_KEY_S) == GLFW_PRESS){
             this.translate(new Vector3<>(
                 0f,
-                speed * tpf,
+                1f,
                 0f
         
-            ));
+            ), speed * tpf);
        } 
         
         

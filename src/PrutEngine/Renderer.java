@@ -92,8 +92,6 @@ public class Renderer {
             glUseProgram(AssetManager.getProgram(this.program));
             Matrix4x4 mat = Matrix4x4.identityMatrix();
             mat = Matrix4x4.scale(mat, size); 
-            
-           
            
             Matrix4x4 pos = Matrix4x4.identityMatrix();
             pos.translate(position);

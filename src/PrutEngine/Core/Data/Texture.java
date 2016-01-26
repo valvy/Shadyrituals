@@ -25,6 +25,8 @@
  */
 package PrutEngine.Core.Data;
 
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -63,11 +65,15 @@ public class Texture extends Resource{
     public Texture(String fileLocation, int position) throws IOException {
         super(fileLocation, position);
 
-      File scrFile = new File(fileLocation);
+        File scrFile = new File(fileLocation);
 
+        //Mirror the texture firsrt
         BufferedImage image = ImageIO.read(scrFile);
-       
-       
+        AffineTransform tx = AffineTransform.getScaleInstance(-1, -1);
+        tx.translate(-image.getWidth(null), -image.getHeight(null));
+        AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+        image = op.filter(image, null);
+    
         int[] pixels = new int[image.getWidth() * image.getHeight()];
         image.getRGB(0, 0, image.getWidth(), image.getHeight(), pixels, 0, image.getWidth());
         int BYTES_PER_PIXEL = 4;
@@ -82,8 +88,9 @@ public class Texture extends Resource{
                 buffer.put((byte) ((pixel >> 24) & 0xFF));    // Alpha component. Only for RGBA
             }
         }
-        
+     
         buffer.flip();
+        
         this.textureID = glGenTextures();
         glBindTexture(GL_TEXTURE_2D, this.textureID);
 

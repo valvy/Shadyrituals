@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016, Heiko van der Heijden
+ * Copyright (c) 2016, Heiko van der Heijden 
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -23,52 +23,37 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package PrutEngine.Core.Math;
+package ggj2016;
+
+import PrutEngine.Core.Math.Vector3;
+import PrutEngine.GameObject;
+import PrutEngine.Renderer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author Heiko van der Heijden
  */
+public class Background extends GameObject{
 
-public class Vector3<T> {
-
-    
-    public T x, y ,z;
-    
-    public Vector3(T x, T y, T z){
-        this.x = x;
-        this.y = y;
-        this.z = z;
-    }
-    
-    public Vector3(final Vector3<T> other){
-        this.set(other);
-    }
-    
-    public static float norm(final Vector3<Float> vec){
-        return (float) Math.sqrt(Math.pow(vec.x, 2) + Math.pow(vec.y, 2) + Math.pow(vec.z, 2));
-    }
-    
-    public static Vector3<Float> unitVector(final Vector3<Float> vec){
-
-        float length = vec.x * vec.x + vec.y * vec.y + vec.z + vec.z;
-        if(length != 1f && length != 0f){
-            length = (float) (1.0f / Math.sqrt(length));
-            return new Vector3<>(vec.x * length,vec.y * length, vec.z * length );
+    public Background(){
+        
+        try {
+            
+            this.setRenderer(new Renderer("Assets/Shaders/testV.glsl", "Assets/Shaders/testF.glsl","Assets/Textures/SplashScreen.png", "Assets/Meshes/Quad.obj"));
+            
+        } catch (Exception ex) {
+            Logger.getLogger(Background.class.getName()).log(Level.SEVERE, null, ex);
         }
-      
-        return new Vector3<>(vec);
-    }
-    
-    public void set(final Vector3<T> other){
-        this.x = other.x;
-        this.y = other.y;
-        this.z = other.z;
+        this.setSize(new Vector3<>(3.5f,3.5f,3.5f));
+        this.setPosition(new Vector3<>(0f,0f,-1f));
+        this.rotate(new Vector3<>(1f,0f,0f), -90);
     }
     
     @Override
-    public String toString(){
-        return x.toString() + " " + y.toString() + " " + z.toString();
+    public void update(float tpf) {
+
     }
     
 }

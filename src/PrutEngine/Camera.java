@@ -27,7 +27,10 @@ package PrutEngine;
 
 import PrutEngine.Core.Math.Vector3;
 import PrutEngine.Core.Math.Matrix4x4;
+import PrutEngine.Core.Math.Quaternion;
 import PrutEngine.Core.Math.Vector4;
+import static org.lwjgl.opengl.GL20.glGetUniformLocation;
+import static org.lwjgl.opengl.GL20.glUniformMatrix4fv;
 import static org.lwjgl.opengl.GL20.glGetUniformLocation;
 import static org.lwjgl.opengl.GL20.glUniformMatrix4fv;
 
@@ -40,7 +43,8 @@ public class Camera extends GameObject{
     private float vovy = 50f, aspect = 1, near = 0.1f, far = 10000f;
     
     private void setProgramLocations(){
-        final Matrix4x4 perspective = Matrix4x4.multiply(Matrix4x4.transpose(this.getRotationMatrix()),this.perspective(vovy, aspect, near, far));
+        final Matrix4x4 perspective = Matrix4x4.multiply(Quaternion.quaternionToMatrix(this.getRotationQuaternion()),this.perspective(vovy, aspect, near, far));
+       
         final Matrix4x4 matPosition = Matrix4x4.identityMatrix();
         matPosition.translate(this.getPosition());
         //Set the projection
@@ -83,7 +87,7 @@ public class Camera extends GameObject{
     
     public Camera(final Vector3<Float> position){
         super();
- 
+        this.rotate(new Vector3<>(0f,1f,0f), 180);
    
         this.setPosition(position);
     }

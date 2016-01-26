@@ -8,9 +8,13 @@ package ggj2016;
 import PrutEngine.Application;
 import PrutEngine.Core.Math.Quaternion;
 import PrutEngine.Core.Math.Vector3;
+import PrutEngine.Core.Math.Vector4;
 import PrutEngine.Debug;
 import PrutEngine.Scene;
 import static java.lang.System.exit;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_BACKSPACE;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
+import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
 //import org.lwjgl.opengl.
 /**
  *
@@ -19,10 +23,10 @@ import static java.lang.System.exit;
 public class ExampleScene extends Scene{
 
     public ExampleScene(){
-      //  Debug.log(Quaternion.quaternionToMatrix(Quaternion.rotateVector3(new Vector3<>(0f,1f,-1f),new Vector3<>(1f,0f,0f),90f)));
-        //Quaternion tmp = Quaternion.rotateVector3(new Vector3<Float>(0f,-1f,1f), new Vector3<Float>(0f,0f,1f), 90f);
-       // Debug.log(Quaternion.multiply(tmp, new Vector3<>(0f,10f,0f)));
-       // exit(1);
+        Quaternion tmp = Quaternion.rotateVector3(new Vector3<>(2f,0f,3f), new Vector3<>(0f,0f,4f), 90);
+       // tmp = Quaternion.rotate(tmp, new Vector3<>(0f,0f,-4f), 90);
+        Debug.log(Quaternion.multiply(new Quaternion(new Vector4<>(9f,2f,3f,3f)), new Quaternion(new Vector4<>(4f,6f,3f,10f))));
+
     }
     
     @Override
@@ -45,11 +49,15 @@ public class ExampleScene extends Scene{
     @Override
     public void update(float tpf) {
         super.update(tpf);
+        
+        if(Application.getInstance().getKeyboardKey(GLFW_KEY_BACKSPACE) == GLFW_PRESS){
+             Application.getInstance().loadScene(new ExampleSplashScreen());
+        }
     }
 
     @Override
     public void onQuit() {
-   
+        super.onQuit();
     }
     
 }

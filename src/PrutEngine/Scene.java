@@ -45,7 +45,7 @@ public abstract class Scene {
     
     public Scene(){
         this.gameObjects = new ArrayList<>();
-        this.camera = new Camera(new Vector3<>(0f,0f,-10f));
+        this.camera = new Camera(new Vector3<>(0f,0f,-4f));
     }
     
     public void setCamera(Camera cam){
@@ -93,6 +93,11 @@ public abstract class Scene {
         camera.update(tpf);
     }
   
-    public abstract void onQuit();
+    public void onQuit(){
+        for(GameObject obj : this.gameObjects){
+            obj.destroy();
+        }
+        this.gameObjects.clear();
+    }
     
 }

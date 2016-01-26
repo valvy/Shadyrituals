@@ -329,7 +329,7 @@ public final class AssetManager {
      * @param reference 
      */
     public static void removeMesh(final int reference){
-
+        
         Mesh tmp = null;
         
         for(Mesh mesh : AssetManager.MESHES){

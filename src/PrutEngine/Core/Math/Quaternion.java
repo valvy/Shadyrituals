@@ -25,6 +25,8 @@
  */
 package PrutEngine.Core.Math;
 
+import PrutEngine.Debug;
+
 /**
  * Manages the data of quaternions
  * This can be used to handle rotations without problems of a gimbal lock
@@ -37,8 +39,24 @@ public class Quaternion {
     public float real;
  
     public Quaternion(){
-        this.imaginary = new Vector3<>(0f,0f,0f);
-        this.real = 1;
+        this.imaginary = new Vector3<>(0f,1f,0f);
+        this.real = 0;
+    }
+    
+    
+    
+    public static Quaternion rotate(Quaternion q, Vector3<Float> rot, float angle){
+        if(rot.x == 0 && rot.y == 0 && rot.z == 0){
+            return new Quaternion();//load quaternion with identity
+        }
+        Vector3<Float> unitV = Vector3.unitVector(rot);
+        final float degrees = (float) ((angle * Math.PI) / 180);
+        final float halfSin = (float) Math.sin(degrees / 2);
+        return Quaternion.multiply(q,new Quaternion(new Vector4<>(
+                (float) Math.cos(degrees / 2),
+                halfSin * unitV.x ,
+                halfSin * unitV.y,
+                halfSin * unitV.z)));
     }
     
     /**
@@ -73,6 +91,7 @@ public class Quaternion {
         this.imaginary = new Vector3<>(quaternion.imaginary);
         this.real = quaternion.real;
     }
+    
     
 
     
@@ -172,9 +191,9 @@ public class Quaternion {
     public static Quaternion multiply(final Quaternion quat1, final Quaternion quat2){
         return new Quaternion(new Vector4<>(
                 quat1.real * quat2.real - quat1.imaginary.x * quat2.imaginary.x - quat1.imaginary.y * quat2.imaginary.y - quat1.imaginary.z * quat2.imaginary.z,
-                quat1.real * quat2.imaginary.x + quat1.imaginary.x * quat2.real - quat1.imaginary.y * quat2.imaginary.z + quat1.imaginary.z * quat2.imaginary.y,
-                quat1.real * quat2.imaginary.y + quat1.imaginary.x * quat2.imaginary.z + quat1.imaginary.y * quat2.real - quat1.imaginary.z * quat2.imaginary.x,
-                quat1.real * quat2.imaginary.z - quat1.imaginary.x * quat2.imaginary.y + quat1.imaginary.y * quat2.imaginary.x + quat1.imaginary.z * quat2.real
+                quat1.real * quat2.imaginary.x + quat1.imaginary.x * quat2.real + quat1.imaginary.y * quat2.imaginary.z - quat1.imaginary.z * quat2.imaginary.y,
+                quat1.real * quat2.imaginary.y - quat1.imaginary.x * quat2.imaginary.z + quat1.imaginary.y * quat2.real + quat1.imaginary.z * quat2.imaginary.x,
+                quat1.real * quat2.imaginary.z - quat1.imaginary.x * quat2.imaginary.y + quat1.imaginary.y * quat2.imaginary.x - quat1.imaginary.z * quat2.real
         ));
     }
     

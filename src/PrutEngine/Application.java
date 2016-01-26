@@ -92,8 +92,8 @@ public final class Application {
         glfwSetKeyCallback(window, keyCallback = new GLFWKeyCallback() {
             @Override
             public void invoke(long window, int key, int scancode, int action, int mods) {
-                if ( key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE )
-                    glfwSetWindowShouldClose(window, GLFW_TRUE); // We will detect this in our rendering loop
+              //  if ( key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE )
+              //      glfwSetWindowShouldClose(window, GLFW_TRUE); // We will detect this in our rendering loop
             }
         });
  
@@ -124,6 +124,12 @@ public final class Application {
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1); 
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    }
+    
+    public void quit(){
+        this.currentModel.onQuit();
+        this.view.destroy();
+        glfwSetWindowShouldClose(window, GLFW_TRUE);
     }
     
     public View getWindow(){

@@ -29,7 +29,7 @@ import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
  */
 public final class ExampleObject extends GameObject {
     
-    private final float speed = 100f;
+    private final float speed = 1000f;
     
     public ExampleObject(){
         try {
@@ -40,14 +40,17 @@ public final class ExampleObject extends GameObject {
         }
         this.setPosition(new Vector3<>(0f,0f,-10f));
         
+       
     }
-    float tmp = 0;
     @Override
     public void update(float tpf) {
-        tmp += speed * tpf;
-        Quaternion quat = Quaternion.rotateVector3(new Vector3<>(1f,1f,1f), this.getPosition(),tmp);
-    //    this.rotate(new Vector3<>(10f,0f,0f), speed * tpf);
-       this.rotate(quat);
+  
+        this.rotate(new Vector3<>(0f,1f,0f), speed * tpf);
+       // this.setRotation(new Vector3<>(1f,0f,0f), tmp);
+      //  Quaternion quat = Quaternion.rotateVector3(new Vector3<>(1f,1f,1f), this.getPosition(),tmp);
+    //    this.setRotation(new Vector3<>(10f,0f,0f), speed * tpf);
+    //   this.setRotation(quat);
+      
           
      
        
