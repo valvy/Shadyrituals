@@ -120,7 +120,7 @@ public final class AssetManager {
     public static int loadTexture(final String texture) throws IOException{
         for(Texture tex : AssetManager.TEXTURES){
             if(tex.getDataLocation().equals(texture)){
-                return tex.getMemoryPosition();
+                return tex.addRef();
             }
         }
         

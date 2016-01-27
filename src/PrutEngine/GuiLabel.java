@@ -23,35 +23,51 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package ggj2016;
+package PrutEngine;
 
+import PrutEngine.Core.Math.Quaternion;
+import PrutEngine.Core.Math.Vector2;
 import PrutEngine.Core.Math.Vector3;
-import PrutEngine.GameObject;
-import PrutEngine.Renderer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import org.lwjgl.BufferUtils;
+import org.lwjgl.opengl.GL11;
+import static org.lwjgl.opengl.GL11.GL_NEAREST;
+import static org.lwjgl.opengl.GL11.GL_RGBA;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_MAG_FILTER;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_MIN_FILTER;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_WRAP_T;
+import static org.lwjgl.opengl.GL11.GL_UNSIGNED_BYTE;
+import static org.lwjgl.opengl.GL11.glBindTexture;
+import static org.lwjgl.opengl.GL11.glGenTextures;
+import static org.lwjgl.opengl.GL11.glTexImage2D;
+import static org.lwjgl.opengl.GL11.glTexParameteri;
+import static org.lwjgl.opengl.GL12.GL_CLAMP_TO_EDGE;
 
 /**
  *
  * @author Heiko van der Heijden
  */
-public class PalmTree extends GameObject{
+public class GuiLabel {
 
-    public PalmTree(Vector3<Float> position){
-        this.setPosition(position);
-        
-        try {
-            this.setRenderer(new Renderer("Assets/Shaders/testV.glsl", "Assets/Shaders/testF.glsl","Assets/Textures/PalmTree.png", "Assets/Meshes/PalmTree.obj"));
-        
-        } catch (Exception ex) {
-            Logger.getLogger(ExampleObject.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public GuiLabel() throws IOException{
+ 
+    }
+    
+    public void draw(){
         
     }
     
-    @Override
-    public void update(float tpf) {
-             // this.rotate(new Vector3<>(1f,0f,0f),100f* tpf);
+    public void setText(String nText){
+ 
+    }
+    
+    public void onDestroy(){
+
     }
     
 }

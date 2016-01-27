@@ -11,9 +11,7 @@ import PrutEngine.Core.Math.Vector3;
 import PrutEngine.Core.Math.Vector4;
 import PrutEngine.Debug;
 import PrutEngine.Scene;
-import static java.lang.System.exit;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_BACKSPACE;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
 import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
 //import org.lwjgl.opengl.
 /**

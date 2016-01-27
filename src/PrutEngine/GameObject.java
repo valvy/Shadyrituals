@@ -100,6 +100,7 @@ public abstract class GameObject{
     
     public void draw(){
         if(this.renderer != null){
+            
             this.renderer.render(
                     this.size,//size
                     this.position,
