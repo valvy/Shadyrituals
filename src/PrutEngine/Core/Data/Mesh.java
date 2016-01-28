@@ -54,6 +54,7 @@ public final class Mesh extends Resource{
     private final int size;
     private final int vertex_vbo;
     private final int uv_vbo;
+    private final int normal_vbo;
     /**
      *
      * @param fileLocation
@@ -68,11 +69,13 @@ public final class Mesh extends Resource{
             this.vao = glGenVertexArrays();
             this.vertex_vbo = this.bindVBO(0, 3, loader.rawVertexData());
             this.uv_vbo = this.bindVBO(1, 2,loader.rawUVData());
+            this.normal_vbo = this.bindVBO(2, 3, loader.rawNormalData());
         }else{
             this.vao = glGenVertexArrays();
             this.vertex_vbo = this.bindVBO(0, 3, Primitives.Cube.rawVertexData());
             this.uv_vbo = this.bindVBO(1,2,Primitives.Cube.rawUVData());
             this.size = Primitives.Cube.triangleAmount();
+            this.normal_vbo = 0;
         }
         
 

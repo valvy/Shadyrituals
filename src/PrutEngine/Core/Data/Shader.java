@@ -25,14 +25,23 @@
  */
 package PrutEngine.Core.Data;
 
+import PrutEngine.Debug;
 import java.io.IOException;
 import static org.lwjgl.opengl.ARBTessellationShader.GL_TESS_CONTROL_SHADER;
 import static org.lwjgl.opengl.ARBTessellationShader.GL_TESS_EVALUATION_SHADER;
+import org.lwjgl.opengl.GL11;
+import static org.lwjgl.opengl.GL11.GL_FALSE;
+import org.lwjgl.opengl.GL20;
+import static org.lwjgl.opengl.GL20.GL_COMPILE_STATUS;
 import static org.lwjgl.opengl.GL20.GL_FRAGMENT_SHADER;
+import static org.lwjgl.opengl.GL20.GL_LINK_STATUS;
 import static org.lwjgl.opengl.GL20.GL_VERTEX_SHADER;
 import static org.lwjgl.opengl.GL20.glCompileShader;
 import static org.lwjgl.opengl.GL20.glCreateShader;
 import static org.lwjgl.opengl.GL20.glDeleteShader;
+import static org.lwjgl.opengl.GL20.glGetShaderInfoLog;
+import static org.lwjgl.opengl.GL20.glGetShaderi;
+import static org.lwjgl.opengl.GL20.glGetShaderiv;
 import static org.lwjgl.opengl.GL20.glShaderSource;
 
 /**
@@ -94,6 +103,11 @@ public final class Shader extends Resource {
             
         glShaderSource(result,src);
         glCompileShader(result);
+        if(glGetShaderi(result, GL_COMPILE_STATUS) == 0){
+            Debug.log("Compile error in : " + fileLocation);
+            Debug.log(glGetShaderInfoLog(result));
+        }
+	
         return result;
     }
     

@@ -107,6 +107,10 @@ public abstract class GameObject{
         return new Vector3<>(this.position);
     }
     
+    public Renderer getRenderer(){
+        return this.renderer;
+    }
+    
     /**
      * Sets the position of the gameObject
      * @param nposition 

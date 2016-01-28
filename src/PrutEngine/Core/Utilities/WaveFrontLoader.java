@@ -108,6 +108,31 @@ public final class WaveFrontLoader {
         return this.faces.size() * 3;
     }
     
+    public FloatBuffer rawNormalData(){
+        final ArrayList<Float> rawData = new ArrayList<>();
+        for(final Vector3<Vector3<Integer>> face : this.faces){
+            Vector3<Float> n = this.normals.get(face.x.z - 1);
+            rawData.add(n.x);
+            rawData.add(n.y);
+            rawData.add(n.z);
+            n = this.normals.get(face.y.z - 1);
+            rawData.add(n.x);
+            rawData.add(n.y);
+            rawData.add(n.z);
+            n = this.normals.get(face.z.z - 1);
+            rawData.add(n.x);
+            rawData.add(n.y);
+            rawData.add(n.z);
+        }
+        FloatBuffer result = BufferUtils.createFloatBuffer(rawData.size());
+        rawData.stream().forEach((d) -> {            
+            result.put(d);
+        });
+        result.flip();
+        return result;
+        
+    }
+    
     public FloatBuffer rawVertexData(){
        final ArrayList<Float> rawData = new ArrayList<>();
         for(final Vector3<Vector3<Integer>> face : this.faces){

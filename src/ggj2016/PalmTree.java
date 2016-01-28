@@ -41,7 +41,7 @@ public class PalmTree extends GameObject{
         this.setPosition(position);
         
         try {
-            this.setRenderer(new Renderer("Assets/Shaders/UnshadedVertex.glsl", "Assets/Shaders/UnshadedFragment.glsl","Assets/Textures/PalmTree.png", "Assets/Meshes/PalmTree.obj"));
+            this.setRenderer(new Renderer("Assets/Shaders/ToonVertex.glsl", "Assets/Shaders/ToonFragment.glsl","Assets/Textures/PalmTree.png", "Assets/Meshes/PalmTree.obj"));
         
         } catch (Exception ex) {
             Logger.getLogger(ExampleObject.class.getName()).log(Level.SEVERE, null, ex);

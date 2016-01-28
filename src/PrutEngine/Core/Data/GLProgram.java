@@ -27,12 +27,15 @@ package PrutEngine.Core.Data;
 
 import PrutEngine.Debug;
 import java.util.ArrayList;
+import static org.lwjgl.opengl.GL11.GL_FALSE;
+import org.lwjgl.opengl.GL20;
 import static org.lwjgl.opengl.GL20.GL_INFO_LOG_LENGTH;
 import static org.lwjgl.opengl.GL20.glAttachShader;
 import static org.lwjgl.opengl.GL20.glCreateProgram;
 import static org.lwjgl.opengl.GL20.glDeleteProgram;
 import static org.lwjgl.opengl.GL20.glGetProgramInfoLog;
 import static org.lwjgl.opengl.GL20.glGetProgrami;
+import static org.lwjgl.opengl.GL20.glGetProgramiv;
 import static org.lwjgl.opengl.GL20.glLinkProgram;
 
 /**
@@ -55,6 +58,14 @@ public final class GLProgram extends Resource{
         glLinkProgram(this.program);
         this.errors = glGetProgramInfoLog(program, glGetProgrami(program, GL_INFO_LOG_LENGTH));
         if(this.containErrors()){
+           if(glGetProgrami(program,GL20.GL_LINK_STATUS) == GL_FALSE){
+                   Debug.log("Program : " + fileLocation + " could not be linked");
+           }
+            
+        
+            
+            
+            
             Debug.log(this.errors);
         }
     }

@@ -86,6 +86,9 @@ public class Renderer {
         
     }
 
+    public final int getProgram(){
+        return this.program;
+    }
     
     /**
      * Renders the various attributes on screen
@@ -100,11 +103,8 @@ public class Renderer {
             glBindVertexArray(AssetManager.getMeshVao(this.mesh));
 
             glEnableVertexAttribArray(0);
-                         glEnable(GL_DEPTH_TEST);
-        glDepthFunc(GL_LEQUAL);
             Matrix4x4 mat = Matrix4x4.identityMatrix();
             mat = Matrix4x4.scale(mat, size); 
-            Debug.log(this.program + " " + AssetManager.getProgram(program));
             Matrix4x4 pos = Matrix4x4.identityMatrix();
             pos.translate(position);
             mat = Matrix4x4.multiply(mat,pos);

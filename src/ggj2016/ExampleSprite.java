@@ -26,6 +26,7 @@
 package ggj2016;
 
 import PrutEngine.Application;
+import PrutEngine.AssetManager;
 import PrutEngine.Core.Math.Matrix4x4;
 import PrutEngine.Core.Math.Quaternion;
 import PrutEngine.Core.Math.Vector3;
@@ -36,16 +37,20 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_W;
 import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
+import static org.lwjgl.opengl.GL20.glGetUniformLocation;
+import static org.lwjgl.opengl.GL20.glUniform1f;
 
 /**
  *
  * @author Heiko van der Heijden
  */
 public class ExampleSprite extends GameObject{
+   // int time;
     public ExampleSprite(Vector3<Float> position){
         try {
-            this.setRenderer(new Renderer("Assets/Shaders/UnshadedVertex.glsl", "Assets/Shaders/ToonFragment.glsl","Assets/Textures/cube.bmp", "Assets/Meshes/Quad.obj"));
-        
+         //   this.setRenderer(new Renderer("Assets/Shaders/UnshadedVertex.glsl", "Assets/Shaders/UnshadedFragment.glsl","Assets/Textures/SplashScreen.png", "Assets/Meshes/Quad.obj"));
+            this.setRenderer(new Renderer("Assets/Shaders/UnshadedVertex.glsl", "Assets/Shaders/UnshadedFragment.glsl","Assets/Textures/SplashScreen.png", "Assets/Meshes/Quad.obj"));
+     //   time = glGetUniformLocation(AssetManager.getProgram(this.getRenderer().getProgram()), "time");
         } catch (Exception ex) {
             Logger.getLogger(ExampleSprite.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -54,12 +59,12 @@ public class ExampleSprite extends GameObject{
         this.setPosition(position);
     }
     
-
+    float amount = 10;
     @Override
     public void update(float tpf) {
-        
-
-           this.rotate(new Vector3<>(0f,0f,1f), 100f * tpf);
+       amount += 10 * tpf;
+       
+       this.rotate(new Vector3<>(0f,0f,1f), (float) Math.cos(amount) / 2);
 
     }
     
