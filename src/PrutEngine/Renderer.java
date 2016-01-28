@@ -33,10 +33,17 @@ import ggj2016.ExampleScene;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static org.lwjgl.opengl.GL11.GL_DEPTH_TEST;
+import static org.lwjgl.opengl.GL11.GL_LEQUAL;
 import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
 import static org.lwjgl.opengl.GL11.GL_TRIANGLES;
 import static org.lwjgl.opengl.GL11.glBindTexture;
+import static org.lwjgl.opengl.GL11.glDepthFunc;
 import static org.lwjgl.opengl.GL11.glDrawArrays;
+import static org.lwjgl.opengl.GL11.glEnable;
+import static org.lwjgl.opengl.GL13.GL_TEXTURE1;
+import static org.lwjgl.opengl.GL13.GL_TEXTURE2;
+import static org.lwjgl.opengl.GL13.glActiveTexture;
 import static org.lwjgl.opengl.GL20.glDisableVertexAttribArray;
 import static org.lwjgl.opengl.GL20.glEnableVertexAttribArray;
 import static org.lwjgl.opengl.GL20.glUseProgram;
@@ -73,10 +80,10 @@ public class Renderer {
         dat.put(fShader, Shader.Type.Fragment_Shader);
         this.program = AssetManager.loadProgram(dat);
         
-        
         this.texture = AssetManager.loadTexture(texture);
         this.mesh = AssetManager.loadMesh(meshName);
         this.glPos = glGetUniformLocation(AssetManager.getProgram(this.program), "mv_matrix");
+        
     }
 
     
@@ -90,17 +97,22 @@ public class Renderer {
             final Matrix4x4 rotMat){
         try {
             glUseProgram(AssetManager.getProgram(this.program));
+            glBindVertexArray(AssetManager.getMeshVao(this.mesh));
+
+            glEnableVertexAttribArray(0);
+                         glEnable(GL_DEPTH_TEST);
+        glDepthFunc(GL_LEQUAL);
             Matrix4x4 mat = Matrix4x4.identityMatrix();
             mat = Matrix4x4.scale(mat, size); 
-           
+            Debug.log(this.program + " " + AssetManager.getProgram(program));
             Matrix4x4 pos = Matrix4x4.identityMatrix();
             pos.translate(position);
             mat = Matrix4x4.multiply(mat,pos);
             mat = Matrix4x4.multiply(mat, rotMat);
             glUniformMatrix4fv(this.glPos,true,mat.getRawData());
             glBindTexture(GL_TEXTURE_2D, AssetManager.getTexture(this.texture));
-            glBindVertexArray(AssetManager.getMeshVao(this.mesh));
-            glEnableVertexAttribArray(0);
+            
+            
             glDrawArrays(GL_TRIANGLES, 0, AssetManager.getMeshSize(this.mesh));
             glDisableVertexAttribArray(0);
             glBindVertexArray(0);

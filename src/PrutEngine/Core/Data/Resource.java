@@ -70,7 +70,7 @@ public abstract class Resource {
 
     public Resource(final String fileLocation, final int position){
         this.dataLocation = fileLocation;
-        this.amountOfRef = 1;//Starting at one.. with a zero delete the resource
+        this.amountOfRef = 0;//Starting at one.. with a zero delete the resource
         this.memoryPosition = position;
     }
 

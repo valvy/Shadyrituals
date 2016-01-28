@@ -6,6 +6,7 @@
 package ggj2016;
 
 import PrutEngine.Application;
+import PrutEngine.AssetManager;
 import PrutEngine.Core.Math.Quaternion;
 import PrutEngine.Core.Math.Vector3;
 import PrutEngine.Core.Math.Vector4;
@@ -49,7 +50,9 @@ public class ExampleScene extends Scene{
         super.update(tpf);
         
         if(Application.getInstance().getKeyboardKey(GLFW_KEY_BACKSPACE) == GLFW_PRESS){
-             Application.getInstance().loadScene(new ExampleSplashScreen());
+                         AssetManager.clearProgramsBuffer();
+             AssetManager.clearShaderBuffer(); 
+            Application.getInstance().loadScene(new ExampleSplashScreen());
         }
     }
 

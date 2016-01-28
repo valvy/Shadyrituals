@@ -28,6 +28,7 @@ package PrutEngine.Core;
 import PrutEngine.Core.Math.Vector2;
 import PrutEngine.Debug;
 import PrutEngine.GameObject;
+import static java.lang.System.exit;
 import java.util.ArrayList;
 import static org.lwjgl.glfw.GLFW.glfwSetWindowSize;
 import static org.lwjgl.glfw.GLFW.glfwSetWindowTitle;
@@ -132,13 +133,16 @@ public final class View {
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        
         obj.stream().forEach((gameObject) -> {
             gameObject.draw();
+            
         });
         
         int error = glGetError();
         while(error != GL_NO_ERROR){
             Debug.log(getErrorString(error));
+            exit(-1);
         }
     }
     

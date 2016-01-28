@@ -25,6 +25,7 @@
  */
 package PrutEngine.Core.Data;
 
+import PrutEngine.Debug;
 import java.util.ArrayList;
 import static org.lwjgl.opengl.GL20.GL_INFO_LOG_LENGTH;
 import static org.lwjgl.opengl.GL20.glAttachShader;
@@ -53,7 +54,9 @@ public final class GLProgram extends Resource{
         });
         glLinkProgram(this.program);
         this.errors = glGetProgramInfoLog(program, glGetProgrami(program, GL_INFO_LOG_LENGTH));
-        System.out.println(errors);
+        if(this.containErrors()){
+            Debug.log(this.errors);
+        }
     }
 
     

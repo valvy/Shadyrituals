@@ -196,7 +196,10 @@ public final class Application {
             if(this.currentModel != null){
                 this.currentModel.onQuit();
             }
-          
+            AssetManager.clearShaderBuffer();
+            AssetManager.clearProgramsBuffer();
+            AssetManager.clearTextureBuffer();
+            AssetManager.clearMeshBuffer();
             glfwDestroyWindow(window);
             keyCallback.release();
         }finally{

@@ -33,6 +33,7 @@ import static org.lwjgl.opengl.GL20.glGetUniformLocation;
 import static org.lwjgl.opengl.GL20.glUniformMatrix4fv;
 import static org.lwjgl.opengl.GL20.glGetUniformLocation;
 import static org.lwjgl.opengl.GL20.glUniformMatrix4fv;
+import static org.lwjgl.opengl.GL20.glUseProgram;
 
 /**
  *
@@ -41,22 +42,21 @@ import static org.lwjgl.opengl.GL20.glUniformMatrix4fv;
 public class Camera extends GameObject{
     
     private float vovy = 50f, aspect = 1, near = 0.1f, far = 10000f;
-    
     private void setProgramLocations(){
         final Matrix4x4 perspective = Matrix4x4.multiply(Quaternion.quaternionToMatrix(this.getRotationQuaternion()),this.perspective(vovy, aspect, near, far));
        
         final Matrix4x4 matPosition = Matrix4x4.identityMatrix();
         matPosition.translate(this.getPosition());
         //Set the projection
-        AssetManager.allPrograms().stream().map((dat) -> glGetUniformLocation(dat, "projection_matrix")).forEach((Integer pos) -> {
-            glUniformMatrix4fv(pos,false,perspective.getRawData());
-        });
+       
+        for(int dat : AssetManager.allPrograms()){
+           glUseProgram(dat);
+           glUniformMatrix4fv( glGetUniformLocation(dat, "projection_matrix"),false,perspective.getRawData());
+           glUniformMatrix4fv( glGetUniformLocation(dat, "cam_matrix"),true,matPosition.getRawData());
+        }
+
         
-        //Set the position of the camera
-        AssetManager.allPrograms().stream().map((dat) -> glGetUniformLocation(dat, "cam_matrix")).forEach((Integer pos) -> {
-                glUniformMatrix4fv(pos,true,matPosition.getRawData());
-        });
- 
+  
     }
     
     public void setPerspective(float vovy, float aspect, float near, float far){

@@ -5,10 +5,12 @@
         <group>
             <file>file:/Users/heikovanderheijden/NetBeansProjects/GGJ2016/src/PrutEngine/Core/Math/Vector4.java</file>
             <file>file:/Users/heikovanderheijden/NetBeansProjects/GGJ2016/src/ggj2016/ExampleCamera.java</file>
+            <file>file:/Users/heikovanderheijden/NetBeansProjects/GGJ2016/Assets/Shaders/ToonFragment.glsl</file>
             <file>file:/Users/heikovanderheijden/NetBeansProjects/GGJ2016/src/ggj2016/ExampleObject.java</file>
             <file>file:/Users/heikovanderheijden/NetBeansProjects/GGJ2016/src/PrutEngine/Core/Utilities/Primitives.java</file>
             <file>file:/Users/heikovanderheijden/NetBeansProjects/GGJ2016/src/PrutEngine/GuiLabel.java</file>
             <file>file:/Users/heikovanderheijden/NetBeansProjects/GGJ2016/src/PrutEngine/AssetManager.java</file>
+            <file>file:/Users/heikovanderheijden/NetBeansProjects/GGJ2016/Assets/Shaders/UnshadedFragment.glsl</file>
             <file>file:/Users/heikovanderheijden/NetBeansProjects/GGJ2016/Assets/Textures/test.png</file>
             <file>file:/Users/heikovanderheijden/NetBeansProjects/GGJ2016/src/PrutEngine/Core/Math/Quaternion.java</file>
             <file>file:/Users/heikovanderheijden/NetBeansProjects/GGJ2016/src/ggj2016/Main.java</file>
@@ -23,6 +25,7 @@
             <file>file:/Users/heikovanderheijden/NetBeansProjects/GGJ2016/src/PrutEngine/Core/Data/GLProgram.java</file>
             <file>file:/Users/heikovanderheijden/NetBeansProjects/GGJ2016/src/ggj2016/ExampleSplashScreen.java</file>
             <file>file:/Users/heikovanderheijden/NetBeansProjects/GGJ2016/src/PrutEngine/Debug.java</file>
+            <file>file:/Users/heikovanderheijden/NetBeansProjects/GGJ2016/Assets/Shaders/ToonVertex.glsl</file>
             <file>file:/Users/heikovanderheijden/NetBeansProjects/GGJ2016/src/PrutEngine/Core/Data/Resource.java</file>
             <file>file:/Users/heikovanderheijden/NetBeansProjects/GGJ2016/Assets/Meshes/cube.obj</file>
             <file>file:/Users/heikovanderheijden/NetBeansProjects/GGJ2016/src/PrutEngine/Core/Data/Texture.java</file>
@@ -33,9 +36,9 @@
             <file>file:/Users/heikovanderheijden/NetBeansProjects/GGJ2016/src/ggj2016/PalmTree.java</file>
             <file>file:/Users/heikovanderheijden/NetBeansProjects/GGJ2016/src/PrutEngine/Core/Math/Vector3.java</file>
             <file>file:/Users/heikovanderheijden/NetBeansProjects/GGJ2016/src/PrutEngine/Core/Data/Mesh.java</file>
+            <file>file:/Users/heikovanderheijden/NetBeansProjects/GGJ2016/Assets/Shaders/UnShadedVertex.glsl</file>
             <file>file:/Users/heikovanderheijden/NetBeansProjects/GGJ2016/src/PrutEngine/Core/Math/Matrix4x4.java</file>
-            <file>file:/Users/heikovanderheijden/NetBeansProjects/GGJ2016/Assets/Shaders/testF.glsl</file>
-            <file>file:/Users/heikovanderheijden/NetBeansProjects/GGJ2016/Assets/Shaders/testV.glsl</file>
+            <file>file:/Users/heikovanderheijden/NetBeansProjects/GGJ2016/Assets/Textures/SplashScreen.png</file>
             <file>file:/Users/heikovanderheijden/NetBeansProjects/GGJ2016/src/ggj2016/Background.java</file>
         </group>
     </open-files>

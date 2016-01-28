@@ -5,22 +5,11 @@
  */
 package ggj2016;
 
-import PrutEngine.Application;
-import PrutEngine.Core.Math.Quaternion;
 import PrutEngine.Core.Math.Vector3;
-import PrutEngine.Debug;
 import PrutEngine.GameObject;
 import PrutEngine.Renderer;
-import static java.awt.SystemColor.window;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_DOWN;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_LEFT;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_RIGHT;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_S;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_UP;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_W;
-import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
 
 
 /**
@@ -33,7 +22,7 @@ public final class ExampleObject extends GameObject {
     
     public ExampleObject(){
         try {
-            this.setRenderer(new Renderer("Assets/Shaders/testV.glsl", "Assets/Shaders/testF.glsl","Assets/Textures/cube.bmp", "Assets/Meshes/monkey.obj"));
+            this.setRenderer(new Renderer("Assets/Shaders/UnshadedVertex.glsl", "Assets/Shaders/UnshadedFragment.glsl","Assets/Textures/cube.bmp", "Assets/Meshes/monkey.obj"));
         
         } catch (Exception ex) {
             Logger.getLogger(ExampleObject.class.getName()).log(Level.SEVERE, null, ex);

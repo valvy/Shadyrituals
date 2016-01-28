@@ -45,6 +45,8 @@ public class Vector3<T> {
         this.set(other);
     }
     
+    
+    
     public static float norm(final Vector3<Float> vec){
         return (float) Math.sqrt(Math.pow(vec.x, 2) + Math.pow(vec.y, 2) + Math.pow(vec.z, 2));
     }

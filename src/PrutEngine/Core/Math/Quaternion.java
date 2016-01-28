@@ -134,7 +134,6 @@ public class Quaternion {
     /**
      * Converts the quaternion to a matrix
      *
-     * @param tmp
      * @return
      */
     public static Matrix4x4 quaternionToMatrix(final Quaternion q) {
@@ -156,36 +155,6 @@ public class Quaternion {
                 new Vector4<>(2.0f*qx*qz - 2.0f*qy*qw, 2.0f*qy*qz + 2.0f*qx*qw, 1.0f - 2.0f*qx*qx - 2.0f*qy*qy, 0.0f),
                 new Vector4<>(0f,0f,0f,1f)
         );
-         
- 
- 
- 
-        /*
-        Matrix<float, 4>(
-	1.0f - 2.0f*qy*qy - 2.0f*qz*qz, 2.0f*qx*qy - 2.0f*qz*qw, 2.0f*qx*qz + 2.0f*qy*qw, 0.0f,
-	2.0f*qx*qy + 2.0f*qz*qw, 1.0f - 2.0f*qx*qx - 2.0f*qz*qz, 2.0f*qy*qz - 2.0f*qx*qw, 0.0f,
-	2.0f*qx*qz - 2.0f*qy*qw, 2.0f*qy*qz + 2.0f*qx*qw, 1.0f - 2.0f*qx*qx - 2.0f*qy*qy, 0.0f,
-	0.0f, 0.0f, 0.0f, 1.0f);
-         *//*
-        return new Matrix4x4(
-                new Vector4<>(
-                        1.0f - tmp.real * tmp.real - tmp.imaginary.x * tmp.imaginary.x - tmp.imaginary.y * tmp.imaginary.y - tmp.imaginary.z * tmp.imaginary.z,
-                        2f * (tmp.imaginary.x * tmp.imaginary.y + tmp.real * tmp.imaginary.z),
-                        2f * (tmp.imaginary.x * tmp.imaginary.z - tmp.real * tmp.imaginary.y),
-                        0f),
-                new Vector4<>(
-                        2f * (tmp.imaginary.x * tmp.imaginary.y - tmp.real * tmp.imaginary.z),
-                        tmp.real * tmp.real - tmp.imaginary.x * tmp.imaginary.x + tmp.imaginary.y * tmp.imaginary.y - tmp.imaginary.z * tmp.imaginary.z,
-                        2f * (tmp.imaginary.y * tmp.imaginary.z + tmp.real * tmp.imaginary.x),
-                        0f),
-                new Vector4<>(
-                        2 * (tmp.imaginary.x * tmp.imaginary.z + tmp.real * tmp.imaginary.y),
-                        2 * (tmp.imaginary.y * tmp.imaginary.z - tmp.real * tmp.imaginary.x),
-                        tmp.real * tmp.real - tmp.imaginary.x * tmp.imaginary.x - tmp.imaginary.y * tmp.imaginary.y + tmp.imaginary.z * tmp.imaginary.z,
-                        0f),
-                new Vector4<>(0f, 0f, 0f, 1f)
-        );
-        */
     }
 
     /**

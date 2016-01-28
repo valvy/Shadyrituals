@@ -27,7 +27,12 @@ package ggj2016;
 
 import PrutEngine.Application;
 import PrutEngine.Camera;
+import PrutEngine.Core.Math.Matrix4x4;
+import PrutEngine.Core.Math.Quaternion;
 import PrutEngine.Core.Math.Vector3;
+import PrutEngine.Debug;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_A;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_D;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_DOWN;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_LEFT;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_RIGHT;
@@ -52,51 +57,43 @@ public final class ExampleCamera extends Camera{
     @Override
     public void update(float tpf){
         super.update(tpf);
-      if(Application.getInstance().getKeyboardKey(GLFW_KEY_RIGHT) == GLFW_PRESS){
-          this.rotate(new Vector3<>(0f,1f,0f),rotSpeed * tpf);
-         //   this.ro
-       }
+        
+        if(Application.getInstance().getKeyboardKey(GLFW_KEY_RIGHT) == GLFW_PRESS){
+            this.rotate(new Vector3<>(0f,1f,0f),-rotSpeed * tpf);
+        }
         if(Application.getInstance().getKeyboardKey(GLFW_KEY_LEFT) == GLFW_PRESS){
 
-            this.rotate(new Vector3<Float>(0f,1f,0f), -rotSpeed * tpf);
+            this.rotate(new Vector3<Float>(0f,1f,0f), rotSpeed * tpf);
        }
        if(Application.getInstance().getKeyboardKey(GLFW_KEY_UP) == GLFW_PRESS){
-            this.translate(new Vector3<>(
-                0f,
-                0f,
-                1f
+            this.rotate(new Vector3<Float>(1f,0f,0f), rotSpeed * tpf);
         
-            ), speed * tpf);
-        //  this.translate(this.getRotationQuaternion().imaginary, -speed * tpf);
+
        } 
        if(Application.getInstance().getKeyboardKey(GLFW_KEY_DOWN) == GLFW_PRESS){
-            this.translate(new Vector3<>(
-                0f,
-                0f,
-                -1f
-        
-            ), speed * tpf);
-          // this.translate(t);
-           
+    
+              this.rotate(new Vector3<Float>(-1f,0f,0f), rotSpeed * tpf);
        } 
         
         if(Application.getInstance().getKeyboardKey(GLFW_KEY_W) == GLFW_PRESS){
-            this.translate(new Vector3<>(
-                0f,
-                -1f,
-                0f
-        
-            ), speed * tpf);
+            // this.translate(Matrix4x4.multiply(Quaternion.quaternionToMatrix(this.getRotationQuaternion()), new Vector3<>(0f,0f,1f)), speed * tpf);
+            this.translate(this.forward(), speed * tpf);
        } 
         
         if(Application.getInstance().getKeyboardKey(GLFW_KEY_S) == GLFW_PRESS){
-            this.translate(new Vector3<>(
-                0f,
-                1f,
-                0f
+                // this.translate(Matrix4x4.multiply(Quaternion.quaternionToMatrix(this.getRotationQuaternion()), new Vector3<>(0f,0f,-1f)), speed * tpf);
+             this.translate(this.back(), speed * tpf);
+        } 
         
-            ), speed * tpf);
-       } 
+        if(Application.getInstance().getKeyboardKey(GLFW_KEY_A) == GLFW_PRESS){
+            // this.translate(Matrix4x4.multiply(Quaternion.quaternionToMatrix(this.getRotationQuaternion()), new Vector3<>(0f,0f,1f)), speed * tpf);
+            this.translate(this.left(), speed * tpf);
+        } 
+        
+        if(Application.getInstance().getKeyboardKey(GLFW_KEY_D) == GLFW_PRESS){
+                // this.translate(Matrix4x4.multiply(Quaternion.quaternionToMatrix(this.getRotationQuaternion()), new Vector3<>(0f,0f,-1f)), speed * tpf);
+             this.translate(this.right(), speed * tpf);
+        } 
         
         
     }

@@ -89,6 +89,7 @@ public abstract class Scene {
     public void update(float tpf){
         for(GameObject obj : this.gameObjects){
             obj.update(tpf);
+
         }
         camera.update(tpf);
     }

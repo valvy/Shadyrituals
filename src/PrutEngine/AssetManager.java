@@ -90,7 +90,7 @@ public final class AssetManager {
         Shader result = new Shader(shaderName,AssetManager.uniqueNumber,type);
         AssetManager.uniqueNumber++;
         AssetManager.SHADERS.add(result);
-        return result.getMemoryPosition();
+        return result.addRef();
     }
     
     
@@ -128,7 +128,7 @@ public final class AssetManager {
         AssetManager.uniqueNumber++;
         AssetManager.TEXTURES.add(tex);
         
-        return tex.getMemoryPosition();
+        return tex.addRef();
     }
     
     /**
@@ -160,6 +160,8 @@ public final class AssetManager {
         return result;
     }
     
+    
+    
     /**
      * Loads and links shaders into a opengl program.
      * And stores the program into a reference to be used
@@ -167,7 +169,7 @@ public final class AssetManager {
      * @return  The program reference
      * @throws Exception 
      */
-    public static int loadProgram(
+    public static final int loadProgram(
             final HashMap<String, Shader.Type> shaders
     ) throws Exception{
         
@@ -186,15 +188,18 @@ public final class AssetManager {
             Shader.Type value = entry.getValue();
             shaderList.add(AssetManager.getShader(AssetManager.loadShader(key, value)));
         }
-        
+
         GLProgram program = new GLProgram(
                 programName,
                 AssetManager.uniqueNumber, 
                 shaderList);
         AssetManager.uniqueNumber++;
+
         AssetManager.PROGRAMS.add(program);
-       
-        return program.getMemoryPosition();
+        
+
+        
+        return program.addRef();
     }
     
     /**
@@ -203,7 +208,7 @@ public final class AssetManager {
      * @return  the reference you can use to use this asset
      * @throws IOException  When the 3d mesh does not exists
      */
-    public static int loadMesh(final String path) throws IOException{
+    public static final int loadMesh(final String path) throws IOException{
         
         for(Mesh mesh : AssetManager.MESHES){
             if(mesh.getDataLocation().equals(path)){
@@ -216,7 +221,7 @@ public final class AssetManager {
         AssetManager.uniqueNumber++;
         AssetManager.MESHES.add(mesh);
         
-        return mesh.getMemoryPosition();
+        return mesh.addRef();
     }
     
     /**
@@ -225,10 +230,11 @@ public final class AssetManager {
      * @return  the GLProgram
      * @throws PrutEngine.AssetManager.AssetNotFoundException 
      */
-    public static int getProgram(final int reference) throws AssetNotFoundException{
+    public static final int getProgram(final int reference) throws AssetNotFoundException{
+      
         for(GLProgram pr : AssetManager.PROGRAMS){
             if(pr.getMemoryPosition() == reference){
-                
+               // Debug.log(reference);
                 return pr.getProgram();
             }
         }
@@ -241,7 +247,7 @@ public final class AssetManager {
      * @return  the amount of vertices
      * @throws PrutEngine.AssetManager.AssetNotFoundException 
      */
-    public static int getMeshSize(final int reference) throws AssetNotFoundException{
+    public static final int getMeshSize(final int reference) throws AssetNotFoundException{
         for(Mesh mesh : AssetManager.MESHES){
             if(mesh.getMemoryPosition() == reference){
                 return mesh.getSize();
@@ -276,6 +282,27 @@ public final class AssetManager {
         SHADERS.clear();
     }
     
+
+    public static void clearProgramsBuffer(){
+        AssetManager.PROGRAMS.stream().forEach((pr) -> {
+            pr.destroy();
+        });
+        AssetManager.PROGRAMS.clear();
+    }
+    
+    public static void clearTextureBuffer(){
+        AssetManager.TEXTURES.stream().forEach((tex)->{
+            tex.destroy();
+        });
+        AssetManager.TEXTURES.clear();
+    }
+    
+    public static void clearMeshBuffer(){
+        AssetManager.MESHES.stream().forEach((mesh) ->{
+            mesh.destroy();
+        });
+        AssetManager.MESHES.clear();
+    }
 
     
     /**

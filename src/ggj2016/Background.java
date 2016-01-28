@@ -41,7 +41,7 @@ public class Background extends GameObject{
         
         try {
             
-            this.setRenderer(new Renderer("Assets/Shaders/testV.glsl", "Assets/Shaders/testF.glsl","Assets/Textures/SplashScreen.png", "Assets/Meshes/Quad.obj"));
+            this.setRenderer(new Renderer("Assets/Shaders/UnshadedVertex.glsl", "Assets/Shaders/UnshadedFragment.glsl","Assets/Textures/SplashScreen.png", "Assets/Meshes/Quad.obj"));
             
         } catch (Exception ex) {
             Logger.getLogger(Background.class.getName()).log(Level.SEVERE, null, ex);

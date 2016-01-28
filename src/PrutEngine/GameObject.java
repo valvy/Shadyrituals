@@ -28,7 +28,6 @@ package PrutEngine;
 import PrutEngine.Core.Math.Matrix4x4;
 import PrutEngine.Core.Math.Quaternion;
 import PrutEngine.Core.Math.Vector3;
-import PrutEngine.Core.Math.Vector4;
 
 /**
  * An abstract representation a visible and invisible object in game.
@@ -47,6 +46,8 @@ public abstract class GameObject{
         this.size = new Vector3<>(1f,1f,1f);
     }
     
+
+    
     public Vector3<Float> getSize(){
         return new Vector3<>(this.size);
     }
@@ -62,21 +63,37 @@ public abstract class GameObject{
         
     }
     
+    /**
+     * sets a new quaternion
+     * @param q 
+     */
     public void setRotation (final Quaternion q){
         this.quaternion.set(q);
     }
     
     
-    
+    /**
+     * Rotates the gameobject relative to the quaternion
+     * @param rot
+     * @param angle 
+     */
     public void rotate(final Vector3<Float> rot ,final float angle){
         this.quaternion.set(Quaternion.rotate(quaternion,rot,angle));
     }
     
+    /**
+     * Get the quaternion of the gameobject
+     * @return 
+     */
     public Quaternion getRotationQuaternion(){
         
         return new Quaternion(this.quaternion);
     }
     
+    /**
+     * Sets a new renderer
+     * @param renderer 
+     */
     public void setRenderer(Renderer renderer){
         this.renderer = renderer;
     }
@@ -98,6 +115,9 @@ public abstract class GameObject{
         this.position.set(nposition);
     }
     
+    /**
+     * Draws the gameobject 
+     */
     public void draw(){
         if(this.renderer != null){
             
@@ -118,6 +138,58 @@ public abstract class GameObject{
      */
     public abstract void update(float tpf);
     
+    
+    /**
+     * Gets the forward position relative to the rotation
+     * @return 
+     */
+    public Vector3<Float> forward(){
+        return Matrix4x4.multiply(Quaternion.quaternionToMatrix(this.quaternion), new Vector3<>(0f,0f,1f));
+    }
+    
+    /**
+     * Gets the back position relative to the rotation
+     * @return 
+     */
+    public Vector3<Float> back(){
+        return Matrix4x4.multiply(Quaternion.quaternionToMatrix(this.quaternion), new Vector3<>(0f,0f,-1f));
+    }
+    
+    /**
+     * Gets the left position relative to the rotation
+     * @return 
+     */
+    public Vector3<Float> left(){
+        return Matrix4x4.multiply(Quaternion.quaternionToMatrix(this.quaternion), new Vector3<>(1f,0f,0f));
+    }
+    
+    /**
+     * Gets the right position relative to the rotation
+     * @return 
+     */
+    public Vector3<Float> right(){
+        return Matrix4x4.multiply(Quaternion.quaternionToMatrix(this.quaternion), new Vector3<>(-1f,0f,0f));
+    }
+    
+    /**
+     * Gets the up position relative to the rotation
+     * @return 
+     */
+    public Vector3<Float> up(){
+        return Matrix4x4.multiply(Quaternion.quaternionToMatrix(this.quaternion), new Vector3<>(0f,-1f,0f));
+    }
+    
+    /**
+     * Gets the down position relative to the position
+     * @return 
+     */
+    public Vector3<Float> down(){
+        return Matrix4x4.multiply(Quaternion.quaternionToMatrix(this.quaternion), new Vector3<>(0f,1f,0f));
+    }
+    
+    /**
+     * Cleans the resources that this gameobject uses
+     */
     public void destroy(){
         if(this.renderer != null){
             this.renderer.destroy();

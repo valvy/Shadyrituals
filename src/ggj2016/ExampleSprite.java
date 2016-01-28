@@ -25,6 +25,8 @@
  */
 package ggj2016;
 
+import PrutEngine.Application;
+import PrutEngine.Core.Math.Matrix4x4;
 import PrutEngine.Core.Math.Quaternion;
 import PrutEngine.Core.Math.Vector3;
 import PrutEngine.Debug;
@@ -32,37 +34,33 @@ import PrutEngine.GameObject;
 import PrutEngine.Renderer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_W;
+import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
 
 /**
  *
  * @author Heiko van der Heijden
  */
 public class ExampleSprite extends GameObject{
-    public ExampleSprite(){
+    public ExampleSprite(Vector3<Float> position){
         try {
-            this.setRenderer(new Renderer("Assets/Shaders/testV.glsl", "Assets/Shaders/testF.glsl","Assets/Textures/cube.bmp", "Assets/Meshes/Quad.obj"));
+            this.setRenderer(new Renderer("Assets/Shaders/UnshadedVertex.glsl", "Assets/Shaders/ToonFragment.glsl","Assets/Textures/cube.bmp", "Assets/Meshes/Quad.obj"));
         
         } catch (Exception ex) {
             Logger.getLogger(ExampleSprite.class.getName()).log(Level.SEVERE, null, ex);
         }
         this.setSize(new Vector3<>(0.5f,0.5f,0.5f));
         this.rotate(new Vector3<>(1f,0f,0f), -90);
-        this.setPosition(new Vector3<>(0f,0f,0f));
+        this.setPosition(position);
     }
     
-    float timer = 0;
+
     @Override
     public void update(float tpf) {
-        timer += tpf;
-       // Debug.log(timer);
-        //if(timer >= 0.5f){
-            timer = 0;
-           Debug.log(Quaternion.quaternionToMatrix(this.getRotationQuaternion()));
-           this.rotate(new Vector3<>(0f,0f,1f), 100000f * tpf);
-        //    this.rotate(new Vector3<>(0f,1f,0f), 0.1f * tpf);
-        //}
-       
-      
+        
+
+           this.rotate(new Vector3<>(0f,0f,1f), 100f * tpf);
+
     }
     
 }

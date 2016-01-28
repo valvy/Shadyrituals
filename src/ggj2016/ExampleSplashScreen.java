@@ -26,6 +26,7 @@
 package ggj2016;
 
 import PrutEngine.Application;
+import PrutEngine.AssetManager;
 import PrutEngine.Core.Math.Vector3;
 import PrutEngine.GuiLabel;
 import PrutEngine.Scene;
@@ -43,20 +44,24 @@ public class ExampleSplashScreen extends Scene{
     @Override
     public void awake() {
         Application.getInstance().getWindow().setWindowTitle("Splash Scene");
-        this.addGameObject(new Background());
-      //this.setCamera(new ExampleCamera(new Vector3<>(0f,0f,-10f)));
-        this.addGameObject(new ExampleSprite());
-        try {
+       this.setCamera(new ExampleCamera(new Vector3<>(0f,0f,-10f)));
+       this.addGameObject(new Background());
+       this.addGameObject(new ExampleSprite(new Vector3<>(1f,0f,0f)));
+       this.addGameObject(new ExampleSprite(new Vector3<>(-2f,0f,0f)));
+       
+       try {
             label = new GuiLabel();
-        } catch (IOException ex) {
+       } catch (IOException ex) {
             Logger.getLogger(ExampleSplashScreen.class.getName()).log(Level.SEVERE, null, ex);
-        }
+       }
     }
     @Override
     public void update(float tpf){
          super.update(tpf);
          label.draw();
          if(Application.getInstance().getKeyboardKey(GLFW_KEY_SPACE) == GLFW_PRESS){
+             AssetManager.clearProgramsBuffer();
+             AssetManager.clearShaderBuffer();
              Application.getInstance().loadScene(new ExampleScene());
          }
          //if ( key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE )

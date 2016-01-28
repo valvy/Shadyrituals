@@ -149,6 +149,16 @@ public final class Matrix4x4 {
         );
     }
     
+    
+    public static Vector3<Float> multiply(final Matrix4x4 mat, final Vector3<Float> vec){
+        return new Vector3<>(
+                mat.mat.x.x * vec.x + mat.mat.x.y * vec.y + mat.mat.x.z * vec.z,
+                mat.mat.y.x * vec.x + mat.mat.y.y * vec.y + mat.mat.y.z * vec.z,
+                mat.mat.z.x * vec.x + mat.mat.z.y * vec.y + mat.mat.z.z * vec.z
+        );
+        
+    }
+    
     /**
      * Multiplies two different matrices with each other
      * @param mat1 the first matrix
