@@ -40,37 +40,43 @@ import static org.lwjgl.opengl.GL20.glUseProgram;
  * @author Heiko van der Heijden
  */
 public class Camera extends GameObject{
+    private boolean needUpdate = true;
+    private final Matrix4x4 projection;
     
-    private float vovy = 50f, aspect = 1, near = 0.1f, far = 10000f;
+        
+    public Camera(final Vector3<Float> position){
+        super();
+        this.rotate(new Vector3<>(0f,1f,0f), 180);
+        final float vovy = 50f, aspect = 1, near = 0.1f, far = 10000f; //Standard cam settings
+        this.projection = this.perspective(vovy, aspect, near, far);
+        this.setPosition(position);
+    }
+    
+    
     private void setProgramLocations(){
-        final Matrix4x4 perspective = Matrix4x4.multiply(Quaternion.quaternionToMatrix(this.getRotationQuaternion()),this.perspective(vovy, aspect, near, far));
-       
-        final Matrix4x4 matPosition = Matrix4x4.identityMatrix();
-        matPosition.translate(this.getPosition());
+        if(needUpdate){//Only update when the camera has moved.. this is a costly operation
+            final Matrix4x4 perspective = Matrix4x4.multiply(Quaternion.quaternionToMatrix(this.getRotationQuaternion()),this.projection);
+           
+            final Matrix4x4 matPosition = Matrix4x4.identityMatrix();
+            matPosition.translate(this.getPosition());
         //Set the projection
        
-        for(int dat : AssetManager.allPrograms()){
-           glUseProgram(dat);
-           glUniformMatrix4fv( glGetUniformLocation(dat, "projection_matrix"),false,perspective.getRawData());
-           glUniformMatrix4fv( glGetUniformLocation(dat, "cam_matrix"),true,matPosition.getRawData());
-        }
+            for(int dat : AssetManager.allPrograms()){
+                glUseProgram(dat);
+                glUniformMatrix4fv( glGetUniformLocation(dat, "projection_matrix"),false,perspective.getRawData());
+                glUniformMatrix4fv( glGetUniformLocation(dat, "cam_matrix"),true,matPosition.getRawData());
+            }
 
-        
-  
+            this.needUpdate = false;
+        }
     }
+    
     
     public void setPerspective(float vovy, float aspect, float near, float far){
-        this.vovy = vovy;
-        this.aspect = aspect;
-        this.near = near;
-        this.far = far;
+        this.projection.set(this.perspective(vovy, aspect, near, far));
     }
-    
-    
-    
-    private Matrix4x4 perspective(float fovy, float aspect, float near, float far){
 
-        
+    private Matrix4x4 perspective(float fovy, float aspect, float near, float far){
         float yscale = (float) (1.0 / Math.tan(0.5 * (fovy * (Math.PI / 180))));
         float xscale = yscale / aspect;
 
@@ -84,12 +90,36 @@ public class Camera extends GameObject{
         
 
     }
+
     
-    public Camera(final Vector3<Float> position){
-        super();
-        this.rotate(new Vector3<>(0f,1f,0f), 180);
+    @Override
+    public void setSize(Vector3<Float> nSize){
+        this.needUpdate = true; 
+        super.setSize(nSize);
+    }
    
-        this.setPosition(position);
+    @Override
+    public void setRotation (final Quaternion q){
+        this.needUpdate = true;
+        super.setRotation(q);
+    }
+    
+    public void translate(Vector3<Float> pos, float speed){
+        this.needUpdate = true;
+        super.translate(pos, speed);
+        
+    }
+    
+    @Override
+    public void rotate(final Vector3<Float> rot ,final float angle){
+        this.needUpdate = true;
+        super.rotate(rot, angle);
+    }
+    
+    @Override
+    public void setPosition(final Vector3<Float> nposition){
+        this.needUpdate = true;
+        super.setPosition(nposition);
     }
 
     @Override
