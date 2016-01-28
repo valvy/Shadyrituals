@@ -15,7 +15,7 @@ float random (vec2 st) {
 }
 
 void main(void){
-    const vec2 size = vec2(200,200);
+    const vec2 size = vec2(50,50);
     vec2 pos = ( gl_FragCoord.xy / size.xy -0.5 )*vec2(size.x/size.y,1.0);
     vec2 position = vec2(fract(atan(pos.y,pos.x)/6.2831853),length(pos));
     position.x *= 100.*(sin(time/10.0));

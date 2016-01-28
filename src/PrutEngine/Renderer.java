@@ -28,6 +28,7 @@ package PrutEngine;
 import PrutEngine.Core.Data.Shader;
 import PrutEngine.Core.Math.Vector3;
 import PrutEngine.Core.Math.Matrix4x4;
+import PrutEngine.Core.Math.Quaternion;
 import PrutEngine.Core.Math.Vector4;
 import ggj2016.ExampleScene;
 import java.util.HashMap;
@@ -69,6 +70,11 @@ public class Renderer {
      */
     private final int texture;
     
+    private final Quaternion lastRot;
+    private final Vector3<Float> lastSize;
+    private final Vector3<Float> lastPosition;
+    private final Matrix4x4 lastMat;
+    
     /**
      * the reference to the mv_matrix shader 
      */
@@ -79,8 +85,16 @@ public class Renderer {
         dat.put(vShader, Shader.Type.Vertex_Shader);
         dat.put(fShader, Shader.Type.Fragment_Shader);
         this.program = AssetManager.loadProgram(dat);
+        if(texture.equals("")){
+            this.texture = -1;
+        }else{
+            this.texture = AssetManager.loadTexture(texture);
+        }
         
-        this.texture = AssetManager.loadTexture(texture);
+        this.lastRot = new Quaternion();
+        this.lastPosition = new Vector3<>(0f,0f,0f);
+        this.lastSize = new Vector3<>(0f,0f,0f);
+        this.lastMat = Matrix4x4.identityMatrix();
         this.mesh = AssetManager.loadMesh(meshName);
         this.glPos = glGetUniformLocation(AssetManager.getProgram(this.program), "mv_matrix");
         
@@ -97,20 +111,42 @@ public class Renderer {
      * @param rotMat 
      */
     public void render(final Vector3<Float> size, final Vector3<Float> position, 
-            final Matrix4x4 rotMat){
+            final Quaternion rotation){
         try {
+            boolean recalculate = false;
+            if(!size.equals(lastSize)){
+                this.lastSize.set(size);
+                recalculate = true;
+            }
+            if(!this.lastPosition.equals(position)){
+                this.lastPosition.set(position);
+                recalculate = true;
+            }
+            if(!this.lastRot.equals(rotation)){
+                this.lastRot.set(rotation);
+                recalculate = true;
+            }
+            //Only do the calculations when it has been changed
+            if(recalculate){
+                Matrix4x4 mat = Matrix4x4.identityMatrix();
+                mat = Matrix4x4.scale(mat, size); 
+                Matrix4x4 pos = Matrix4x4.identityMatrix();
+                pos.translate(position);
+                mat = Matrix4x4.multiply(mat,pos);
+                this.lastMat.set(Matrix4x4.multiply(mat, Quaternion.quaternionToMatrix(rotation)));
+            }
+            
+            
             glUseProgram(AssetManager.getProgram(this.program));
             glBindVertexArray(AssetManager.getMeshVao(this.mesh));
 
             glEnableVertexAttribArray(0);
-            Matrix4x4 mat = Matrix4x4.identityMatrix();
-            mat = Matrix4x4.scale(mat, size); 
-            Matrix4x4 pos = Matrix4x4.identityMatrix();
-            pos.translate(position);
-            mat = Matrix4x4.multiply(mat,pos);
-            mat = Matrix4x4.multiply(mat, rotMat);
-            glUniformMatrix4fv(this.glPos,true,mat.getRawData());
-            glBindTexture(GL_TEXTURE_2D, AssetManager.getTexture(this.texture));
+
+            glUniformMatrix4fv(this.glPos,true,this.lastMat.getRawData());
+            if(this.texture != -1){
+                glBindTexture(GL_TEXTURE_2D, AssetManager.getTexture(this.texture));
+            }
+            
             
             
             glDrawArrays(GL_TRIANGLES, 0, AssetManager.getMeshSize(this.mesh));

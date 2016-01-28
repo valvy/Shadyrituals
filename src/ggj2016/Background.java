@@ -46,7 +46,7 @@ public class Background extends GameObject{
         try {
             
          //   this.setRenderer(new Renderer("Assets/Shaders/UnshadedVertex.glsl", "Assets/Shaders/UnshadedFragment.glsl","Assets/Textures/SplashScreen.png", "Assets/Meshes/Quad.obj"));
-           this.setRenderer(new Renderer("Assets/Shaders/UnshadedVertex.glsl", "Assets/Shaders/VortexFragment.glsl","Assets/Textures/SplashScreen.png", "Assets/Meshes/Quad.obj")); 
+           this.setRenderer(new Renderer("Assets/Shaders/UnshadedVertex.glsl", "Assets/Shaders/VortexFragment.glsl","", "Assets/Meshes/Quad.obj")); 
             time = glGetUniformLocation(AssetManager.getProgram(this.getRenderer().getProgram()), "time");
         } catch (Exception ex) {
             Logger.getLogger(Background.class.getName()).log(Level.SEVERE, null, ex);
@@ -58,10 +58,10 @@ public class Background extends GameObject{
     float timer = 0;
     @Override
     public void update(float tpf) {
-        timer += 10 * tpf;
+        timer += 1 * tpf;
         try {
             glUseProgram(AssetManager.getProgram(this.getRenderer().getProgram()));
-            glUniform1f(this.time, timer);
+            glUniform1f(this.time, (float) Math.sin(timer) * 40);
         } catch (AssetManager.AssetNotFoundException ex) {
             Logger.getLogger(Background.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -129,7 +129,7 @@ public abstract class GameObject{
                     this.size,//size
                     this.position,
                     //this.rotationMatrix
-                    Quaternion.quaternionToMatrix(this.quaternion)
+                    this.quaternion
                     
             );
            

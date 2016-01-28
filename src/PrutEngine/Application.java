@@ -154,6 +154,7 @@ public final class Application {
         if(scene == null){
             return;
         }
+    
         scene.awake();
         if(this.currentModel!= null){
             this.currentModel.onQuit();
@@ -162,6 +163,7 @@ public final class Application {
             this.currentModel = scene;
             this.run();
         }
+            System.gc();
     }    
     
     private Thread thread ;

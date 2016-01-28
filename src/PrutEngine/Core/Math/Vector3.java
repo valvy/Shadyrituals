@@ -45,6 +45,9 @@ public class Vector3<T> {
         this.set(other);
     }
     
+    public boolean equals(final Vector3<T> other){
+        return other.x == this.x && other.y == this.y && this.z == other.z;
+    }
     
     
     public static float norm(final Vector3<Float> vec){

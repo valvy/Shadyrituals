@@ -96,6 +96,10 @@ public class Quaternion {
         this.real = quaternion.real;
     }
 
+    public boolean equals(final Quaternion other){
+       return other.real == this.real && other.imaginary.equals(this.imaginary);
+    }
+    
     public void add(Quaternion quat) {
         this.imaginary.x += quat.imaginary.x;
         this.imaginary.y += quat.imaginary.y;
