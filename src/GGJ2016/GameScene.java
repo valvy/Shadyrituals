@@ -25,6 +25,7 @@
  */
 package GGJ2016;
 
+import GGJ2016.Actors.*;
 import PrutEngine.Application;
 import PrutEngine.Scene;
 
@@ -37,6 +38,14 @@ public class GameScene extends Scene{
     @Override
     public void awake() {
          Application.getInstance().getWindow().setWindowTitle("game");
+         this.addGameObject(new Player());
     }
+    
+    @Override
+    public void update(float tpf){
+        super.update(tpf);
+    }
+    
+    
     
 }

@@ -32,6 +32,9 @@ import PrutEngine.Renderer;
 import static org.lwjgl.glfw.GLFW.*;
 //import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
 
+import PrutEngine.Core.Math.Vector3;
+
+
 /**
  *
  * @author quget
@@ -41,6 +44,8 @@ public class Player extends Actor
     private final int speed = 20;
     public Player()
     {
+        super(new Vector3<Float>(0f,0f,-10f));
+        this.initRenderer("sphere.obj");
         
     }
     @Override
