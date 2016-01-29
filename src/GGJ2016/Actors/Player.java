@@ -26,6 +26,7 @@
 package GGJ2016.Actors;
 
 import PrutEngine.Core.Math.Vector3;
+import PrutEngine.Scene;
 
 /**
  *
@@ -33,16 +34,18 @@ import PrutEngine.Core.Math.Vector3;
  */
 public class Player extends Actor
 {
-    
-    public Player()
+    private final Scene gameScene;
+    public Player(Scene gameScene)
     {
         super(new Vector3<Float>(0f,0f,-10f));
         this.initRenderer("sphere.obj");
-        
+        this.gameScene = gameScene;
     }
     @Override
     public void update(float tpf) 
     {
+        
         super.update(tpf);
+        gameScene.destroy(this);
     }
 }

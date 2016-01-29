@@ -62,6 +62,8 @@ public final class Application {
         return Application.instance;
     }
     
+    
+    
     private Application(){
         this.init();
         this.view = new View(this.window);

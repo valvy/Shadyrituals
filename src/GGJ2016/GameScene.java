@@ -38,7 +38,7 @@ public class GameScene extends Scene{
     @Override
     public void awake() {
          Application.getInstance().getWindow().setWindowTitle("game");
-         this.addGameObject(new Player());
+         this.addGameObject(new Player(this));
     }
     
     @Override

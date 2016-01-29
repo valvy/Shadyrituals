@@ -38,15 +38,33 @@ public abstract class Scene {
      * The list with all the different gameobjects
      */
     private final ArrayList<GameObject> gameObjects;
+    private final ArrayList<GameObject> toDestroy;
+    
+    public Scene(){
+        this.gameObjects = new ArrayList<>();
+        this.camera = new Camera(new Vector3<>(0f,0f,-4f));
+        this.toDestroy = new ArrayList<>();
+    }
+    
     /**
      * The main camera
      */
     protected Camera camera;
     
-    public Scene(){
-        this.gameObjects = new ArrayList<>();
-        this.camera = new Camera(new Vector3<>(0f,0f,-4f));
+    public void destroy(GameObject gameobject){
+        GameObject obj = null;
+        for(GameObject ga : this.gameObjects){
+            if(gameobject == ga){
+                
+                obj = ga;
+            }
+        }
+        if(obj != null){
+            this.toDestroy.add(obj);
+        }
     }
+    
+
     
     public void setCamera(Camera cam){
         this.camera = cam;
@@ -91,6 +109,12 @@ public abstract class Scene {
             obj.update(tpf);
 
         }
+        for(GameObject des : this.toDestroy){
+            des.destroy();
+            this.gameObjects.remove(des);
+        }
+        this.toDestroy.clear();
+        
         camera.update(tpf);
     }
   
