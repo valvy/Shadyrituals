@@ -41,12 +41,16 @@ import PrutEngine.Core.Math.Vector3;
 public class Player extends Actor
 {
     private final Scene gameScene;
-    private final float speed = 10f;
     
     public Player(Scene gameScene){
         super(new Vector3<Float>(0f,0f,-10f));
         this.initRenderer("sphere.obj");
         this.gameScene = gameScene;
+        /*
+        Application.getInstance().prutKeyBoard.addKey(GLFW_KEY_W);
+        Application.getInstance().prutKeyBoard.addKey(GLFW_KEY_A);
+        Application.getInstance().prutKeyBoard.addKey(GLFW_KEY_S);
+        Application.getInstance().prutKeyBoard.addKey(GLFW_KEY_D);*/
     }
     @Override
     public void update(float tpf) 
@@ -60,21 +64,35 @@ public class Player extends Actor
     public void PlayerInput(float tpf)
     {
         Vector3 movePos = new Vector3(0f, 0f, 0f);
-        if(Application.getInstance().getKeyboardKey(GLFW_KEY_W) == GLFW_PRESS)
+        int moveKeyCount = 0;
+        
+        if(Application.getInstance().prutKeyBoard.GetState(GLFW_KEY_W) == GLFW_REPEAT)
         {
             movePos.y = 1f;
         }
-        if(Application.getInstance().getKeyboardKey(GLFW_KEY_A) == GLFW_PRESS)
+        if(Application.getInstance().prutKeyBoard.GetState(GLFW_KEY_A) == GLFW_REPEAT)
         {
             movePos.x = -1f;
         }      
-        if(Application.getInstance().getKeyboardKey(GLFW_KEY_S) == GLFW_PRESS)
+        if(Application.getInstance().prutKeyBoard.GetState(GLFW_KEY_S) == GLFW_REPEAT)
         {
             movePos.y = -1f;
-        }             
-        if(Application.getInstance().getKeyboardKey(GLFW_KEY_D) == GLFW_PRESS)
+        }  
+        if(Application.getInstance().prutKeyBoard.GetState(GLFW_KEY_D) == GLFW_REPEAT)
         {
-             movePos.x = 1f;
+            movePos.x = 1f;
+        }
+        if(Application.getInstance().prutKeyBoard.GetState(GLFW_KEY_F) == GLFW_PRESS)
+        {
+            switch(this.currentElement)
+            {
+                case Sphere:
+                    this.setupElement(Element.Cube);
+                    break;
+                case Cube:
+                    this.setupElement(Element.Sphere);
+                    break;
+            }
         }
         translate(movePos,speed * tpf);
     }

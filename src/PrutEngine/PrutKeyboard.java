@@ -23,63 +23,63 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package GGJ2016.Actors;
-
-import PrutEngine.Core.Math.Vector3;
-import PrutEngine.GameObject;
-import PrutEngine.Renderer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+package PrutEngine;
+import static org.lwjgl.glfw.GLFW.*;
+import java.util.ArrayList;
 
 /**
  *
  * @author quget
  */
-public class Actor extends GameObject
+public class PrutKeyboard
 {
-    protected enum Element{
-        Sphere,
-        Cube,
-        Torus,
-    }
-    
-    protected Element currentElement;
-    
-    protected final float speed = 50;
-    
-    public Actor(Vector3<Float> startPos)
-    {
-        this.currentElement = Element.Sphere;
-        this.setPosition(startPos);
-    }
-    
-    protected void setupElement(Element element){
-        this.currentElement = element;
-        switch(this.currentElement){
-            case Sphere:
-            this.initRenderer("sphere.obj");
-            return;
-            case Cube:
-            this.initRenderer("cube.obj");
-            return;
-        }
-    }
-    protected void initRenderer(String mesh){
-        try {
-            this.setRenderer(new Renderer(
-                    "Assets/Shaders/UnShadedVertex.glsl",
-                    "Assets/Shaders/UnshadedFragment.glsl",
-                    "Assets/Textures/cube.bmp",
-                    "Assets/Meshes/" + mesh     
-            ));
-        } catch (Exception ex) {
-            Logger.getLogger(Actor.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
-    @Override
-    public void update(float tpf) 
+    private ArrayList<PrutKey> prutKeys = new ArrayList<PrutKey>();
+    void PrutKeyboard()
     {
         
+    }
+    public void addKey(int keyCode)
+    {
+        prutKeys.add(new PrutKey(keyCode));
+    }
+    public void addKey(PrutKey prutKey)
+    {
+        prutKeys.add(prutKey);
+    }
+    public void changeState(int keyCode,/* Boolean isPressed*/ int action)
+    {
+        PrutKey pressedKey = null;
+        for (PrutKey prutKey : prutKeys)
+        {
+            if (prutKey.keyCode == keyCode) 
+            {
+                pressedKey = prutKey;
+                //prutKey.action = action;
+                break;
+            }
+        }
+        if(pressedKey == null)
+        {
+            pressedKey = new PrutKey(keyCode);
+            addKey(pressedKey);
+        }
+       //GLFW_PRESS, GLFW_RELEASE or GLFW_REPEAT
+        pressedKey.action = action;
+    }
+    public int GetState(int keyCode)
+    {
+        for (PrutKey prutKey : prutKeys)
+        {
+            if (prutKey.keyCode == keyCode) 
+            {
+                int oldState = prutKey.action;
+                if(prutKey.action == GLFW_RELEASE )
+                    prutKey.action = -1;
+                else if(prutKey.action == GLFW_PRESS)
+                    prutKey.action = GLFW_REPEAT;
+                return oldState;
+            }
+        }
+        return -1;
     }
 }

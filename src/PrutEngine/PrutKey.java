@@ -23,63 +23,21 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package GGJ2016.Actors;
+package PrutEngine;
 
-import PrutEngine.Core.Math.Vector3;
-import PrutEngine.GameObject;
-import PrutEngine.Renderer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import static org.lwjgl.glfw.GLFW.GLFW_RELEASE;
 
 /**
  *
  * @author quget
  */
-public class Actor extends GameObject
+public class PrutKey 
 {
-    protected enum Element{
-        Sphere,
-        Cube,
-        Torus,
-    }
-    
-    protected Element currentElement;
-    
-    protected final float speed = 50;
-    
-    public Actor(Vector3<Float> startPos)
+    public Boolean isPressed = false;
+    public int action = GLFW_RELEASE;
+    public int keyCode;
+    public PrutKey(int keyCode)
     {
-        this.currentElement = Element.Sphere;
-        this.setPosition(startPos);
-    }
-    
-    protected void setupElement(Element element){
-        this.currentElement = element;
-        switch(this.currentElement){
-            case Sphere:
-            this.initRenderer("sphere.obj");
-            return;
-            case Cube:
-            this.initRenderer("cube.obj");
-            return;
-        }
-    }
-    protected void initRenderer(String mesh){
-        try {
-            this.setRenderer(new Renderer(
-                    "Assets/Shaders/UnShadedVertex.glsl",
-                    "Assets/Shaders/UnshadedFragment.glsl",
-                    "Assets/Textures/cube.bmp",
-                    "Assets/Meshes/" + mesh     
-            ));
-        } catch (Exception ex) {
-            Logger.getLogger(Actor.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
-    @Override
-    public void update(float tpf) 
-    {
-        
+        this.keyCode = keyCode;
     }
 }
