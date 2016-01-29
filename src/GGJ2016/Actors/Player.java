@@ -25,12 +25,20 @@
  */
 package GGJ2016.Actors;
 
+import PrutEngine.Application;
+import PrutEngine.Core.Math.Vector3;
+import PrutEngine.Renderer;
+//import org.lwjgl.glfw.GLFW;
+import static org.lwjgl.glfw.GLFW.*;
+//import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
+
 /**
  *
  * @author quget
  */
 public class Player extends Actor
 {
+    private final int speed = 20;
     public Player()
     {
         
@@ -39,5 +47,26 @@ public class Player extends Actor
     public void update(float tpf) 
     {
         super.update(tpf);
+    }
+    public void PlayerInput()
+    {
+        Vector3 movePos = new Vector3(0, 0, 0);
+        if(Application.getInstance().getKeyboardKey(GLFW_KEY_W) == GLFW_PRESS)
+        {
+            movePos.x = 1;
+        }
+        if(Application.getInstance().getKeyboardKey(GLFW_KEY_A) == GLFW_PRESS)
+        {
+            movePos.y = 1;
+        }      
+        if(Application.getInstance().getKeyboardKey(GLFW_KEY_S) == GLFW_PRESS)
+        {
+            movePos.x = -1;
+        }             
+        if(Application.getInstance().getKeyboardKey(GLFW_KEY_D) == GLFW_PRESS)
+        {
+             movePos.y = -1;
+        }
+        translate(null,speed);
     }
 }
