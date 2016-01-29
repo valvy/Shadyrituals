@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016, Heiko van der Heijden 
+ * Copyright (c) 2016, wander
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -23,30 +23,16 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package GGJ2016.Actors;
+package PrutEngine.Core.Collision;
 
-import PrutEngine.Core.Math.Vector3;
-
+import PrutEngine.Core.Math.Vector4;
 /**
  *
- * @author Heiko van der Heijden
+ * @author wander
  */
-public final class Enemy extends Actor{
-    
-    public Enemy(Vector3<Float> startPos) {
-        super(startPos, 0f, 0f);
-        this.setPosition(startPos);
-        this.initRenderer("cube.obj");
-    }
-    
-    @Override
-    public void update(float tpf){
-        super.update(tpf);
-    }
-    
-    @Override
-    public void onCollision(Actor collideWith)
-    {
-        System.out.println("enemy collision");
+public class Collider {
+    Vector4 boundingBox = new Vector4(1,1,1,1);
+    public Collider(Vector4 other){
+        this.boundingBox.set(other);
     }
 }

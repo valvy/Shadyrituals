@@ -26,6 +26,7 @@
 package GGJ2016.Actors;
 
 import PrutEngine.Core.Math.Vector3;
+import PrutEngine.Core.Math.Vector4;
 import PrutEngine.GameObject;
 import PrutEngine.Renderer;
 import java.util.logging.Level;
@@ -37,20 +38,39 @@ import java.util.logging.Logger;
  */
 public class Actor extends GameObject
 {
+    public Vector4<Float> boundingBox;
+    private final float offsetX, offsetY;
+    
     protected enum Element{
         Sphere,
         Cube,
         Torus,
     }
     
-    private Element currentElement;
+    protected Element currentElement;
     
-    private final float speed = 10;
+    protected final float speed = 50;
     
-    public Actor(Vector3<Float> startPos)
+    public Actor(Vector3<Float> startPos, float offsetX, float offsetY)
     {
         this.currentElement = Element.Sphere;
         this.setPosition(startPos);
+        this.boundingBox = new Vector4<Float>(1f, 1f, 1f, 1f);
+        this.offsetX = offsetX;
+        this.offsetY = offsetY;
+    }
+    
+    public void onCollision(Actor collideWith)
+    {
+        
+    }
+    
+    public void updateBoundingBox()
+    {
+        boundingBox.w = position.y + (size.y /2);
+        boundingBox.x = position.x + (size.x /2);
+        boundingBox.y = position.y - (size.y /2);
+        boundingBox.z = position.x - (size.x /2);
     }
     
     protected void setupElement(Element element){
@@ -64,7 +84,6 @@ public class Actor extends GameObject
             return;
         }
     }
-    
     protected void initRenderer(String mesh){
         try {
             this.setRenderer(new Renderer(
@@ -81,6 +100,6 @@ public class Actor extends GameObject
     @Override
     public void update(float tpf) 
     {
-        
+        this.updateBoundingBox();
     }
 }

@@ -46,7 +46,6 @@ public class Camera extends GameObject{
     
         
     public Camera(final Vector3<Float> position){
-        super();
         this.rotate(new Vector3<>(0f,1f,0f), 180);
         final float vovy = 50f, aspect = 1, near = 0.1f, far = 10000f; //Standard cam settings
         this.projection = this.perspective(vovy, aspect, near, far);
@@ -125,9 +124,6 @@ public class Camera extends GameObject{
 
     @Override
     public void update(float tpf) {
-
         this.setProgramLocations();
-
-    }
-    
+    }    
 }

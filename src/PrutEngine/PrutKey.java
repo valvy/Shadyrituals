@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016, Heiko van der Heijden 
+ * Copyright (c) 2016, quget
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -23,30 +23,21 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package GGJ2016.Actors;
+package PrutEngine;
 
-import PrutEngine.Core.Math.Vector3;
+import static org.lwjgl.glfw.GLFW.GLFW_RELEASE;
 
 /**
  *
- * @author Heiko van der Heijden
+ * @author quget
  */
-public final class Enemy extends Actor{
-    
-    public Enemy(Vector3<Float> startPos) {
-        super(startPos, 0f, 0f);
-        this.setPosition(startPos);
-        this.initRenderer("cube.obj");
-    }
-    
-    @Override
-    public void update(float tpf){
-        super.update(tpf);
-    }
-    
-    @Override
-    public void onCollision(Actor collideWith)
+public class PrutKey 
+{
+    public Boolean isPressed = false;
+    public int action = GLFW_RELEASE;
+    public int keyCode;
+    public PrutKey(int keyCode)
     {
-        System.out.println("enemy collision");
+        this.keyCode = keyCode;
     }
 }
