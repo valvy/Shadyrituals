@@ -26,8 +26,14 @@
 package GGJ2016.Actors;
 
 import PrutEngine.Core.Math.Vector3;
-import PrutEngine.Scene;
+import PrutEngine.*;
+//import org.lwjgl.glfw.GLFW;
+import static org.lwjgl.glfw.GLFW.*;
+//import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
 
+import PrutEngine.Core.Math.Vector3;
+
+ 
 /**
  *
  * @author quget
@@ -35,9 +41,9 @@ import PrutEngine.Scene;
 public class Player extends Actor
 {
     private final Scene gameScene;
+    private final float speed = 10f;
     
-    public Player(Scene gameScene)
-    {
+    public Player(Scene gameScene){
         super(new Vector3<Float>(0f,0f,-10f));
         this.initRenderer("sphere.obj");
         this.gameScene = gameScene;
@@ -45,8 +51,31 @@ public class Player extends Actor
     @Override
     public void update(float tpf) 
     {
-        
+
+        PlayerInput(tpf);
+
         super.update(tpf);
        
+    }
+    public void PlayerInput(float tpf)
+    {
+        Vector3 movePos = new Vector3(0f, 0f, 0f);
+        if(Application.getInstance().getKeyboardKey(GLFW_KEY_W) == GLFW_PRESS)
+        {
+            movePos.y = 1f;
+        }
+        if(Application.getInstance().getKeyboardKey(GLFW_KEY_A) == GLFW_PRESS)
+        {
+            movePos.x = -1f;
+        }      
+        if(Application.getInstance().getKeyboardKey(GLFW_KEY_S) == GLFW_PRESS)
+        {
+            movePos.y = -1f;
+        }             
+        if(Application.getInstance().getKeyboardKey(GLFW_KEY_D) == GLFW_PRESS)
+        {
+             movePos.x = 1f;
+        }
+        translate(movePos,speed * tpf);
     }
 }

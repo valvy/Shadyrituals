@@ -28,6 +28,8 @@ package GGJ2016;
 import GGJ2016.Actors.*;
 import PrutEngine.Application;
 import PrutEngine.Scene;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
+import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
 
 /**
  *
@@ -43,6 +45,12 @@ public class GameScene extends Scene{
     
     @Override
     public void update(float tpf){
+        
+        if(Application.getInstance().getKeyboardKey(GLFW_KEY_ESCAPE) == GLFW_PRESS){
+             Application.getInstance().quit();
+             return;
+         }
+        
         super.update(tpf);
     }
     
