@@ -25,14 +25,19 @@
  */
 package GGJ2016.Actors;
 
+import PrutEngine.Core.Math.Vector3;
+
 /**
  *
  * @author quget
  */
 public class Player extends Actor
 {
+    
     public Player()
     {
+        super(new Vector3<Float>(0f,0f,-10f));
+        this.initRenderer("sphere.obj");
         
     }
     @Override
