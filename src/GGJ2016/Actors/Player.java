@@ -25,7 +25,6 @@
  */
 package GGJ2016.Actors;
 
-import PrutEngine.Core.Math.Vector3;
 import PrutEngine.*;
 //import org.lwjgl.glfw.GLFW;
 import static org.lwjgl.glfw.GLFW.*;
@@ -44,7 +43,7 @@ public class Player extends Actor
     private final float speed = 10f;
     
     public Player(Scene gameScene){
-        super(new Vector3<Float>(0f,0f,-10f));
+        super(new Vector3<Float>(0f,0f,-10f), 0f, 0f);
         this.initRenderer("sphere.obj");
         this.gameScene = gameScene;
     }

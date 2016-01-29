@@ -179,7 +179,7 @@ public final class Application {
              glfwSwapBuffers(window); // swap the color buffers
              if(this.currentModel != null){
                 this.currentModel.draw(this.view);
-     
+                
                 if(lastTime > 0){
                     float tmp = (float)lastTime / 10000;
                     this.currentModel.update(tmp);

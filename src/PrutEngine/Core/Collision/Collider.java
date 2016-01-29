@@ -32,5 +32,7 @@ import PrutEngine.Core.Math.Vector4;
  */
 public class Collider {
     Vector4 boundingBox = new Vector4(1,1,1,1);
-    
+    public Collider(Vector4 other){
+        this.boundingBox.set(other);
+    }
 }

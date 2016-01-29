@@ -25,6 +25,7 @@
  */
 package PrutEngine;
 
+import GGJ2016.Actors.Actor;
 import PrutEngine.Core.Math.Vector3;
 import PrutEngine.Core.View;
 import java.util.ArrayList;
@@ -107,7 +108,23 @@ public abstract class Scene {
     public void update(float tpf){
         for(GameObject obj : this.gameObjects){
             obj.update(tpf);
-
+        }
+        for(GameObject obj : this.gameObjects)
+        {
+            if(!(obj instanceof Actor)) continue;
+            for(GameObject obj2 : this.gameObjects)
+            {
+                if(obj == obj2 || !(obj2 instanceof Actor)) continue;
+                if(
+                   ((((Actor)obj2).boundingBox.w < ((Actor)obj).boundingBox.w && ((Actor)obj2).boundingBox.w > ((Actor)obj).boundingBox.y)  ||
+                    (((Actor)obj2).boundingBox.y < ((Actor)obj).boundingBox.w && ((Actor)obj2).boundingBox.y > ((Actor)obj).boundingBox.y)) &&
+                   ((((Actor)obj2).boundingBox.x < ((Actor)obj).boundingBox.x && ((Actor)obj2).boundingBox.x > ((Actor)obj).boundingBox.z)  ||
+                    (((Actor)obj2).boundingBox.z < ((Actor)obj).boundingBox.x && ((Actor)obj2).boundingBox.z > ((Actor)obj).boundingBox.z))
+                  )
+                {
+                    ((Actor)obj).onCollision((Actor)obj2);
+                }
+            }
         }
         for(GameObject des : this.toDestroy){
             des.destroy();
@@ -123,6 +140,16 @@ public abstract class Scene {
             obj.destroy();
         }
         this.gameObjects.clear();
+    }
+    
+    public void updateCollision()
+    {
+        for(GameObject go : this.gameObjects)
+        {
+            if(go instanceof Actor)
+                ((Actor)go).updateBoundingBox();
+        }
+        
     }
     
 }

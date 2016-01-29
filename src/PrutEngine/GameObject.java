@@ -28,25 +28,28 @@ package PrutEngine;
 import PrutEngine.Core.Math.Matrix4x4;
 import PrutEngine.Core.Math.Quaternion;
 import PrutEngine.Core.Math.Vector3;
+import PrutEngine.Core.Math.Vector4;
 
 /**
  * An abstract representation a visible and invisible object in game.
  * @author Heiko van der Heijden
  */
 public abstract class GameObject{
-    private final Vector3<Float> position;
+    protected final Vector3<Float> position;
     private final Quaternion quaternion;
-    private final Vector3<Float> size;
+    protected final Vector3<Float> size;
     private Renderer renderer;
+    
     
     public GameObject(){
         this.renderer = null;
         this.position = new Vector3<>(0f,0f,0f);
         this.quaternion = new Quaternion();
         this.size = new Vector3<>(1f,1f,1f);
+        
     }
     
-
+    
     
     public Vector3<Float> getSize(){
         return new Vector3<>(this.size);
@@ -141,6 +144,8 @@ public abstract class GameObject{
      * @param tpf 
      */
     public abstract void update(float tpf);
+    
+    
     
     
     /**
