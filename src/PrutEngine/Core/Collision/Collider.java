@@ -23,26 +23,14 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package PrutEngine.Core.Math;
+package PrutEngine.Core.Collision;
 
+import PrutEngine.Core.Math.Vector4;
 /**
  *
  * @author wander
  */
-public class Rect {
-    public Vector2 q,w,s,a;
+public class Collider {
+    Vector4 boundingBox = new Vector4(1,1,1,1);
     
-    public Rect(Vector2 q, Vector2 w, Vector2 s, Vector2 a){
-        this.q = q;
-        this.w = w;
-        this.s = s;
-        this.a = a;
-    }
-    
-    public Rect(Rect other){
-        this.q = other.q;
-        this.w = other.w;
-        this.s = other.s;
-        this.a = other.a;
-    }
 }
