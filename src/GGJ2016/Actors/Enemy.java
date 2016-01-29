@@ -23,47 +23,32 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package GGJ2016;
+package GGJ2016.Actors;
 
-import GGJ2016.Actors.*;
-import PrutEngine.Application;
 import PrutEngine.Core.Math.Vector3;
-import PrutEngine.Scene;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
-import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
 
 /**
  *
  * @author Heiko van der Heijden
  */
-public class GameScene extends Scene{
-    
-    @Override
-    public void awake() {
-         Application.getInstance().getWindow().setWindowTitle("game");
-         this.addGameObject(new Player(this));
-         this.addGameObject(new Enemy(new Vector3<>(-5f,-1f,-10f)));
-         this.addGameObject(new Enemy(new Vector3<>(5f,-1f,-10f)));
+public final class Enemy extends Actor{
+    public Enemy(Vector3<Float> startPos) {
+        super(startPos, 0f, 0f);
+        this.setSize(new Vector3<Float>(2f, 2f, 2f));
+        this.setPosition(startPos);
+        this.initRenderer("cube.obj");
     }
     
     @Override
     public void update(float tpf){
-        
-        if(Application.getInstance().getKeyboardKey(GLFW_KEY_ESCAPE) == GLFW_PRESS){
-             Application.getInstance().quit();
-             return;
-         }
-        
         super.update(tpf);
+        
+  
     }
     
     @Override
-    public void onQuit(){
-        ConnectionController.getInstance().stopConnection();
-        super.onQuit();
-        
+    public void onCollision(Actor collideWith)
+    {
         
     }
-    
-    
 }

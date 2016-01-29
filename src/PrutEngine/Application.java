@@ -27,6 +27,7 @@ package PrutEngine;
 
 import PrutEngine.Core.View;
 import java.util.Date;
+import java.util.HashMap;
 import org.lwjgl.glfw.*;
 
 import static org.lwjgl.glfw.GLFW.*;
@@ -41,7 +42,7 @@ import static org.lwjgl.system.MemoryUtil.*;
 public final class Application {
     
     private static Application instance;
-    
+    public PrutKeyboard prutKeyBoard;
     
     private GLFWErrorCallback errorCallback;
     private GLFWKeyCallback   keyCallback;
@@ -49,7 +50,6 @@ public final class Application {
  
     private Scene currentModel;
     private final View view;
-    
     /**
      * Gets the instance of the application
      * if the instance does not exists, it makes a new instance
@@ -62,6 +62,8 @@ public final class Application {
         return Application.instance;
     }
     
+    
+    
     private Application(){
         this.init();
         this.view = new View(this.window);
@@ -70,6 +72,8 @@ public final class Application {
     
     
     private void init(){
+        
+        prutKeyBoard = new PrutKeyboard();
         glfwSetErrorCallback(errorCallback = GLFWErrorCallback.createPrint(System.err));
  
         // Initialize GLFW. Most GLFW functions will not work before doing this.
@@ -92,6 +96,8 @@ public final class Application {
         glfwSetKeyCallback(window, keyCallback = new GLFWKeyCallback() {
             @Override
             public void invoke(long window, int key, int scancode, int action, int mods) {
+               // Debug.log(action);
+                prutKeyBoard.changeState(key, action);
               //  if ( key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE )
               //      glfwSetWindowShouldClose(window, GLFW_TRUE); // We will detect this in our rendering loop
             }
@@ -120,10 +126,10 @@ public final class Application {
         glfwDefaultWindowHints(); // optional, the current window hints are already the default
         glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE); // the window will stay hidden after creation
         glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE); // the window will be resizable
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4); //setup opengl version 4
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1); 
-        glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+                    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4); //setup opengl version 4
+            glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1); 
+            glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+            glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     }
     
     public void quit(){
@@ -177,7 +183,7 @@ public final class Application {
              glfwSwapBuffers(window); // swap the color buffers
              if(this.currentModel != null){
                 this.currentModel.draw(this.view);
-     
+                
                 if(lastTime > 0){
                     float tmp = (float)lastTime / 10000;
                     this.currentModel.update(tmp);

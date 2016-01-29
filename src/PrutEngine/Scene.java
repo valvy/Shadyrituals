@@ -25,6 +25,9 @@
  */
 package PrutEngine;
 
+import GGJ2016.Actors.Actor;
+import GGJ2016.Actors.Enemy;
+import GGJ2016.Actors.Player;
 import PrutEngine.Core.Math.Vector3;
 import PrutEngine.Core.View;
 import java.util.ArrayList;
@@ -38,15 +41,33 @@ public abstract class Scene {
      * The list with all the different gameobjects
      */
     private final ArrayList<GameObject> gameObjects;
+    private final ArrayList<GameObject> toDestroy;
+    
+    public Scene(){
+        this.gameObjects = new ArrayList<>();
+        this.camera = new Camera(new Vector3<>(0f,0f,-4f));
+        this.toDestroy = new ArrayList<>();
+    }
+    
     /**
      * The main camera
      */
     protected Camera camera;
     
-    public Scene(){
-        this.gameObjects = new ArrayList<>();
-        this.camera = new Camera(new Vector3<>(0f,0f,-4f));
+    public void destroy(GameObject gameobject){
+        GameObject obj = null;
+        for(GameObject ga : this.gameObjects){
+            if(gameobject == ga){
+                
+                obj = ga;
+            }
+        }
+        if(obj != null){
+            this.toDestroy.add(obj);
+        }
     }
+    
+
     
     public void setCamera(Camera cam){
         this.camera = cam;
@@ -89,8 +110,32 @@ public abstract class Scene {
     public void update(float tpf){
         for(GameObject obj : this.gameObjects){
             obj.update(tpf);
-
         }
+        
+        for(GameObject obj : this.gameObjects)
+        {
+            if(!(obj instanceof Actor)) continue;
+            // Collision
+            for(GameObject obj2 : this.gameObjects)
+            {
+                if(obj == obj2 || !(obj2 instanceof Actor)) continue;
+                if(
+                   ((((Actor)obj2).boundingBox.w < ((Actor)obj).boundingBox.w && ((Actor)obj2).boundingBox.w > ((Actor)obj).boundingBox.y)  ||
+                    (((Actor)obj2).boundingBox.y < ((Actor)obj).boundingBox.w && ((Actor)obj2).boundingBox.y > ((Actor)obj).boundingBox.y)) &&
+                   ((((Actor)obj2).boundingBox.x < ((Actor)obj).boundingBox.x && ((Actor)obj2).boundingBox.x > ((Actor)obj).boundingBox.z)  ||
+                    (((Actor)obj2).boundingBox.z < ((Actor)obj).boundingBox.x && ((Actor)obj2).boundingBox.z > ((Actor)obj).boundingBox.z))
+                  )
+                {
+                    ((Actor)obj).onCollision((Actor)obj2);
+                }
+            }
+        }
+        for(GameObject des : this.toDestroy){
+            des.destroy();
+            this.gameObjects.remove(des);
+        }
+        this.toDestroy.clear();
+        
         camera.update(tpf);
     }
   
@@ -99,6 +144,16 @@ public abstract class Scene {
             obj.destroy();
         }
         this.gameObjects.clear();
+    }
+    
+    public void updateCollision()
+    {
+        for(GameObject go : this.gameObjects)
+        {
+            if(go instanceof Actor)
+                ((Actor)go).updateBoundingBox();
+        }
+        
     }
     
 }

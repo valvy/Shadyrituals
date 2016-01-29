@@ -25,19 +25,82 @@
  */
 package GGJ2016.Actors;
 
+import PrutEngine.*;
+//import org.lwjgl.glfw.GLFW;
+import static org.lwjgl.glfw.GLFW.*;
+//import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
+
+import PrutEngine.Core.Math.Vector3;
+
+ 
 /**
  *
  * @author quget
  */
 public class Player extends Actor
 {
-    public Player()
-    {
-        
+    private final Scene gameScene;
+    
+    public Player(Scene gameScene){
+        super(new Vector3<Float>(0f,0f,-10f), 0f, 0f);
+        this.initRenderer("cube.obj");
+        this.setSize(new Vector3<Float>(2f, 2f, 2f));
+        //this.initRenderer("sphere.obj");
+        this.gameScene = gameScene;
+        /*
+        Application.getInstance().prutKeyBoard.addKey(GLFW_KEY_W);
+        Application.getInstance().prutKeyBoard.addKey(GLFW_KEY_A);
+        Application.getInstance().prutKeyBoard.addKey(GLFW_KEY_S);
+        Application.getInstance().prutKeyBoard.addKey(GLFW_KEY_D);*/
     }
     @Override
     public void update(float tpf) 
     {
+
+        PlayerInput(tpf);
+
         super.update(tpf);
+       
+    }
+    public void PlayerInput(float tpf)
+    {
+        Vector3 movePos = new Vector3(0f, 0f, 0f);
+        int moveKeyCount = 0;
+        
+        if(Application.getInstance().prutKeyBoard.GetState(GLFW_KEY_W) == GLFW_REPEAT)
+        {
+            movePos.y = 1f;
+        }
+        if(Application.getInstance().prutKeyBoard.GetState(GLFW_KEY_A) == GLFW_REPEAT)
+        {
+            movePos.x = -1f;
+        }      
+        if(Application.getInstance().prutKeyBoard.GetState(GLFW_KEY_S) == GLFW_REPEAT)
+        {
+            movePos.y = -1f;
+        }  
+        if(Application.getInstance().prutKeyBoard.GetState(GLFW_KEY_D) == GLFW_REPEAT)
+        {
+            movePos.x = 1f;
+        }
+        if(Application.getInstance().prutKeyBoard.GetState(GLFW_KEY_F) == GLFW_PRESS)
+        {
+            switch(this.currentElement)
+            {
+                case Sphere:
+                    this.setupElement(Element.Cube);
+                    break;
+                case Cube:
+                    this.setupElement(Element.Sphere);
+                    break;
+            }
+        }
+        translate(movePos,speed * tpf);
+    }
+    
+    @Override
+    public void onCollision(Actor collideWith)
+    {
+        
     }
 }

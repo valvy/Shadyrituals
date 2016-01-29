@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016, Heiko van der Heijden 
+ * Copyright (c) 2016, quget
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -23,47 +23,21 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package GGJ2016;
+package PrutEngine;
 
-import GGJ2016.Actors.*;
-import PrutEngine.Application;
-import PrutEngine.Core.Math.Vector3;
-import PrutEngine.Scene;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
-import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
+import static org.lwjgl.glfw.GLFW.GLFW_RELEASE;
 
 /**
  *
- * @author Heiko van der Heijden
+ * @author quget
  */
-public class GameScene extends Scene{
-    
-    @Override
-    public void awake() {
-         Application.getInstance().getWindow().setWindowTitle("game");
-         this.addGameObject(new Player(this));
-         this.addGameObject(new Enemy(new Vector3<>(-5f,-1f,-10f)));
-         this.addGameObject(new Enemy(new Vector3<>(5f,-1f,-10f)));
+public class PrutKey 
+{
+    public Boolean isPressed = false;
+    public int action = GLFW_RELEASE;
+    public int keyCode;
+    public PrutKey(int keyCode)
+    {
+        this.keyCode = keyCode;
     }
-    
-    @Override
-    public void update(float tpf){
-        
-        if(Application.getInstance().getKeyboardKey(GLFW_KEY_ESCAPE) == GLFW_PRESS){
-             Application.getInstance().quit();
-             return;
-         }
-        
-        super.update(tpf);
-    }
-    
-    @Override
-    public void onQuit(){
-        ConnectionController.getInstance().stopConnection();
-        super.onQuit();
-        
-        
-    }
-    
-    
 }
