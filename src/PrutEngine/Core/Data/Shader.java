@@ -25,7 +25,7 @@
  */
 package PrutEngine.Core.Data;
 
-import PrutEngine.Core.Graphics;
+
 import PrutEngine.Debug;
 import java.io.IOException;
 import static org.lwjgl.opengl.ARBTessellationShader.GL_TESS_CONTROL_SHADER;
@@ -87,19 +87,19 @@ public final class Shader extends Resource {
         
         switch(type){
             case Fragment_Shader:
-               result = Graphics.glCreateShader(Graphics.GL_FRAGMENT_SHADER());
+               result = glCreateShader(GL_FRAGMENT_SHADER);
                break;
             case Vertex_Shader:
-                result = Graphics.glCreateShader(Graphics.GL_VERTEX_SHADER());
+                result = glCreateShader(GL_VERTEX_SHADER);
                 break;
         }
         
             
-        Graphics.glShaderSource(result,src);
-        Graphics.glCompileShader(result);
-        if(Graphics.glGetShaderi(result, Graphics.GL_COMPILE_STATUS()) == 0){
+        glShaderSource(result,src);
+        glCompileShader(result);
+        if(glGetShaderi(result, GL_COMPILE_STATUS) == 0){
             Debug.log("Compile error in : " + fileLocation);
-            Debug.log(Graphics.glGetShaderInfoLog(result));
+            Debug.log(glGetShaderInfoLog(result));
         }
 	
         return result;
@@ -109,7 +109,7 @@ public final class Shader extends Resource {
     
     @Override
     public void destroy() {
-        Graphics.glDeleteShader(this.shader);
+        glDeleteShader(this.shader);
     }
     
 }

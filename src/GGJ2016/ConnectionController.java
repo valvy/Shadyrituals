@@ -25,45 +25,57 @@
  */
 package GGJ2016;
 
-import GGJ2016.Actors.*;
-import PrutEngine.Application;
-import PrutEngine.Core.Math.Vector3;
-import PrutEngine.Scene;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
-import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import sun.awt.Mutex;
 
 /**
  *
  * @author Heiko van der Heijden
  */
-public class GameScene extends Scene{
+public final class ConnectionController implements Runnable{
+    private boolean shouldStop = false;
+    private final Thread thread;
+    private final Mutex lock;
     
-    @Override
-    public void awake() {
-         Application.getInstance().getWindow().setWindowTitle("game");
-         this.addGameObject(new Player(this));
-         this.addGameObject(new Enemy(new Vector3<>(-5f,-1f,-10f)));
-         this.addGameObject(new Enemy(new Vector3<>(5f,-1f,-10f)));
-    }
+    private static ConnectionController instance;
     
-    @Override
-    public void update(float tpf){
-        
-        if(Application.getInstance().getKeyboardKey(GLFW_KEY_ESCAPE) == GLFW_PRESS){
-             Application.getInstance().quit();
-             return;
-         }
-        
-        super.update(tpf);
-    }
-    
-    @Override
-    public void onQuit(){
-        ConnectionController.getInstance().stopConnection();
-        super.onQuit();
-        
-        
+    public static ConnectionController getInstance(){
+        return instance;
     }
     
     
+    public ConnectionController(boolean host){
+        this.lock = new Mutex();
+        this.shouldStop = false;
+        this.thread = new Thread(this);
+        instance = this;
+        this.thread.start();
+        
+    }
+
+    public void stopConnection(){
+        this.shouldStop = true;
+        try {
+            this.thread.join();
+        } catch (InterruptedException ex) {
+            Logger.getLogger(ConnectionController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    @Override
+    public void run() {
+        for(;;){
+            if(this.shouldStop){
+
+                break;
+            }
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(ConnectionController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+    }
 }

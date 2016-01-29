@@ -25,7 +25,6 @@
  */
 package PrutEngine;
 
-import PrutEngine.Core.Graphics;
 import PrutEngine.Core.Math.Vector3;
 import PrutEngine.Core.Math.Matrix4x4;
 import PrutEngine.Core.Math.Quaternion;
@@ -62,9 +61,9 @@ public class Camera extends GameObject{
         //Set the projection
        
             for(int dat : AssetManager.allPrograms()){
-                Graphics.glUseProgram(dat);
-                Graphics.glUniformMatrix4fv( glGetUniformLocation(dat, "projection_matrix"),false,perspective.getRawData());
-                Graphics.glUniformMatrix4fv( glGetUniformLocation(dat, "cam_matrix"),true,matPosition.getRawData());
+                glUseProgram(dat);
+                glUniformMatrix4fv( glGetUniformLocation(dat, "projection_matrix"),false,perspective.getRawData());
+                glUniformMatrix4fv( glGetUniformLocation(dat, "cam_matrix"),true,matPosition.getRawData());
             }
 
             this.needUpdate = false;

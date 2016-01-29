@@ -25,11 +25,22 @@
  */
 package PrutEngine.Core.Data;
 
-import PrutEngine.Core.Graphics;
 import PrutEngine.Core.Utilities.Primitives;
 import PrutEngine.Core.Utilities.WaveFrontLoader;
 import java.io.IOException;
 import java.nio.FloatBuffer;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
+import org.lwjgl.opengl.GL15;
+import static org.lwjgl.opengl.GL15.glBindBuffer;
+import static org.lwjgl.opengl.GL15.glBufferData;
+import static org.lwjgl.opengl.GL15.glDeleteBuffers;
+import static org.lwjgl.opengl.GL15.glGenBuffers;
+import static org.lwjgl.opengl.GL20.glEnableVertexAttribArray;
+import static org.lwjgl.opengl.GL20.glVertexAttribPointer;
+import static org.lwjgl.opengl.GL30.glBindVertexArray;
+import static org.lwjgl.opengl.GL30.glDeleteVertexArrays;
+import static org.lwjgl.opengl.GL30.glGenVertexArrays;
 
 /**
  * Manages the data of a single 3d mesh
@@ -58,7 +69,7 @@ public final class Mesh extends Resource{
         if(!fileLocation.equals("Cube")){
             final WaveFrontLoader loader = new WaveFrontLoader(fileLocation);
             this.size = loader.triangleAmount();
-            this.vao = Graphics.glGenVertexArrays();
+            this.vao = glGenVertexArrays();
             this.rawVertexdata = loader.rawVertexData();
             this.rawUVData = loader.rawUVData();
             this.rawNormalData = loader.rawNormalData();
@@ -66,7 +77,7 @@ public final class Mesh extends Resource{
             this.uv_vbo = this.bindVBO(1, 2,rawUVData);
             this.normal_vbo = this.bindVBO(2, 3, rawNormalData);
         }else{
-            this.vao = Graphics.glGenVertexArrays();
+            this.vao = glGenVertexArrays();
             this.rawVertexdata =  Primitives.Cube.rawVertexData();
             this.rawUVData = Primitives.Cube.rawUVData();
             this.rawNormalData = null;
@@ -85,13 +96,13 @@ public final class Mesh extends Resource{
      * @return the vertex buffer object
      */
     private int bindVBO(int position, int amount, final FloatBuffer buffer){
-        Graphics.glBindVertexArray(vao);
-        int res = Graphics.glGenBuffers();
-        Graphics.glBindBuffer(Graphics.GL_ARRAY_BUFFER(),res);
-        Graphics.glBufferData(Graphics.GL_ARRAY_BUFFER(),buffer,Graphics.GL_STATIC_DRAW());
-        Graphics.glEnableVertexAttribArray(position);
-        Graphics.glVertexAttribPointer(position, amount, Graphics.GL_FLOAT(), false, 0, 0);
-        Graphics.glBindVertexArray(0);
+        glBindVertexArray(vao);
+        int res = glGenBuffers();
+        glBindBuffer(GL15.GL_ARRAY_BUFFER,res);
+        glBufferData(GL15.GL_ARRAY_BUFFER,buffer,GL15.GL_STATIC_DRAW);
+        glEnableVertexAttribArray(position);
+        glVertexAttribPointer(position, amount, GL11.GL_FLOAT, false, 0, 0);
+        glBindVertexArray(0);
         return res;
     }
     
@@ -114,9 +125,9 @@ public final class Mesh extends Resource{
     
     @Override
     public void destroy() {
-        Graphics.glDeleteVertexArrays(this.vao);
-        Graphics.glDeleteBuffers(this.vertex_vbo);
-        Graphics.glDeleteBuffers(this.uv_vbo);
+        glDeleteVertexArrays(this.vao);
+        glDeleteBuffers(this.vertex_vbo);
+        glDeleteBuffers(this.uv_vbo);
     }
     
 }
