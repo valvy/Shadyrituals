@@ -37,12 +37,13 @@ import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
  * @author Heiko van der Heijden
  */
 public class GameScene extends Scene{
-
+    
     @Override
     public void awake() {
          Application.getInstance().getWindow().setWindowTitle("game");
          this.addGameObject(new Player(this));
          this.addGameObject(new Enemy(new Vector3<>(-5f,-1f,-10f)));
+         this.addGameObject(new Enemy(new Vector3<>(5f,-1f,-10f)));
     }
     
     @Override

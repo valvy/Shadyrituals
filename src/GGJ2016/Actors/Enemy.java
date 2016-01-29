@@ -34,6 +34,7 @@ import PrutEngine.Core.Math.Vector3;
 public final class Enemy extends Actor{
     public Enemy(Vector3<Float> startPos) {
         super(startPos, 0f, 0f);
+        this.setSize(new Vector3<Float>(2f, 2f, 2f));
         this.setPosition(startPos);
         this.initRenderer("cube.obj");
     }
@@ -48,6 +49,6 @@ public final class Enemy extends Actor{
     @Override
     public void onCollision(Actor collideWith)
     {
-        System.out.println("enemy collision");
+        
     }
 }

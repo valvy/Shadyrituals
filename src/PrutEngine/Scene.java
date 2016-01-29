@@ -26,6 +26,8 @@
 package PrutEngine;
 
 import GGJ2016.Actors.Actor;
+import GGJ2016.Actors.Enemy;
+import GGJ2016.Actors.Player;
 import PrutEngine.Core.Math.Vector3;
 import PrutEngine.Core.View;
 import java.util.ArrayList;
@@ -109,9 +111,11 @@ public abstract class Scene {
         for(GameObject obj : this.gameObjects){
             obj.update(tpf);
         }
+        
         for(GameObject obj : this.gameObjects)
         {
             if(!(obj instanceof Actor)) continue;
+            // Collision
             for(GameObject obj2 : this.gameObjects)
             {
                 if(obj == obj2 || !(obj2 instanceof Actor)) continue;
