@@ -23,7 +23,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package ggj2016;
+package Example;
 
 import PrutEngine.Application;
 import PrutEngine.Camera;

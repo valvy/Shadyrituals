@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ggj2016;
+package Example;
 
 import PrutEngine.Core.Math.Vector3;
 import PrutEngine.GameObject;

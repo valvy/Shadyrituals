@@ -23,7 +23,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package ggj2016;
+package Example;
 
 import PrutEngine.Application;
 import PrutEngine.AssetManager;
@@ -44,7 +44,7 @@ public class ExampleSplashScreen extends Scene{
     @Override
     public void awake() {
         Application.getInstance().getWindow().setWindowTitle("Splash Scene");
-     //  this.setCamera(new ExampleCamera(new Vector3<>(0f,0f,-10f)));
+         this.setCamera(new ExampleCamera(new Vector3<>(0f,0f,-10f)));
        this.addGameObject(new Background());
        this.addGameObject(new ExampleSprite(new Vector3<>(1f,0f,0f)));
        //this.addGameObject(new ExampleSprite(new Vector3<>(-2f,0f,0f)));

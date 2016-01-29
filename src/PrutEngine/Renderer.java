@@ -26,11 +26,12 @@
 package PrutEngine;
 
 import PrutEngine.Core.Data.Shader;
+import PrutEngine.Core.Graphics;
 import PrutEngine.Core.Math.Vector3;
 import PrutEngine.Core.Math.Matrix4x4;
 import PrutEngine.Core.Math.Quaternion;
 import PrutEngine.Core.Math.Vector4;
-import ggj2016.ExampleScene;
+import Example.ExampleScene;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -136,13 +137,13 @@ public class Renderer {
                 this.lastMat.set(Matrix4x4.multiply(mat, Quaternion.quaternionToMatrix(rotation)));
             }
             
-            
-            glUseProgram(AssetManager.getProgram(this.program));
-            glBindVertexArray(AssetManager.getMeshVao(this.mesh));
-
-            glEnableVertexAttribArray(0);
-
-            glUniformMatrix4fv(this.glPos,true,this.lastMat.getRawData());
+            Graphics.glUseProgram(AssetManager.getProgram(this.program));
+            //glUseProgram(AssetManager.getProgram(this.program));
+            Graphics.glBindVertexArray(AssetManager.getMeshVao(this.mesh));
+           
+            Graphics.glEnableVertexAttribArray(0);
+           
+            Graphics.glUniformMatrix4fv(this.glPos, true, this.lastMat.getRawData());
             if(this.texture != -1){
                 glBindTexture(GL_TEXTURE_2D, AssetManager.getTexture(this.texture));
             }

@@ -23,35 +23,12 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package ggj2016;
-
-import PrutEngine.Core.Math.Vector3;
-import PrutEngine.GameObject;
-import PrutEngine.Renderer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+package GGJ2016;
 
 /**
  *
  * @author Heiko van der Heijden
  */
-public class PalmTree extends GameObject{
-
-    public PalmTree(Vector3<Float> position){
-        this.setPosition(position);
-        
-        try {
-            this.setRenderer(new Renderer("Assets/Shaders/ToonVertex.glsl", "Assets/Shaders/ToonFragment.glsl","Assets/Textures/PalmTree.png", "Assets/Meshes/PalmTree.obj"));
-        
-        } catch (Exception ex) {
-            Logger.getLogger(ExampleObject.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-    }
-    
-    @Override
-    public void update(float tpf) {
-
-    }
+public class SplashScreen {
     
 }

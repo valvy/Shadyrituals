@@ -23,49 +23,35 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package ggj2016;
+package Example;
 
-import PrutEngine.AssetManager;
 import PrutEngine.Core.Math.Vector3;
 import PrutEngine.GameObject;
 import PrutEngine.Renderer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import static org.lwjgl.opengl.GL20.glGetUniformLocation;
-import static org.lwjgl.opengl.GL20.glUniform1f;
-import static org.lwjgl.opengl.GL20.glUseProgram;
 
 /**
  *
  * @author Heiko van der Heijden
  */
-public class Background extends GameObject{
-    int time;
-    public Background(){
+public class PalmTree extends GameObject{
+
+    public PalmTree(Vector3<Float> position){
+        this.setPosition(position);
         
         try {
-            
-         //   this.setRenderer(new Renderer("Assets/Shaders/UnshadedVertex.glsl", "Assets/Shaders/UnshadedFragment.glsl","Assets/Textures/SplashScreen.png", "Assets/Meshes/Quad.obj"));
-           this.setRenderer(new Renderer("Assets/Shaders/UnshadedVertex.glsl", "Assets/Shaders/VortexFragment.glsl","", "Assets/Meshes/Quad.obj")); 
-            time = glGetUniformLocation(AssetManager.getProgram(this.getRenderer().getProgram()), "time");
+            this.setRenderer(new Renderer("Assets/Shaders/ToonVertex.glsl", "Assets/Shaders/ToonFragment.glsl","Assets/Textures/PalmTree.png", "Assets/Meshes/PalmTree.obj"));
+        
         } catch (Exception ex) {
-            Logger.getLogger(Background.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ExampleObject.class.getName()).log(Level.SEVERE, null, ex);
         }
-        this.setSize(new Vector3<>(3.5f,3.5f,3.5f));
-        this.setPosition(new Vector3<>(0f,0f,-1f));
-        this.rotate(new Vector3<>(1f,0f,0f), -90);
+        
     }
-    float timer = 0;
+    
     @Override
     public void update(float tpf) {
-        timer += 1 * tpf;
-        try {
-            glUseProgram(AssetManager.getProgram(this.getRenderer().getProgram()));
-            glUniform1f(this.time, (float) Math.sin(timer) * 40);
-        } catch (AssetManager.AssetNotFoundException ex) {
-            Logger.getLogger(Background.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
+
     }
     
 }
