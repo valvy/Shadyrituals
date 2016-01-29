@@ -1,5 +1,5 @@
-#version 400 core
-
+//#version 400 core
+#version 200 es 
 layout(location = 0) out vec4 color;
 
 in VS_OUT{

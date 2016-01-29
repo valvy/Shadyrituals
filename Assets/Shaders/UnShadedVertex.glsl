@@ -1,5 +1,5 @@
-#version 400 core
-
+//#version 400 core
+#version 200 es 
 layout(location = 0) in vec4 position;
 layout(location = 1) in vec2 vertexUV;
 layout(location = 2) in vec3 normals;
