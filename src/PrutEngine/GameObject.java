@@ -46,7 +46,6 @@ public abstract class GameObject{
         this.position = new Vector3<>(0f,0f,0f);
         this.quaternion = new Quaternion();
         this.size = new Vector3<>(1f,1f,1f);
-        
     }
     
     

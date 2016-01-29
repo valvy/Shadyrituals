@@ -43,7 +43,9 @@ public class Player extends Actor
     
     public Player(Scene gameScene){
         super(new Vector3<Float>(0f,0f,-10f), 0f, 0f);
-        this.initRenderer("sphere.obj");
+        this.initRenderer("cube.obj");
+        this.setSize(new Vector3<Float>(2f, 2f, 2f));
+        //this.initRenderer("sphere.obj");
         this.gameScene = gameScene;
         /*
         Application.getInstance().prutKeyBoard.addKey(GLFW_KEY_W);
@@ -94,5 +96,11 @@ public class Player extends Actor
             }
         }
         translate(movePos,speed * tpf);
+    }
+    
+    @Override
+    public void onCollision(Actor collideWith)
+    {
+        
     }
 }
