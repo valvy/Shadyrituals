@@ -25,7 +25,6 @@
  */
 package PrutEngine.Core.Data;
 
-import PrutEngine.Core.Graphics;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
@@ -84,13 +83,13 @@ public class Texture extends Resource{
      
         buffer.flip();
         
-        this.textureID = Graphics.glGenTextures();
-        Graphics.glBindTexture(Graphics.GL_TEXTURE_2D(), this.textureID);
+        this.textureID = glGenTextures();
+        glBindTexture(GL_TEXTURE_2D, this.textureID);
 
-        Graphics.glTexParameteri(Graphics.GL_TEXTURE_2D(), Graphics.GL_TEXTURE_WRAP_T(), Graphics.GL_CLAMP_TO_EDGE());
-        Graphics.glTexImage2D(Graphics.GL_TEXTURE_2D(), 0, Graphics.GL_RGBA(), image.getWidth(), image.getHeight(), 0, Graphics.GL_RGBA(), Graphics.GL_UNSIGNED_BYTE(), buffer);
-        Graphics.glTexParameteri(Graphics.GL_TEXTURE_2D(), GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-        Graphics.glTexParameteri(Graphics.GL_TEXTURE_2D(), GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image.getWidth(), image.getHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
         
     }
     

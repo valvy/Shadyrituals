@@ -25,7 +25,6 @@
  */
 package PrutEngine;
 
-import PrutEngine.Core.Graphics;
 import PrutEngine.Core.View;
 import java.util.Date;
 import java.util.HashMap;
@@ -127,15 +126,10 @@ public final class Application {
         glfwDefaultWindowHints(); // optional, the current window hints are already the default
         glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE); // the window will stay hidden after creation
         glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE); // the window will be resizable
-        Graphics.initGL();
-       /* glfwWindowHint(GLFW_OPENGL_PROFILE,GLFW_OPENGL_ES_API);
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR,2);
-        */
-        /*glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4); //setup opengl version 4
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1); 
-        glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);*/
+                    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4); //setup opengl version 4
+            glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1); 
+            glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+            glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     }
     
     public void quit(){

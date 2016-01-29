@@ -26,7 +26,6 @@
 package PrutEngine;
 
 import PrutEngine.Core.Data.Shader;
-import PrutEngine.Core.Graphics;
 import PrutEngine.Core.Math.Vector3;
 import PrutEngine.Core.Math.Matrix4x4;
 import PrutEngine.Core.Math.Quaternion;
@@ -137,20 +136,20 @@ public class Renderer {
                 this.lastMat.set(Matrix4x4.multiply(mat, Quaternion.quaternionToMatrix(rotation)));
             }
             
-            Graphics.glUseProgram(AssetManager.getProgram(this.program));
-            Graphics.glBindVertexArray(AssetManager.getMeshVao(this.mesh));
+            glUseProgram(AssetManager.getProgram(this.program));
+            glBindVertexArray(AssetManager.getMeshVao(this.mesh));
            
-            Graphics.glEnableVertexAttribArray(0);
+            glEnableVertexAttribArray(0);
            
-            Graphics.glUniformMatrix4fv(this.glPos, true, this.lastMat.getRawData());
+            glUniformMatrix4fv(this.glPos, true, this.lastMat.getRawData());
             if(this.texture != -1){
-                Graphics.glBindTexture(Graphics.GL_TEXTURE_2D(), AssetManager.getTexture(this.texture));
+                glBindTexture(GL_TEXTURE_2D, AssetManager.getTexture(this.texture));
             }
             
             
-            Graphics.glDrawArrays(Graphics.GL_TRIANGLES(), 0,AssetManager.getMeshSize(this.mesh));
-            Graphics.glDisableVertexAttribArray(0);
-            Graphics.glBindVertexArray(0);
+            glDrawArrays(GL_TRIANGLES, 0,AssetManager.getMeshSize(this.mesh));
+            glDisableVertexAttribArray(0);
+            glBindVertexArray(0);
         } catch (AssetManager.AssetNotFoundException ex) {
             Logger.getLogger(ExampleScene.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -92,6 +92,7 @@ public class Actor extends GameObject
                     "Assets/Textures/cube.bmp",
                     "Assets/Meshes/" + mesh     
             ));
+            
         } catch (Exception ex) {
             Logger.getLogger(Actor.class.getName()).log(Level.SEVERE, null, ex);
         }

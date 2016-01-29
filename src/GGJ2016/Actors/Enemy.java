@@ -32,7 +32,6 @@ import PrutEngine.Core.Math.Vector3;
  * @author Heiko van der Heijden
  */
 public final class Enemy extends Actor{
-    
     public Enemy(Vector3<Float> startPos) {
         super(startPos, 0f, 0f);
         this.setPosition(startPos);
@@ -42,6 +41,8 @@ public final class Enemy extends Actor{
     @Override
     public void update(float tpf){
         super.update(tpf);
+        
+  
     }
     
     @Override
