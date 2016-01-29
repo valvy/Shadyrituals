@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016, quget
+ * Copyright (c) 2016, Heiko van der Heijden 
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -26,61 +26,22 @@
 package GGJ2016.Actors;
 
 import PrutEngine.Core.Math.Vector3;
-import PrutEngine.GameObject;
-import PrutEngine.Renderer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
- * @author quget
+ * @author Heiko van der Heijden
  */
-public class Actor extends GameObject
-{
-    protected enum Element{
-        Sphere,
-        Cube,
-        Torus,
-    }
+public final class Enemy extends Actor{
     
-    private Element currentElement;
-    
-    private final float speed = 10;
-    
-    public Actor(Vector3<Float> startPos)
-    {
-        this.currentElement = Element.Sphere;
+    public Enemy(Vector3<Float> startPos) {
+        super(startPos);
         this.setPosition(startPos);
-    }
-    
-    protected void setupElement(Element element){
-        this.currentElement = element;
-        switch(this.currentElement){
-            case Sphere:
-            this.initRenderer("sphere.obj");
-            return;
-            case Cube:
-            this.initRenderer("cube.obj");
-            return;
-        }
-    }
-    
-    protected void initRenderer(String mesh){
-        try {
-            this.setRenderer(new Renderer(
-                    "Assets/Shaders/UnShadedVertex.glsl",
-                    "Assets/Shaders/UnshadedFragment.glsl",
-                    "Assets/Textures/cube.bmp",
-                    "Assets/Meshes/" + mesh     
-            ));
-        } catch (Exception ex) {
-            Logger.getLogger(Actor.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        this.initRenderer("cube.obj");
     }
     
     @Override
-    public void update(float tpf) 
-    {
-        
+    public void update(float tpf){
+        super.update(tpf);
     }
+    
 }
