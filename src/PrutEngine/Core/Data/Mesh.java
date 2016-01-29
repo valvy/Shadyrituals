@@ -25,22 +25,11 @@
  */
 package PrutEngine.Core.Data;
 
+import PrutEngine.Core.Graphics;
 import PrutEngine.Core.Utilities.Primitives;
 import PrutEngine.Core.Utilities.WaveFrontLoader;
 import java.io.IOException;
 import java.nio.FloatBuffer;
-import static org.lwjgl.opengl.GL11.GL_FLOAT;
-import static org.lwjgl.opengl.GL15.GL_ARRAY_BUFFER;
-import static org.lwjgl.opengl.GL15.GL_STATIC_DRAW;
-import static org.lwjgl.opengl.GL15.glBindBuffer;
-import static org.lwjgl.opengl.GL20.glEnableVertexAttribArray;
-import static org.lwjgl.opengl.GL30.glBindVertexArray;
-import static org.lwjgl.opengl.GL15.glBufferData;
-import static org.lwjgl.opengl.GL15.glDeleteBuffers;
-import static org.lwjgl.opengl.GL15.glGenBuffers;
-import static org.lwjgl.opengl.GL20.glVertexAttribPointer;
-import static org.lwjgl.opengl.GL30.glDeleteVertexArrays;
-import static org.lwjgl.opengl.GL30.glGenVertexArrays;
 
 /**
  * Manages the data of a single 3d mesh
@@ -50,6 +39,9 @@ import static org.lwjgl.opengl.GL30.glGenVertexArrays;
  */
 public final class Mesh extends Resource{
     
+    private final FloatBuffer rawVertexdata;
+    private final FloatBuffer rawUVData;
+    private final FloatBuffer rawNormalData;
     private final int vao;
     private final int size;
     private final int vertex_vbo;
@@ -66,21 +58,23 @@ public final class Mesh extends Resource{
         if(!fileLocation.equals("Cube")){
             final WaveFrontLoader loader = new WaveFrontLoader(fileLocation);
             this.size = loader.triangleAmount();
-            this.vao = glGenVertexArrays();
-            this.vertex_vbo = this.bindVBO(0, 3, loader.rawVertexData());
-            this.uv_vbo = this.bindVBO(1, 2,loader.rawUVData());
-            this.normal_vbo = this.bindVBO(2, 3, loader.rawNormalData());
+            this.vao = Graphics.glGenVertexArrays();
+            this.rawVertexdata = loader.rawVertexData();
+            this.rawUVData = loader.rawUVData();
+            this.rawNormalData = loader.rawNormalData();
+            this.vertex_vbo = this.bindVBO(0, 3, rawVertexdata);
+            this.uv_vbo = this.bindVBO(1, 2,rawUVData);
+            this.normal_vbo = this.bindVBO(2, 3, rawNormalData);
         }else{
-            this.vao = glGenVertexArrays();
+            this.vao = Graphics.glGenVertexArrays();
+            this.rawVertexdata =  Primitives.Cube.rawVertexData();
+            this.rawUVData = Primitives.Cube.rawUVData();
+            this.rawNormalData = null;
             this.vertex_vbo = this.bindVBO(0, 3, Primitives.Cube.rawVertexData());
             this.uv_vbo = this.bindVBO(1,2,Primitives.Cube.rawUVData());
             this.size = Primitives.Cube.triangleAmount();
             this.normal_vbo = 0;
         }
-        
-
-        
-       
     }
     
     /**
@@ -91,13 +85,13 @@ public final class Mesh extends Resource{
      * @return the vertex buffer object
      */
     private int bindVBO(int position, int amount, final FloatBuffer buffer){
-        glBindVertexArray(vao);
-        int res = glGenBuffers();
-        glBindBuffer(GL_ARRAY_BUFFER,res);
-        glBufferData(GL_ARRAY_BUFFER,buffer,GL_STATIC_DRAW);
-        glEnableVertexAttribArray(position);
-        glVertexAttribPointer(position, amount, GL_FLOAT, false, 0, 0);
-        glBindVertexArray(0);
+        Graphics.glBindVertexArray(vao);
+        int res = Graphics.glGenBuffers();
+        Graphics.glBindBuffer(Graphics.GL_ARRAY_BUFFER(),res);
+        Graphics.glBufferData(Graphics.GL_ARRAY_BUFFER(),buffer,Graphics.GL_STATIC_DRAW());
+        Graphics.glEnableVertexAttribArray(position);
+        Graphics.glVertexAttribPointer(position, amount, Graphics.GL_FLOAT(), false, 0, 0);
+        Graphics.glBindVertexArray(0);
         return res;
     }
     
@@ -120,9 +114,9 @@ public final class Mesh extends Resource{
     
     @Override
     public void destroy() {
-        glDeleteVertexArrays(this.vao);
-        glDeleteBuffers(this.vertex_vbo);
-        glDeleteBuffers(this.uv_vbo);
+        Graphics.glDeleteVertexArrays(this.vao);
+        Graphics.glDeleteBuffers(this.vertex_vbo);
+        Graphics.glDeleteBuffers(this.uv_vbo);
     }
     
 }

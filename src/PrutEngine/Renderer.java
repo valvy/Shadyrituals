@@ -138,21 +138,19 @@ public class Renderer {
             }
             
             Graphics.glUseProgram(AssetManager.getProgram(this.program));
-            //glUseProgram(AssetManager.getProgram(this.program));
             Graphics.glBindVertexArray(AssetManager.getMeshVao(this.mesh));
            
             Graphics.glEnableVertexAttribArray(0);
            
             Graphics.glUniformMatrix4fv(this.glPos, true, this.lastMat.getRawData());
             if(this.texture != -1){
-                glBindTexture(GL_TEXTURE_2D, AssetManager.getTexture(this.texture));
+                Graphics.glBindTexture(Graphics.GL_TEXTURE_2D(), AssetManager.getTexture(this.texture));
             }
             
             
-            
-            glDrawArrays(GL_TRIANGLES, 0, AssetManager.getMeshSize(this.mesh));
-            glDisableVertexAttribArray(0);
-            glBindVertexArray(0);
+            Graphics.glDrawArrays(Graphics.GL_TRIANGLES(), 0,AssetManager.getMeshSize(this.mesh));
+            Graphics.glDisableVertexAttribArray(0);
+            Graphics.glBindVertexArray(0);
         } catch (AssetManager.AssetNotFoundException ex) {
             Logger.getLogger(ExampleScene.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -130,17 +130,18 @@ public final class View {
      * @param obj 
      */
     public void draw(ArrayList<GameObject> obj){  
-        glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        
+//        glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+        Graphics.glClearColor(0.0f, 0f, 0f, 0f);
+        Graphics.glClear(Graphics.GL_COLOR_BUFFER_BIT() | Graphics.GL_DEPTH_BUFFER_BIT());
+        //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+       // Graphics.glClearColor
         obj.stream().forEach((gameObject) -> {
             gameObject.draw();
             
         });
         
-        int error = glGetError();
-        while(error != GL_NO_ERROR){
+        int error = Graphics.glGetError();
+        while(error != Graphics.GL_NO_ERROR()){
             Debug.log(getErrorString(error));
             exit(-1);
         }

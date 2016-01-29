@@ -25,6 +25,7 @@
  */
 package PrutEngine.Core.Data;
 
+import PrutEngine.Core.Graphics;
 import PrutEngine.Debug;
 import java.io.IOException;
 import static org.lwjgl.opengl.ARBTessellationShader.GL_TESS_CONTROL_SHADER;
@@ -53,8 +54,8 @@ public final class Shader extends Resource {
     public enum Type{
         Vertex_Shader,
         Fragment_Shader,
-        Tes_Control_Shader,
-        Tes_Evaluation_Shader
+      //  Tes_Control_Shader,
+       // Tes_Evaluation_Shader
     }
     
     private final int shader;
@@ -86,26 +87,19 @@ public final class Shader extends Resource {
         
         switch(type){
             case Fragment_Shader:
-               result = glCreateShader(GL_FRAGMENT_SHADER);
+               result = Graphics.glCreateShader(Graphics.GL_FRAGMENT_SHADER());
                break;
             case Vertex_Shader:
-                result = glCreateShader(GL_VERTEX_SHADER);
+                result = Graphics.glCreateShader(Graphics.GL_VERTEX_SHADER());
                 break;
-            case Tes_Control_Shader:
-                result = glCreateShader(GL_TESS_CONTROL_SHADER);
-                break;
-            case Tes_Evaluation_Shader:
-                result = glCreateShader(GL_TESS_EVALUATION_SHADER);
-                break;
-               
         }
         
             
-        glShaderSource(result,src);
-        glCompileShader(result);
-        if(glGetShaderi(result, GL_COMPILE_STATUS) == 0){
+        Graphics.glShaderSource(result,src);
+        Graphics.glCompileShader(result);
+        if(Graphics.glGetShaderi(result, Graphics.GL_COMPILE_STATUS()) == 0){
             Debug.log("Compile error in : " + fileLocation);
-            Debug.log(glGetShaderInfoLog(result));
+            Debug.log(Graphics.glGetShaderInfoLog(result));
         }
 	
         return result;
@@ -115,7 +109,7 @@ public final class Shader extends Resource {
     
     @Override
     public void destroy() {
-        glDeleteShader(this.shader);
+        Graphics.glDeleteShader(this.shader);
     }
     
 }
