@@ -47,7 +47,7 @@ public class Actor extends GameObject
     protected void initRenderer(String mesh){
         try {
             this.setRenderer(new Renderer(
-                    "Assets/Shaders/UnshadedVertex.glsl",
+                    "Assets/Shaders/UnShadedVertex.glsl",
                     "Assets/Shaders/UnshadedFragment.glsl",
                     "Assets/Textures/cube.bmp",
                     "Assets/Meshes/" + mesh     
