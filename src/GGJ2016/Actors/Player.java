@@ -35,6 +35,7 @@ import PrutEngine.Scene;
 public class Player extends Actor
 {
     private final Scene gameScene;
+    
     public Player(Scene gameScene)
     {
         super(new Vector3<Float>(0f,0f,-10f));
