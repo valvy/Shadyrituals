@@ -46,6 +46,6 @@ public class Player extends Actor
     {
         
         super.update(tpf);
-        gameScene.destroy(this);
+       
     }
 }
