@@ -27,6 +27,7 @@ package GGJ2016;
 
 import GGJ2016.Actors.*;
 import PrutEngine.Application;
+import PrutEngine.Core.Math.Vector3;
 import PrutEngine.Scene;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
 import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
@@ -41,6 +42,7 @@ public class GameScene extends Scene{
     public void awake() {
          Application.getInstance().getWindow().setWindowTitle("game");
          this.addGameObject(new Player(this));
+         this.addGameObject(new Enemy(new Vector3<>(-5f,-1f,-10f)));
     }
     
     @Override
