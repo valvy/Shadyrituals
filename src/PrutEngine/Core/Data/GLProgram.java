@@ -25,6 +25,7 @@
  */
 package PrutEngine.Core.Data;
 
+import PrutEngine.Core.Graphics;
 import PrutEngine.Debug;
 import java.util.ArrayList;
 import static org.lwjgl.opengl.GL11.GL_FALSE;
@@ -51,14 +52,14 @@ public final class GLProgram extends Resource{
     
     public GLProgram(final String fileLocation, final int position, final ArrayList<Integer> shaders){
         super(fileLocation, position);
-        this.program = glCreateProgram();
+        this.program = Graphics.glCreateProgram();
         shaders.stream().forEach((i) -> {
-            glAttachShader(this.program, i);
+            Graphics.glAttachShader(this.program, i);
         });
-        glLinkProgram(this.program);
-        this.errors = glGetProgramInfoLog(program, glGetProgrami(program, GL_INFO_LOG_LENGTH));
+        Graphics.glLinkProgram(this.program);
+        this.errors = Graphics.glGetProgramInfoLog(program, Graphics.glGetProgrami(program, Graphics.GL_INFO_LOG_LENGTH()));
         if(this.containErrors()){
-           if(glGetProgrami(program,GL20.GL_LINK_STATUS) == GL_FALSE){
+           if(Graphics.glGetProgrami(program,Graphics.GL_LINK_STATUS()) == Graphics.GL_FALSE()){
                    Debug.log("Program : " + fileLocation + " could not be linked");
            }
             
@@ -87,7 +88,7 @@ public final class GLProgram extends Resource{
     
     @Override
     public void destroy() {
-        glDeleteProgram(this.program);
+        Graphics.glDeleteProgram(this.program);
     }
     
 }
