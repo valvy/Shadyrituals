@@ -51,27 +51,28 @@ public class Player extends Actor
     @Override
     public void update(float tpf) 
     {
+        PlayerInput(tpf);
         super.update(tpf);
     }
-    public void PlayerInput()
+    public void PlayerInput(float tpf)
     {
-        Vector3 movePos = new Vector3(0, 0, 0);
+        Vector3 movePos = new Vector3(0f, 0f, 0f);
         if(Application.getInstance().getKeyboardKey(GLFW_KEY_W) == GLFW_PRESS)
         {
-            movePos.x = 1;
+            movePos.y = 1f;
         }
         if(Application.getInstance().getKeyboardKey(GLFW_KEY_A) == GLFW_PRESS)
         {
-            movePos.y = 1;
+            movePos.x = -1f;
         }      
         if(Application.getInstance().getKeyboardKey(GLFW_KEY_S) == GLFW_PRESS)
         {
-            movePos.x = -1;
+            movePos.y = -1f;
         }             
         if(Application.getInstance().getKeyboardKey(GLFW_KEY_D) == GLFW_PRESS)
         {
-             movePos.y = -1;
+             movePos.x = 1f;
         }
-        translate(null,speed);
+        translate(movePos,speed * tpf);
     }
 }
