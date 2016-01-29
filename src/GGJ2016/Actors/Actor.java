@@ -27,6 +27,9 @@ package GGJ2016.Actors;
 
 import PrutEngine.Core.Math.Vector3;
 import PrutEngine.GameObject;
+import PrutEngine.Renderer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -34,10 +37,26 @@ import PrutEngine.GameObject;
  */
 public class Actor extends GameObject
 {
-    public Actor()
+    private final float speed = 10;
+    
+    public Actor(Vector3<Float> startPos)
     {
-        
+        this.setPosition(startPos);
     }
+    
+    protected void initRenderer(String mesh){
+        try {
+            this.setRenderer(new Renderer(
+                    "Assets/Shaders/UnshadedVertex.glsl",
+                    "Assets/Shaders/UnshadedFragment.glsl",
+                    "Assets/Textures/cube.bmp",
+                    "Assets/Meshes/" + mesh     
+            ));
+        } catch (Exception ex) {
+            Logger.getLogger(Actor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     @Override
     public void update(float tpf) 
     {
