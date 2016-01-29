@@ -47,9 +47,9 @@ public class Actor extends GameObject
         Torus,
     }
     
-    private Element currentElement;
+    protected Element currentElement;
     
-    private final float speed = 10;
+    protected final float speed = 50;
     
     public Actor(Vector3<Float> startPos, float offsetX, float offsetY)
     {
@@ -84,7 +84,6 @@ public class Actor extends GameObject
             return;
         }
     }
-    
     protected void initRenderer(String mesh){
         try {
             this.setRenderer(new Renderer(
