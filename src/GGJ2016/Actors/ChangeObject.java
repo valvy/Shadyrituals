@@ -53,7 +53,7 @@ public class ChangeObject extends CollideAble
                 try {
             this.setRenderer(new Renderer(
                 "Assets/Shaders/UnShadedVertex.glsl",
-                "Assets/Shaders/UnshadedFragment.glsl",
+                "Assets/Shaders/UnShadedFragment.glsl",
                 "Assets/Textures/Weirdo.png",
 
                 "Assets/Meshes/Quad.obj"   
