@@ -39,8 +39,8 @@ import sun.awt.Mutex;
  */
 public final class ConnectionController implements Runnable{
     private boolean shouldStop = false;
-    private final Thread thread;
-    private final Mutex lock;
+  //  private final Thread thread;
+   // private final Mutex lock;
     private final int PORT = 4000;
     
     private static ConnectionController instance;
@@ -51,21 +51,21 @@ public final class ConnectionController implements Runnable{
     
     
     public ConnectionController(boolean host){
-        this.lock = new Mutex();
+       // this.lock = new Mutex();
         this.shouldStop = false;
-        this.thread = new Thread(this);
+       // this.thread = new Thread(this);
         instance = this;
-        this.thread.start();
+     //   this.thread.start();
         
     }
 
     public void stopConnection(){
-        this.shouldStop = true;
+        this.shouldStop = true;/*
         try {
             this.thread.join();
         } catch (InterruptedException ex) {
             Logger.getLogger(ConnectionController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }*/
     }
     
     @Override
