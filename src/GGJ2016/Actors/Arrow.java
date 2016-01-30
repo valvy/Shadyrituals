@@ -26,21 +26,13 @@
 package GGJ2016.Actors;
 
 import PrutEngine.Core.Math.Vector3;
-import PrutEngine.Debug;
 import PrutEngine.GameObject;
 import PrutEngine.Renderer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-/**
- *
- * @author wander
- */
 public class Arrow extends GameObject{
     
     public Arrow(Vector3<Float> startPos)
     {
-
         initRenderer("Arrow.png");
         this.setPosition(startPos);
         this.setSize(new Vector3(0.5f,0.5f,0.5f));
@@ -56,12 +48,10 @@ public class Arrow extends GameObject{
                 "Assets/Textures/" + texture,
                 "Assets/Meshes/Quad.obj")); 
         }
-         catch(Exception e ){
-                  
-                 }
+         catch(Exception e ){}
     }
     
-     @Override
+    @Override
     public void update(float tpf) 
     {
         

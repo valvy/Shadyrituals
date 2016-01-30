@@ -28,18 +28,14 @@ package GGJ2016.Actors;
 import GGJ2016.GameScene;
 import PrutEngine.Core.Math.Vector3;
 import PrutEngine.Core.Math.Vector4;
-import PrutEngine.GameObject;
 import PrutEngine.Renderer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author quget
- */
 public class ChangeObject extends CollideAble
 {
     private final GameScene scene;
+    
     public ChangeObject(Vector3<Float> startPos, GameScene scene)
     {
         this.scene = scene;
@@ -48,51 +44,46 @@ public class ChangeObject extends CollideAble
         this.boundingBox = new Vector4<Float>(1f, 1f, 1f, 1f);
         initRenderer();
     }
+    
     public void initRenderer()
     {
-                try {
+        try {
             this.setRenderer(new Renderer(
                 "Assets/Shaders/UnShadedVertex.glsl",
                 "Assets/Shaders/UnShadedFragment.glsl",
                 "Assets/Textures/Weirdo.png",
-
-                "Assets/Meshes/Quad.obj"   
-            ));
-        } catch (Exception ex) {
-            Logger.getLogger(Actor.class.getName()).log(Level.SEVERE, null, ex);
+                "Assets/Meshes/Quad.obj"));
+        }
+        catch (Exception ex) {
+            System.out.println(ex);
         }
     }
+    
     @Override
     public void update(float tpf)
     {
-        
         super.update(tpf);
     }
     
     @Override
     public void onCollision(CollideAble collideWith)
     {
-        if((collideWith instanceof Actor))
+        if(collideWith instanceof Actor)
         {
             Actor otherActor = (Actor)collideWith;
             switch(otherActor.currentElement)
             {
                 case Sphere:
-                     otherActor.setupElement(Actor.Element.Torus);
-                     
+                    otherActor.setupElement(Actor.Element.Torus);
                     break;
                 case Cube:
                     otherActor.setupElement(Actor.Element.Sphere);
-                    
                     break;
                 case Torus:
-                   
-                   otherActor.setupElement(Actor.Element.Cube);
-                    
+                    otherActor.setupElement(Actor.Element.Cube);
                     break;
             }
         }
-        
         this.scene.destroy(this);
         super.onCollision(collideWith);
     }

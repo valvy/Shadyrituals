@@ -18,10 +18,10 @@
             <file>file:/D:/Project%20Game%20Jam/second/Assets/Textures/Circle.png</file>
             <file>file:/D:/Project%20Game%20Jam/second/src/PrutEngine/Core/Math/Vector2.java</file>
             <file>file:/D:/Project%20Game%20Jam/second/src/PrutEngine/Camera.java</file>
+            <file>file:/D:/Project%20Game%20Jam/second/Assets/Shaders/BackgroundFragment.glsl</file>
+            <file>file:/D:/Project%20Game%20Jam/second/src/GGJ2016/BaseConnection.java</file>
             <file>file:/D:/Project%20Game%20Jam/second/src/PrutEngine/Renderer.java</file>
             <file>file:/D:/Project%20Game%20Jam/second/src/PrutEngine/Application.java</file>
-            <file>file:/D:/Project%20Game%20Jam/second/src/PrutEngine/Debug.java</file>
-            <file>file:/D:/Project%20Game%20Jam/second/src/GGJ2016/Actors/Arrow.java</file>
             <file>file:/D:/Project%20Game%20Jam/second/Assets/Shaders/UnShadedVertex.glsl</file>
             <file>file:/D:/Project%20Game%20Jam/second/src/GGJ2016/SplashScreen.java</file>
             <file>file:/D:/Project%20Game%20Jam/second/src/GGJ2016/GameScene.java</file>
@@ -37,6 +37,7 @@
             <file>file:/D:/Project%20Game%20Jam/second/src/GGJ2016/Actors/CollideAble.java</file>
             <file>file:/D:/Project%20Game%20Jam/second/src/PrutEngine/Core/Data/Shader.java</file>
             <file>file:/D:/Project%20Game%20Jam/second/src/PrutEngine/Core/View.java</file>
+            <file>file:/D:/Project%20Game%20Jam/second/src/GGJ2016/ConnectionClient.java</file>
             <file>file:/D:/Project%20Game%20Jam/second/src/GGJ2016/Actors/Actor.java</file>
             <file>file:/D:/Project%20Game%20Jam/second/src/PrutEngine/Core/Math/Quaternion.java</file>
             <file>file:/D:/Project%20Game%20Jam/second/src/GGJ2016/InfoScreen.java</file>

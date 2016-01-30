@@ -36,19 +36,14 @@ import static org.lwjgl.opengl.GL20.glGetUniformLocation;
 import static org.lwjgl.opengl.GL20.glUniform1f;
 import static org.lwjgl.opengl.GL20.glUseProgram;
 
-/**
- *
- * @author Heiko van der Heijden
- */
-public class Background extends GameObject {
-        int time;
+public class Background extends GameObject
+{
+    int time;
+    float timer = 0f;
+    
     public Background(){
-
-          try {
-            
-         //   this.setRenderer(new Renderer("Assets/Shaders/UnshadedVertex.glsl", ""Assets/Textures/cube.bmpAssets/Shaders/UnshadedFragment.glsl","Assets/Textures/SplashScreen.png", "Assets/Meshes/Quad.obj"));
-           //this.setRenderer(new Renderer("Assets/Shaders/UnshadedVertex.glsl", "Assets/Shaders/UnshadedFragment.glsl","", "Assets/Meshes/Quad.obj")); 
-                     this.setRenderer(new Renderer(
+        try {
+            this.setRenderer(new Renderer(
                 "Assets/Shaders/UnShadedVertex.glsl",
                 "Assets/Shaders/UnShadedFragment.glsl",
                 "Assets/Textures/SplashScreen.png",
@@ -64,20 +59,19 @@ public class Background extends GameObject {
         this.rotate(new Vector3<>(1f,0f,0f), -90);
     }
     
-    float timer = 0f;
     @Override
-    public void update(float tpf) {
+    public void update(float tpf){
         timer += 1 * tpf;
         if(timer % 360 == 0){
             Debug.log("hai");
             timer = 0;
         }
-        try {
+        try{
             glUseProgram(AssetManager.getProgram(this.getRenderer().getProgram()));
             glUniform1f(this.time, (float) Math.sin(timer) * 100);
-        } catch (AssetManager.AssetNotFoundException ex) {
-            Logger.getLogger(Example.Background.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        catch(AssetManager.AssetNotFoundException ex){
+            System.out.println(ex);
         }
     }
-    
 }

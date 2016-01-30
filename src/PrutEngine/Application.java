@@ -47,7 +47,7 @@ public final class Application {
     private GLFWErrorCallback errorCallback;
     private GLFWKeyCallback   keyCallback;
     private long window;
- 
+    private boolean shouldStop = false;
     private Scene currentModel;
     private final View view;
     /**
@@ -133,12 +133,17 @@ public final class Application {
             glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     }
     
-    public void quit(){
+    private void destroy(){
         BaseConnection.getInstance().stopConnection();
         
         this.currentModel.onQuit();
         this.view.destroy();
         glfwSetWindowShouldClose(window, GLFW_TRUE);
+    }
+    
+    public void quit(){
+        this.shouldStop = true;
+ 
     }
     
     public View getWindow(){
@@ -182,7 +187,11 @@ public final class Application {
          while ( glfwWindowShouldClose(window) == GLFW_FALSE ) {
              Date date = new Date();
              long time = date.getTime();
-          
+             if(this.shouldStop){
+                 this.destroy();
+                 return;
+             }
+             
              glfwSwapBuffers(window); // swap the color buffers
              if(this.currentModel != null){
                 this.currentModel.draw(this.view);
@@ -199,6 +208,8 @@ public final class Application {
              }
              glfwPollEvents();
          }
+         
+         this.destroy();
     }
     
     private void run(){

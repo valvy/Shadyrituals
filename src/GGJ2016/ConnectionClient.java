@@ -25,12 +25,14 @@
  */
 package GGJ2016;
 
+import PrutEngine.Application;
 import PrutEngine.Debug;
 import com.sun.corba.se.impl.orbutil.concurrent.Mutex;
 import java.io.BufferedWriter;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import static java.lang.System.exit;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -42,7 +44,7 @@ import java.util.logging.Logger;
  */
 public class ConnectionClient extends BaseConnection {
     private Socket socket;
-    private final String IP = "localhost";
+    private final String IP = "192.168.0.108";
     private DataInputStream inputStream;
     private  BufferedWriter bw;
     private final Mutex mutex;
@@ -54,7 +56,10 @@ public class ConnectionClient extends BaseConnection {
         this.from = new ArrayList<>();
         this.to = new ArrayList<>();
     }
-    
+    /**
+     * Gets the data from the specific client
+     * @return 
+     */
     public String getFrom(){
         String dat = NOTHING;
         try{
@@ -71,10 +76,12 @@ public class ConnectionClient extends BaseConnection {
         }
         return dat;
     }
-
+    /**
+     * Sends a message to the client
+     * @param msg 
+     */
     public void addToBuffer(String msg){
         try {
-            Debug.log(msg);
             mutex.acquire();
             this.to.add(msg);
         } catch (InterruptedException ex) {
@@ -87,13 +94,23 @@ public class ConnectionClient extends BaseConnection {
     
     @Override
     protected void stop() {
+        try {
+            this.socket.close();
+            this.bw.close();
+            this.inputStream.close();
+            
+        } catch (IOException ex) {
+            Logger.getLogger(ConnectionClient.class.getName()).log(Level.SEVERE, null, ex);
+        }
        
     }
 
     @Override
     public boolean attemptToConnect() {
         try {
+            Debug.log("roflasdfasdf");
             socket = new Socket(this.IP, PORT);
+           
             inputStream = new DataInputStream(socket.getInputStream());
             bw= new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
             return true;
@@ -108,16 +125,19 @@ public class ConnectionClient extends BaseConnection {
         byte[] buffer = new byte[1024];
         int read;
         try {
-            this.send("Hello", bw);
+            //this.send("Hello", bw);
+
             while((read = inputStream.read(buffer)) != -1){
                 if(this.shouldStop()){
                     bw.close();
                     socket.close();
-                    return;
+                    
+                    break;
                 }
             try {
                 this.mutex.acquire();
                 String msg = new String(buffer, 0, read);
+                Debug.log(msg);
                 if(!msg.equals(NOTHING)){
                     this.from.add(msg);
                     Debug.log(msg);
@@ -136,7 +156,16 @@ public class ConnectionClient extends BaseConnection {
             }
         }   
         } catch (IOException ex) {
+            try {
+                this.socket.close();
+                 this.inputStream.close();
+                 this.bw.close();
+            } catch (IOException ex1) {
+                Logger.getLogger(ConnectionClient.class.getName()).log(Level.SEVERE, null, ex1);
+            }
+          Application.getInstance().quit();
             Logger.getLogger(ConnectionClient.class.getName()).log(Level.SEVERE, null, ex);
+            
         }
     }
     

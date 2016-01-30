@@ -28,26 +28,24 @@ package GGJ2016.Actors;
 import PrutEngine.Core.Math.Vector4;
 import PrutEngine.GameObject;
 
-/**
- *
- * @author quget
- */
 public class CollideAble extends GameObject
 {
     public Vector4<Float> boundingBox;
     
     public void updateBoundingBox()
     {
-        boundingBox.w = position.y + (size.y /2);
-        boundingBox.x = position.x + (size.x /2);
-        boundingBox.y = position.y - (size.y /2);
-        boundingBox.z = position.x - (size.x /2);
+        //Must always be a quad!
+        boundingBox.w = position.y + 1;
+        boundingBox.x = position.x + 1;
+        boundingBox.y = position.y - 1;
+        boundingBox.z = position.x - 1;
     }
     
     public void onCollision(CollideAble collideWith)
     {
         
     }
+    
     @Override
     public void update(float tpf) 
     {
