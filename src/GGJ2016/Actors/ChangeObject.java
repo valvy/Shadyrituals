@@ -25,105 +25,65 @@
  */
 package GGJ2016.Actors;
 
-import GGJ2016.GameScene;
-import PrutEngine.AssetManager;
 import PrutEngine.Core.Math.Vector3;
 import PrutEngine.Core.Math.Vector4;
-import PrutEngine.Debug;
 import PrutEngine.GameObject;
 import PrutEngine.Renderer;
-import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Actor extends CollideAble
+/**
+ *
+ * @author quget
+ */
+public class ChangeObject extends CollideAble
 {
-    protected enum Element{
-        Sphere,
-        Cube,
-        Torus
-    }
-    
-    protected Element currentElement;
-    
-    protected final float speed = 80;
-    
-    public Actor(Vector3<Float> startPos)
+    public ChangeObject(Vector3<Float> startPos)
     {
         this.setPosition(startPos);
         this.rotate(new Vector3<>(1f,0f,0f), -90);
-
-        setupElement(Element.Sphere);
-
         this.boundingBox = new Vector4<Float>(1f, 1f, 1f, 1f);
+        initRenderer();
     }
+    public void initRenderer()
+    {
+                try {
+            this.setRenderer(new Renderer(
+                "Assets/Shaders/UnShadedVertex.glsl",
+                "Assets/Shaders/UnshadedFragment.glsl",
+                "Assets/Textures/cube.bmp",
+                "Assets/Meshes/Quad.obj"   
+            ));
+        } catch (Exception ex) {
+            Logger.getLogger(Actor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    @Override
+    public void update(float tpf)
+    {
+        
+        super.update(tpf);
+    }
+    
     @Override
     public void onCollision(CollideAble collideWith)
     {
         if((collideWith instanceof Actor))
         {
             Actor otherActor = (Actor)collideWith;
-            switch(this.currentElement)
+            switch(otherActor.currentElement)
             {
                 case Sphere:
-                    if(otherActor.currentElement == Element.Cube)
-                        Die();
+                    otherActor.setupElement(Actor.Element.Cube);
                     break;
                 case Cube:
-                    if(otherActor.currentElement == Element.Torus)
-                         Die();
+                    otherActor.setupElement(Actor.Element.Torus);
                     break;
                 case Torus:
-                    if(otherActor.currentElement == Element.Sphere)
-                         Die();
+                    otherActor.setupElement(Actor.Element.Sphere);
                     break;
             }
         }
-    }
-    protected void Die()
-    {
-        //Fix this
-        AssetManager.getSound("death01").PlaySound(0);
-        respawnActor(new Vector4(10,10,10,10));
-    }
-    public void respawnActor(Vector4 bounds)
-    {
-       Random r = new Random();
-       position.y = (float)(r.nextInt((int)bounds.w + (int)bounds.y)-(int)bounds.y);
-       position.x = (float)(r.nextInt((int)bounds.x + (int)bounds.z)-(int)bounds.z);
-    }
-    
-    protected void setupElement(Element element){
-        this.currentElement = element;
-        switch(this.currentElement){
-            case Sphere:
-            this.initRenderer("Sphere.png");
-            return;
-            case Cube:
-            this.initRenderer("Cube.png");
-            return;
-            case Torus:           
-            this.initRenderer("Weirdo.png");
-            return;
-        }
-    }
-    protected void initRenderer(String texture){
-        try {
-            this.setRenderer(new Renderer(
-                "Assets/Shaders/UnShadedVertex.glsl",
-                "Assets/Shaders/UnShadedFragment.glsl",
-                "Assets/Textures/" + texture,
-                "Assets/Meshes/Quad.obj")); 
-        }
-         catch(Exception e ){
-                  
-                 }
-    }
-
-    
-    @Override
-    public void update(float tpf) 
-    {
-        super.update(tpf);
+        super.onCollision(collideWith);
     }
 }
