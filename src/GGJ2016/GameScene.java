@@ -28,6 +28,7 @@ package GGJ2016;
 import GGJ2016.Actors.*;
 import PrutEngine.Application;
 import PrutEngine.AssetManager;
+import PrutEngine.Camera;
 import PrutEngine.Core.Math.Vector3;
 import PrutEngine.GameObject;
 import PrutEngine.Scene;
@@ -75,7 +76,10 @@ public class GameScene extends Scene{
         AssetManager.getSound("bgm01").PlaySound(-1);
 
     }
-    
+    public Camera getCamera()
+    {
+        return this.camera;
+    }
     public void shakeScreen(float magnitude, float duration){
         ((MainCamera)this.camera).shakeScreen(1000f, 0.05f);
     }

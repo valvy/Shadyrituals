@@ -44,8 +44,9 @@ public class Player extends Actor
 {
     private final GameScene gameScene;
     private ArrayList<ScoreCube> scoreCubes = new ArrayList<ScoreCube>();
-    private float scoreCubeXStep = 1;
+    private float scoreCubeXStep = 1.5f;
     private float scoreCubeX;
+    
     public Player(GameScene gameScene){
         super(new Vector3<Float>(0f,0f,-10f));
         this.setSize(new Vector3<Float>(2f, 2f, 2f));
@@ -75,8 +76,8 @@ public class Player extends Actor
         for(int i = 0; i < scoreCubes.size(); i++)
         {
             Vector3<Float> cubePosition = new Vector3(0f,0f,0f);
-            cubePosition.x = (position.x - 12f) + (i * scoreCubeXStep);
-            cubePosition.y = position.y + 12;
+            cubePosition.x = (-gameScene.getCamera().getPosition().x - 12f) + (i * scoreCubeXStep);
+            cubePosition.y = -gameScene.getCamera().getPosition().y + 12;
             scoreCubes.get(i).setPosition(cubePosition);
             //scoreCubes.get(i).destroy();
         }

@@ -63,7 +63,7 @@ public final class MainCamera extends Camera {
         
         
         if(this.shakeDuration > 0 && this.shakeMagnitude > 0){
-            this.rotate(new Vector3<>(1f,1f,1f), (float) Math.sin(this.shakeDuration - (this.shakeDuration * this.shakeMagnitude)  ));
+            this.rotate(new Vector3<>(1f,1f,1f), (float) Math.sin(this.shakeDuration - (this.shakeDuration * this.shakeMagnitude * tpf)  ));
             this.shakeDuration -= tpf;
         }else{
             this.setRotation(oldQuaternion);
