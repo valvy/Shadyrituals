@@ -65,7 +65,8 @@ public class Player extends Actor
     {
         for(int i = 0; i < scoreCubes.size(); i++)
         {
-            scoreCubes.get(i).destroy();
+            gameScene.destroy(scoreCubes.get(i));
+            //scoreCubes.get(i).destroy();
         }
         scoreCubes.removeAll(scoreCubes);
         scoreCubeX = 0;
@@ -73,13 +74,20 @@ public class Player extends Actor
     @Override
     public void update(float tpf) 
     {
+        int lineCountY = 0;
+        int lineCountX = 1;
         for(int i = 0; i < scoreCubes.size(); i++)
         {
             Vector3<Float> cubePosition = new Vector3(0f,0f,0f);
-            cubePosition.x = (-gameScene.getCamera().getPosition().x - 12f) + (i * scoreCubeXStep);
-            cubePosition.y = -gameScene.getCamera().getPosition().y + 12;
+            if(i % 17 == 0)
+            {
+                lineCountY ++;
+                lineCountX = 0;
+            }
+            cubePosition.x = (-gameScene.getCamera().getPosition().x - 12f) + (lineCountX * scoreCubeXStep);
+            cubePosition.y = -gameScene.getCamera().getPosition().y + 14 - ( scoreCubeXStep * lineCountY);// * lineCount);
+            lineCountX ++;
             scoreCubes.get(i).setPosition(cubePosition);
-            //scoreCubes.get(i).destroy();
         }
         PlayerInput(tpf);
         super.update(tpf);
@@ -121,7 +129,6 @@ public class Player extends Actor
                     this.setupElement(Element.Sphere);
                     break;
             }
-           AddScore();
            AssetManager.getSound("change").PlaySound(0);
         }
       //  Debug.log(movePos);
@@ -131,12 +138,32 @@ public class Player extends Actor
     @Override
     public void onCollision(CollideAble collideWith)
     {
+        if((collideWith instanceof Actor))
+        {
+            Actor otherActor = (Actor)collideWith;
+            switch(this.currentElement)
+            {
+                case Sphere:
+                    if(otherActor.currentElement == Element.Torus)
+                       AddScore();
+                    break;
+                case Cube:
+                    if(otherActor.currentElement == Element.Sphere)
+                       AddScore();
+                    break;
+                case Torus:
+                    if(otherActor.currentElement == Element.Cube)
+                       AddScore();
+                    break;
+            }
+        }
         super.onCollision(collideWith);
     }
     @Override
     protected void Die()
     {
         super.Die();
+        ResetScore();
         ((GameScene)this.gameScene).shakeScreen(100, 0.01f);
        // Debug.log(this.currentElement);
     }
