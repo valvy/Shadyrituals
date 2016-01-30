@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016, Heiko van der Heijden 
+ * Copyright (c) 2016, quget
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,29 +25,32 @@
  */
 package GGJ2016.Actors;
 
-import PrutEngine.Core.Math.Vector3;
+import PrutEngine.Core.Math.Vector4;
+import PrutEngine.GameObject;
 
 /**
  *
- * @author Heiko van der Heijden
+ * @author quget
  */
-public final class Enemy extends Actor{
-    public Enemy(Vector3<Float> startPos) {
-        super(startPos);
-        this.setSize(new Vector3<Float>(2f, 2f, 2f));
-        this.setPosition(startPos);
+public class CollideAble extends GameObject
+{
+    public Vector4<Float> boundingBox;
+    
+    public void updateBoundingBox()
+    {
+        boundingBox.w = position.y + (size.y /2);
+        boundingBox.x = position.x + (size.x /2);
+        boundingBox.y = position.y - (size.y /2);
+        boundingBox.z = position.x - (size.x /2);
     }
     
-    @Override
-    public void update(float tpf){
-        super.update(tpf);
-        
-  
-    }
-    
-    @Override
     public void onCollision(CollideAble collideWith)
     {
-        super.onCollision(collideWith);
+        
+    }
+    @Override
+    public void update(float tpf) 
+    {
+        this.updateBoundingBox();
     }
 }
