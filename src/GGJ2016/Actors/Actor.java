@@ -26,6 +26,7 @@
 package GGJ2016.Actors;
 
 import GGJ2016.GameScene;
+import PrutEngine.AssetManager;
 import PrutEngine.Core.Math.Vector3;
 import PrutEngine.Core.Math.Vector4;
 import PrutEngine.Debug;
@@ -51,10 +52,9 @@ public class Actor extends GameObject
     
     public Actor(Vector3<Float> startPos)
     {
-        this.currentElement = Element.Sphere;
         this.setPosition(startPos);
         this.rotate(new Vector3<>(1f,0f,0f), -90);
-        this.initRenderer("Quad.obj");
+        setupElement(Element.Sphere);
         this.boundingBox = new Vector4<Float>(1f, 1f, 1f, 1f);
     }
     
@@ -79,6 +79,7 @@ public class Actor extends GameObject
     protected void Die()
     {
         //Fix this
+        AssetManager.getSound("death01").PlaySound(0);
         respawnActor(new Vector4(10,10,10,10));
     }
     public void updateBoundingBox()
@@ -100,22 +101,23 @@ public class Actor extends GameObject
         this.currentElement = element;
         switch(this.currentElement){
             case Sphere:
-            this.initRenderer("sphere.obj");
+                this.initRenderer("Quad.obj","Sphere.png");
             return;
             case Cube:
-            this.initRenderer("cube.obj");
+                this.initRenderer("Quad.obj","Cube.png");
             return;
             case Torus:           
-            this.initRenderer("monkey.obj");
+                this.initRenderer("Quad.obj","PalmTree.png");
             return;
         }
     }
-    protected void initRenderer(String mesh){
+    
+    protected void initRenderer(String mesh, String texture){
         try {
             this.setRenderer(new Renderer(
                 "Assets/Shaders/UnShadedVertex.glsl",
                 "Assets/Shaders/UnshadedFragment.glsl",
-                "Assets/Textures/cube.bmp",
+                "Assets/Textures/" + texture,
                 "Assets/Meshes/" + mesh     
             ));
         } catch (Exception ex) {
