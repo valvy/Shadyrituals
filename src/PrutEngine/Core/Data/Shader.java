@@ -25,6 +25,7 @@
  */
 package PrutEngine.Core.Data;
 
+
 import PrutEngine.Debug;
 import java.io.IOException;
 import static org.lwjgl.opengl.ARBTessellationShader.GL_TESS_CONTROL_SHADER;
@@ -53,8 +54,8 @@ public final class Shader extends Resource {
     public enum Type{
         Vertex_Shader,
         Fragment_Shader,
-        Tes_Control_Shader,
-        Tes_Evaluation_Shader
+      //  Tes_Control_Shader,
+       // Tes_Evaluation_Shader
     }
     
     private final int shader;
@@ -91,13 +92,6 @@ public final class Shader extends Resource {
             case Vertex_Shader:
                 result = glCreateShader(GL_VERTEX_SHADER);
                 break;
-            case Tes_Control_Shader:
-                result = glCreateShader(GL_TESS_CONTROL_SHADER);
-                break;
-            case Tes_Evaluation_Shader:
-                result = glCreateShader(GL_TESS_EVALUATION_SHADER);
-                break;
-               
         }
         
             

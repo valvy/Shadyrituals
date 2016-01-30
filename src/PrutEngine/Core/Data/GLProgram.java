@@ -25,6 +25,7 @@
  */
 package PrutEngine.Core.Data;
 
+
 import PrutEngine.Debug;
 import java.util.ArrayList;
 import static org.lwjgl.opengl.GL11.GL_FALSE;
@@ -53,7 +54,7 @@ public final class GLProgram extends Resource{
         super(fileLocation, position);
         this.program = glCreateProgram();
         shaders.stream().forEach((i) -> {
-            glAttachShader(this.program, i);
+           glAttachShader(this.program, i);
         });
         glLinkProgram(this.program);
         this.errors = glGetProgramInfoLog(program, glGetProgrami(program, GL_INFO_LOG_LENGTH));

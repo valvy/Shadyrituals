@@ -25,7 +25,6 @@
  */
 package GGJ2016.Actors;
 
-import PrutEngine.Core.Math.Vector3;
 import PrutEngine.*;
 //import org.lwjgl.glfw.GLFW;
 import static org.lwjgl.glfw.GLFW.*;
@@ -43,8 +42,10 @@ public class Player extends Actor
     private final Scene gameScene;
     
     public Player(Scene gameScene){
-        super(new Vector3<Float>(0f,0f,-10f));
-        this.initRenderer("sphere.obj");
+        super(new Vector3<Float>(0f,0f,-10f), 0f, 0f);
+        this.initRenderer("cube.obj");
+        this.setSize(new Vector3<Float>(2f, 2f, 2f));
+        //this.initRenderer("sphere.obj");
         this.gameScene = gameScene;
         try
         {
@@ -106,5 +107,11 @@ public class Player extends Actor
             //Application.getInstance().prutSoundManager.playSound("Assets/Sounds/crow1a.wav");
         }
         translate(movePos,speed * tpf);
+    }
+    
+    @Override
+    public void onCollision(Actor collideWith)
+    {
+        
     }
 }
