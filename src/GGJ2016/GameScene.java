@@ -27,6 +27,7 @@ package GGJ2016;
 
 import GGJ2016.Actors.*;
 import PrutEngine.Application;
+import PrutEngine.AssetManager;
 import PrutEngine.Core.Math.Vector3;
 import PrutEngine.Scene;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_9;
@@ -48,6 +49,19 @@ public class GameScene extends Scene{
          this.addGameObject(new Enemy(new Vector3<>(-5f,-1f,-10f)));
          this.addGameObject(new Enemy(new Vector3<>(5f,-1f,-10f)));
          
+         
+        try
+        {
+            AssetManager.loadSound("Assets/Sounds/clap01.wav");
+            AssetManager.loadSound("Assets/Sounds/mmmm.wav");
+            AssetManager.loadSound("Assets/Sounds/wanderMusic.wav");
+        }
+        catch(Exception e)
+        {
+            System.err.println(e.getMessage());
+        }
+        Application.getInstance().prutSoundManager.PlaySound( AssetManager.getSound(2));
+        
     }
     
     @Override

@@ -84,8 +84,12 @@ public class Sound extends Resource
     {
         try
         {
-            clip = AudioSystem.getClip();
-            clip.open(audioFormat,data, 0, buffSize - 20000);
+            if(clip == null)
+            {
+                clip = AudioSystem.getClip();
+                clip.open(audioFormat,data, 0, buffSize);
+            }
+            clip.setFramePosition(0);
             clip.start();
         }
         catch(Exception e)
