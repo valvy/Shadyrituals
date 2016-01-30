@@ -97,7 +97,7 @@ public class Player extends Actor
     }
     
     @Override
-    public void onCollision(Actor collideWith)
+    public void onCollision(CollideAble collideWith)
     {
         super.onCollision(collideWith);
     }

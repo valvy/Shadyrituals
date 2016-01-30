@@ -36,10 +36,8 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Actor extends GameObject
+public class Actor extends CollideAble
 {
-    public Vector4<Float> boundingBox;
-    
     protected enum Element{
         Sphere,
         Cube,
@@ -57,23 +55,27 @@ public class Actor extends GameObject
         setupElement(Element.Sphere);
         this.boundingBox = new Vector4<Float>(1f, 1f, 1f, 1f);
     }
-    
-    public void onCollision(Actor collideWith)
+    @Override
+    public void onCollision(CollideAble collideWith)
     {
-        switch(this.currentElement)
+        if((collideWith instanceof Actor))
         {
-            case Sphere:
-                if(collideWith.currentElement == Element.Cube)
-                    Die();
-                break;
-            case Cube:
-                if(collideWith.currentElement == Element.Torus)
-                     Die();
-                break;
-            case Torus:
-                if(collideWith.currentElement == Element.Sphere)
-                     Die();
-                break;
+            Actor otherActor = (Actor)collideWith;
+            switch(this.currentElement)
+            {
+                case Sphere:
+                    if(otherActor.currentElement == Element.Cube)
+                        Die();
+                    break;
+                case Cube:
+                    if(otherActor.currentElement == Element.Torus)
+                         Die();
+                    break;
+                case Torus:
+                    if(otherActor.currentElement == Element.Sphere)
+                         Die();
+                    break;
+            }
         }
     }
     protected void Die()
@@ -82,14 +84,6 @@ public class Actor extends GameObject
         AssetManager.getSound("death01").PlaySound(0);
         respawnActor(new Vector4(10,10,10,10));
     }
-    public void updateBoundingBox()
-    {
-        boundingBox.w = position.y + (size.y /2);
-        boundingBox.x = position.x + (size.x /2);
-        boundingBox.y = position.y - (size.y /2);
-        boundingBox.z = position.x - (size.x /2);
-    }
-    
     public void respawnActor(Vector4 bounds)
     {
        Random r = new Random();
@@ -137,6 +131,6 @@ public class Actor extends GameObject
     @Override
     public void update(float tpf) 
     {
-        this.updateBoundingBox();
+        super.update(tpf);
     }
 }

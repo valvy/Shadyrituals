@@ -26,6 +26,7 @@
 package PrutEngine;
 
 import GGJ2016.Actors.Actor;
+import GGJ2016.Actors.CollideAble;
 import GGJ2016.Actors.Enemy;
 import GGJ2016.Actors.Player;
 import PrutEngine.Core.Math.Vector3;
@@ -115,19 +116,26 @@ public abstract class Scene {
         
         for(GameObject obj : this.gameObjects)
         {
-            if(!(obj instanceof Actor)) continue;
+            if(!(obj instanceof CollideAble)) continue;
             // Collision
             for(GameObject obj2 : this.gameObjects)
             {
                 if(obj == obj2 || !(obj2 instanceof Actor)) continue;
                 if(
+<<<<<<< HEAD
                    ((((Actor)obj2).boundingBox.w <= ((Actor)obj).boundingBox.w && ((Actor)obj2).boundingBox.w >= ((Actor)obj).boundingBox.y)  ||
                     (((Actor)obj2).boundingBox.y <= ((Actor)obj).boundingBox.w && ((Actor)obj2).boundingBox.y >= ((Actor)obj).boundingBox.y)) &&
                    ((((Actor)obj2).boundingBox.x <= ((Actor)obj).boundingBox.x && ((Actor)obj2).boundingBox.x >= ((Actor)obj).boundingBox.z)  ||
                     (((Actor)obj2).boundingBox.z <= ((Actor)obj).boundingBox.x && ((Actor)obj2).boundingBox.z >= ((Actor)obj).boundingBox.z))
+=======
+                   ((((CollideAble)obj2).boundingBox.w < ((CollideAble)obj).boundingBox.w && ((CollideAble)obj2).boundingBox.w > ((CollideAble)obj).boundingBox.y)  ||
+                    (((CollideAble)obj2).boundingBox.y < ((CollideAble)obj).boundingBox.w && ((CollideAble)obj2).boundingBox.y > ((CollideAble)obj).boundingBox.y)) &&
+                   ((((CollideAble)obj2).boundingBox.x < ((CollideAble)obj).boundingBox.x && ((CollideAble)obj2).boundingBox.x > ((CollideAble)obj).boundingBox.z)  ||
+                    (((CollideAble)obj2).boundingBox.z < ((CollideAble)obj).boundingBox.x && ((CollideAble)obj2).boundingBox.z > ((CollideAble)obj).boundingBox.z))
+>>>>>>> 5da867401f364d3cfc6c802545f869564547fb41
                   )
                 {
-                    ((Actor)obj).onCollision((Actor)obj2);
+                    ((CollideAble)obj).onCollision((Actor)obj2);
                 }
             }
         }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016, Heiko van der Heijden 
+ * Copyright (c) 2016, quget
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -26,28 +26,64 @@
 package GGJ2016.Actors;
 
 import PrutEngine.Core.Math.Vector3;
+import PrutEngine.Core.Math.Vector4;
+import PrutEngine.GameObject;
+import PrutEngine.Renderer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
- * @author Heiko van der Heijden
+ * @author quget
  */
-public final class Enemy extends Actor{
-    public Enemy(Vector3<Float> startPos) {
-        super(startPos);
-        this.setSize(new Vector3<Float>(2f, 2f, 2f));
+public class ChangeObject extends CollideAble
+{
+    public ChangeObject(Vector3<Float> startPos)
+    {
         this.setPosition(startPos);
+        this.rotate(new Vector3<>(1f,0f,0f), -90);
+        this.boundingBox = new Vector4<Float>(1f, 1f, 1f, 1f);
+        initRenderer();
     }
-    
+    public void initRenderer()
+    {
+                try {
+            this.setRenderer(new Renderer(
+                "Assets/Shaders/UnShadedVertex.glsl",
+                "Assets/Shaders/UnshadedFragment.glsl",
+                "Assets/Textures/cube.bmp",
+                "Assets/Meshes/Quad.obj"   
+            ));
+        } catch (Exception ex) {
+            Logger.getLogger(Actor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     @Override
-    public void update(float tpf){
-        super.update(tpf);
+    public void update(float tpf)
+    {
         
-  
+        super.update(tpf);
     }
     
     @Override
     public void onCollision(CollideAble collideWith)
     {
+        if((collideWith instanceof Actor))
+        {
+            Actor otherActor = (Actor)collideWith;
+            switch(otherActor.currentElement)
+            {
+                case Sphere:
+                    otherActor.setupElement(Actor.Element.Cube);
+                    break;
+                case Cube:
+                    otherActor.setupElement(Actor.Element.Torus);
+                    break;
+                case Torus:
+                    otherActor.setupElement(Actor.Element.Sphere);
+                    break;
+            }
+        }
         super.onCollision(collideWith);
     }
 }
