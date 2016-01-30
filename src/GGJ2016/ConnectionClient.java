@@ -82,7 +82,6 @@ public class ConnectionClient extends BaseConnection {
      */
     public void addToBuffer(String msg){
         try {
-            Debug.log(msg);
             mutex.acquire();
             this.to.add(msg);
         } catch (InterruptedException ex) {
@@ -109,6 +108,7 @@ public class ConnectionClient extends BaseConnection {
     @Override
     public boolean attemptToConnect() {
         try {
+            Debug.log("roflasdfasdf");
             socket = new Socket(this.IP, PORT);
             inputStream = new DataInputStream(socket.getInputStream());
             bw= new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
