@@ -35,10 +35,6 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author quget
- */
 public class Actor extends GameObject
 {
     public Vector4<Float> boundingBox;
@@ -122,7 +118,6 @@ public class Actor extends GameObject
                 "Assets/Textures/cube.bmp",
                 "Assets/Meshes/" + mesh     
             ));
-            
         } catch (Exception ex) {
             Logger.getLogger(Actor.class.getName()).log(Level.SEVERE, null, ex);
         }

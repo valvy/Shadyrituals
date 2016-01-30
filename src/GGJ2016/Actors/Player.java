@@ -104,7 +104,8 @@ public class Player extends Actor
     @Override
     protected void Die()
     {
-        ((GameScene)this.gameScene).shakeScreen(100, 0.01f);
         super.Die();
+        ((GameScene)this.gameScene).shakeScreen(100, 0.01f);
+       // Debug.log(this.currentElement);
     }
 }
