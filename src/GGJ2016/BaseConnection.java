@@ -85,9 +85,11 @@ public abstract class BaseConnection implements Runnable{
     
     @Override
     public void run() {
-        while(!shouldStop){
-            if(this.attemptToConnect()){
+        if(this.attemptToConnect()){
+            while(!shouldStop){
+            
                 this.connected();
+            
             }
         }
     }

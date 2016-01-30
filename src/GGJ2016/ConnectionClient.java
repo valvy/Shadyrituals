@@ -108,7 +108,7 @@ public class ConnectionClient extends BaseConnection {
     @Override
     public boolean attemptToConnect() {
         try {
-            Debug.log("roflasdfasdf");
+            
             socket = new Socket(this.IP, PORT);
             inputStream = new DataInputStream(socket.getInputStream());
             bw= new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
@@ -124,7 +124,7 @@ public class ConnectionClient extends BaseConnection {
         byte[] buffer = new byte[1024];
         int read;
         try {
-            this.send("Hello", bw);
+
             while((read = inputStream.read(buffer)) != -1){
                 if(this.shouldStop()){
                     bw.close();
