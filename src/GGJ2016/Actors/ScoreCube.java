@@ -30,10 +30,6 @@ import PrutEngine.Debug;
 import PrutEngine.GameObject;
 import PrutEngine.Renderer;
 
-/**
- *
- * @author quget
- */
 public class ScoreCube extends GameObject
 {
     public ScoreCube(Vector3<Float> startPos)
@@ -43,7 +39,8 @@ public class ScoreCube extends GameObject
         this.setSize(new Vector3(0.5f,0.5f,0.5f));
     }
     
-    protected void initRenderer(String texture){
+    protected void initRenderer(String texture)
+    {
         try {
             this.setRenderer(new Renderer(
                 "Assets/Shaders/UnShadedVertex.glsl",
@@ -51,11 +48,12 @@ public class ScoreCube extends GameObject
                 "Assets/Textures/" + texture,
                 "Assets/Meshes/cube.obj")); 
         }
-         catch(Exception e )
-         {
-            Debug.log(e.getMessage());
-         }
+        catch(Exception e)
+        {
+            System.out.println(e);
+        }
     }
+    
     @Override
     public void update(float tpf) 
     {

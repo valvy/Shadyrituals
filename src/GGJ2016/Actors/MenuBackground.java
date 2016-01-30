@@ -25,30 +25,22 @@
  */
 package GGJ2016.Actors;
 
-import Example.ExampleSprite;
 import PrutEngine.Core.Math.Vector3;
 import PrutEngine.GameObject;
 import PrutEngine.Renderer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-/**
- *
- * @author Heiko van der Heijden
- */
-public class MenuBackground extends GameObject {
-
+public class MenuBackground extends GameObject
+{
     public MenuBackground(Vector3<Float> startPos)
     {
-
         initRenderer("menuscreen.png");
         this.setPosition(startPos);
         this.setSize(new Vector3(2f,2f,2f));
         this.rotate(new Vector3<>(1f,0f,0f), -90);
-        
     }
     
-    protected void initRenderer(String texture){
+    protected void initRenderer(String texture)
+    {
         try {
             this.setRenderer(new Renderer(
                 "Assets/Shaders/UnShadedVertex.glsl",
@@ -56,12 +48,12 @@ public class MenuBackground extends GameObject {
                 "Assets/Textures/" + texture,
                 "Assets/Meshes/Quad.obj")); 
         }
-         catch(Exception e ){
-                  
-                 }
+        catch(Exception e ){
+            System.out.println(e);
+        }
     }
     
-     @Override
+    @Override
     public void update(float tpf) 
     {
         
