@@ -40,4 +40,9 @@ public class Vector2<T> {
         this.x = other.x;
         this.y = other.y;
     }
+    
+    public void set(Vector2<T> other){
+        this.x = other.x;
+        this.y = other.y;
+    }
 }
