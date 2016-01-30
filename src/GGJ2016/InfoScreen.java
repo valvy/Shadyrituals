@@ -26,71 +26,41 @@
 package GGJ2016;
 
 import PrutEngine.Scene;
-import GGJ2016.Actors.Arrow;
-import GGJ2016.Actors.MenuBackground;
+import GGJ2016.Actors.InfoBackground;
 import PrutEngine.Application;
 import PrutEngine.AssetManager;
 import PrutEngine.Core.Math.Vector3;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_ENTER;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_S;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_SPACE;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_W;
 import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
 import static org.lwjgl.glfw.GLFW.GLFW_RELEASE;
 /**
  *
  * @author wander
  */
-public class MenuScene extends Scene {
-    
-    private int simpleState = 0;
-    private int up,down = 0;
-    private Arrow cursor = new Arrow(new Vector3<>(-0.40f,0.9f,0f));
+public class InfoScreen extends Scene {
+    private int state = 1;
     @Override
     public void awake() {
-        this.addGameObject(new MenuBackground(new Vector3<>(0f,0f,0f)));
-        this.addGameObject(cursor);
+        this.addGameObject(new InfoBackground(new Vector3<>(0f,0f,0f)));
 
     }
     
     @Override
     public void update(float tpf){
         super.update(tpf);
-        
-         if(Application.getInstance().getKeyboardKey(GLFW_KEY_W) == GLFW_PRESS && simpleState > 0 && up == 0){
-             simpleState--;
-             up = 1;
-             cursor.translate(new Vector3(0f,0.8f,0f), 1);
+        if(Application.getInstance().getKeyboardKey(GLFW_KEY_ENTER) == GLFW_RELEASE &&
+            Application.getInstance().getKeyboardKey(GLFW_KEY_SPACE) == GLFW_RELEASE ){
+                    state = 0;
          }
-         if(Application.getInstance().getKeyboardKey(GLFW_KEY_S) == GLFW_PRESS && simpleState < 2 && down == 0){
-             simpleState++;
-             down = 1;
-             cursor.translate(new Vector3(0f,-0.8f,0f), 1);
-         }
+        if(state != 0) return;
          if(Application.getInstance().getKeyboardKey(GLFW_KEY_ENTER) == GLFW_PRESS ||
             Application.getInstance().getKeyboardKey(GLFW_KEY_SPACE) == GLFW_PRESS ){
-            switch(simpleState)
-            {
-                case 0:
+
                     AssetManager.clearProgramsBuffer();
                     AssetManager.clearShaderBuffer();
-                    Application.getInstance().loadScene(new GameScene());
-                    break;
-                case 1:
-                    AssetManager.clearProgramsBuffer();
-                    AssetManager.clearShaderBuffer();
-                    Application.getInstance().loadScene(new InfoScreen());
-                    break;
-                case 2:
-                    Application.getInstance().quit();
-                    break;
-            }
-         }
-         if(Application.getInstance().getKeyboardKey(GLFW_KEY_W) == GLFW_RELEASE){
-             up = 0;
-         }
-         if(Application.getInstance().getKeyboardKey(GLFW_KEY_S) == GLFW_RELEASE){
-             down = 0;
+                    Application.getInstance().loadScene(new MenuScene());
+
          }
     }
 }
