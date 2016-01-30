@@ -42,7 +42,7 @@ public class Player extends Actor
 {
     private final Scene gameScene;
     public Player(Scene gameScene){
-        super(new Vector3<Float>(0f,0f,-10f), 0f, 0f);
+        super(new Vector3<Float>(0f,0f,-10f));
         this.setSize(new Vector3<Float>(2f, 2f, 2f));
         this.gameScene = gameScene;
     }
@@ -91,6 +91,7 @@ public class Player extends Actor
             }
            AssetManager.getSound("change").PlaySound(0);
         }
+        Debug.log(movePos);
         translate(movePos,speed * tpf);
     }
     
@@ -110,6 +111,6 @@ public class Player extends Actor
                 break;
         }
         respawnActor(new Vector4(4,4,4,4));
-        Debug.log(this.currentElement);
+       // Debug.log(this.currentElement);
     }
 }

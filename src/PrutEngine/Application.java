@@ -169,7 +169,7 @@ public final class Application {
             this.currentModel = scene;
             this.run();
         }
-            System.gc();
+        //    System.gc();
     }    
     
     private Thread thread ;
