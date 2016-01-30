@@ -31,10 +31,12 @@ import GGJ2016.Actors.MenuBackground;
 import PrutEngine.Application;
 import PrutEngine.AssetManager;
 import PrutEngine.Core.Math.Vector3;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_DOWN;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_ENTER;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_S;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_SPACE;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_UP;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_W;
 import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
 import static org.lwjgl.glfw.GLFW.GLFW_RELEASE;
@@ -57,20 +59,20 @@ public class MenuScene extends Scene {
     public void update(float tpf){
         super.update(tpf);
         
-         if(Application.getInstance().getKeyboardKey(GLFW_KEY_W) == GLFW_PRESS && simpleState > 0 && up == 0){
+         if(Application.getInstance().getKeyboardKey(GLFW_KEY_W) == GLFW_PRESS | Application.getInstance().getKeyboardKey(GLFW_KEY_UP) == GLFW_PRESS  && simpleState > 0 && up == 0){
              simpleState--;
              up = 1;
              cursor.translate(new Vector3(0f,0.8f,0f), 1);
          }
-         if(Application.getInstance().getKeyboardKey(GLFW_KEY_S) == GLFW_PRESS && simpleState < 2 && down == 0){
+         if(Application.getInstance().getKeyboardKey(GLFW_KEY_S) == GLFW_PRESS | Application.getInstance().getKeyboardKey(GLFW_KEY_DOWN) == GLFW_PRESS  && simpleState < 2 && down == 0){
              simpleState++;
              down = 1;
              cursor.translate(new Vector3(0f,-0.8f,0f), 1);
          }
-         if(Application.getInstance().getKeyboardKey(GLFW_KEY_W) == GLFW_RELEASE){
+         if(Application.getInstance().getKeyboardKey(GLFW_KEY_W) == GLFW_RELEASE && Application.getInstance().getKeyboardKey(GLFW_KEY_UP) == GLFW_RELEASE){
              up = 0;
          }
-         if(Application.getInstance().getKeyboardKey(GLFW_KEY_S) == GLFW_RELEASE){
+         if(Application.getInstance().getKeyboardKey(GLFW_KEY_S) == GLFW_RELEASE && Application.getInstance().getKeyboardKey(GLFW_KEY_DOWN) == GLFW_RELEASE){
              down = 0;
          }
                   
