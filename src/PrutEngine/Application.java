@@ -25,6 +25,7 @@
  */
 package PrutEngine;
 
+import GGJ2016.BaseConnection;
 import PrutEngine.Core.View;
 import java.util.Date;
 import java.util.HashMap;
@@ -133,6 +134,8 @@ public final class Application {
     }
     
     public void quit(){
+        BaseConnection.getInstance().stopConnection();
+        
         this.currentModel.onQuit();
         this.view.destroy();
         glfwSetWindowShouldClose(window, GLFW_TRUE);

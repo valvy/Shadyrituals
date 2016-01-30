@@ -46,15 +46,14 @@ public class Actor extends CollideAble
     
     protected Element currentElement;
     
-    protected final float speed = 800f;
+    protected final float speed = 600f;
     
     public Actor(Vector3<Float> startPos)
     {
         this.setPosition(startPos);
         this.rotate(new Vector3<>(1f,0f,0f), -90);
-
         setupElement(Element.Sphere);
-
+       // initElement();
         this.boundingBox = new Vector4<Float>(1f, 1f, 1f, 1f);
     }
     @Override
@@ -65,25 +64,67 @@ public class Actor extends CollideAble
             Actor otherActor = (Actor)collideWith;
             switch(this.currentElement)
             {
-                case Sphere:
-                    if(otherActor.currentElement == Element.Cube)
+                case Cube:
+                    if(otherActor.currentElement == Element.Sphere)
                         Die();
                     break;
-               /* case Cube:
+                case Torus:
+                    if(otherActor.currentElement == Element.Cube)
+                         Die();
+                    break;
+                case Sphere:
                     if(otherActor.currentElement == Element.Torus)
                          Die();
                     break;
-                case Torus:
-                    if(otherActor.currentElement == Element.Sphere)
-                         Die();
-                    break;*/
             }
         }
     }
+    private void initElement()
+    {
+        changeRandomElement();
+    }
+    protected void changeRandomElement()
+    {
+        Element chosenElement = this.currentElement;
+        double random = Math.random() * 10;
+        for(int i = 0; i < (int)random; i++)
+        {
+            switch(this.currentElement)
+            {
+                case Sphere:
+                    chosenElement = Element.Cube;
+                    break;
+                case Cube:
+                    chosenElement = Element.Torus;
+                    break;
+                case Torus:
+                    chosenElement = Element.Sphere;
+                    break;
+            }
+        }
+         this.setupElement(chosenElement);
+       AssetManager.getSound("change").PlaySound(0);
+    }
+    protected void changeElement()
+    {
+        switch(this.currentElement)
+        {
+            case Sphere:
+                this.setupElement(Element.Cube);
+                break;
+            case Cube:
+                this.setupElement(Element.Torus);
+                break;
+            case Torus:
+                this.setupElement(Element.Sphere);
+                break;
+        }
+       AssetManager.getSound("change").PlaySound(0);
+    }
     protected void Die()
     {
-        //Fix this
         AssetManager.getSound("death01").PlaySound(0);
+       // changeRandomElement();
         respawnActor(new Vector4(10,10,10,10));
     }
     public void respawnActor(Vector4 bounds)

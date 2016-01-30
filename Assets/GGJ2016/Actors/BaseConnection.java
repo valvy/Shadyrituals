@@ -25,30 +25,15 @@
  */
 package GGJ2016.Actors;
 
-import PrutEngine.AssetManager;
 import PrutEngine.Core.Math.Vector3;
 
 /**
  *
  * @author Heiko van der Heijden
  */
-public final class Enemy extends Actor{
-    public Enemy(Vector3<Float> startPos) {
-        super(startPos);
-        this.setSize(new Vector3<Float>(2f, 2f, 2f));
-        this.setPosition(startPos);
+class BaseConnection {
+
+    public BaseConnection(String test, Vector3<Float> vector3, Actor.Element element) {
     }
     
-    @Override
-    public void update(float tpf){
-        super.update(tpf);
-        
-  
-    }
-    
-    @Override
-    public void onCollision(CollideAble collideWith)
-    {
-        super.onCollision(collideWith);
-    }
 }

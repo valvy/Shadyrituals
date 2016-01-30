@@ -40,11 +40,18 @@ public abstract class BaseConnection implements Runnable{
     private static BaseConnection instance;
     private final Thread thread;
     protected final int PORT = 7000;
+    protected final String NOTHING = "Nothing";
     
-    public class ConnectedPlayer{
+    public static class ConnectedPlayer{
+        
         public String id;
         public Vector3<Float> currentPosition;
         public Actor.Element playerElement;
+        public ConnectedPlayer(String id, Vector3<Float> currentPosition, Actor.Element playerElement){
+            this.id = id;
+            this.currentPosition = currentPosition;
+            this.playerElement = playerElement;
+        }
     }
     
     public abstract ArrayList<ConnectedPlayer> getAllConnections();
@@ -65,6 +72,7 @@ public abstract class BaseConnection implements Runnable{
     public void stopConnection(){
         this.shouldStop = true;
         try {
+            
             this.stop();
             this.thread.join();
         } catch (InterruptedException ex) {
