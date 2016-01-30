@@ -32,9 +32,10 @@ import PrutEngine.Camera;
 import PrutEngine.Core.Math.PrutMath;
 import PrutEngine.Core.Math.Vector3;
 import PrutEngine.Scene;
-
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
 import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
+import static org.lwjgl.glfw.GLFW.GLFW_REPEAT;
+import GGJ2016.MenuScene;
 
 public class GameScene extends Scene
 {
@@ -82,9 +83,11 @@ public class GameScene extends Scene
     @Override
     public void update(float tpf){
         if(Application.getInstance().getKeyboardKey(GLFW_KEY_ESCAPE) == GLFW_PRESS){
-            Application.getInstance().quit();
-            return;
-        }
+             AssetManager.clearProgramsBuffer();
+             AssetManager.clearShaderBuffer();
+             Application.getInstance().loadScene(new MenuScene());
+             return;
+         }
         super.update(tpf);
     }
     

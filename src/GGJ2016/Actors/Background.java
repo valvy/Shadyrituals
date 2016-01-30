@@ -45,13 +45,14 @@ public class Background extends GameObject
         try {
             this.setRenderer(new Renderer(
                 "Assets/Shaders/UnShadedVertex.glsl",
-                "Assets/Shaders/BackgroundFragment.glsl",
-                "",
-                "Assets/Meshes/Quad.obj"    ));
-            time = glGetUniformLocation(AssetManager.getProgram(this.getRenderer().getProgram()), "time");
-        }
-        catch (Exception ex){
-            System.out.println(ex);
+                "Assets/Shaders/UnShadedFragment.glsl",
+                "Assets/Textures/SplashScreen.png",
+                "Assets/Meshes/Quad.obj"    
+            ));
+           
+           time = glGetUniformLocation(AssetManager.getProgram(this.getRenderer().getProgram()), "time");
+        } catch (Exception ex) {
+            Logger.getLogger(Example.Background.class.getName()).log(Level.SEVERE, null, ex);
         }
         this.setSize(new Vector3<>(100f,100f,100f));
         this.setPosition(new Vector3<>(0f,0f,-11f));

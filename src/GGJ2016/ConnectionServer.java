@@ -33,6 +33,7 @@ import java.io.BufferedWriter;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import static java.lang.System.exit;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -46,6 +47,7 @@ import java.util.logging.Logger;
 public class ConnectionServer extends BaseConnection {
 
     private int uniqueNumber = 0;
+    private final int TIME_OUT = 3000;
     private final ArrayList<String> globalBuffer;
     
     protected ConnectionServer(){
@@ -61,7 +63,6 @@ public class ConnectionServer extends BaseConnection {
         private final Mutex mutex;
         private final ArrayList<String> from;
         private final ArrayList<String> to;
-        
         public String getFrom(){
             String dat = NOTHING;
             try{
@@ -81,7 +82,6 @@ public class ConnectionServer extends BaseConnection {
         
         public void addToBuffer(String msg){
             try {
-                Debug.log(msg);
                 mutex.acquire();
                 this.to.add(msg);
             } catch (InterruptedException ex) {
@@ -91,9 +91,9 @@ public class ConnectionServer extends BaseConnection {
             }
         }
         
-        public Client(int id, Socket sock){
+        public Client(int id, Socket sock) throws Exception{
             this.id =id;
-            Debug.log("An client has logged in");
+            
             this.sock = sock;
            
             this.from = new ArrayList<>();
@@ -116,14 +116,15 @@ public class ConnectionServer extends BaseConnection {
         
         @Override
         public void run() {
-            while(!shouldStop){
                 try {
                     DataInputStream inputStream = new DataInputStream(sock.getInputStream());
                     BufferedWriter bw= new BufferedWriter(new OutputStreamWriter(sock.getOutputStream()));
                     
                     int read;
                     byte[] buffer = new byte[1024];
-                   
+                    this.send(Integer.toString(this.id), bw);
+                  
+                    
                     while((read = inputStream.read(buffer)) != -1){
                         if(shouldStop){
                             inputStream.close();
@@ -159,13 +160,10 @@ public class ConnectionServer extends BaseConnection {
                 } catch (IOException ex) {
                     Logger.getLogger(ConnectionServer.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                 
-            }
         }
         
         public void send(String msg, BufferedWriter bw){
             try {
-                Debug.log(msg);
                 bw.write(msg);
                 bw.flush();
             }   catch (IOException ex) {
@@ -196,14 +194,14 @@ public class ConnectionServer extends BaseConnection {
         }
          
         try {
-           
-           Debug.log("Test1234");
            clients.add(new Client(this.uniqueNumber, serverSocket.accept()));
             this.uniqueNumber++;
             
         } catch (IOException ex) {
            
            Logger.getLogger(ConnectionServer.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(ConnectionServer.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }
@@ -229,13 +227,17 @@ public class ConnectionServer extends BaseConnection {
         
         for(Client cl : clients){
             for(String t : localBuffer){
-                cl.addToBuffer(t);
+                if(!t.equals(NOTHING)){
+                    cl.addToBuffer(t);
+                }
             }
         }
         
         for(String t : localBuffer){
-            Debug.log(t);
-            this.globalBuffer.add(t);
+            if(!t.equals(NOTHING)){
+                
+                this.globalBuffer.add(t);
+            }
         }
         
         
@@ -245,7 +247,7 @@ public class ConnectionServer extends BaseConnection {
     public boolean attemptToConnect() {
         try {
             serverSocket = new ServerSocket(PORT);
-            serverSocket.setSoTimeout(10000);
+            serverSocket.setSoTimeout(TIME_OUT);
             
             return true;
         } catch (IOException ex) {
