@@ -25,6 +25,8 @@
  */
 package GGJ2016.Actors;
 
+import GGJ2016.BaseConnection;
+import GGJ2016.BaseConnection.ConnectedPlayer;
 import GGJ2016.GameScene;
 import PrutEngine.*;
 //import org.lwjgl.glfw.GLFW;
@@ -55,6 +57,7 @@ public class Player extends Actor
         super(new Vector3<Float>(0f,0f,-10f));
         this.setSize(new Vector3<Float>(2f, 2f, 2f));
         this.gameScene = gameScene;
+        
         changeTimer = (float)Math.random() * 10f + 1f;
     }
     
@@ -79,7 +82,12 @@ public class Player extends Actor
     @Override
     public void update(float tpf) 
     {
-
+        //Notify the fellow players
+        BaseConnection.getInstance().notifyWorld(
+                    new ConnectedPlayer(
+                        "haai",
+                        this.getPosition(),
+                        this.currentElement));
         Vector3<Float> nPos = new Vector3<>(this.getPosition());
         
         if(this.getPosition().x > 100){

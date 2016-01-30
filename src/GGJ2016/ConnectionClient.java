@@ -26,6 +26,7 @@
 package GGJ2016;
 
 import PrutEngine.Debug;
+import com.sun.corba.se.impl.orbutil.concurrent.Mutex;
 import java.io.BufferedWriter;
 import java.io.DataInputStream;
 import java.io.IOException;
@@ -44,11 +45,45 @@ public class ConnectionClient extends BaseConnection {
     private final String IP = "localhost";
     private DataInputStream inputStream;
     private  BufferedWriter bw;
-    
+    private final Mutex mutex;
+    private final ArrayList<String> from;
+    private final ArrayList<String> to;
     
     protected ConnectionClient(){
-        
+        this.mutex = new Mutex();
+        this.from = new ArrayList<>();
+        this.to = new ArrayList<>();
     }
+    
+    public String getFrom(){
+        String dat = NOTHING;
+        try{
+            mutex.acquire();
+            if(this.from.size() > 0){
+                dat = from.get(0);
+                this.from.remove(0);
+            }
+        }
+        catch (InterruptedException ex) {
+            Logger.getLogger(ConnectionServer.class.getName()).log(Level.SEVERE, null, ex);
+        }finally{
+            mutex.release();
+        }
+        return dat;
+    }
+
+    public void addToBuffer(String msg){
+        try {
+            Debug.log(msg);
+            mutex.acquire();
+            this.to.add(msg);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(ConnectionServer.class.getName()).log(Level.SEVERE, null, ex);
+        }finally{
+            mutex.release();
+        }
+    }
+    
     
     @Override
     protected void stop() {
@@ -73,17 +108,33 @@ public class ConnectionClient extends BaseConnection {
         byte[] buffer = new byte[1024];
         int read;
         try {
-            this.send("test", bw);
+            this.send("Hello", bw);
             while((read = inputStream.read(buffer)) != -1){
                 if(this.shouldStop()){
                     bw.close();
                     socket.close();
                     return;
                 }
+            try {
+                this.mutex.acquire();
                 String msg = new String(buffer, 0, read);
-                Debug.log(msg);
-                this.send("hai", bw);
-            }   
+                if(!msg.equals(NOTHING)){
+                    this.from.add(msg);
+                    Debug.log(msg);
+                }
+
+            } catch (InterruptedException ex) {
+                Logger.getLogger(ConnectionServer.class.getName()).log(Level.SEVERE, null, ex);
+            }finally{
+                String dat = NOTHING;
+                if(this.to.size() > 0){
+                    dat = to.get(0);
+                    this.to.remove(0);
+                }
+                this.mutex.release();
+                this.send(dat, bw);                           
+            }
+        }   
         } catch (IOException ex) {
             Logger.getLogger(ConnectionClient.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -95,7 +146,7 @@ public class ConnectionClient extends BaseConnection {
                 bw.write(msg);
                 bw.flush();
             }   catch (IOException ex) {
-                Logger.getLogger(ConnectionController.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ConnectionClient.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
 
@@ -106,7 +157,7 @@ public class ConnectionClient extends BaseConnection {
 
     @Override
     public void notifyWorld(ConnectedPlayer player) {
-        
+        this.addToBuffer(player.id + ";" + player.currentPosition.toString() + ";" + player.playerElement.toString() + ";");
     }
     
 }

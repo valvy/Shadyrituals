@@ -19,6 +19,6 @@ public class Main{
             System.setProperty("java.awt.headless", "true");//Otherwise freezes on os x :-(
         }
         Application.getInstance().loadScene(new SplashScreen());
-        BaseConnection.getInstance().stopConnection();
+        
     }
 }

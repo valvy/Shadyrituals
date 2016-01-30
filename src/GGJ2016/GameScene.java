@@ -105,7 +105,7 @@ public class GameScene extends Scene{
     
     @Override
     public void onQuit(){
-        ConnectionController.getInstance().stopConnection();
+      
         super.onQuit();
     }
 }
