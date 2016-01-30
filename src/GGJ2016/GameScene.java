@@ -36,19 +36,30 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
 import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
 import static org.lwjgl.glfw.GLFW.GLFW_REPEAT;
 import GGJ2016.MenuScene;
+import java.util.ArrayList;
 
 public class GameScene extends Scene
 {
+    private final ArrayList<Enemy> otherPlayers;
+    private Player pl;
+    
+    public GameScene(){
+        this.otherPlayers = new ArrayList<>();
+        
+    }
+    
     @Override
     public void awake()
     {
         Application.getInstance().getWindow().setWindowTitle("game");
         this.setCamera(new MainCamera(new Vector3<>(0f,0f,0f)));
-        Player pl = new Player(this);
+        pl = new Player(this);
         ((MainCamera)this.camera).followObject(pl);
         
         this.addGameObject(new Background());
         this.addGameObject(pl);
+        
+        
 
         for(int i = 0; i < 100; i++){
             this.addGameObject(new ChangeObject(new Vector3<>(PrutMath.random(-100, 100),PrutMath.random(-100, 100),-5f),this));

@@ -31,10 +31,16 @@ import java.util.ArrayList;
  *
  * @author quget
  */
-public class EnemySpawner 
-{
-    public EnemySpawner()
-    {
+public class EnemySpawner {
+    
+    
+    
+    public EnemySpawner(){
         
     }
+    
+    public void update(float tpf){
+        
+    }
+   
 }
