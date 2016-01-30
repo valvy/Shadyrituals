@@ -48,6 +48,7 @@ public class GameScene extends Scene{
          this.addGameObject(new Player(this));
          this.addGameObject(new Enemy(new Vector3<>(-5f,-1f,-10f)));
          this.addGameObject(new Enemy(new Vector3<>(5f,-1f,-10f)));
+         this.addGameObject(new Actor(new Vector3<>(0f,3f,-10f)));
          
          
         try

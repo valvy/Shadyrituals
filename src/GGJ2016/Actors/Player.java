@@ -42,7 +42,7 @@ public class Player extends Actor
 {
     private final Scene gameScene;
     public Player(Scene gameScene){
-        super(new Vector3<Float>(0f,0f,-10f), 0f, 0f);
+        super(new Vector3<Float>(0f,0f,-10f));
         this.setSize(new Vector3<Float>(2f, 2f, 2f));
         //this.initRenderer("sphere.obj");
         this.gameScene = gameScene;
