@@ -25,16 +25,11 @@
  */
 package GGJ2016.Actors;
 
-import GGJ2016.GameScene;
 import PrutEngine.AssetManager;
 import PrutEngine.Core.Math.Vector3;
 import PrutEngine.Core.Math.Vector4;
-import PrutEngine.Debug;
-import PrutEngine.GameObject;
 import PrutEngine.Renderer;
 import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class Actor extends CollideAble
 {
@@ -45,7 +40,6 @@ public class Actor extends CollideAble
     }
     
     protected Element currentElement;
-    
     protected final float speed = 600f;
     
     public Actor(Vector3<Float> startPos)
@@ -53,13 +47,13 @@ public class Actor extends CollideAble
         this.setPosition(startPos);
         this.rotate(new Vector3<>(1f,0f,0f), -90);
         setupElement(Element.Sphere);
-       // initElement();
         this.boundingBox = new Vector4<Float>(1f, 1f, 1f, 1f);
     }
+    
     @Override
     public void onCollision(CollideAble collideWith)
     {
-        if((collideWith instanceof Actor))
+        if(collideWith instanceof Actor)
         {
             Actor otherActor = (Actor)collideWith;
             switch(this.currentElement)
@@ -79,10 +73,12 @@ public class Actor extends CollideAble
             }
         }
     }
+    
     private void initElement()
     {
         changeRandomElement();
     }
+    
     protected void changeRandomElement()
     {
         Element chosenElement = this.currentElement;
@@ -105,6 +101,7 @@ public class Actor extends CollideAble
          this.setupElement(chosenElement);
        AssetManager.getSound("change").PlaySound(0);
     }
+    
     protected void changeElement()
     {
         switch(this.currentElement)
@@ -121,12 +118,13 @@ public class Actor extends CollideAble
         }
        AssetManager.getSound("change").PlaySound(0);
     }
+    
     protected void Die()
     {
         AssetManager.getSound("death01").PlaySound(0);
-       // changeRandomElement();
         respawnActor(new Vector4(10,10,10,10));
     }
+    
     public void respawnActor(Vector4 bounds)
     {
        Random r = new Random();
@@ -138,16 +136,17 @@ public class Actor extends CollideAble
         this.currentElement = element;
         switch(this.currentElement){
             case Sphere:
-            this.initRenderer("Circle.png");
-            return;
+                this.initRenderer("Circle.png");
+                break;
             case Cube:
-            this.initRenderer("Square.png");
-            return;
+                this.initRenderer("Square.png");
+                break;
             case Torus:           
-            this.initRenderer("Triangle.png");
-            return;
+                this.initRenderer("Triangle.png");
+                break;
         }
     }
+    
     protected void initRenderer(String texture){
         try {
             this.setRenderer(new Renderer(
@@ -156,12 +155,9 @@ public class Actor extends CollideAble
                 "Assets/Textures/" + texture,
                 "Assets/Meshes/Quad.obj")); 
         }
-         catch(Exception e ){
-                  
-                 }
+        catch(Exception e ){}
     }
 
-    
     @Override
     public void update(float tpf) 
     {

@@ -29,38 +29,27 @@ import GGJ2016.BaseConnection;
 import GGJ2016.BaseConnection.ConnectedPlayer;
 import GGJ2016.GameScene;
 import PrutEngine.*;
-//import org.lwjgl.glfw.GLFW;
+
 import static org.lwjgl.glfw.GLFW.*;
-//import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
 
 import PrutEngine.Core.Math.Vector3;
-import PrutEngine.Core.Math.Vector4;
 import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
 
- 
-/**
- *
- * @author quget
- */
 public class Player extends Actor
 {
     private final GameScene gameScene;
     private ArrayList<ScoreCube> scoreCubes = new ArrayList<ScoreCube>();
     private float scoreCubeXStep = 1.5f;
     private float scoreCubeX;
-    
     private float changeTimer;
             
-    public Player(GameScene gameScene){
+    public Player(GameScene gameScene)
+    {
         super(new Vector3<Float>(0f,0f,-10f));
         this.setSize(new Vector3<Float>(2f, 2f, 2f));
         this.gameScene = gameScene;
-        
         changeTimer = (float)Math.random() * 10f + 1f;
     }
-    
     
     public void AddScore()
     {
@@ -69,23 +58,24 @@ public class Player extends Actor
         gameScene.addGameObjectRealTime(scoreCube);
         scoreCubeX += scoreCubeXStep;
     }
+    
     public void ResetScore()
     {
         for(int i = 0; i < scoreCubes.size(); i++)
         {
             gameScene.destroy(scoreCubes.get(i));
-            //scoreCubes.get(i).destroy();
         }
         scoreCubes.removeAll(scoreCubes);
         scoreCubeX = 0;
     }
+    
     @Override
     public void update(float tpf) 
     {
         //Notify the fellow players
         BaseConnection.getInstance().notifyWorld(
                     new ConnectedPlayer(
-                        "Heiko",
+                        "Quget",
                         this.getPosition(),
                         this.currentElement));
         Vector3<Float> nPos = new Vector3<>(this.getPosition());
@@ -105,7 +95,6 @@ public class Player extends Actor
         }
         
         this.setPosition(nPos);
-        
 
         int lineCountY = 0;
         int lineCountX = 1;
@@ -124,22 +113,10 @@ public class Player extends Actor
         }
 
         PlayerInput(tpf);
-        
-        //changeTimer
-        /*
-        changeTimer -= tpf * 10;
-        if(changeTimer <= 0 )
-        {
-            changeTimer = (float)Math.random() * 10f + 1f;
-            changeElement();
-        }
-        */
         super.update(tpf);
-       
     }
     public void PlayerInput(float tpf)
     {
-        
         Vector3 movePos = new Vector3(0f, 0f, 0f);
         int moveKeyCount = 0;
 
@@ -161,16 +138,15 @@ public class Player extends Actor
         }
         if(Application.getInstance().prutKeyBoard.GetState(GLFW_KEY_F) == GLFW_PRESS)
         {
-            //changeElement();
             changeRandomElement();
         }
-      //  Debug.log(movePos);
         translate(movePos,speed * tpf);
     }
+    
     @Override
     public void onCollision(CollideAble collideWith)
     {
-        if((collideWith instanceof Actor))
+        if(collideWith instanceof Actor)
         {
             Actor otherActor = (Actor)collideWith;
             switch(this.currentElement)
@@ -191,12 +167,12 @@ public class Player extends Actor
         }
         super.onCollision(collideWith);
     }
+    
     @Override
     protected void Die()
     {
         super.Die();
         ResetScore();
         ((GameScene)this.gameScene).shakeScreen(100, 0.01f);
-       // Debug.log(this.currentElement);
     }
 }

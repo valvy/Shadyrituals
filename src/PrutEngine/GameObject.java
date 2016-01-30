@@ -28,18 +28,17 @@ package PrutEngine;
 import PrutEngine.Core.Math.Matrix4x4;
 import PrutEngine.Core.Math.Quaternion;
 import PrutEngine.Core.Math.Vector3;
-import PrutEngine.Core.Math.Vector4;
 
 /**
  * An abstract representation a visible and invisible object in game.
  * @author Heiko van der Heijden
  */
-public abstract class GameObject{
+public abstract class GameObject
+{
     protected final Vector3<Float> position;
     private final Quaternion quaternion;
     protected final Vector3<Float> size;
     private Renderer renderer;
-    
     
     public GameObject(){
         this.renderer = null;
@@ -47,8 +46,6 @@ public abstract class GameObject{
         this.quaternion = new Quaternion();
         this.size = new Vector3<>(1f,1f,1f);
     }
-    
-    
     
     public Vector3<Float> getSize(){
         return new Vector3<>(this.size);
@@ -62,7 +59,6 @@ public abstract class GameObject{
         this.position.x += pos.x * speed;
         this.position.y += pos.y * speed;
         this.position.z += pos.z * speed;
-        
     }
     
     /**
@@ -72,7 +68,6 @@ public abstract class GameObject{
     public void setRotation (final Quaternion q){
         this.quaternion.set(q);
     }
-    
     
     /**
      * Rotates the gameobject relative to the quaternion
@@ -88,7 +83,6 @@ public abstract class GameObject{
      * @return 
      */
     public Quaternion getRotationQuaternion(){
-        
         return new Quaternion(this.quaternion);
     }
     
@@ -99,8 +93,7 @@ public abstract class GameObject{
     public void setRenderer(Renderer renderer){
         this.renderer = renderer;
     }
-    
-    
+     
     /**
      * Gets the position of the gameobject
      * @return 
@@ -126,15 +119,10 @@ public abstract class GameObject{
      */
     public void draw(){
         if(this.renderer != null){
-            
             this.renderer.render(
-                    this.size,//size
-                    this.position,
-                    //this.rotationMatrix
-                    this.quaternion
-                    
-            );
-           
+                this.size,
+                this.position,
+                this.quaternion);
         }
     }
     
@@ -143,9 +131,6 @@ public abstract class GameObject{
      * @param tpf 
      */
     public abstract void update(float tpf);
-    
-    
-    
     
     /**
      * Gets the forward position relative to the rotation
@@ -203,6 +188,4 @@ public abstract class GameObject{
             this.renderer.destroy();
         }
     }
-    
-    
 }

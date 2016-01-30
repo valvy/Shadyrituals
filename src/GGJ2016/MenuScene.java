@@ -32,6 +32,7 @@ import PrutEngine.Application;
 import PrutEngine.AssetManager;
 import PrutEngine.Core.Math.Vector3;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_ENTER;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_S;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_SPACE;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_W;
@@ -77,7 +78,10 @@ public class MenuScene extends Scene {
             Application.getInstance().getKeyboardKey(GLFW_KEY_SPACE) == GLFW_RELEASE ){
                 space = 0;
          }
-    
+         
+         if(Application.getInstance().getKeyboardKey(GLFW_KEY_ESCAPE) == GLFW_PRESS)
+             Application.getInstance().quit();
+         
          if(space == 1) return;
          if(Application.getInstance().getKeyboardKey(GLFW_KEY_ENTER) == GLFW_PRESS ||
             Application.getInstance().getKeyboardKey(GLFW_KEY_SPACE) == GLFW_PRESS ){

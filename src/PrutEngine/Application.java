@@ -189,6 +189,7 @@ public final class Application {
              long time = date.getTime();
              if(this.shouldStop){
                  this.destroy();
+                 return;
              }
              
              glfwSwapBuffers(window); // swap the color buffers
@@ -207,6 +208,8 @@ public final class Application {
              }
              glfwPollEvents();
          }
+         
+         this.destroy();
     }
     
     private void run(){
