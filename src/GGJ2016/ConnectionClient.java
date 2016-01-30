@@ -184,6 +184,13 @@ public class ConnectionClient extends BaseConnection {
 
     @Override
     public ArrayList<ConnectedPlayer> getAllConnections() {
+        String dat = NOTHING;
+        do{
+            dat = getFrom();
+            
+            //Debug.log(dat);
+            
+        }while(dat != NOTHING);
         return null;
     }
 

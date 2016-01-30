@@ -104,9 +104,13 @@ public abstract class BaseConnection implements Runnable{
     
     public static void create(boolean host){
         if(host){
+            
             instance = new ConnectionServer();
+            instance.idName = instance.HANDSHAKE + "Server";
         }else{
+            
             instance = new ConnectionClient();
+            
         }
     }
     

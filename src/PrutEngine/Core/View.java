@@ -143,8 +143,8 @@ public final class View {
      * @param obj 
      */
     public void draw(ArrayList<GameObject> obj){
-     /*   IntBuffer bufWidth = IntBuffer.allocate(1);
-        IntBuffer bufHeight = IntBuffer.allocate(1);
+     /* IntBuffer bufWidth = IntBuffer.allocate(2);
+        IntBuffer bufHeight = IntBuffer.allocate(2);
         glfwGetWindowSize(WINDOW,bufWidth,bufHeight);
         this.screenSize.x = bufWidth.get();
         this.screenSize.y = bufHeight.get();*/

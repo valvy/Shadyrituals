@@ -52,7 +52,7 @@ public class ConnectionServer extends BaseConnection {
     
     protected ConnectionServer(){
         this.globalBuffer = new ArrayList<>();
-         idName = HANDSHAKE+"Server";
+        
     }
 
    
@@ -208,7 +208,13 @@ public class ConnectionServer extends BaseConnection {
     
     @Override
     public ArrayList<ConnectedPlayer> getAllConnections() {
-      return null;
+        for(String str : this.globalBuffer){
+            Debug.log(str);
+            
+        }
+        this.globalBuffer.clear();
+        
+        return null;
     }
 
     @Override
@@ -217,21 +223,20 @@ public class ConnectionServer extends BaseConnection {
             return;
         }
         ArrayList<String> localBuffer = new ArrayList<>();
+   
         
         for(Client cl : clients){
-            localBuffer.add(cl.getFrom());
-            cl.addToBuffer(
+                        cl.addToBuffer(
                     player.id + ";" + player.currentPosition.toString() + ";" + player.playerElement.toString() + ";"
             );
-        }
-        
-        for(Client cl : clients){
             for(String t : localBuffer){
                 if(!t.equals(NOTHING)){
                     cl.addToBuffer(t);
                     Debug.log(t);
                 }
             }
+            localBuffer.add(cl.getFrom());
+
         }
         
         for(String t : localBuffer){
