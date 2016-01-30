@@ -25,12 +25,14 @@
  */
 package GGJ2016;
 
+import PrutEngine.Application;
 import PrutEngine.Debug;
 import com.sun.corba.se.impl.orbutil.concurrent.Mutex;
 import java.io.BufferedWriter;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import static java.lang.System.exit;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -42,7 +44,7 @@ import java.util.logging.Logger;
  */
 public class ConnectionClient extends BaseConnection {
     private Socket socket;
-    private final String IP = "localhost";
+    private final String IP = "192.168.0.106";
     private DataInputStream inputStream;
     private  BufferedWriter bw;
     private final Mutex mutex;
@@ -93,6 +95,14 @@ public class ConnectionClient extends BaseConnection {
     
     @Override
     protected void stop() {
+        try {
+            this.socket.close();
+            this.bw.close();
+            this.inputStream.close();
+            
+        } catch (IOException ex) {
+            Logger.getLogger(ConnectionClient.class.getName()).log(Level.SEVERE, null, ex);
+        }
        
     }
 
@@ -119,7 +129,8 @@ public class ConnectionClient extends BaseConnection {
                 if(this.shouldStop()){
                     bw.close();
                     socket.close();
-                    return;
+                    
+                    break;
                 }
             try {
                 this.mutex.acquire();
@@ -142,7 +153,16 @@ public class ConnectionClient extends BaseConnection {
             }
         }   
         } catch (IOException ex) {
+            try {
+                this.socket.close();
+                 this.inputStream.close();
+                 this.bw.close();
+            } catch (IOException ex1) {
+                Logger.getLogger(ConnectionClient.class.getName()).log(Level.SEVERE, null, ex1);
+            }
+          Application.getInstance().quit();
             Logger.getLogger(ConnectionClient.class.getName()).log(Level.SEVERE, null, ex);
+            
         }
     }
     
