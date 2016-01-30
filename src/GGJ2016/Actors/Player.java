@@ -29,6 +29,7 @@ import GGJ2016.BaseConnection;
 import GGJ2016.BaseConnection.ConnectedPlayer;
 import GGJ2016.GameScene;
 import PrutEngine.*;
+
 import static org.lwjgl.glfw.GLFW.*;
 
 import PrutEngine.Core.Math.Vector3;
@@ -73,10 +74,10 @@ public class Player extends Actor
     {
         //Notify the fellow players
         BaseConnection.getInstance().notifyWorld(
-            new ConnectedPlayer(
-                "connection something",
-                this.getPosition(),
-                this.currentElement));
+                    new ConnectedPlayer(
+                        "Quget",
+                        this.getPosition(),
+                        this.currentElement));
         Vector3<Float> nPos = new Vector3<>(this.getPosition());
         
         if(this.getPosition().x > 100){

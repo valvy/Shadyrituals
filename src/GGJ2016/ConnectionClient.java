@@ -110,6 +110,7 @@ public class ConnectionClient extends BaseConnection {
         try {
             Debug.log("roflasdfasdf");
             socket = new Socket(this.IP, PORT);
+           
             inputStream = new DataInputStream(socket.getInputStream());
             bw= new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
             return true;
@@ -124,7 +125,8 @@ public class ConnectionClient extends BaseConnection {
         byte[] buffer = new byte[1024];
         int read;
         try {
-            this.send("Hello", bw);
+            //this.send("Hello", bw);
+
             while((read = inputStream.read(buffer)) != -1){
                 if(this.shouldStop()){
                     bw.close();
@@ -135,6 +137,7 @@ public class ConnectionClient extends BaseConnection {
             try {
                 this.mutex.acquire();
                 String msg = new String(buffer, 0, read);
+                Debug.log(msg);
                 if(!msg.equals(NOTHING)){
                     this.from.add(msg);
                     Debug.log(msg);
