@@ -132,7 +132,8 @@ public class Renderer {
                 mat = Matrix4x4.scale(mat, size); 
                 Matrix4x4 pos = Matrix4x4.identityMatrix();
                 pos.translate(position);
-                mat = Matrix4x4.multiply(mat,pos);
+                mat = Matrix4x4.multiply(pos,mat);
+                
                 this.lastMat.set(Matrix4x4.multiply(mat, Quaternion.quaternionToMatrix(rotation)));
             }
             

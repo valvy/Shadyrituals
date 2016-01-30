@@ -91,7 +91,7 @@ public class Player extends Actor
             }
            AssetManager.getSound("clap").PlaySound(0);
         }
-        Debug.log(movePos);
+      //  Debug.log(movePos);
         translate(movePos,speed * tpf);
     }
     
