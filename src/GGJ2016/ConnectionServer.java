@@ -82,7 +82,6 @@ public class ConnectionServer extends BaseConnection {
         
         public void addToBuffer(String msg){
             try {
-                Debug.log(msg);
                 mutex.acquire();
                 this.to.add(msg);
             } catch (InterruptedException ex) {
@@ -117,7 +116,6 @@ public class ConnectionServer extends BaseConnection {
         
         @Override
         public void run() {
-            //while(!shouldStop){
                 try {
                     DataInputStream inputStream = new DataInputStream(sock.getInputStream());
                     BufferedWriter bw= new BufferedWriter(new OutputStreamWriter(sock.getOutputStream()));
@@ -144,7 +142,6 @@ public class ConnectionServer extends BaseConnection {
                             }
                              
                         } catch (InterruptedException ex) {
-                            //this.shouldStop = true;
                             Logger.getLogger(ConnectionServer.class.getName()).log(Level.SEVERE, null, ex);
                         }finally{
                             String dat = NOTHING;
@@ -161,16 +158,12 @@ public class ConnectionServer extends BaseConnection {
                     }
                     
                 } catch (IOException ex) {
-                  //  this.shouldStop = true;
                     Logger.getLogger(ConnectionServer.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                 
-           // }
         }
         
         public void send(String msg, BufferedWriter bw){
             try {
-                Debug.log(msg);
                 bw.write(msg);
                 bw.flush();
             }   catch (IOException ex) {
@@ -201,7 +194,6 @@ public class ConnectionServer extends BaseConnection {
         }
          
         try {
-           Debug.log("test");
            clients.add(new Client(this.uniqueNumber, serverSocket.accept()));
             this.uniqueNumber++;
             
@@ -235,13 +227,17 @@ public class ConnectionServer extends BaseConnection {
         
         for(Client cl : clients){
             for(String t : localBuffer){
-                cl.addToBuffer(t);
+                if(!t.equals(NOTHING)){
+                    cl.addToBuffer(t);
+                }
             }
         }
         
         for(String t : localBuffer){
-            Debug.log(t);
-            this.globalBuffer.add(t);
+            if(!t.equals(NOTHING)){
+                
+                this.globalBuffer.add(t);
+            }
         }
         
         

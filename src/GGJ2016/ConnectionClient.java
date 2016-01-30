@@ -49,12 +49,11 @@ public class ConnectionClient extends BaseConnection {
     private  BufferedWriter bw;
     private final Mutex mutex;
     private final ArrayList<String> from;
-    private final ArrayList<String> to;
-    
+  //  private final ArrayList<String> to;
+    private String to = NOTHING;
     protected ConnectionClient(){
         this.mutex = new Mutex();
         this.from = new ArrayList<>();
-        this.to = new ArrayList<>();
     }
     /**
      * Gets the data from the specific client
@@ -83,7 +82,8 @@ public class ConnectionClient extends BaseConnection {
     public void addToBuffer(String msg){
         try {
             mutex.acquire();
-            this.to.add(msg);
+            this.to = msg;
+            
         } catch (InterruptedException ex) {
             Logger.getLogger(ConnectionServer.class.getName()).log(Level.SEVERE, null, ex);
         }finally{
@@ -143,13 +143,10 @@ public class ConnectionClient extends BaseConnection {
             } catch (InterruptedException ex) {
                 Logger.getLogger(ConnectionServer.class.getName()).log(Level.SEVERE, null, ex);
             }finally{
-                String dat = NOTHING;
-                if(this.to.size() > 0){
-                    dat = to.get(0);
-                    this.to.remove(0);
-                }
+                
+       
                 this.mutex.release();
-                this.send(dat, bw);                           
+                this.send(to, bw);                           
             }
         }   
         } catch (IOException ex) {
@@ -183,6 +180,7 @@ public class ConnectionClient extends BaseConnection {
 
     @Override
     public void notifyWorld(ConnectedPlayer player) {
+        
         this.addToBuffer(player.id + ";" + player.currentPosition.toString() + ";" + player.playerElement.toString() + ";");
     }
     
