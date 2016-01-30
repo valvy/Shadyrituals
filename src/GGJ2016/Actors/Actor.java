@@ -29,6 +29,7 @@ import PrutEngine.Core.Math.Vector3;
 import PrutEngine.Core.Math.Vector4;
 import PrutEngine.GameObject;
 import PrutEngine.Renderer;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -49,12 +50,14 @@ public class Actor extends GameObject
     
     protected Element currentElement;
     
-    protected final float speed = 50;
+    protected final float speed = 80;
     
     public Actor(Vector3<Float> startPos, float offsetX, float offsetY)
     {
         this.currentElement = Element.Sphere;
         this.setPosition(startPos);
+        this.rotate(new Vector3<>(1f,0f,0f), -90);
+        this.initRenderer("Quad.obj");
         this.boundingBox = new Vector4<Float>(1f, 1f, 1f, 1f);
         this.offsetX = offsetX;
         this.offsetY = offsetY;
@@ -73,11 +76,18 @@ public class Actor extends GameObject
         boundingBox.z = position.x - (size.x /2);
     }
     
+    public void respawnActor(Vector4 bounds)
+    {
+       Random r = new Random();
+       position.y = (float)(r.nextInt((int)bounds.w + (int)bounds.y)-((int)bounds.y+(int)bounds.w)/2);
+       position.x = (float)(r.nextInt((int)bounds.x + (int)bounds.z)-((int)bounds.z+(int)bounds.x)/2);
+    }
+    
     protected void setupElement(Element element){
         this.currentElement = element;
         switch(this.currentElement){
             case Sphere:
-            this.initRenderer("Quad.obj");
+            this.initRenderer("sphere.obj");
             return;
             case Cube:
             this.initRenderer("cube.obj");

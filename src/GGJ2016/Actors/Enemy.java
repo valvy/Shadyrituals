@@ -36,7 +36,6 @@ public final class Enemy extends Actor{
         super(startPos, 0f, 0f);
         this.setSize(new Vector3<Float>(2f, 2f, 2f));
         this.setPosition(startPos);
-        this.initRenderer("cube.obj");
     }
     
     @Override
