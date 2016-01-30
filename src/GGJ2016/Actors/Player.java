@@ -105,6 +105,7 @@ public class Player extends Actor
             Application.getInstance().prutSoundManager.PlaySound( AssetManager.getSound(0));
             //Application.getInstance().prutSoundManager.playSound("Assets/Sounds/crow1a.wav");
         }
+        Debug.log(movePos);
         translate(movePos,speed * tpf);
     }
     

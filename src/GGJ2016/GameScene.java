@@ -40,11 +40,14 @@ import static org.lwjgl.glfw.GLFW.GLFW_REPEAT;
  */
 public class GameScene extends Scene{
     
+    
     @Override
     public void awake() {
          Application.getInstance().getWindow().setWindowTitle("game");
          this.setCamera(new MainCamera(new Vector3<>(0f,0f,0f)));
-         this.addGameObject(new Player(this));
+         Player pl = new Player(this);
+         ((MainCamera)this.camera).followObject(pl);
+         this.addGameObject(pl);
          this.addGameObject(new Enemy(new Vector3<>(-5f,-1f,-10f)));
          this.addGameObject(new Enemy(new Vector3<>(5f,-1f,-10f)));
          

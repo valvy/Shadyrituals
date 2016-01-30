@@ -2,11 +2,7 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-<<<<<<< HEAD
-        <group/>
-=======
         <group>
-<<<<<<< HEAD
             <file>file:/Users/heikovanderheijden/NetBeansProjects/GGJ2016/src/PrutEngine/Core/Math/Vector4.java</file>
             <file>file:/Users/heikovanderheijden/NetBeansProjects/GGJ2016/src/GGJ2016/SplashScreen.java</file>
             <file>file:/Users/heikovanderheijden/NetBeansProjects/GGJ2016/Assets/Shaders/ToonFragment.glsl</file>
@@ -18,6 +14,7 @@
             <file>file:/Users/heikovanderheijden/NetBeansProjects/GGJ2016/src/PrutEngine/Core/Math/Quaternion.java</file>
             <file>file:/Users/heikovanderheijden/NetBeansProjects/GGJ2016/src/Example/PalmTree.java</file>
             <file>file:/Users/heikovanderheijden/NetBeansProjects/GGJ2016/Assets/Shaders/VortexFragment.glsl</file>
+            <file>file:/Users/heikovanderheijden/NetBeansProjects/GGJ2016/src/GGJ2016/MainCamera.java</file>
             <file>file:/Users/heikovanderheijden/NetBeansProjects/GGJ2016/src/PrutEngine/Scene.java</file>
             <file>file:/Users/heikovanderheijden/NetBeansProjects/GGJ2016/Assets/Meshes/monkey.obj</file>
             <file>file:/Users/heikovanderheijden/NetBeansProjects/GGJ2016/src/PrutEngine/Core/View.java</file>
@@ -40,7 +37,9 @@
             <file>file:/Users/heikovanderheijden/NetBeansProjects/GGJ2016/src/Example/ExampleCamera.java</file>
             <file>file:/Users/heikovanderheijden/NetBeansProjects/GGJ2016/src/PrutEngine/Camera.java</file>
             <file>file:/Users/heikovanderheijden/NetBeansProjects/GGJ2016/src/PrutEngine/Core/Math/Vector2.java</file>
+            <file>file:/Users/heikovanderheijden/NetBeansProjects/GGJ2016/src/PrutEngine/PrutKeyboard.java</file>
             <file>file:/Users/heikovanderheijden/NetBeansProjects/GGJ2016/src/PrutEngine/Renderer.java</file>
+            <file>file:/Users/heikovanderheijden/NetBeansProjects/GGJ2016/src/GGJ2016/ConnectionController.java</file>
             <file>file:/Users/heikovanderheijden/NetBeansProjects/GGJ2016/src/GGJ2016/GameScene.java</file>
             <file>file:/Users/heikovanderheijden/NetBeansProjects/GGJ2016/src/PrutEngine/GameObject.java</file>
             <file>file:/Users/heikovanderheijden/NetBeansProjects/GGJ2016/src/PrutEngine/Core/Math/Vector3.java</file>
@@ -49,22 +48,7 @@
             <file>file:/Users/heikovanderheijden/NetBeansProjects/GGJ2016/Assets/Shaders/UnShadedVertex.glsl</file>
             <file>file:/Users/heikovanderheijden/NetBeansProjects/GGJ2016/src/PrutEngine/Core/Math/Matrix4x4.java</file>
             <file>file:/Users/heikovanderheijden/NetBeansProjects/GGJ2016/src/Example/ExampleSprite.java</file>
-            <file>file:/Users/heikovanderheijden/NetBeansProjects/GGJ2016/src/PrutEngine/Core/Graphics.java</file>
             <file>file:/Users/heikovanderheijden/NetBeansProjects/GGJ2016/Assets/Textures/SplashScreen.png</file>
-=======
-            <file>file:/D:/Project%20Game%20Jam/second/src/PrutEngine/Camera.java</file>
-            <file>file:/D:/Project%20Game%20Jam/second/src/GGJ2016/Actors/Enemy.java</file>
-            <file>file:/D:/Project%20Game%20Jam/second/src/GGJ2016/Actors/Player.java</file>
-            <file>file:/D:/Project%20Game%20Jam/second/src/Example/Background.java</file>
-            <file>file:/D:/Project%20Game%20Jam/second/src/PrutEngine/Core/Collision/Collider.java</file>
-            <file>file:/D:/Project%20Game%20Jam/second/src/PrutEngine/Core/Data/Mesh.java</file>
-            <file>file:/D:/Project%20Game%20Jam/second/src/PrutEngine/Application.java</file>
-            <file>file:/D:/Project%20Game%20Jam/second/src/PrutEngine/GameObject.java</file>
-            <file>file:/D:/Project%20Game%20Jam/second/src/PrutEngine/Scene.java</file>
-            <file>file:/D:/Project%20Game%20Jam/second/src/GGJ2016/Actors/Actor.java</file>
-            <file>file:/D:/Project%20Game%20Jam/second/src/PrutEngine/Core/Math/Vector2.java</file>
->>>>>>> 04cff764aa82514800d1b941d8514d1f783f09fb
         </group>
->>>>>>> 957401500ee35d2c841b94beac65c9db12dc2d4f
     </open-files>
 </project-private>
