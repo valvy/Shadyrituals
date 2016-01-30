@@ -38,6 +38,6 @@ void main(void){
     vec3 overlay = vec3(sin(time),cos(time) * 10,tan(time) * 10);
     vec3 reflection = reflectColor(hsv2rgb(vec3(time * 0.1, 0.5, position.x)), vec3(position.y));
     color = overlay * reflection;
-  
+
 }
 

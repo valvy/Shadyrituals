@@ -50,8 +50,8 @@ public class Background extends GameObject {
            //this.setRenderer(new Renderer("Assets/Shaders/UnshadedVertex.glsl", "Assets/Shaders/UnshadedFragment.glsl","", "Assets/Meshes/Quad.obj")); 
                      this.setRenderer(new Renderer(
                 "Assets/Shaders/UnShadedVertex.glsl",
-                "Assets/Shaders/BackgroundFragment.glsl",
-                "",
+                "Assets/Shaders/UnShadedFragment.glsl",
+                "Assets/Textures/SplashScreen.png",
                 "Assets/Meshes/Quad.obj"    
             ));
            
