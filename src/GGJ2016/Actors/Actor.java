@@ -46,7 +46,7 @@ public class Actor extends CollideAble
     
     protected Element currentElement;
     
-    protected final float speed = 80;
+    protected final float speed = 800;
     
     public Actor(Vector3<Float> startPos)
     {

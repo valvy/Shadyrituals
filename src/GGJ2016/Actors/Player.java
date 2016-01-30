@@ -50,7 +50,24 @@ public class Player extends Actor
     @Override
     public void update(float tpf) 
     {
-
+        Vector3<Float> nPos = new Vector3<>(this.getPosition());
+        
+        if(this.getPosition().x > 100){
+            nPos.x = 100f;
+        }
+        if(this.getPosition().x < -100){
+            nPos.x = -100f;
+        }
+        
+        if(this.getPosition().y > 100){
+            nPos.y = 100f;
+        }
+        if(this.getPosition().y < -100){
+            nPos.y = -100f;
+        }
+        
+        this.setPosition(nPos);
+        
         PlayerInput(tpf);
         super.update(tpf);
        
