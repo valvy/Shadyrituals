@@ -53,15 +53,15 @@ public class GameScene extends Scene{
          
         try
         {
-            AssetManager.loadSound("Assets/Sounds/clap01.wav");
-            AssetManager.loadSound("Assets/Sounds/mmmm.wav");
-            AssetManager.loadSound("Assets/Sounds/wanderMusic.wav");
+            AssetManager.loadSound("Assets/Sounds/clap01.wav","clap");
+            AssetManager.loadSound("Assets/Sounds/mmmm.wav","mmm");
+            AssetManager.loadSound("Assets/Sounds/wanderMusic.wav","bgm01");
         }
         catch(Exception e)
         {
             System.err.println(e.getMessage());
         }
-        Application.getInstance().prutSoundManager.PlaySound( AssetManager.getSound(2));
+       AssetManager.getSound("bgm01").PlaySound(-1);
         
     }
     
