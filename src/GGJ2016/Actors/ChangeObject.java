@@ -25,6 +25,7 @@
  */
 package GGJ2016.Actors;
 
+import GGJ2016.GameScene;
 import PrutEngine.Core.Math.Vector3;
 import PrutEngine.Core.Math.Vector4;
 import PrutEngine.GameObject;
@@ -38,8 +39,10 @@ import java.util.logging.Logger;
  */
 public class ChangeObject extends CollideAble
 {
-    public ChangeObject(Vector3<Float> startPos)
+    private final GameScene scene;
+    public ChangeObject(Vector3<Float> startPos, GameScene scene)
     {
+        this.scene = scene;
         this.setPosition(startPos);
         this.rotate(new Vector3<>(1f,0f,0f), -90);
         this.boundingBox = new Vector4<Float>(1f, 1f, 1f, 1f);
@@ -84,6 +87,8 @@ public class ChangeObject extends CollideAble
                     break;
             }
         }
+        
+        this.scene.destroy(this);
         super.onCollision(collideWith);
     }
 }

@@ -61,6 +61,8 @@ import static org.lwjgl.opengl.GL11.glGetError;
 import static org.lwjgl.opengl.GL30.GL_INVALID_FRAMEBUFFER_OPERATION;
 import static org.lwjgl.system.APIUtil.apiUnknownToken;
 import static org.lwjgl.glfw.GLFW.glfwSetWindowTitle;
+import static org.lwjgl.opengl.GL11.GL_DST_ALPHA;
+import static org.lwjgl.opengl.GL11.GL_ONE_MINUS_DST_ALPHA;
 import static org.lwjgl.system.APIUtil.apiUnknownToken;
 
 
@@ -80,6 +82,8 @@ public final class View {
         this.WINDOW = window;
         GL.createCapabilities();
         glEnable(GL_CULL_FACE);
+        glEnable(GL_BLEND);// you enable blending function
+       glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glEnable(GL_DEPTH_TEST);
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

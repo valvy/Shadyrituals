@@ -56,7 +56,7 @@ public class GameScene extends Scene{
          this.addGameObject(pl);
 
          this.addGameObject(new Actor(new Vector3<>(0f,3f,-10f)));
-         this.addGameObject(new ChangeObject(new Vector3<>(0f,3f,-5f)));
+         this.addGameObject(new ChangeObject(new Vector3<>(0f,3f,-5f),this));
 
          
          

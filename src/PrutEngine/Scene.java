@@ -122,10 +122,12 @@ public abstract class Scene {
             {
                 if(obj == obj2 || !(obj2 instanceof Actor)) continue;
                 if(
+
                    ((((CollideAble)obj2).boundingBox.w < ((CollideAble)obj).boundingBox.w && ((CollideAble)obj2).boundingBox.w > ((CollideAble)obj).boundingBox.y)  ||
                     (((CollideAble)obj2).boundingBox.y < ((CollideAble)obj).boundingBox.w && ((CollideAble)obj2).boundingBox.y > ((CollideAble)obj).boundingBox.y)) &&
                    ((((CollideAble)obj2).boundingBox.x < ((CollideAble)obj).boundingBox.x && ((CollideAble)obj2).boundingBox.x > ((CollideAble)obj).boundingBox.z)  ||
                     (((CollideAble)obj2).boundingBox.z < ((CollideAble)obj).boundingBox.x && ((CollideAble)obj2).boundingBox.z > ((CollideAble)obj).boundingBox.z))
+
                   )
                 {
                     ((CollideAble)obj).onCollision((Actor)obj2);

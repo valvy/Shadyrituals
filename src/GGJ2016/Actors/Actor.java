@@ -97,13 +97,13 @@ public class Actor extends CollideAble
         this.currentElement = element;
         switch(this.currentElement){
             case Sphere:
-            this.initRenderer("Sphere.png");
+            this.initRenderer("Circle.png");
             return;
             case Cube:
-            this.initRenderer("Cube.png");
+            this.initRenderer("Square.png");
             return;
             case Torus:           
-            this.initRenderer("Weirdo.png");
+            this.initRenderer("Triangle.png");
             return;
         }
     }
