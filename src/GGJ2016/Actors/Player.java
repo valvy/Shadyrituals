@@ -126,19 +126,19 @@ public class Player extends Actor
         Vector3 movePos = new Vector3(0f, 0f, 0f);
         int moveKeyCount = 0;
 
-        if(Application.getInstance().prutKeyBoard.GetState(GLFW_KEY_W) == GLFW_REPEAT)
+        if(Application.getInstance().prutKeyBoard.GetState(GLFW_KEY_W) == GLFW_REPEAT || Application.getInstance().prutKeyBoard.GetState(GLFW_KEY_UP) == GLFW_REPEAT)
         {
             movePos.y = 1f;
         }
-        if(Application.getInstance().prutKeyBoard.GetState(GLFW_KEY_A) == GLFW_REPEAT)
+        if(Application.getInstance().prutKeyBoard.GetState(GLFW_KEY_A) == GLFW_REPEAT || Application.getInstance().prutKeyBoard.GetState(GLFW_KEY_LEFT) == GLFW_REPEAT)
         {
             movePos.x = -1f;
         }      
-        if(Application.getInstance().prutKeyBoard.GetState(GLFW_KEY_S) == GLFW_REPEAT)
+        if(Application.getInstance().prutKeyBoard.GetState(GLFW_KEY_S) == GLFW_REPEAT || Application.getInstance().prutKeyBoard.GetState(GLFW_KEY_DOWN) == GLFW_REPEAT)
         {
             movePos.y = -1f;
         }  
-        if(Application.getInstance().prutKeyBoard.GetState(GLFW_KEY_D) == GLFW_REPEAT)
+        if(Application.getInstance().prutKeyBoard.GetState(GLFW_KEY_D) == GLFW_REPEAT || Application.getInstance().prutKeyBoard.GetState(GLFW_KEY_RIGHT) == GLFW_REPEAT)
         {
             movePos.x = 1f;
         }
