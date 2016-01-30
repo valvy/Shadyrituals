@@ -25,7 +25,9 @@
  */
 package GGJ2016;
 
+import GGJ2016.Actors.Actor;
 import PrutEngine.Application;
+import PrutEngine.Core.Math.Vector3;
 import PrutEngine.Debug;
 import com.sun.corba.se.impl.orbutil.concurrent.Mutex;
 import java.io.BufferedWriter;
@@ -35,6 +37,7 @@ import java.io.OutputStreamWriter;
 import static java.lang.System.exit;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -192,13 +195,42 @@ public class ConnectionClient extends BaseConnection {
     @Override
     public ArrayList<ConnectedPlayer> getAllConnections() {
         String dat = NOTHING;
-       // do{
+        ArrayList<ConnectedPlayer> results = new ArrayList<>();
+        do{
             dat = getFrom();
+            if(dat.equals(NOTHING)){
+                break;
+            }
+            Debug.log(dat);
+            //String id, Vector3<Float> currentPosition, Actor.Element playerElement
+            String[] splitedData =  dat.split(";");
+            String id = splitedData[0];
             
-            //Debug.log(dat);
+            final Scanner fi = new Scanner(splitedData[1]);
+            Vector3<Float> currentPosition = new Vector3<>(
+                    fi.nextFloat(),
+                    fi.nextFloat(),
+                    fi.nextFloat());
             
-     //   }while(dat != NOTHING);
-        return null;
+            Actor.Element playerElement = Actor.Element.Cube;
+            String playerElementString = splitedData[2];
+            if(playerElementString == Actor.Element.Cube.toString())
+            {
+                playerElement = Actor.Element.Cube;
+            }
+            else if(playerElementString == Actor.Element.Sphere.toString())
+            {
+                 playerElement = Actor.Element.Sphere;
+            }
+            else if(playerElementString == Actor.Element.Torus.toString())
+            {
+                 playerElement = Actor.Element.Torus;
+            }
+            ConnectedPlayer player = new ConnectedPlayer(id, currentPosition, playerElement);
+            results.add(player);
+            
+        }while(dat != NOTHING);
+        return results;
     }
 
     @Override
