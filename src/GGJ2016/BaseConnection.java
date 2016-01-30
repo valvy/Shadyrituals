@@ -25,7 +25,8 @@
  */
 package GGJ2016;
 
-import java.net.Socket;
+import GGJ2016.Actors.Actor;
+import PrutEngine.Core.Math.Vector3;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -39,6 +40,17 @@ public abstract class BaseConnection implements Runnable{
     private static BaseConnection instance;
     private final Thread thread;
     protected final int PORT = 7000;
+    
+    public class ConnectedPlayer{
+        public String id;
+        public Vector3<Float> currentPosition;
+        public Actor.Element playerElement;
+    }
+    
+    public abstract ArrayList<ConnectedPlayer> getAllConnections();
+    
+    public abstract void notifyWorld(ConnectedPlayer player);
+    
     protected BaseConnection(){
         this.thread = new Thread(this);
         this.thread.start();
@@ -47,6 +59,8 @@ public abstract class BaseConnection implements Runnable{
     protected boolean shouldStop(){
         return this.shouldStop;
     }
+    
+    
     
     public void stopConnection(){
         this.shouldStop = true;

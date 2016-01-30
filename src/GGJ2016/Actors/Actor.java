@@ -38,7 +38,7 @@ import java.util.logging.Logger;
 
 public class Actor extends CollideAble
 {
-    protected enum Element{
+    public enum Element{
         Sphere,
         Cube,
         Torus

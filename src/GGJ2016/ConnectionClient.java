@@ -31,6 +31,7 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -44,13 +45,14 @@ public class ConnectionClient extends BaseConnection {
     private DataInputStream inputStream;
     private  BufferedWriter bw;
     
+    
     protected ConnectionClient(){
         
     }
     
     @Override
     protected void stop() {
-      
+       
     }
 
     @Override
@@ -71,6 +73,7 @@ public class ConnectionClient extends BaseConnection {
         byte[] buffer = new byte[1024];
         int read;
         try {
+            this.send("test", bw);
             while((read = inputStream.read(buffer)) != -1){
                 if(this.shouldStop()){
                     bw.close();
@@ -95,5 +98,15 @@ public class ConnectionClient extends BaseConnection {
                 Logger.getLogger(ConnectionController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+
+    @Override
+    public ArrayList<ConnectedPlayer> getAllConnections() {
+        return null;
+    }
+
+    @Override
+    public void notifyWorld(ConnectedPlayer player) {
+        
+    }
     
 }

@@ -46,6 +46,8 @@ public class ConnectionServer extends BaseConnection {
 
     private int uniqueNumber = 0;
 
+
+
    
     private class Client implements Runnable{
         private final int id;
@@ -53,6 +55,7 @@ public class ConnectionServer extends BaseConnection {
         private final Thread thread;
         private boolean shouldStop = false;
         public Client(int id, Socket sock){
+            
             this.id =id;
             this.sock = sock;
             this.thread = new Thread(this);
@@ -78,7 +81,7 @@ public class ConnectionServer extends BaseConnection {
                     
                     int read;
                     byte[] buffer = new byte[1024];
-                 
+                   
                     while((read = inputStream.read(buffer)) != -1){
                         if(shouldStop){
                             inputStream.close();
@@ -130,7 +133,7 @@ public class ConnectionServer extends BaseConnection {
         }
          
         try {
-           Debug.log("ASDFASDF");
+           Debug.log("hai");
             clients.add(new Client(this.uniqueNumber, serverSocket.accept()));
             this.uniqueNumber++;
             
@@ -140,13 +143,23 @@ public class ConnectionServer extends BaseConnection {
         }
         
     }
+    
+    @Override
+    public ArrayList<ConnectedPlayer> getAllConnections() {
+      return null;
+    }
+
+    @Override
+    public void notifyWorld(ConnectedPlayer player) {
+        
+    }
 
     @Override
     public boolean attemptToConnect() {
         try {
             serverSocket = new ServerSocket(PORT);
          
-            serverSocket.setSoTimeout(3000);
+          //  serverSocket.setSoTimeout(3000);
             //serverSocket.accept();
            //;
             return true;
