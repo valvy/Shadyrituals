@@ -28,6 +28,7 @@ package GGJ2016;
 
 
 import PrutEngine.Debug;
+import com.sun.corba.se.impl.orbutil.concurrent.Mutex;
 import java.io.BufferedWriter;
 import java.io.DataInputStream;
 import java.io.IOException;
@@ -45,8 +46,11 @@ import java.util.logging.Logger;
 public class ConnectionServer extends BaseConnection {
 
     private int uniqueNumber = 0;
+    private final ArrayList<String> globalBuffer;
 
-
+    protected ConnectionServer(){
+        this.globalBuffer = new ArrayList<>();
+    }
 
    
     private class Client implements Runnable{
@@ -54,10 +58,45 @@ public class ConnectionServer extends BaseConnection {
         private final Socket sock;
         private final Thread thread;
         private boolean shouldStop = false;
+        private final Mutex mutex;
+        private final ArrayList<String> from;
+        private final ArrayList<String> to;
+        
+        public String getFrom(){
+            String dat = NOTHING;
+            try{
+                mutex.acquire();
+                if(this.from.size() > 0){
+                    dat = from.get(0);
+                    this.from.remove(0);
+                }
+            }
+            catch (InterruptedException ex) {
+                Logger.getLogger(ConnectionServer.class.getName()).log(Level.SEVERE, null, ex);
+            }finally{
+                mutex.release();
+            }
+            return dat;
+        }
+        
+        public void addToBuffer(String msg){
+            try {
+                Debug.log(msg);
+                mutex.acquire();
+                this.to.add(msg);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(ConnectionServer.class.getName()).log(Level.SEVERE, null, ex);
+            }finally{
+                mutex.release();
+            }
+        }
+        
         public Client(int id, Socket sock){
-            
             this.id =id;
             this.sock = sock;
+            this.from = new ArrayList<>();
+            this.to = new ArrayList<>();
+            this.mutex = new Mutex();
             this.thread = new Thread(this);
             this.thread.start();
         }
@@ -65,6 +104,7 @@ public class ConnectionServer extends BaseConnection {
         public void stopConnection(){
  
             shouldStop = true;
+            
             try {
                 thread.join();
             } catch (InterruptedException ex) {
@@ -89,9 +129,27 @@ public class ConnectionServer extends BaseConnection {
                             this.sock.close();
                             break;
                         }
-                        String msg = new String(buffer, 0, read);
-                        Debug.log(msg);
-                        this.send("hai", bw);
+                        try {
+                            this.mutex.acquire();
+                            String msg = new String(buffer, 0, read);
+                            if(!msg.equals(NOTHING)){
+                                this.from.add(msg);
+                                Debug.log(msg);
+                            }
+                             
+                        } catch (InterruptedException ex) {
+                            Logger.getLogger(ConnectionServer.class.getName()).log(Level.SEVERE, null, ex);
+                        }finally{
+                            String dat = NOTHING;
+                            if(this.to.size() > 0){
+                                dat = to.get(0);
+                                this.to.remove(0);
+                            }
+                            this.mutex.release();
+                            this.send(dat, bw);                           
+                        }
+              
+                        
                         
                     }
                     
@@ -107,7 +165,7 @@ public class ConnectionServer extends BaseConnection {
                 bw.write(msg);
                 bw.flush();
             }   catch (IOException ex) {
-                Logger.getLogger(ConnectionController.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ConnectionServer.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         
@@ -120,6 +178,7 @@ public class ConnectionServer extends BaseConnection {
     
     @Override
     protected void stop() {
+        
         for(Client cl : this.clients){
             cl.stopConnection();
         }
@@ -133,7 +192,7 @@ public class ConnectionServer extends BaseConnection {
         }
          
         try {
-           Debug.log("hai");
+           
             clients.add(new Client(this.uniqueNumber, serverSocket.accept()));
             this.uniqueNumber++;
             
@@ -151,6 +210,28 @@ public class ConnectionServer extends BaseConnection {
 
     @Override
     public void notifyWorld(ConnectedPlayer player) {
+        if(clients == null){
+            return;
+        }
+        ArrayList<String> localBuffer = new ArrayList<>();
+        
+        for(Client cl : clients){
+            localBuffer.add(cl.getFrom());
+            cl.addToBuffer(
+                    player.id + ";" + player.currentPosition.toString() + ";" + player.playerElement.toString() + ";"
+            );
+        }
+        
+        for(Client cl : clients){
+            for(String t : localBuffer){
+                cl.addToBuffer(t);
+            }
+        }
+        
+        for(String t : localBuffer){
+            this.globalBuffer.add(t);
+        }
+        
         
     }
 
@@ -159,9 +240,7 @@ public class ConnectionServer extends BaseConnection {
         try {
             serverSocket = new ServerSocket(PORT);
          
-          //  serverSocket.setSoTimeout(3000);
-            //serverSocket.accept();
-           //;
+            serverSocket.setSoTimeout(3000);
             return true;
         } catch (IOException ex) {
            // Logger.getLogger(ConnectionServer.class.getName()).log(Level.SEVERE, null, ex);
