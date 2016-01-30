@@ -101,6 +101,7 @@ public class Actor extends GameObject
         switch(this.currentElement){
             case Sphere:
             this.initRenderer("sphere.obj");
+            
             return;
             case Cube:
             this.initRenderer("cube.obj");
@@ -115,7 +116,7 @@ public class Actor extends GameObject
             this.setRenderer(new Renderer(
                 "Assets/Shaders/UnShadedVertex.glsl",
                 "Assets/Shaders/UnshadedFragment.glsl",
-                "Assets/Textures/cube.bmp",
+                "Assets/Textures/TriangleP.png",
                 "Assets/Meshes/" + mesh     
             ));
         } catch (Exception ex) {

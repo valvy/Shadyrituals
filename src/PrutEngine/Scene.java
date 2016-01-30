@@ -121,10 +121,10 @@ public abstract class Scene {
             {
                 if(obj == obj2 || !(obj2 instanceof Actor)) continue;
                 if(
-                   ((((Actor)obj2).boundingBox.w < ((Actor)obj).boundingBox.w && ((Actor)obj2).boundingBox.w > ((Actor)obj).boundingBox.y)  ||
-                    (((Actor)obj2).boundingBox.y < ((Actor)obj).boundingBox.w && ((Actor)obj2).boundingBox.y > ((Actor)obj).boundingBox.y)) &&
-                   ((((Actor)obj2).boundingBox.x < ((Actor)obj).boundingBox.x && ((Actor)obj2).boundingBox.x > ((Actor)obj).boundingBox.z)  ||
-                    (((Actor)obj2).boundingBox.z < ((Actor)obj).boundingBox.x && ((Actor)obj2).boundingBox.z > ((Actor)obj).boundingBox.z))
+                   ((((Actor)obj2).boundingBox.w <= ((Actor)obj).boundingBox.w && ((Actor)obj2).boundingBox.w >= ((Actor)obj).boundingBox.y)  ||
+                    (((Actor)obj2).boundingBox.y <= ((Actor)obj).boundingBox.w && ((Actor)obj2).boundingBox.y >= ((Actor)obj).boundingBox.y)) &&
+                   ((((Actor)obj2).boundingBox.x <= ((Actor)obj).boundingBox.x && ((Actor)obj2).boundingBox.x >= ((Actor)obj).boundingBox.z)  ||
+                    (((Actor)obj2).boundingBox.z <= ((Actor)obj).boundingBox.x && ((Actor)obj2).boundingBox.z >= ((Actor)obj).boundingBox.z))
                   )
                 {
                     ((Actor)obj).onCollision((Actor)obj2);
