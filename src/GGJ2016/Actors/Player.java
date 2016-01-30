@@ -111,6 +111,6 @@ public class Player extends Actor
                 break;
         }
         respawnActor(new Vector4(4,4,4,4));
-        Debug.log(this.currentElement);
+       // Debug.log(this.currentElement);
     }
 }
