@@ -25,6 +25,7 @@
  */
 package GGJ2016.Actors;
 
+import GGJ2016.GameScene;
 import PrutEngine.*;
 //import org.lwjgl.glfw.GLFW;
 import static org.lwjgl.glfw.GLFW.*;
@@ -110,6 +111,7 @@ public class Player extends Actor
                 if(collideWith.currentElement != Element.Sphere)
                 break;
         }
+        ((GameScene)this.gameScene).shakeScreen(100, 0.01f);
         respawnActor(new Vector4(4,4,4,4));
        // Debug.log(this.currentElement);
     }

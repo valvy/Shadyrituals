@@ -69,6 +69,10 @@ public class GameScene extends Scene{
         
     }
     
+    public void shakeScreen(float magnitude, float duration){
+        ((MainCamera)this.camera).shakeScreen(1000f, 0.05f);
+    }
+    
     @Override
     public void update(float tpf){
         
@@ -76,10 +80,7 @@ public class GameScene extends Scene{
              Application.getInstance().quit();
              return;
          }
-         if(Application.getInstance().prutKeyBoard.GetState(GLFW_KEY_9) == GLFW_REPEAT)
-        {
-            ((MainCamera)this.camera).shakeScreen(1000f, 0.05f);
-        }
+
         
         super.update(tpf);
     }
