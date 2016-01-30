@@ -79,6 +79,7 @@ public class Player extends Actor
         if(!lastPos.equals(this.getPosition()) || lastElement != this.currentElement)
         {
            //Debug.log(lastPos);
+            Debug.log(BaseConnection.getInstance().getIdName());
             BaseConnection.getInstance().notifyWorld(
                         new ConnectedPlayer(
                             BaseConnection.getInstance().getIdName(),

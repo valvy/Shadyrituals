@@ -62,16 +62,14 @@ public class ConnectionServer extends BaseConnection {
         private final Thread thread;
         private boolean shouldStop = false;
         private final Mutex mutex;
-        private final ArrayList<String> from;
+        private String from = NOTHING;
         private final ArrayList<String> to;
+        
         public String getFrom(){
             String dat = NOTHING;
             try{
                 mutex.acquire();
-                if(this.from.size() > 0){
-                    dat = from.get(0);
-                    this.from.remove(0);
-                }
+                dat = from;
             }
             catch (InterruptedException ex) {
                 Logger.getLogger(ConnectionServer.class.getName()).log(Level.SEVERE, null, ex);
@@ -97,7 +95,7 @@ public class ConnectionServer extends BaseConnection {
             
             this.sock = sock;
            
-            this.from = new ArrayList<>();
+            
             this.to = new ArrayList<>();
             this.mutex = new Mutex();
             this.thread = new Thread(this);
@@ -138,7 +136,7 @@ public class ConnectionServer extends BaseConnection {
                             String msg = new String(buffer, 0, read);
                             
                             if(!msg.equals(NOTHING)){
-                                this.from.add(msg);
+                                this.from = msg;
                             }
                              
                         } catch (InterruptedException ex) {
@@ -147,6 +145,7 @@ public class ConnectionServer extends BaseConnection {
                             String dat = NOTHING;
                             if(this.to.size() > 0){
                                 dat = to.get(0);
+                                Debug.log(dat);
                                 this.to.remove(0);
                             }
                             this.mutex.release();
@@ -209,7 +208,7 @@ public class ConnectionServer extends BaseConnection {
     @Override
     public ArrayList<ConnectedPlayer> getAllConnections() {
         for(String str : this.globalBuffer){
-            Debug.log(str);
+          //  Debug.log(str);
             
         }
         this.globalBuffer.clear();
@@ -223,22 +222,33 @@ public class ConnectionServer extends BaseConnection {
             return;
         }
         ArrayList<String> localBuffer = new ArrayList<>();
-   
         
         for(Client cl : clients){
-                        cl.addToBuffer(
-                    player.id + ";" + player.currentPosition.toString() + ";" + player.playerElement.toString() + ";"
-            );
-            for(String t : localBuffer){
-                if(!t.equals(NOTHING)){
-                    cl.addToBuffer(t);
-                    Debug.log(t);
-                }
-            }
-            localBuffer.add(cl.getFrom());
-
+            //Pass the server data
+        //    cl.addToBuffer(
+          //          player.id + ";" + player.currentPosition.toString() + ";" + player.playerElement.toString() + ";"
+            //);
+            
+            //Get what's up
+            
+          
+             localBuffer.add(cl.getFrom());
+      
         }
         
+        //send everything to everybody
+        for(Client cl : clients){
+            for(String str : localBuffer){
+        //        Debug.log(str);
+                cl.addToBuffer(str);
+                Debug.log(str);
+            }
+        }
+        
+        
+        
+        /*
+           
         for(String t : localBuffer){
             if(!t.equals(NOTHING)){
                 Debug.log(t);
@@ -246,6 +256,22 @@ public class ConnectionServer extends BaseConnection {
             }
         }
         
+        for(Client cl : clients){
+            //localBuffer.add(cl.getFrom());
+            cl.addToBuffer(
+                    player.id + ";" + player.currentPosition.toString() + ";" + player.playerElement.toString() + ";"
+            );
+              
+            for(String t : localBuffer){
+                if(!t.equals(NOTHING)){
+                    cl.addToBuffer(t);
+                    Debug.log(t);
+                }
+            }
+            
+
+        }*/
+     
         
     }
 

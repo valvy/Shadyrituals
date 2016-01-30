@@ -84,6 +84,7 @@ public class ConnectionClient extends BaseConnection {
             mutex.acquire();
             this.to = msg;
             
+            
         } catch (InterruptedException ex) {
             Logger.getLogger(ConnectionServer.class.getName()).log(Level.SEVERE, null, ex);
         }finally{
@@ -143,8 +144,8 @@ public class ConnectionClient extends BaseConnection {
                 {
                     if(msg.contains("Player:"))
                     {
-                        if(!msg.contains("Server")){
-                        idName = msg;
+                        if(!msg.contains("Server") && idName.equals("NULL")){
+                            idName = msg;
                         }
                     }
                     this.from.add(msg);
@@ -157,6 +158,7 @@ public class ConnectionClient extends BaseConnection {
                 
        
                 this.mutex.release();
+            
                 this.send(to, bw);                           
             }
         }   
@@ -187,12 +189,12 @@ public class ConnectionClient extends BaseConnection {
     @Override
     public ArrayList<ConnectedPlayer> getAllConnections() {
         String dat = NOTHING;
-        do{
+       // do{
             dat = getFrom();
             
             //Debug.log(dat);
             
-        }while(dat != NOTHING);
+     //   }while(dat != NOTHING);
         return null;
     }
 
