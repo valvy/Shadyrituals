@@ -82,6 +82,7 @@ public class ConnectionClient extends BaseConnection {
     public void addToBuffer(String msg){
         try {
             mutex.acquire();
+           // Debug.log("addToBuffer: " + msg);
             this.to = msg;
             
         } catch (InterruptedException ex) {
@@ -143,7 +144,7 @@ public class ConnectionClient extends BaseConnection {
                 {
                     if(msg.contains("Player:"))
                     {
-                        if(!msg.contains("Server")){
+                        if(!msg.contains("Server") && idName.equals("NULL")){
                         idName = msg;
                         }
                     }
@@ -157,6 +158,7 @@ public class ConnectionClient extends BaseConnection {
                 
        
                 this.mutex.release();
+                //Debug.log(to);
                 this.send(to, bw);                           
             }
         }   
@@ -191,7 +193,6 @@ public class ConnectionClient extends BaseConnection {
 
     @Override
     public void notifyWorld(ConnectedPlayer player) {
-        
         this.addToBuffer(player.id + ";" + player.currentPosition.toString() + ";" + player.playerElement.toString() + ";");
     }
     
