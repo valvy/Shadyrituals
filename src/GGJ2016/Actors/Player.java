@@ -29,6 +29,7 @@ import GGJ2016.BaseConnection;
 import GGJ2016.BaseConnection.ConnectedPlayer;
 import GGJ2016.GameScene;
 import PrutEngine.*;
+import PrutEngine.Core.Math.PrutMath;
 //import org.lwjgl.glfw.GLFW;
 import static org.lwjgl.glfw.GLFW.*;
 //import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
@@ -85,7 +86,7 @@ public class Player extends Actor
         //Notify the fellow players
         BaseConnection.getInstance().notifyWorld(
                     new ConnectedPlayer(
-                        "Heiko",
+                        "Quget",
                         this.getPosition(),
                         this.currentElement));
         Vector3<Float> nPos = new Vector3<>(this.getPosition());
