@@ -33,6 +33,7 @@ import static org.lwjgl.glfw.GLFW.*;
 
 import PrutEngine.Core.Math.Vector3;
 import PrutEngine.Core.Math.Vector4;
+import java.util.ArrayList;
 
  
 /**
@@ -41,16 +42,44 @@ import PrutEngine.Core.Math.Vector4;
  */
 public class Player extends Actor
 {
-    private final Scene gameScene;
-    public Player(Scene gameScene){
+    private final GameScene gameScene;
+    private ArrayList<ScoreCube> scoreCubes = new ArrayList<ScoreCube>();
+    private float scoreCubeXStep = 1;
+    private float scoreCubeX;
+    public Player(GameScene gameScene){
         super(new Vector3<Float>(0f,0f,-10f));
         this.setSize(new Vector3<Float>(2f, 2f, 2f));
         this.gameScene = gameScene;
     }
+    
+    
+    public void AddScore()
+    {
+        ScoreCube scoreCube = new ScoreCube(new Vector3<Float>(scoreCubeX,0f,0f));
+        scoreCubes.add(scoreCube);
+        gameScene.addGameObjectRealTime(scoreCube);
+        scoreCubeX += scoreCubeXStep;
+    }
+    public void ResetScore()
+    {
+        for(int i = 0; i < scoreCubes.size(); i++)
+        {
+            scoreCubes.get(i).destroy();
+        }
+        scoreCubes.removeAll(scoreCubes);
+        scoreCubeX = 0;
+    }
     @Override
     public void update(float tpf) 
     {
-
+        for(int i = 0; i < scoreCubes.size(); i++)
+        {
+            Vector3<Float> cubePosition = new Vector3(0f,0f,0f);
+            cubePosition.x = (position.x - 12f) + (i * scoreCubeXStep);
+            cubePosition.y = position.y + 12;
+            scoreCubes.get(i).setPosition(cubePosition);
+            //scoreCubes.get(i).destroy();
+        }
         PlayerInput(tpf);
         super.update(tpf);
        
@@ -91,6 +120,7 @@ public class Player extends Actor
                     this.setupElement(Element.Sphere);
                     break;
             }
+           AddScore();
            AssetManager.getSound("change").PlaySound(0);
         }
       //  Debug.log(movePos);

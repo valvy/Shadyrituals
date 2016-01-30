@@ -29,6 +29,7 @@ import GGJ2016.Actors.*;
 import PrutEngine.Application;
 import PrutEngine.AssetManager;
 import PrutEngine.Core.Math.Vector3;
+import PrutEngine.GameObject;
 import PrutEngine.Scene;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_9;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
