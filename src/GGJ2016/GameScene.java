@@ -30,8 +30,10 @@ import PrutEngine.Application;
 import PrutEngine.AssetManager;
 import PrutEngine.Core.Math.Vector3;
 import PrutEngine.Scene;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_9;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
 import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
+import static org.lwjgl.glfw.GLFW.GLFW_REPEAT;
 
 /**
  *
@@ -42,6 +44,7 @@ public class GameScene extends Scene{
     @Override
     public void awake() {
          Application.getInstance().getWindow().setWindowTitle("game");
+         this.setCamera(new MainCamera(new Vector3<>(0f,0f,0f)));
          this.addGameObject(new Player(this));
          this.addGameObject(new Enemy(new Vector3<>(-5f,-1f,-10f)));
          this.addGameObject(new Enemy(new Vector3<>(5f,-1f,-10f)));
@@ -68,6 +71,10 @@ public class GameScene extends Scene{
              Application.getInstance().quit();
              return;
          }
+         if(Application.getInstance().prutKeyBoard.GetState(GLFW_KEY_9) == GLFW_REPEAT)
+        {
+            ((MainCamera)this.camera).shakeScreen(1000f, 0.05f);
+        }
         
         super.update(tpf);
     }

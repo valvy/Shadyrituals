@@ -23,31 +23,43 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package GGJ2016.Actors;
+package GGJ2016;
 
+import PrutEngine.Camera;
+import PrutEngine.Core.Math.Quaternion;
 import PrutEngine.Core.Math.Vector3;
+import PrutEngine.Debug;
 
 /**
  *
  * @author Heiko van der Heijden
  */
-public final class Enemy extends Actor{
-    public Enemy(Vector3<Float> startPos) {
-        super(startPos, 0f, 0f);
-        this.setSize(new Vector3<Float>(2f, 2f, 2f));
-        this.setPosition(startPos);
+public final class MainCamera extends Camera {
+    
+    private float shakeMagnitude = 0;
+    private float shakeDuration = 0;
+    private final Quaternion oldQuaternion;
+    public MainCamera(Vector3<Float> position) {
+        super(position);
+        this.oldQuaternion = this.getRotationQuaternion();
     }
     
     @Override
     public void update(float tpf){
         super.update(tpf);
         
-  
+        if(this.shakeDuration > 0 && this.shakeMagnitude > 0){
+            this.rotate(new Vector3<>(1f,1f,1f), (float) Math.sin(this.shakeDuration - (this.shakeDuration * this.shakeMagnitude)  ));
+            this.shakeDuration -= tpf;
+        }else{
+            this.setRotation(oldQuaternion);
+        }
+        
     }
     
-    @Override
-    public void onCollision(Actor collideWith)
-    {
-        
+    
+    public void shakeScreen(float magnitude, float duration){
+        this.shakeMagnitude = magnitude;
+        this.shakeDuration = duration;
     }
 }

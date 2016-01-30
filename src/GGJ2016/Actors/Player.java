@@ -31,6 +31,7 @@ import static org.lwjgl.glfw.GLFW.*;
 //import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
 
 import PrutEngine.Core.Math.Vector3;
+import PrutEngine.Core.Math.Vector4;
 
  
 /**
@@ -40,10 +41,8 @@ import PrutEngine.Core.Math.Vector3;
 public class Player extends Actor
 {
     private final Scene gameScene;
-    
     public Player(Scene gameScene){
         super(new Vector3<Float>(0f,0f,-10f), 0f, 0f);
-        this.initRenderer("cube.obj");
         this.setSize(new Vector3<Float>(2f, 2f, 2f));
         //this.initRenderer("sphere.obj");
         this.gameScene = gameScene;
@@ -65,7 +64,7 @@ public class Player extends Actor
     {
         Vector3 movePos = new Vector3(0f, 0f, 0f);
         int moveKeyCount = 0;
-        
+
         if(Application.getInstance().prutKeyBoard.GetState(GLFW_KEY_W) == GLFW_REPEAT)
         {
             movePos.y = 1f;
@@ -102,6 +101,19 @@ public class Player extends Actor
     @Override
     public void onCollision(Actor collideWith)
     {
-       Application.getInstance().prutSoundManager.PlaySound(AssetManager.getSound(1));
+        switch(this.currentElement)
+        {
+            case Sphere:
+                if(collideWith.currentElement != Element.Cube)
+                break;
+            case Cube:
+                if(collideWith.currentElement != Element.Torus)
+                break;
+            case Torus:
+                if(collideWith.currentElement != Element.Sphere)
+                break;
+        }
+        respawnActor(new Vector4(4,4,4,4));
+        Debug.log(this.currentElement);
     }
 }
