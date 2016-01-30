@@ -25,6 +25,7 @@
  */
 package GGJ2016.Actors;
 
+import PrutEngine.AssetManager;
 import PrutEngine.Core.Math.Vector3;
 
 /**
