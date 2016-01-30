@@ -52,7 +52,9 @@ public class Actor extends CollideAble
     {
         this.setPosition(startPos);
         this.rotate(new Vector3<>(1f,0f,0f), -90);
+
         setupElement(Element.Sphere);
+
         this.boundingBox = new Vector4<Float>(1f, 1f, 1f, 1f);
     }
     @Override
@@ -95,38 +97,29 @@ public class Actor extends CollideAble
         this.currentElement = element;
         switch(this.currentElement){
             case Sphere:
-<<<<<<< HEAD
-            this.initRenderer("sphere.obj");
-            
-=======
-                this.initRenderer("Quad.obj","Sphere.png");
->>>>>>> ba15d99fea1fe84124acfe7d2f15722636a5d5df
+            this.initRenderer("Circle.png");
             return;
             case Cube:
-                this.initRenderer("Quad.obj","Cube.png");
+            this.initRenderer("Square.png");
             return;
             case Torus:           
-                this.initRenderer("Quad.obj","PalmTree.png");
+            this.initRenderer("Triangle.png");
             return;
         }
     }
-    
-    protected void initRenderer(String mesh, String texture){
+    protected void initRenderer(String texture){
         try {
             this.setRenderer(new Renderer(
                 "Assets/Shaders/UnShadedVertex.glsl",
-                "Assets/Shaders/UnshadedFragment.glsl",
-<<<<<<< HEAD
-                "Assets/Textures/TriangleP.png",
-=======
+                "Assets/Shaders/UnShadedFragment.glsl",
                 "Assets/Textures/" + texture,
->>>>>>> ba15d99fea1fe84124acfe7d2f15722636a5d5df
-                "Assets/Meshes/" + mesh     
-            ));
-        } catch (Exception ex) {
-            Logger.getLogger(Actor.class.getName()).log(Level.SEVERE, null, ex);
+                "Assets/Meshes/Quad.obj")); 
         }
+         catch(Exception e ){
+                  
+                 }
     }
+
     
     @Override
     public void update(float tpf) 

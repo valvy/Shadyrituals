@@ -42,12 +42,14 @@ public abstract class Scene {
      * The list with all the different gameobjects
      */
     private final ArrayList<GameObject> gameObjects;
+    private final ArrayList<GameObject> gameObjectsToAdd;
     private final ArrayList<GameObject> toDestroy;
     
     public Scene(){
         this.gameObjects = new ArrayList<>();
         this.camera = new Camera(new Vector3<>(0f,0f,-4f));
         this.toDestroy = new ArrayList<>();
+        this.gameObjectsToAdd = new ArrayList<GameObject>();
     }
     
     /**
@@ -81,7 +83,9 @@ public abstract class Scene {
     protected void addGameObject(GameObject gameObject){
         this.gameObjects.add(gameObject);
     }
-    
+    public void addGameObjectRealTime(GameObject gameObject){
+        gameObjectsToAdd.add(gameObject);
+    }
     /**
      * Removes an GameObject in the scene
      * @param gameObject
@@ -122,17 +126,12 @@ public abstract class Scene {
             {
                 if(obj == obj2 || !(obj2 instanceof Actor)) continue;
                 if(
-<<<<<<< HEAD
-                   ((((Actor)obj2).boundingBox.w <= ((Actor)obj).boundingBox.w && ((Actor)obj2).boundingBox.w >= ((Actor)obj).boundingBox.y)  ||
-                    (((Actor)obj2).boundingBox.y <= ((Actor)obj).boundingBox.w && ((Actor)obj2).boundingBox.y >= ((Actor)obj).boundingBox.y)) &&
-                   ((((Actor)obj2).boundingBox.x <= ((Actor)obj).boundingBox.x && ((Actor)obj2).boundingBox.x >= ((Actor)obj).boundingBox.z)  ||
-                    (((Actor)obj2).boundingBox.z <= ((Actor)obj).boundingBox.x && ((Actor)obj2).boundingBox.z >= ((Actor)obj).boundingBox.z))
-=======
+
                    ((((CollideAble)obj2).boundingBox.w < ((CollideAble)obj).boundingBox.w && ((CollideAble)obj2).boundingBox.w > ((CollideAble)obj).boundingBox.y)  ||
                     (((CollideAble)obj2).boundingBox.y < ((CollideAble)obj).boundingBox.w && ((CollideAble)obj2).boundingBox.y > ((CollideAble)obj).boundingBox.y)) &&
                    ((((CollideAble)obj2).boundingBox.x < ((CollideAble)obj).boundingBox.x && ((CollideAble)obj2).boundingBox.x > ((CollideAble)obj).boundingBox.z)  ||
                     (((CollideAble)obj2).boundingBox.z < ((CollideAble)obj).boundingBox.x && ((CollideAble)obj2).boundingBox.z > ((CollideAble)obj).boundingBox.z))
->>>>>>> 5da867401f364d3cfc6c802545f869564547fb41
+
                   )
                 {
                     ((CollideAble)obj).onCollision((Actor)obj2);
@@ -145,6 +144,10 @@ public abstract class Scene {
         }
         this.toDestroy.clear();
         
+        for (GameObject gameObjectToAdd : gameObjectsToAdd) {
+            this.addGameObject(gameObjectToAdd);
+        }
+        gameObjectsToAdd.removeAll(gameObjectsToAdd);
         camera.update(tpf);
     }
   

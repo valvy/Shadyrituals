@@ -25,59 +25,33 @@
  */
 package GGJ2016.Actors;
 
-import PrutEngine.AssetManager;
+import Example.ExampleSprite;
 import PrutEngine.Core.Math.Vector3;
-import PrutEngine.Debug;
 import PrutEngine.GameObject;
 import PrutEngine.Renderer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import static org.lwjgl.opengl.GL20.glGetUniformLocation;
-import static org.lwjgl.opengl.GL20.glUniform1f;
-import static org.lwjgl.opengl.GL20.glUseProgram;
 
 /**
  *
  * @author Heiko van der Heijden
  */
-public class Background extends GameObject {
-        int time;
-    public Background(){
+public class SplashBackground extends GameObject {
 
-          try {
-            
-         //   this.setRenderer(new Renderer("Assets/Shaders/UnshadedVertex.glsl", ""Assets/Textures/cube.bmpAssets/Shaders/UnshadedFragment.glsl","Assets/Textures/SplashScreen.png", "Assets/Meshes/Quad.obj"));
-           //this.setRenderer(new Renderer("Assets/Shaders/UnshadedVertex.glsl", "Assets/Shaders/UnshadedFragment.glsl","", "Assets/Meshes/Quad.obj")); 
-                     this.setRenderer(new Renderer(
-                "Assets/Shaders/UnShadedVertex.glsl",
-                "Assets/Shaders/BackgroundFragment.glsl",
-                "",
-                "Assets/Meshes/Quad.obj"    
-            ));
-           
-           time = glGetUniformLocation(AssetManager.getProgram(this.getRenderer().getProgram()), "time");
+    public SplashBackground(){
+        try {
+         //   this.setRenderer(new Renderer("Assets/Shaders/UnshadedVertex.glsl", "Assets/Shaders/UnshadedFragment.glsl","Assets/Textures/SplashScreen.png", "Assets/Meshes/Quad.obj"));
+            this.setRenderer(new Renderer("Assets/Shaders/UnShadedVertex.glsl", "Assets/Shaders/UnShadedFragment.glsl","Assets/Textures/titlescreen.png", "Assets/Meshes/Quad.obj"));
+     //   time = glGetUniformLocation(AssetManager.getProgram(this.getRenderer().getProgram()), "time");
         } catch (Exception ex) {
-            Logger.getLogger(Example.Background.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SplashBackground.class.getName()).log(Level.SEVERE, null, ex);
         }
-        this.setSize(new Vector3<>(100f,100f,100f));
-        this.setPosition(new Vector3<>(0f,0f,-11f));
+        this.setSize(new Vector3<>(2f,2f,2f));
         this.rotate(new Vector3<>(1f,0f,0f), -90);
     }
-    
-    float timer = 0f;
     @Override
     public void update(float tpf) {
-        timer += 1 * tpf;
-        if(timer % 360 == 0){
-            Debug.log("hai");
-            timer = 0;
-        }
-        try {
-            glUseProgram(AssetManager.getProgram(this.getRenderer().getProgram()));
-            glUniform1f(this.time, (float) Math.sin(timer) * 100);
-        } catch (AssetManager.AssetNotFoundException ex) {
-            Logger.getLogger(Example.Background.class.getName()).log(Level.SEVERE, null, ex);
-        }
+ 
     }
     
 }

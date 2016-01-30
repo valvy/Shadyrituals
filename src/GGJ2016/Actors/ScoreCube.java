@@ -25,70 +25,40 @@
  */
 package GGJ2016.Actors;
 
-import GGJ2016.GameScene;
 import PrutEngine.Core.Math.Vector3;
-import PrutEngine.Core.Math.Vector4;
+import PrutEngine.Debug;
 import PrutEngine.GameObject;
 import PrutEngine.Renderer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
  * @author quget
  */
-public class ChangeObject extends CollideAble
+public class ScoreCube extends GameObject
 {
-    private final GameScene scene;
-    public ChangeObject(Vector3<Float> startPos, GameScene scene)
+    public ScoreCube(Vector3<Float> startPos)
     {
-        this.scene = scene;
+        initRenderer("cube.bmp");
         this.setPosition(startPos);
-        this.rotate(new Vector3<>(1f,0f,0f), -90);
-        this.boundingBox = new Vector4<Float>(1f, 1f, 1f, 1f);
-        initRenderer();
+        this.setSize(new Vector3(0.5f,0.5f,0.5f));
     }
-    public void initRenderer()
-    {
-                try {
+    
+    protected void initRenderer(String texture){
+        try {
             this.setRenderer(new Renderer(
                 "Assets/Shaders/UnShadedVertex.glsl",
                 "Assets/Shaders/UnShadedFragment.glsl",
-                "Assets/Textures/cube.bmp",
-                "Assets/Meshes/Quad.obj"   
-            ));
-        } catch (Exception ex) {
-            Logger.getLogger(Actor.class.getName()).log(Level.SEVERE, null, ex);
+                "Assets/Textures/" + texture,
+                "Assets/Meshes/cube.obj")); 
         }
+         catch(Exception e )
+         {
+            Debug.log(e.getMessage());
+         }
     }
     @Override
-    public void update(float tpf)
+    public void update(float tpf) 
     {
         
-        super.update(tpf);
-    }
-    
-    @Override
-    public void onCollision(CollideAble collideWith)
-    {
-        if((collideWith instanceof Actor))
-        {
-            Actor otherActor = (Actor)collideWith;
-            switch(otherActor.currentElement)
-            {
-                case Sphere:
-                    otherActor.setupElement(Actor.Element.Cube);
-                    break;
-                case Cube:
-                    otherActor.setupElement(Actor.Element.Torus);
-                    break;
-                case Torus:
-                    otherActor.setupElement(Actor.Element.Sphere);
-                    break;
-            }
-        }
-        
-        this.scene.destroy(this);
-        super.onCollision(collideWith);
     }
 }
