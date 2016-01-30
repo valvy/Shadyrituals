@@ -13,17 +13,13 @@ public class Main{
         
         
         boolean isServer = false;
+
         
-        for(;;){
-            try{
-                System.out.println("Run as server?(true/false)");
-                Scanner s = new Scanner(System.in);
-                isServer = s.nextBoolean();
-                break;
-            }catch(Exception e){
-                System.out.println("Not valid!");
-            }
+        try{
+            System.out.println("Run as server?(true/false)");
+            if(System.in.read() == 't'){isServer = true;}
         }
+        catch(Exception e){}
         
         
         ConnectionController con = new ConnectionController(isServer);

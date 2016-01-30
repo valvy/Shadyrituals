@@ -44,11 +44,13 @@ public class GameScene extends Scene{
     
     @Override
     public void awake() {
+
          Application.getInstance().getWindow().setWindowTitle("game");
          this.setCamera(new MainCamera(new Vector3<>(0f,0f,0f)));
          Player pl = new Player(this);
          ((MainCamera)this.camera).followObject(pl);
          this.addGameObject(pl);
+         this.addGameObject(new Background());
          this.addGameObject(new Enemy(new Vector3<>(-5f,-1f,-10f)));
          this.addGameObject(new Enemy(new Vector3<>(5f,-1f,-10f)));
          this.addGameObject(new Actor(new Vector3<>(0f,3f,-10f)));
@@ -64,21 +66,22 @@ public class GameScene extends Scene{
         {
             System.err.println(e.getMessage());
         }
-      // AssetManager.getSound("bgm01").PlaySound(-1);
-        
+        AssetManager.getSound("bgm01").PlaySound(-1);
+
+    }
+    
+    public void shakeScreen(float magnitude, float duration){
+        ((MainCamera)this.camera).shakeScreen(1000f, 0.05f);
     }
     
     @Override
     public void update(float tpf){
-        
         if(Application.getInstance().getKeyboardKey(GLFW_KEY_ESCAPE) == GLFW_PRESS){
              Application.getInstance().quit();
              return;
          }
-         if(Application.getInstance().prutKeyBoard.GetState(GLFW_KEY_9) == GLFW_REPEAT)
-        {
-            ((MainCamera)this.camera).shakeScreen(1000f, 0.05f);
-        }
+
+
         
         super.update(tpf);
     }
@@ -87,9 +90,5 @@ public class GameScene extends Scene{
     public void onQuit(){
         ConnectionController.getInstance().stopConnection();
         super.onQuit();
-        
-        
     }
-    
-    
 }

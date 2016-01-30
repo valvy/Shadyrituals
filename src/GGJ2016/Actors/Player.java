@@ -25,6 +25,7 @@
  */
 package GGJ2016.Actors;
 
+import GGJ2016.GameScene;
 import PrutEngine.*;
 //import org.lwjgl.glfw.GLFW;
 import static org.lwjgl.glfw.GLFW.*;
@@ -91,26 +92,19 @@ public class Player extends Actor
             }
            AssetManager.getSound("change").PlaySound(0);
         }
-        Debug.log(movePos);
+      //  Debug.log(movePos);
         translate(movePos,speed * tpf);
     }
     
     @Override
     public void onCollision(Actor collideWith)
     {
-        switch(this.currentElement)
-        {
-            case Sphere:
-                if(collideWith.currentElement != Element.Cube)
-                break;
-            case Cube:
-                if(collideWith.currentElement != Element.Torus)
-                break;
-            case Torus:
-                if(collideWith.currentElement != Element.Sphere)
-                break;
-        }
-        respawnActor(new Vector4(4,4,4,4));
-       // Debug.log(this.currentElement);
+        super.onCollision(collideWith);
+    }
+    @Override
+    protected void Die()
+    {
+        ((GameScene)this.gameScene).shakeScreen(100, 0.01f);
+        super.Die();
     }
 }

@@ -26,6 +26,7 @@
 package GGJ2016;
 
 import PrutEngine.Camera;
+import PrutEngine.Core.Math.PrutMath;
 import PrutEngine.Core.Math.Quaternion;
 import PrutEngine.Core.Math.Vector3;
 import PrutEngine.Debug;
@@ -50,14 +51,14 @@ public final class MainCamera extends Camera {
     @Override
     public void update(float tpf){
         super.update(tpf);
-       /* if(this.followObject != null){
+        if(this.followObject != null){
             
             this.setPosition(new Vector3<>(
-                    -this.followObject.getPosition().x * 2,
-                    -this.followObject.getPosition().y * 2,
-                    0f
+                    PrutMath.lerp(this.getPosition().x,-this.followObject.getPosition().x, 10f * tpf),
+                    PrutMath.lerp(this.getPosition().y,-this.followObject.getPosition().y, 10f * tpf),
+                    -30f
             ));
-        }*/
+        }
         
         if(this.shakeDuration > 0 && this.shakeMagnitude > 0){
             this.rotate(new Vector3<>(1f,1f,1f), (float) Math.sin(this.shakeDuration - (this.shakeDuration * this.shakeMagnitude)  ));

@@ -25,8 +25,10 @@
  */
 package GGJ2016.Actors;
 
+import GGJ2016.GameScene;
 import PrutEngine.Core.Math.Vector3;
 import PrutEngine.Core.Math.Vector4;
+import PrutEngine.Debug;
 import PrutEngine.GameObject;
 import PrutEngine.Renderer;
 import java.util.Random;
@@ -62,9 +64,27 @@ public class Actor extends GameObject
     
     public void onCollision(Actor collideWith)
     {
-        
+        switch(this.currentElement)
+        {
+            case Sphere:
+                if(collideWith.currentElement == Element.Cube)
+                    Die();
+                break;
+            case Cube:
+                if(collideWith.currentElement == Element.Torus)
+                     Die();
+                break;
+            case Torus:
+                if(collideWith.currentElement == Element.Sphere)
+                     Die();
+                break;
+        }
     }
-    
+    protected void Die()
+    {
+        //Fix this
+        respawnActor(new Vector4(10,10,10,10));
+    }
     public void updateBoundingBox()
     {
         boundingBox.w = position.y + (size.y /2);
@@ -89,7 +109,7 @@ public class Actor extends GameObject
             case Cube:
             this.initRenderer("cube.obj");
             return;
-            case Torus:
+            case Torus:           
             this.initRenderer("monkey.obj");
             return;
         }
@@ -97,10 +117,10 @@ public class Actor extends GameObject
     protected void initRenderer(String mesh){
         try {
             this.setRenderer(new Renderer(
-                    "Assets/Shaders/UnShadedVertex.glsl",
-                    "Assets/Shaders/UnshadedFragment.glsl",
-                    "Assets/Textures/cube.bmp",
-                    "Assets/Meshes/" + mesh     
+                "Assets/Shaders/UnShadedVertex.glsl",
+                "Assets/Shaders/UnshadedFragment.glsl",
+                "Assets/Textures/cube.bmp",
+                "Assets/Meshes/" + mesh     
             ));
             
         } catch (Exception ex) {
