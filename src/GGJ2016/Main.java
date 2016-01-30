@@ -6,6 +6,7 @@ public class Main{
 
     public static void main(String[] args) {
         boolean isServer = false;
+
         
         try{
             System.out.println("Run as server?(true/false)");

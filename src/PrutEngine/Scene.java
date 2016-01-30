@@ -112,6 +112,7 @@ public abstract class Scene {
             obj.update(tpf);
         }
         
+        
         for(GameObject obj : this.gameObjects)
         {
             if(!(obj instanceof Actor)) continue;

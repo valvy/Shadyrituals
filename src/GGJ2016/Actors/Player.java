@@ -25,6 +25,7 @@
  */
 package GGJ2016.Actors;
 
+import GGJ2016.GameScene;
 import PrutEngine.*;
 //import org.lwjgl.glfw.GLFW;
 import static org.lwjgl.glfw.GLFW.*;
@@ -42,15 +43,9 @@ public class Player extends Actor
 {
     private final Scene gameScene;
     public Player(Scene gameScene){
-        super(new Vector3<Float>(0f,0f,-10f), 0f, 0f);
+        super(new Vector3<Float>(0f,0f,-10f));
         this.setSize(new Vector3<Float>(2f, 2f, 2f));
-        //this.initRenderer("sphere.obj");
         this.gameScene = gameScene;
-        /*
-        Application.getInstance().prutKeyBoard.addKey(GLFW_KEY_W);
-        Application.getInstance().prutKeyBoard.addKey(GLFW_KEY_A);
-        Application.getInstance().prutKeyBoard.addKey(GLFW_KEY_S);
-        Application.getInstance().prutKeyBoard.addKey(GLFW_KEY_D);*/
     }
     @Override
     public void update(float tpf) 
@@ -89,12 +84,15 @@ public class Player extends Actor
                     this.setupElement(Element.Cube);
                     break;
                 case Cube:
+                    this.setupElement(Element.Torus);
+                    break;
+                case Torus:
                     this.setupElement(Element.Sphere);
                     break;
             }
-            Application.getInstance().prutSoundManager.PlaySound( AssetManager.getSound(0));
-            //Application.getInstance().prutSoundManager.playSound("Assets/Sounds/crow1a.wav");
+           AssetManager.getSound("change").PlaySound(0);
         }
+      //  Debug.log(movePos);
         translate(movePos,speed * tpf);
     }
     
@@ -113,7 +111,8 @@ public class Player extends Actor
                 if(collideWith.currentElement != Element.Sphere)
                 break;
         }
+        ((GameScene)this.gameScene).shakeScreen(100, 0.01f);
         respawnActor(new Vector4(4,4,4,4));
-        Debug.log(this.currentElement);
+       // Debug.log(this.currentElement);
     }
 }

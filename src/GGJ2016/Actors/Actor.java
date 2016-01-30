@@ -36,27 +36,24 @@ import java.util.logging.Logger;
 public class Actor extends GameObject
 {
     public Vector4<Float> boundingBox;
-    private final float offsetX, offsetY;
     
     protected enum Element{
         Sphere,
         Cube,
-        Torus,
+        Torus
     }
     
     protected Element currentElement;
     
     protected final float speed = 80;
     
-    public Actor(Vector3<Float> startPos, float offsetX, float offsetY)
+    public Actor(Vector3<Float> startPos)
     {
         this.currentElement = Element.Sphere;
         this.setPosition(startPos);
         this.rotate(new Vector3<>(1f,0f,0f), -90);
         this.initRenderer("Quad.obj");
         this.boundingBox = new Vector4<Float>(1f, 1f, 1f, 1f);
-        this.offsetX = offsetX;
-        this.offsetY = offsetY;
     }
     
     public void onCollision(Actor collideWith)
@@ -83,11 +80,16 @@ public class Actor extends GameObject
         this.currentElement = element;
         switch(this.currentElement){
             case Sphere:
-            this.initRenderer("sphere.obj");
+            //this.initRenderer("sphere.obj");
             return;
             case Cube:
-            this.initRenderer("cube.obj");
+            //this.initRenderer("cube.obj");
             return;
+            case Torus:
+            //this.initRenderer("cube.obj");
+            return;
+  //          this.initRenderer("monkey.obj");
+          //  return;
         }
     }
     protected void initRenderer(String mesh){

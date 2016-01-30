@@ -26,10 +26,11 @@
 package GGJ2016;
 
 import PrutEngine.Camera;
+import PrutEngine.Core.Math.PrutMath;
 import PrutEngine.Core.Math.Quaternion;
 import PrutEngine.Core.Math.Vector3;
 import PrutEngine.Debug;
-
+import PrutEngine.GameObject;
 /**
  *
  * @author Heiko van der Heijden
@@ -39,14 +40,25 @@ public final class MainCamera extends Camera {
     private float shakeMagnitude = 0;
     private float shakeDuration = 0;
     private final Quaternion oldQuaternion;
+    private GameObject followObject;
     public MainCamera(Vector3<Float> position) {
         super(position);
+        this.followObject = null;
+        this.setPosition(new Vector3<>(0f,0f,-20f));
         this.oldQuaternion = this.getRotationQuaternion();
     }
     
     @Override
     public void update(float tpf){
         super.update(tpf);
+        if(this.followObject != null){
+            
+            this.setPosition(new Vector3<>(
+                    PrutMath.lerp(this.getPosition().x,-this.followObject.getPosition().x, 10f * tpf),
+                    PrutMath.lerp(this.getPosition().y,-this.followObject.getPosition().y, 10f * tpf),
+                    -30f
+            ));
+        }
         
         if(this.shakeDuration > 0 && this.shakeMagnitude > 0){
             this.rotate(new Vector3<>(1f,1f,1f), (float) Math.sin(this.shakeDuration - (this.shakeDuration * this.shakeMagnitude)  ));
@@ -54,7 +66,10 @@ public final class MainCamera extends Camera {
         }else{
             this.setRotation(oldQuaternion);
         }
-        
+    }
+    
+    public void followObject(GameObject gameObject){
+        this.followObject = gameObject;
     }
     
     

@@ -41,25 +41,36 @@ import static org.lwjgl.glfw.GLFW.GLFW_REPEAT;
  */
 public class GameScene extends Scene{
     
+    
     @Override
     public void awake() {
-        Application.getInstance().getWindow().setWindowTitle("game");
-        this.setCamera(new MainCamera(new Vector3<>(0f,0f,0f)));
-        this.addGameObject(new Player(this));
-        this.addGameObject(new Enemy(new Vector3<>(-5f,-1f,-10f)));
-        this.addGameObject(new Enemy(new Vector3<>(5f,-1f,-10f)));
+
+         Application.getInstance().getWindow().setWindowTitle("game");
+         this.setCamera(new MainCamera(new Vector3<>(0f,0f,0f)));
+         Player pl = new Player(this);
+         ((MainCamera)this.camera).followObject(pl);
+         this.addGameObject(pl);
+         this.addGameObject(new Background());
+         this.addGameObject(new Enemy(new Vector3<>(-5f,-1f,-10f)));
+         this.addGameObject(new Enemy(new Vector3<>(5f,-1f,-10f)));
+         this.addGameObject(new Actor(new Vector3<>(0f,3f,-10f)));
+         
          
         try
         {
-            AssetManager.loadSound("Assets/Sounds/clap01.wav");
-            AssetManager.loadSound("Assets/Sounds/mmmm.wav");
-            AssetManager.loadSound("Assets/Sounds/wanderMusic.wav");
+            AssetManager.loadSound("Assets/Sounds/change01.wav","change");
+            AssetManager.loadSound("Assets/Sounds/mmmm.wav","mmm");
+            AssetManager.loadSound("Assets/Sounds/wanderMusic.wav","bgm01");
         }
         catch(Exception e)
         {
             System.err.println(e.getMessage());
         }
-        Application.getInstance().prutSoundManager.PlaySound( AssetManager.getSound(2));
+
+    }
+    
+    public void shakeScreen(float magnitude, float duration){
+        ((MainCamera)this.camera).shakeScreen(1000f, 0.05f);
     }
     
     @Override
@@ -68,10 +79,9 @@ public class GameScene extends Scene{
              Application.getInstance().quit();
              return;
          }
-         if(Application.getInstance().prutKeyBoard.GetState(GLFW_KEY_9) == GLFW_REPEAT)
-        {
-            ((MainCamera)this.camera).shakeScreen(1000f, 0.05f);
-        }
+
+
+        
         super.update(tpf);
     }
     

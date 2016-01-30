@@ -23,31 +23,24 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package GGJ2016.Actors;
+package PrutEngine.Core.Math;
 
-import PrutEngine.Core.Math.Vector3;
+import java.util.Random;
 
 /**
  *
  * @author Heiko van der Heijden
  */
-public final class Enemy extends Actor{
-    public Enemy(Vector3<Float> startPos) {
-        super(startPos);
-        this.setSize(new Vector3<Float>(2f, 2f, 2f));
-        this.setPosition(startPos);
+public class PrutMath {
+        // Precise method which guarantees v = v1 when t = 1.
+    public static float lerp(float v0, float v1, float t) {
+         return (1-t)*v0 + t*v1;
     }
     
-    @Override
-    public void update(float tpf){
-        super.update(tpf);
+    public static float random(float min, float max){
+        Random ran = new Random();
         
-  
-    }
-    
-    @Override
-    public void onCollision(Actor collideWith)
-    {
+        return ran.nextFloat() * (max - min) + min;
         
     }
 }

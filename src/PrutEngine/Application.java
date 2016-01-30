@@ -43,7 +43,6 @@ public final class Application {
     
     private static Application instance;
     public PrutKeyboard prutKeyBoard;
-    public PrutSoundManager prutSoundManager;
     private GLFWErrorCallback errorCallback;
     private GLFWKeyCallback   keyCallback;
     private long window;
@@ -74,7 +73,6 @@ public final class Application {
     private void init(){
         
         prutKeyBoard = new PrutKeyboard();
-        prutSoundManager = new PrutSoundManager();
         glfwSetErrorCallback(errorCallback = GLFWErrorCallback.createPrint(System.err));
  
         // Initialize GLFW. Most GLFW functions will not work before doing this.
@@ -171,7 +169,7 @@ public final class Application {
             this.currentModel = scene;
             this.run();
         }
-            System.gc();
+        //    System.gc();
     }    
     
     private Thread thread ;
