@@ -47,7 +47,7 @@ public class ConnectionServer extends BaseConnection {
 
     private int uniqueNumber = 0;
     private final ArrayList<String> globalBuffer;
-
+    
     protected ConnectionServer(){
         this.globalBuffer = new ArrayList<>();
     }
@@ -93,7 +93,9 @@ public class ConnectionServer extends BaseConnection {
         
         public Client(int id, Socket sock){
             this.id =id;
+            Debug.log("An client has logged in");
             this.sock = sock;
+           
             this.from = new ArrayList<>();
             this.to = new ArrayList<>();
             this.mutex = new Mutex();
@@ -132,6 +134,7 @@ public class ConnectionServer extends BaseConnection {
                         try {
                             this.mutex.acquire();
                             String msg = new String(buffer, 0, read);
+                            
                             if(!msg.equals(NOTHING)){
                                 this.from.add(msg);
                                 Debug.log(msg);
@@ -162,6 +165,7 @@ public class ConnectionServer extends BaseConnection {
         
         public void send(String msg, BufferedWriter bw){
             try {
+                Debug.log(msg);
                 bw.write(msg);
                 bw.flush();
             }   catch (IOException ex) {
@@ -192,13 +196,14 @@ public class ConnectionServer extends BaseConnection {
         }
          
         try {
+           Debug.log("Test");
            
             clients.add(new Client(this.uniqueNumber, serverSocket.accept()));
             this.uniqueNumber++;
             
         } catch (IOException ex) {
            
-           //Logger.getLogger(ConnectionServer.class.getName()).log(Level.SEVERE, null, ex);
+          // Logger.getLogger(ConnectionServer.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }
@@ -229,6 +234,7 @@ public class ConnectionServer extends BaseConnection {
         }
         
         for(String t : localBuffer){
+            Debug.log(t);
             this.globalBuffer.add(t);
         }
         
@@ -239,11 +245,11 @@ public class ConnectionServer extends BaseConnection {
     public boolean attemptToConnect() {
         try {
             serverSocket = new ServerSocket(PORT);
-         
             serverSocket.setSoTimeout(3000);
+            
             return true;
         } catch (IOException ex) {
-           // Logger.getLogger(ConnectionServer.class.getName()).log(Level.SEVERE, null, ex);
+          //  Logger.getLogger(ConnectionServer.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }

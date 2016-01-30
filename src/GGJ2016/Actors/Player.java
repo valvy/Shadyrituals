@@ -74,7 +74,7 @@ public class Player extends Actor
         //Notify the fellow players
         BaseConnection.getInstance().notifyWorld(
             new ConnectedPlayer(
-                "haai",
+                "connection something",
                 this.getPosition(),
                 this.currentElement));
         Vector3<Float> nPos = new Vector3<>(this.getPosition());
