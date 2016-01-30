@@ -26,6 +26,7 @@
 package GGJ2016.Actors;
 
 import GGJ2016.GameScene;
+import PrutEngine.AssetManager;
 import PrutEngine.Core.Math.Vector3;
 import PrutEngine.Core.Math.Vector4;
 import PrutEngine.Debug;
@@ -51,10 +52,11 @@ public class Actor extends GameObject
     
     public Actor(Vector3<Float> startPos)
     {
-        this.currentElement = Element.Sphere;
         this.setPosition(startPos);
         this.rotate(new Vector3<>(1f,0f,0f), -90);
-        this.initRenderer("test.png");
+
+        setupElement(Element.Sphere);
+
         this.boundingBox = new Vector4<Float>(1f, 1f, 1f, 1f);
     }
     
@@ -79,6 +81,7 @@ public class Actor extends GameObject
     protected void Die()
     {
         //Fix this
+        AssetManager.getSound("death01").PlaySound(0);
         respawnActor(new Vector4(10,10,10,10));
     }
     public void updateBoundingBox()
@@ -100,28 +103,29 @@ public class Actor extends GameObject
         this.currentElement = element;
         switch(this.currentElement){
             case Sphere:
-            this.initRenderer("PalmTree.png");
+            this.initRenderer("Sphere.png");
             return;
             case Cube:
-            this.initRenderer("cube.bmp");
+            this.initRenderer("Cube.png");
             return;
             case Torus:           
-            this.initRenderer("test.png");
+            this.initRenderer("Weirdo.png");
             return;
         }
     }
     protected void initRenderer(String texture){
         try {
             this.setRenderer(new Renderer(
-                "Assets/Shaders/PhongVertex.glsl",
-                "Assets/Shaders/PhongFragment.glsl",
+                "Assets/Shaders/UnShadedVertex.glsl",
+                "Assets/Shaders/UnShadedFragment.glsl",
                 "Assets/Textures/" + texture,
-                "Assets/Meshes/Quad.obj"     
-            ));
-        } catch (Exception ex) {
-            Logger.getLogger(Actor.class.getName()).log(Level.SEVERE, null, ex);
+                "Assets/Meshes/Quad.obj")); 
         }
+         catch(Exception e ){
+                  
+                 }
     }
+
     
     @Override
     public void update(float tpf) 

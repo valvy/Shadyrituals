@@ -49,17 +49,19 @@ public class GameScene extends Scene{
          this.setCamera(new MainCamera(new Vector3<>(0f,0f,0f)));
          Player pl = new Player(this);
          ((MainCamera)this.camera).followObject(pl);
-         this.addGameObject(pl);
+         
          this.addGameObject(new Background());
          this.addGameObject(new Enemy(new Vector3<>(-5f,-1f,-10f)));
          this.addGameObject(new Enemy(new Vector3<>(5f,-1f,-10f)));
-         this.addGameObject(new Actor(new Vector3<>(0f,3f,-10f)));
+         this.addGameObject(pl);
+        // this.addGameObject(new Actor(new Vector3<>(0f,3f,-10f)));
          
          
         try
         {
             AssetManager.loadSound("Assets/Sounds/change01.wav","change");
             AssetManager.loadSound("Assets/Sounds/mmmm.wav","mmm");
+            AssetManager.loadSound("Assets/Sounds/death01.wav","death01");
             AssetManager.loadSound("Assets/Sounds/wanderMusic.wav","bgm01");
         }
         catch(Exception e)

@@ -57,6 +57,7 @@ public class Player extends Actor
     }
     public void PlayerInput(float tpf)
     {
+        
         Vector3 movePos = new Vector3(0f, 0f, 0f);
         int moveKeyCount = 0;
 

@@ -12,5 +12,5 @@ uniform sampler2D text;
 void main(void){
 
     
-    color = vec4(texture(text,fs_in.UV).rgb, fs_in.UV);
+    color = texture(text,fs_in.UV);//vec4(texture(text,fs_in.UV).rgb, fs_in.UV);
 }
