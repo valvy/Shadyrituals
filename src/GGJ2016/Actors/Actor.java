@@ -46,7 +46,7 @@ public class Actor extends CollideAble
     
     protected Element currentElement;
     
-    protected final float speed = 800;
+    protected final float speed = 800f;
     
     public Actor(Vector3<Float> startPos)
     {
@@ -69,14 +69,14 @@ public class Actor extends CollideAble
                     if(otherActor.currentElement == Element.Cube)
                         Die();
                     break;
-                case Cube:
+               /* case Cube:
                     if(otherActor.currentElement == Element.Torus)
                          Die();
                     break;
                 case Torus:
                     if(otherActor.currentElement == Element.Sphere)
                          Die();
-                    break;
+                    break;*/
             }
         }
     }

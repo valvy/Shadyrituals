@@ -33,6 +33,7 @@ import static org.lwjgl.glfw.GLFW.*;
 
 import PrutEngine.Core.Math.Vector3;
 import PrutEngine.Core.Math.Vector4;
+import java.util.ArrayList;
 
  
 /**
@@ -41,15 +42,39 @@ import PrutEngine.Core.Math.Vector4;
  */
 public class Player extends Actor
 {
-    private final Scene gameScene;
-    public Player(Scene gameScene){
+    private final GameScene gameScene;
+    private ArrayList<ScoreCube> scoreCubes = new ArrayList<ScoreCube>();
+    private float scoreCubeXStep = 1.5f;
+    private float scoreCubeX;
+    
+    public Player(GameScene gameScene){
         super(new Vector3<Float>(0f,0f,-10f));
         this.setSize(new Vector3<Float>(2f, 2f, 2f));
         this.gameScene = gameScene;
     }
+    
+    
+    public void AddScore()
+    {
+        ScoreCube scoreCube = new ScoreCube(new Vector3<Float>(scoreCubeX,0f,0f));
+        scoreCubes.add(scoreCube);
+        gameScene.addGameObjectRealTime(scoreCube);
+        scoreCubeX += scoreCubeXStep;
+    }
+    public void ResetScore()
+    {
+        for(int i = 0; i < scoreCubes.size(); i++)
+        {
+            gameScene.destroy(scoreCubes.get(i));
+            //scoreCubes.get(i).destroy();
+        }
+        scoreCubes.removeAll(scoreCubes);
+        scoreCubeX = 0;
+    }
     @Override
     public void update(float tpf) 
     {
+
         Vector3<Float> nPos = new Vector3<>(this.getPosition());
         
         if(this.getPosition().x > 100){
@@ -68,6 +93,23 @@ public class Player extends Actor
         
         this.setPosition(nPos);
         
+
+        int lineCountY = 0;
+        int lineCountX = 1;
+        for(int i = 0; i < scoreCubes.size(); i++)
+        {
+            Vector3<Float> cubePosition = new Vector3(0f,0f,0f);
+            if(i % 17 == 0)
+            {
+                lineCountY ++;
+                lineCountX = 0;
+            }
+            cubePosition.x = (-gameScene.getCamera().getPosition().x - 12f) + (lineCountX * scoreCubeXStep);
+            cubePosition.y = -gameScene.getCamera().getPosition().y + 14 - ( scoreCubeXStep * lineCountY);// * lineCount);
+            lineCountX ++;
+            scoreCubes.get(i).setPosition(cubePosition);
+        }
+
         PlayerInput(tpf);
         super.update(tpf);
        
@@ -117,12 +159,32 @@ public class Player extends Actor
     @Override
     public void onCollision(CollideAble collideWith)
     {
+        if((collideWith instanceof Actor))
+        {
+            Actor otherActor = (Actor)collideWith;
+            switch(this.currentElement)
+            {
+                case Sphere:
+                    if(otherActor.currentElement == Element.Cube)
+                       AddScore();
+                    break;
+                case Torus:
+                    if(otherActor.currentElement == Element.Sphere)
+                       AddScore();
+                    break;
+                case Cube:
+                    if(otherActor.currentElement == Element.Torus)
+                       AddScore();
+                    break;
+            }
+        }
         super.onCollision(collideWith);
     }
     @Override
     protected void Die()
     {
         super.Die();
+        ResetScore();
         ((GameScene)this.gameScene).shakeScreen(100, 0.01f);
        // Debug.log(this.currentElement);
     }

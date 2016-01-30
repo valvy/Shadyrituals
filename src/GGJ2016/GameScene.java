@@ -28,8 +28,12 @@ package GGJ2016;
 import GGJ2016.Actors.*;
 import PrutEngine.Application;
 import PrutEngine.AssetManager;
+import PrutEngine.Camera;
+
 import PrutEngine.Core.Math.PrutMath;
+
 import PrutEngine.Core.Math.Vector3;
+import PrutEngine.GameObject;
 import PrutEngine.Scene;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_9;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
@@ -54,14 +58,14 @@ public class GameScene extends Scene{
          this.addGameObject(new Background());
          this.addGameObject(new Enemy(new Vector3<>(-5f,-1f,-10f)));
          this.addGameObject(new Enemy(new Vector3<>(5f,-1f,-10f)));
+         this.addGameObject(new Enemy(new Vector3<>(0f,3f,-10f)));
          this.addGameObject(pl);
 
-        // this.addGameObject(new Actor(new Vector3<>(0f,3f,-10f)));
-         
+     
         for(int i = 0; i < 100; i++){
             this.addGameObject(new ChangeObject(new Vector3<>(PrutMath.random(-100, 100),PrutMath.random(-100, 100),-5f),this));
         }
-        
+
 
          
          
@@ -79,7 +83,10 @@ public class GameScene extends Scene{
         AssetManager.getSound("bgm01").PlaySound(-1);
 
     }
-    
+    public Camera getCamera()
+    {
+        return this.camera;
+    }
     public void shakeScreen(float magnitude, float duration){
         ((MainCamera)this.camera).shakeScreen(1000f, 0.05f);
     }

@@ -42,12 +42,14 @@ public abstract class Scene {
      * The list with all the different gameobjects
      */
     private final ArrayList<GameObject> gameObjects;
+    private final ArrayList<GameObject> gameObjectsToAdd;
     private final ArrayList<GameObject> toDestroy;
     
     public Scene(){
         this.gameObjects = new ArrayList<>();
         this.camera = new Camera(new Vector3<>(0f,0f,-4f));
         this.toDestroy = new ArrayList<>();
+        this.gameObjectsToAdd = new ArrayList<GameObject>();
     }
     
     /**
@@ -81,7 +83,9 @@ public abstract class Scene {
     protected void addGameObject(GameObject gameObject){
         this.gameObjects.add(gameObject);
     }
-    
+    public void addGameObjectRealTime(GameObject gameObject){
+        gameObjectsToAdd.add(gameObject);
+    }
     /**
      * Removes an GameObject in the scene
      * @param gameObject
@@ -140,6 +144,10 @@ public abstract class Scene {
         }
         this.toDestroy.clear();
         
+        for (GameObject gameObjectToAdd : gameObjectsToAdd) {
+            this.addGameObject(gameObjectToAdd);
+        }
+        gameObjectsToAdd.removeAll(gameObjectsToAdd);
         camera.update(tpf);
     }
   
