@@ -25,53 +25,41 @@
  */
 package GGJ2016;
 
-import GGJ2016.Actors.*;
-import PrutEngine.Application;
+import PrutEngine.Camera;
+import PrutEngine.Core.Math.Quaternion;
 import PrutEngine.Core.Math.Vector3;
-import PrutEngine.Scene;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_9;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
-import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
-import static org.lwjgl.glfw.GLFW.GLFW_REPEAT;
+import PrutEngine.Debug;
 
 /**
  *
  * @author Heiko van der Heijden
  */
-public class GameScene extends Scene{
+public final class MainCamera extends Camera {
     
-    @Override
-    public void awake() {
-         Application.getInstance().getWindow().setWindowTitle("game");
-         this.setCamera(new MainCamera(new Vector3<>(0f,0f,0f)));
-         this.addGameObject(new Player(this));
-         this.addGameObject(new Enemy(new Vector3<>(-5f,-1f,-10f)));
-         this.addGameObject(new Enemy(new Vector3<>(5f,-1f,-10f)));
-         
+    private float shakeMagnitude = 0;
+    private float shakeDuration = 0;
+    private final Quaternion oldQuaternion;
+    public MainCamera(Vector3<Float> position) {
+        super(position);
+        this.oldQuaternion = this.getRotationQuaternion();
     }
     
     @Override
     public void update(float tpf){
-        
-        if(Application.getInstance().getKeyboardKey(GLFW_KEY_ESCAPE) == GLFW_PRESS){
-             Application.getInstance().quit();
-             return;
-         }
-         if(Application.getInstance().prutKeyBoard.GetState(GLFW_KEY_9) == GLFW_REPEAT)
-        {
-            ((MainCamera)this.camera).shakeScreen(1000f, 0.05f);
-        }
-        ;
         super.update(tpf);
+        
+        if(this.shakeDuration > 0 && this.shakeMagnitude > 0){
+            this.rotate(new Vector3<>(1f,1f,1f), (float) Math.sin(this.shakeDuration - (this.shakeDuration * this.shakeMagnitude)  ));
+            this.shakeDuration -= tpf;
+        }else{
+            this.setRotation(oldQuaternion);
+        }
+        
     }
     
-    @Override
-    public void onQuit(){
-        ConnectionController.getInstance().stopConnection();
-        super.onQuit();
-        
-        
+    
+    public void shakeScreen(float magnitude, float duration){
+        this.shakeMagnitude = magnitude;
+        this.shakeDuration = duration;
     }
-    
-    
 }

@@ -66,7 +66,7 @@ public class Player extends Actor
     {
         Vector3 movePos = new Vector3(0f, 0f, 0f);
         int moveKeyCount = 0;
-        
+
         if(Application.getInstance().prutKeyBoard.GetState(GLFW_KEY_W) == GLFW_REPEAT)
         {
             movePos.y = 1f;
