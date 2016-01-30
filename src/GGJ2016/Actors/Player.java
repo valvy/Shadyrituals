@@ -42,7 +42,8 @@ public class Player extends Actor
     private float scoreCubeXStep = 1.5f;
     private float scoreCubeX;
     private float changeTimer;
-            
+    private Vector3 lastPos = new Vector3(0f,0f,0f);
+    private Element lastElement;
     public Player(GameScene gameScene)
     {
         super(new Vector3<Float>(0f,0f,-10f));
@@ -73,29 +74,34 @@ public class Player extends Actor
     public void update(float tpf) 
     {
         //Notify the fellow players
-        BaseConnection.getInstance().notifyWorld(
-                    new ConnectedPlayer(
-                        "Quget",
-                        this.getPosition(),
-                        this.currentElement));
+    
+        if(!lastPos.equals(this.getPosition()) && lastElement != this.currentElement)
+        {
+           //Debug.log(lastPos);
+            BaseConnection.getInstance().notifyWorld(
+                        new ConnectedPlayer(
+                            "Eddy",
+                            this.getPosition(),
+                            this.currentElement));
+            lastPos = this.getPosition();
+            lastElement = this.currentElement;
+        }  
         Vector3<Float> nPos = new Vector3<>(this.getPosition());
-        
         if(this.getPosition().x > 100){
             nPos.x = 100f;
         }
         if(this.getPosition().x < -100){
             nPos.x = -100f;
         }
-        
+
         if(this.getPosition().y > 100){
             nPos.y = 100f;
         }
         if(this.getPosition().y < -100){
             nPos.y = -100f;
         }
-        
-        this.setPosition(nPos);
 
+            this.setPosition(nPos);
         int lineCountY = 0;
         int lineCountX = 1;
         for(int i = 0; i < scoreCubes.size(); i++)
