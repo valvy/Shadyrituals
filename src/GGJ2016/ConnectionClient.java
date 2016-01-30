@@ -108,6 +108,7 @@ public class ConnectionClient extends BaseConnection {
     @Override
     public boolean attemptToConnect() {
         try {
+            Debug.log("roflasdfasdf");
             socket = new Socket(this.IP, PORT);
            
             inputStream = new DataInputStream(socket.getInputStream());

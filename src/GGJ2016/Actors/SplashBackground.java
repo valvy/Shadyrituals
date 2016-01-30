@@ -25,33 +25,30 @@
  */
 package GGJ2016.Actors;
 
-import Example.ExampleSprite;
 import PrutEngine.Core.Math.Vector3;
 import PrutEngine.GameObject;
 import PrutEngine.Renderer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-/**
- *
- * @author Heiko van der Heijden
- */
-public class SplashBackground extends GameObject {
-
+public class SplashBackground extends GameObject
+{
     public SplashBackground(){
         try {
-         //   this.setRenderer(new Renderer("Assets/Shaders/UnshadedVertex.glsl", "Assets/Shaders/UnshadedFragment.glsl","Assets/Textures/SplashScreen.png", "Assets/Meshes/Quad.obj"));
-            this.setRenderer(new Renderer("Assets/Shaders/UnShadedVertex.glsl", "Assets/Shaders/UnShadedFragment.glsl","Assets/Textures/titlescreen.png", "Assets/Meshes/Quad.obj"));
-     //   time = glGetUniformLocation(AssetManager.getProgram(this.getRenderer().getProgram()), "time");
-        } catch (Exception ex) {
-            Logger.getLogger(SplashBackground.class.getName()).log(Level.SEVERE, null, ex);
+            this.setRenderer(new Renderer(
+                    "Assets/Shaders/UnShadedVertex.glsl",
+                    "Assets/Shaders/UnShadedFragment.glsl",
+                    "Assets/Textures/titlescreen.png",
+                    "Assets/Meshes/Quad.obj"));
+        }
+        catch(Exception ex){
+            System.out.println(ex);
         }
         this.setSize(new Vector3<>(2f,2f,2f));
         this.rotate(new Vector3<>(1f,0f,0f), -90);
     }
+    
     @Override
-    public void update(float tpf) {
+    public void update(float tpf)
+    {
  
     }
-    
 }
