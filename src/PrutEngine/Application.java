@@ -84,12 +84,12 @@ public final class Application {
         int WIDTH = 700;
         int HEIGHT = 700;
 
-
+        
         window = glfwCreateWindow(WIDTH, HEIGHT, "", NULL, NULL);
         if ( window == NULL )
             throw new RuntimeException("Failed to create the GLFW window");
  
-      
+        
         
         // Setup a key callback. It will be called every time a key is pressed, repeated or released.
         glfwSetKeyCallback(window, keyCallback = new GLFWKeyCallback() {

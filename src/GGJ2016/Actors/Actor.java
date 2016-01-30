@@ -84,13 +84,10 @@ public class Actor extends GameObject
         this.currentElement = element;
         switch(this.currentElement){
             case Sphere:
-            //this.initRenderer("sphere.obj");
+            this.initRenderer("sphere.obj");
             return;
             case Cube:
-            //this.initRenderer("cube.obj");
-            return;
-            case Torus:
-            //this.initRenderer("cube.obj");
+            this.initRenderer("cube.obj");
             return;
             case Torus:
             this.initRenderer("monkey.obj");
