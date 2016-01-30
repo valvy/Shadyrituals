@@ -99,20 +99,13 @@ public class Player extends Actor
     @Override
     public void onCollision(Actor collideWith)
     {
-        switch(this.currentElement)
-        {
-            case Sphere:
-                if(collideWith.currentElement != Element.Cube)
-                break;
-            case Cube:
-                if(collideWith.currentElement != Element.Torus)
-                break;
-            case Torus:
-                if(collideWith.currentElement != Element.Sphere)
-                break;
-        }
+        super.onCollision(collideWith);
+    }
+    @Override
+    protected void Die()
+    {
+        super.Die();
         ((GameScene)this.gameScene).shakeScreen(100, 0.01f);
-        respawnActor(new Vector4(4,4,4,4));
        // Debug.log(this.currentElement);
     }
 }

@@ -25,18 +25,16 @@
  */
 package GGJ2016.Actors;
 
+import GGJ2016.GameScene;
 import PrutEngine.Core.Math.Vector3;
 import PrutEngine.Core.Math.Vector4;
+import PrutEngine.Debug;
 import PrutEngine.GameObject;
 import PrutEngine.Renderer;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author quget
- */
 public class Actor extends GameObject
 {
     public Vector4<Float> boundingBox;
@@ -56,15 +54,33 @@ public class Actor extends GameObject
         this.currentElement = Element.Sphere;
         this.setPosition(startPos);
         this.rotate(new Vector3<>(1f,0f,0f), -90);
-        this.initRenderer("Quad.obj");
+        this.initRenderer("test.png");
         this.boundingBox = new Vector4<Float>(1f, 1f, 1f, 1f);
     }
     
     public void onCollision(Actor collideWith)
     {
-        
+        switch(this.currentElement)
+        {
+            case Sphere:
+                if(collideWith.currentElement == Element.Cube)
+                    Die();
+                break;
+            case Cube:
+                if(collideWith.currentElement == Element.Torus)
+                     Die();
+                break;
+            case Torus:
+                if(collideWith.currentElement == Element.Sphere)
+                     Die();
+                break;
+        }
     }
-    
+    protected void Die()
+    {
+        //Fix this
+        respawnActor(new Vector4(10,10,10,10));
+    }
     public void updateBoundingBox()
     {
         boundingBox.w = position.y + (size.y /2);
@@ -84,27 +100,24 @@ public class Actor extends GameObject
         this.currentElement = element;
         switch(this.currentElement){
             case Sphere:
-            //this.initRenderer("sphere.obj");
+            this.initRenderer("PalmTree.png");
             return;
             case Cube:
-            //this.initRenderer("cube.obj");
+            this.initRenderer("cube.bmp");
             return;
-            case Torus:
-            //this.initRenderer("cube.obj");
+            case Torus:           
+            this.initRenderer("test.png");
             return;
-  //          this.initRenderer("monkey.obj");
-          //  return;
         }
     }
-    protected void initRenderer(String mesh){
+    protected void initRenderer(String texture){
         try {
             this.setRenderer(new Renderer(
-                    "Assets/Shaders/UnShadedVertex.glsl",
-                    "Assets/Shaders/UnshadedFragment.glsl",
-                    "Assets/Textures/cube.bmp",
-                    "Assets/Meshes/" + mesh     
+                "Assets/Shaders/PhongVertex.glsl",
+                "Assets/Shaders/PhongFragment.glsl",
+                "Assets/Textures/" + texture,
+                "Assets/Meshes/Quad.obj"     
             ));
-            
         } catch (Exception ex) {
             Logger.getLogger(Actor.class.getName()).log(Level.SEVERE, null, ex);
         }

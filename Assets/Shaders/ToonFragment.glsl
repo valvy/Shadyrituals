@@ -6,7 +6,7 @@ uniform sampler2D text;
 
 uniform sampler1D tex_toon;
 
-uniform vec3 light_pos = vec3(0.0, 0.0, 0.0);
+uniform vec3 light_pos = vec3(10.0, 10.0, -30.0);
 
 in VS_OUT{
     vec2 UV;
@@ -20,7 +20,7 @@ void main(void){
     float tc = pow(max(0.0, dot(N, L)), 10.0);
     //color = vec4(texture(text,fs_in.UV).rgb, fs_in.UV);
     //color =  texture(text, tc) * (tc * 0.8 + 0.2) ;
-    color = vec4(texture(text,fs_in.UV).rgb, tc) * (tc * 0.9 + 0.5);
+    color = vec4(texture(text,fs_in.UV).rgb, tc) * (tc * 0.2 + 0.2);
     
 }
 

@@ -48,6 +48,6 @@ public final class Enemy extends Actor{
     @Override
     public void onCollision(Actor collideWith)
     {
-        
+        super.onCollision(collideWith);
     }
 }

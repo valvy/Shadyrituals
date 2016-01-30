@@ -44,6 +44,7 @@ public class GameScene extends Scene{
     
     @Override
     public void awake() {
+
          Application.getInstance().getWindow().setWindowTitle("game");
          this.setCamera(new MainCamera(new Vector3<>(0f,0f,0f)));
          Player pl = new Player(this);
@@ -65,8 +66,8 @@ public class GameScene extends Scene{
         {
             System.err.println(e.getMessage());
         }
-      // AssetManager.getSound("bgm01").PlaySound(-1);
-        
+        AssetManager.getSound("bgm01").PlaySound(-1);
+
     }
     
     public void shakeScreen(float magnitude, float duration){
@@ -75,11 +76,11 @@ public class GameScene extends Scene{
     
     @Override
     public void update(float tpf){
-        
         if(Application.getInstance().getKeyboardKey(GLFW_KEY_ESCAPE) == GLFW_PRESS){
              Application.getInstance().quit();
              return;
          }
+
 
         
         super.update(tpf);
@@ -89,9 +90,5 @@ public class GameScene extends Scene{
     public void onQuit(){
         ConnectionController.getInstance().stopConnection();
         super.onQuit();
-        
-        
     }
-    
-    
 }
