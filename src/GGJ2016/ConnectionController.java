@@ -24,7 +24,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 package GGJ2016;
-
+/*
 import PrutEngine.Debug;
 import java.io.BufferedWriter;
 import java.io.DataInputStream;
@@ -84,7 +84,7 @@ public final class ConnectionController implements Runnable{
                 {
                     try{
                         clients.add(new Client(id, serverSocket.accept()));
-                        Debug.log("client added");
+                    
                         id++;
                     }
                     catch(Exception e){
@@ -146,10 +146,21 @@ public final class ConnectionController implements Runnable{
             this.id = id;
             this.sock = sock;
           //  this.thread = new Thread();
-            Debug.log(this.read());
+              Debug.log("client added");
+              this.write("Hallo jeffrey");
+          
+            
             try{
                 dis = new DataInputStream(sock.getInputStream());
+                           int read;
+                byte[] buffer = new byte[1024];
+                while((read = dis.read(buffer)) != -1){
+                    Debug.log(new String(buffer,0,read));
+                }
+            }            try{
+                sock.getOutputStream().write(s.getBytes());
             }
+            catch(Exception e) {System.out.println(e);}
             catch(Exception e){System.out.println(e);}
           //  this.thread.start();
         }
@@ -165,7 +176,14 @@ public final class ConnectionController implements Runnable{
         public String read()
         {
             try {
-                return dis.readLine();
+                int read;
+                byte[] buffer = new byte[1024];
+                while((read = dis.read(buffer)) != -1){
+                    Debug.log(new String(buffer,0,read));
+                }
+                
+                
+                return new String(buffer, 0, read);
             } catch (IOException ex) {
                 System.out.println(ex);
             }
@@ -179,4 +197,4 @@ public final class ConnectionController implements Runnable{
             }
         }
     }
-}
+}*/

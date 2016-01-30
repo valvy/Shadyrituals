@@ -13,11 +13,12 @@ public class Main{
             if(System.in.read() == 't'){isServer = true;}
         }
         catch(Exception e){}
-        
-        ConnectionController con = new ConnectionController(isServer, "localhost");//"192.168.0.10");
+        BaseConnection.create(isServer);
+      //  ConnectionController con = new ConnectionController(isServer, "localhost");//"192.168.0.10");
         if(System.getProperty("os.name").equals("Mac OS X")){
             System.setProperty("java.awt.headless", "true");//Otherwise freezes on os x :-(
         }
         Application.getInstance().loadScene(new SplashScreen());
+        BaseConnection.getInstance().stopConnection();
     }
 }
