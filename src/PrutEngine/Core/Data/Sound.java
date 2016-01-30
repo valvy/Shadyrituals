@@ -42,22 +42,20 @@ import javax.sound.sampled.Clip;
 public class Sound extends Resource
 {
     public int soundID;
-    private AudioInputStream audioInputStream = null;
-    private BufferedInputStream bufferedInputStream;
-    InputStream inputStream ;
-    public AudioFormat audioFormat;
-    public byte[] data;
-    public int buffSize;
+    private String name;
+    private AudioFormat audioFormat;
+    private byte[] data;
+    private int buffSize;
     private Clip clip;
-    public Sound(String fileLocation,int position)
+    public Sound(String fileLocation,int position,String soundName)
     {   
         super(fileLocation,position);
         try
         {
+            name = soundName;
             File scrFile = new File(fileLocation);
-            inputStream = new FileInputStream(scrFile);
-            audioInputStream = AudioSystem.getAudioInputStream(scrFile);
-           // bufferedInputStream = new BufferedInputStream(audioInputStream);
+            InputStream inputStream = new FileInputStream(scrFile);
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(scrFile);
             buffSize = audioInputStream.available() - 1;
             audioFormat = audioInputStream.getFormat();
             data = new byte[(int)audioInputStream.getFrameLength() * audioFormat.getFrameSize()];
@@ -72,15 +70,13 @@ public class Sound extends Resource
                 System.arraycopy(buf, 0, data, i, r);
             }
             audioInputStream.close();
-          // bufferedInputStream.close();
-           // audioInputStream = new AudioInputStream(bufferedInputStream, audioInputStream.getFormat(), audioInputStream.getFrameLength());
         }
         catch(Exception e)
         {
              System.err.println(e.getMessage());
         }
     }
-    public void PlaySound()
+    public void PlaySound(int loopCount)
     {
         try
         {
@@ -89,6 +85,7 @@ public class Sound extends Resource
                 clip = AudioSystem.getClip();
                 clip.open(audioFormat,data, 0, buffSize);
             }
+            clip.loop(loopCount);
             clip.setFramePosition(0);
             clip.start();
         }
@@ -100,6 +97,10 @@ public class Sound extends Resource
     public int getSound()
     {
         return this.soundID;
+    }
+    public String getSoundName()
+    {
+        return name;
     }
     @Override
     public void destroy() 
