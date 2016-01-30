@@ -52,7 +52,7 @@ public class ConnectionServer extends BaseConnection {
     
     protected ConnectionServer(){
         this.globalBuffer = new ArrayList<>();
-        
+         idName = HANDSHAKE+"Server";
     }
 
    
@@ -229,6 +229,7 @@ public class ConnectionServer extends BaseConnection {
             for(String t : localBuffer){
                 if(!t.equals(NOTHING)){
                     cl.addToBuffer(t);
+                    Debug.log(t);
                 }
             }
         }

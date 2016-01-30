@@ -137,8 +137,14 @@ public class ConnectionClient extends BaseConnection {
             try {
                 this.mutex.acquire();
                 String msg = new String(buffer, 0, read);
-             
-                if(!msg.equals(NOTHING)){
+
+                Debug.log(msg);
+                if(!msg.equals(NOTHING))
+                {
+                    if(msg.contains("Player:"))
+                    {
+                        idName = msg;
+                    }
                     this.from.add(msg);
                    
                 }

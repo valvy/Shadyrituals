@@ -25,12 +25,12 @@
  */
 package GGJ2016;
 
-import Example.ExampleScene;
 import GGJ2016.Actors.SplashBackground;
 import PrutEngine.Application;
 import PrutEngine.AssetManager;
 import PrutEngine.Core.Math.Vector2;
 import PrutEngine.Scene;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_ENTER;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_SPACE;
 import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
 
@@ -49,7 +49,8 @@ public class SplashScreen extends Scene{
     @Override
     public void update(float tpf){
         super.update(tpf);
-                 if(Application.getInstance().getKeyboardKey(GLFW_KEY_SPACE) == GLFW_PRESS){
+                 if(Application.getInstance().getKeyboardKey(GLFW_KEY_SPACE) == GLFW_PRESS
+                 ||Application.getInstance().getKeyboardKey(GLFW_KEY_ENTER) == GLFW_PRESS){
              AssetManager.clearProgramsBuffer();
              AssetManager.clearShaderBuffer();
              Application.getInstance().loadScene(new MenuScene());

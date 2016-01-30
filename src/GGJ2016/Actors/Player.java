@@ -74,13 +74,13 @@ public class Player extends Actor
     public void update(float tpf) 
     {
         //Notify the fellow players
-    
+        Debug.log(BaseConnection.getInstance().getIdName());
         if(!lastPos.equals(this.getPosition()) || lastElement != this.currentElement)
         {
            //Debug.log(lastPos);
             BaseConnection.getInstance().notifyWorld(
                         new ConnectedPlayer(
-                            "Eddy",
+                            BaseConnection.getInstance().getIdName(),
                             this.getPosition(),
                             this.currentElement));
             lastPos = this.getPosition();
