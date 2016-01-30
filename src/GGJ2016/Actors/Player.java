@@ -34,6 +34,8 @@ import static org.lwjgl.glfw.GLFW.*;
 import PrutEngine.Core.Math.Vector3;
 import PrutEngine.Core.Math.Vector4;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
  
 /**
@@ -47,10 +49,13 @@ public class Player extends Actor
     private float scoreCubeXStep = 1.5f;
     private float scoreCubeX;
     
+    private float changeTimer;
+            
     public Player(GameScene gameScene){
         super(new Vector3<Float>(0f,0f,-10f));
         this.setSize(new Vector3<Float>(2f, 2f, 2f));
         this.gameScene = gameScene;
+        changeTimer = (float)Math.random() * 10f + 1f;
     }
     
     
@@ -111,6 +116,15 @@ public class Player extends Actor
         }
 
         PlayerInput(tpf);
+        
+        //changeTimer
+        changeTimer -= tpf * 10;
+        if(changeTimer <= 0 )
+        {
+            changeTimer = (float)Math.random() * 10f + 1f;
+            changeElement();
+        }
+        
         super.update(tpf);
        
     }
@@ -138,24 +152,50 @@ public class Player extends Actor
         }
         if(Application.getInstance().prutKeyBoard.GetState(GLFW_KEY_F) == GLFW_PRESS)
         {
-            switch(this.currentElement)
-            {
-                case Sphere:
-                    this.setupElement(Element.Cube);
-                    break;
-                case Cube:
-                    this.setupElement(Element.Torus);
-                    break;
-                case Torus:
-                    this.setupElement(Element.Sphere);
-                    break;
-            }
-           AssetManager.getSound("change").PlaySound(0);
+            //changeElement();
+            changeRandomElement();
         }
       //  Debug.log(movePos);
         translate(movePos,speed * tpf);
     }
-    
+    private void changeRandomElement()
+    {
+        Element chosenElement = this.currentElement;
+        double random = Math.random() * 10;
+        for(int i = 0; i < (int)random; i++)
+        {
+            switch(this.currentElement)
+            {
+                case Sphere:
+                    chosenElement = Element.Cube;
+                    break;
+                case Cube:
+                    chosenElement = Element.Torus;
+                    break;
+                case Torus:
+                    chosenElement = Element.Sphere;
+                    break;
+            }
+        }
+         this.setupElement(chosenElement);
+       AssetManager.getSound("change").PlaySound(0);
+    }
+    private void changeElement()
+    {
+        switch(this.currentElement)
+        {
+            case Sphere:
+                this.setupElement(Element.Cube);
+                break;
+            case Cube:
+                this.setupElement(Element.Torus);
+                break;
+            case Torus:
+                this.setupElement(Element.Sphere);
+                break;
+        }
+       AssetManager.getSound("change").PlaySound(0);
+    }
     @Override
     public void onCollision(CollideAble collideWith)
     {
