@@ -41,7 +41,7 @@ public class SplashBackground extends GameObject {
     public SplashBackground(){
         try {
          //   this.setRenderer(new Renderer("Assets/Shaders/UnshadedVertex.glsl", "Assets/Shaders/UnshadedFragment.glsl","Assets/Textures/SplashScreen.png", "Assets/Meshes/Quad.obj"));
-            this.setRenderer(new Renderer("Assets/Shaders/UnshadedVertex.glsl", "Assets/Shaders/UnshadedFragment.glsl","Assets/Textures/titlescreen.png", "Assets/Meshes/Quad.obj"));
+            this.setRenderer(new Renderer("Assets/Shaders/UnShadedVertex.glsl", "Assets/Shaders/UnShadedFragment.glsl","Assets/Textures/titlescreen.png", "Assets/Meshes/Quad.obj"));
      //   time = glGetUniformLocation(AssetManager.getProgram(this.getRenderer().getProgram()), "time");
         } catch (Exception ex) {
             Logger.getLogger(SplashBackground.class.getName()).log(Level.SEVERE, null, ex);
