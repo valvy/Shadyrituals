@@ -13,7 +13,7 @@ public class Main{
         
         
         boolean isServer = false;
-
+        
         for(;;){
             try{
                 System.out.println("Run as server?(true/false)");
@@ -31,8 +31,6 @@ public class Main{
             System.setProperty("java.awt.headless", "true");//Otherwise freezes on os x :-(
         }
         Application.getInstance().loadScene(new GameScene());
-   
-       ;
     }
  
 }
