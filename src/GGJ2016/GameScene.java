@@ -39,6 +39,7 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_9;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
 import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
 import static org.lwjgl.glfw.GLFW.GLFW_REPEAT;
+import GGJ2016.MenuScene;
 
 /**
  *
@@ -94,7 +95,9 @@ public class GameScene extends Scene{
     @Override
     public void update(float tpf){
         if(Application.getInstance().getKeyboardKey(GLFW_KEY_ESCAPE) == GLFW_PRESS){
-             Application.getInstance().quit();
+             AssetManager.clearProgramsBuffer();
+             AssetManager.clearShaderBuffer();
+             Application.getInstance().loadScene(new MenuScene());
              return;
          }
 
