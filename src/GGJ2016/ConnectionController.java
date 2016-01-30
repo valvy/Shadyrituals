@@ -43,8 +43,8 @@ public final class ConnectionController implements Runnable{
     private Socket socket;
     private ServerSocket serverSocket;
     private static ConnectionController instance;
-    private Thread thread;
-    private String IP;
+    private final Thread thread;
+    private final String IP;
     private ArrayList<Client> clients;
     private int id = 0;
     
@@ -84,7 +84,7 @@ public final class ConnectionController implements Runnable{
                 {
                     try{
                         clients.add(new Client(id, serverSocket.accept()));
-                        
+                        Debug.log("client added");
                         id++;
                     }
                     catch(Exception e){
@@ -99,10 +99,12 @@ public final class ConnectionController implements Runnable{
                  DataInputStream inputStream = new DataInputStream(socket.getInputStream());
                  BufferedWriter bw= new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
                  this.send("Hello world", bw);
-                    byte[] buffer = new byte[1024];
 
-                int read;
-                while(!this.shouldStop){
+
+                    int read;
+                    while(!this.shouldStop){
+                        Debug.log("found ");
+                    byte[] buffer = new byte[1024];
                     while((read = inputStream.read(buffer)) != -1){
                     if(this.shouldStop){
                         bw.close();
@@ -143,13 +145,13 @@ public final class ConnectionController implements Runnable{
         {
             this.id = id;
             this.sock = sock;
-            this.thread = new Thread();
+          //  this.thread = new Thread();
             Debug.log(this.read());
             try{
                 dis = new DataInputStream(sock.getInputStream());
             }
             catch(Exception e){System.out.println(e);}
-            this.thread.start();
+          //  this.thread.start();
         }
         
         public void write(String s)
@@ -173,9 +175,7 @@ public final class ConnectionController implements Runnable{
         @Override
         public void run() {
             for(;;){
-                String tmp = read();
-                Debug.log(tmp);
-                write("Received");
+
             }
         }
     }
