@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016, Heiko van der Heijden 
+ * Copyright (c) 2016, wander
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -23,34 +23,47 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package GGJ2016;
+package GGJ2016.Actors;
 
-import Example.ExampleScene;
-import GGJ2016.Actors.SplashBackground;
-import PrutEngine.Application;
-import PrutEngine.AssetManager;
-import PrutEngine.Scene;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_SPACE;
-import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
+import PrutEngine.Core.Math.Vector3;
+import PrutEngine.Debug;
+import PrutEngine.GameObject;
+import PrutEngine.Renderer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
- * @author Heiko van der Heijden
+ * @author wander
  */
-public class SplashScreen extends Scene{
+public class Arrow extends GameObject{
+    
+    public Arrow(Vector3<Float> startPos)
+    {
 
-    @Override
-    public void awake() {
-        this.addGameObject(new SplashBackground());
+        initRenderer("Arrow.png");
+        this.setPosition(startPos);
+        this.setSize(new Vector3(0.5f,0.5f,0.5f));
+        this.rotate(new Vector3<>(1f,0f,0f), -90);
+        
     }
     
-    @Override
-    public void update(float tpf){
-        super.update(tpf);
-                 if(Application.getInstance().getKeyboardKey(GLFW_KEY_SPACE) == GLFW_PRESS){
-             AssetManager.clearProgramsBuffer();
-             AssetManager.clearShaderBuffer();
-             Application.getInstance().loadScene(new MenuScene());
-         }
+    protected void initRenderer(String texture){
+        try {
+            this.setRenderer(new Renderer(
+                "Assets/Shaders/UnShadedVertex.glsl",
+                "Assets/Shaders/UnShadedFragment.glsl",
+                "Assets/Textures/" + texture,
+                "Assets/Meshes/Quad.obj")); 
+        }
+         catch(Exception e ){
+                  
+                 }
+    }
+    
+     @Override
+    public void update(float tpf) 
+    {
+        
     }
 }
