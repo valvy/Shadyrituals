@@ -28,11 +28,13 @@ package PrutEngine;
 import PrutEngine.Core.Data.GLProgram;
 import PrutEngine.Core.Data.Mesh;
 import PrutEngine.Core.Data.Shader;
+import PrutEngine.Core.Data.Sound;
 import PrutEngine.Core.Data.Texture;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
  * Management of all the resources
@@ -72,7 +74,36 @@ public final class AssetManager {
      */
     private static final ArrayList<Mesh> MESHES = new ArrayList<>();
     
+     /**
+     * A list containing all the audio Files
+     */
+    private static final ArrayList<Sound> SOUNDS = new ArrayList<>();
     
+    //ToDo Sounds....
+    /*
+    public static int getSound(int reference) throws AssetNotFoundException
+    {
+        throw new NotImplementedException();
+    }*/
+    //Fix this pls
+    public static Sound getSound(int id)
+    {
+        return(SOUNDS.get(id));
+    }
+    
+    public static int loadSound(final String sound) throws IOException{
+        for(Sound snd : AssetManager.SOUNDS)
+        {
+            if(snd.getDataLocation().equals(sound))
+            {
+                return snd.addRef();
+            }
+        }
+        Sound snd = new Sound(sound,AssetManager.uniqueNumber);
+        AssetManager.uniqueNumber++;
+        AssetManager.SOUNDS.add(snd);
+        return snd.addRef();
+    }
     /**
      * Loads an shader and passes the reference if the shader does not exists
      * @param shaderName    The relative path of the shader.

@@ -25,6 +25,10 @@
  */
 package GGJ2016;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.DataInputStream;
+import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import sun.awt.Mutex;
@@ -37,6 +41,7 @@ public final class ConnectionController implements Runnable{
     private boolean shouldStop = false;
     private final Thread thread;
     private final Mutex lock;
+    private final int PORT = 4000;
     
     private static ConnectionController instance;
     
@@ -66,6 +71,16 @@ public final class ConnectionController implements Runnable{
     @Override
     public void run() {
         for(;;){
+            Socket sock;
+            BufferedReader br;
+            DataInputStream inputStream;
+            BufferedWriter bw;
+            
+            //socket = new Socket(Globals.SERVER, Globals.PORT);
+              //  inputStream = new DataInputStream(socket.getInputStream());
+                //bw= new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+            
+            
             if(this.shouldStop){
 
                 break;

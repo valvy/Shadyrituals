@@ -52,6 +52,7 @@ public class Camera extends GameObject{
     }
     
     
+    
     private void setProgramLocations(){
         if(needUpdate){//Only update when the camera has moved.. this is a costly operation
             final Matrix4x4 perspective = Matrix4x4.multiply(Quaternion.quaternionToMatrix(this.getRotationQuaternion()),this.projection);
