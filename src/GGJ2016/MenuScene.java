@@ -46,7 +46,7 @@ import static org.lwjgl.glfw.GLFW.GLFW_RELEASE;
  */
 public class MenuScene extends Scene {
     private int simpleState = 0;
-    private int up,down,space = 1;
+    private int up,down,space,quit = 1;
     private Arrow cursor = new Arrow(new Vector3<>(-0.40f,0.9f,0f));
     @Override
     public void awake() {
@@ -81,8 +81,11 @@ public class MenuScene extends Scene {
                 space = 0;
          }
          
-         if(Application.getInstance().getKeyboardKey(GLFW_KEY_ESCAPE) == GLFW_PRESS)
+         if(Application.getInstance().getKeyboardKey(GLFW_KEY_ESCAPE) == GLFW_PRESS && quit == 0)
              Application.getInstance().quit();
+         
+         if(Application.getInstance().getKeyboardKey(GLFW_KEY_ESCAPE) == GLFW_RELEASE)
+             quit = 0;
          
          if(space == 1) return;
          if(Application.getInstance().getKeyboardKey(GLFW_KEY_ENTER) == GLFW_PRESS ||
