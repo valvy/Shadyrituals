@@ -54,7 +54,10 @@ public class ConnectionClient extends BaseConnection {
         this.from = new ArrayList<>();
         this.to = new ArrayList<>();
     }
-    
+    /**
+     * Gets the data from the specific client
+     * @return 
+     */
     public String getFrom(){
         String dat = NOTHING;
         try{
@@ -71,7 +74,10 @@ public class ConnectionClient extends BaseConnection {
         }
         return dat;
     }
-
+    /**
+     * Sends a message to the client
+     * @param msg 
+     */
     public void addToBuffer(String msg){
         try {
             Debug.log(msg);

@@ -229,6 +229,7 @@ public class ConnectionServer extends BaseConnection {
         }
         
         for(String t : localBuffer){
+            Debug.log(t);
             this.globalBuffer.add(t);
         }
         
