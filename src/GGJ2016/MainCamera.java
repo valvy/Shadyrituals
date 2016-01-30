@@ -41,6 +41,7 @@ public final class MainCamera extends Camera {
     private float shakeDuration = 0;
     private final Quaternion oldQuaternion;
     private GameObject followObject;
+    private final float movSpeed = 50f;
     public MainCamera(Vector3<Float> position) {
         super(position);
         this.followObject = null;
@@ -54,8 +55,8 @@ public final class MainCamera extends Camera {
         if(this.followObject != null){
             
             this.setPosition(new Vector3<>(
-                    PrutMath.lerp(this.getPosition().x,-this.followObject.getPosition().x, 10f * tpf),
-                    PrutMath.lerp(this.getPosition().y,-this.followObject.getPosition().y, 10f * tpf),
+                    PrutMath.lerp(this.getPosition().x,-this.followObject.getPosition().x, movSpeed * tpf),
+                    PrutMath.lerp(this.getPosition().y,-this.followObject.getPosition().y, movSpeed * tpf),
                     -30f
             ));
         }
@@ -63,7 +64,7 @@ public final class MainCamera extends Camera {
         
         
         if(this.shakeDuration > 0 && this.shakeMagnitude > 0){
-            this.rotate(new Vector3<>(1f,1f,1f), (float) Math.sin(this.shakeDuration - (this.shakeDuration * this.shakeMagnitude)  ));
+            this.rotate(new Vector3<>(1f,1f,1f), (float) Math.sin(this.shakeDuration - (this.shakeDuration * this.shakeMagnitude) ));
             this.shakeDuration -= tpf;
         }else{
             this.setRotation(oldQuaternion);

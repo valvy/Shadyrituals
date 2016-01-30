@@ -24,73 +24,177 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 package GGJ2016;
-
-import java.io.BufferedReader;
+/*
+import PrutEngine.Debug;
 import java.io.BufferedWriter;
 import java.io.DataInputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import sun.awt.Mutex;
 
-/**
- *
- * @author Heiko van der Heijden
- */
 public final class ConnectionController implements Runnable{
     private boolean shouldStop = false;
-  //  private final Thread thread;
-   // private final Mutex lock;
-    private final int PORT = 4000;
-    
+    private final boolean isServer;
+    private final int PORT = 5000;
+    private Socket socket;
+    private ServerSocket serverSocket;
     private static ConnectionController instance;
+    private final Thread thread;
+    private final String IP;
+    private ArrayList<Client> clients;
+    private int id = 0;
     
     public static ConnectionController getInstance(){
         return instance;
     }
     
-    
-    public ConnectionController(boolean host){
-       // this.lock = new Mutex();
-        this.shouldStop = false;
-       // this.thread = new Thread(this);
+    public ConnectionController(boolean host, String ip){
         instance = this;
-     //   this.thread.start();
-        
+        isServer = host;
+        this.IP = ip;
+        thread = new Thread(this);
+        thread.start();
     }
 
     public void stopConnection(){
-        this.shouldStop = true;/*
+        this.shouldStop = true;
         try {
             this.thread.join();
-        } catch (InterruptedException ex) {
-            Logger.getLogger(ConnectionController.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
+        }
+        catch(InterruptedException ex) {
+            System.out.println("Cant stop thread... WTF");
+        }
     }
+    
     
     @Override
     public void run() {
-        for(;;){
-            Socket sock;
-            BufferedReader br;
-            DataInputStream inputStream;
-            BufferedWriter bw;
-            
-            //socket = new Socket(Globals.SERVER, Globals.PORT);
-              //  inputStream = new DataInputStream(socket.getInputStream());
-                //bw= new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-            
-            
-            if(this.shouldStop){
+        try
+        {
+            if(isServer)
+            {
+                clients = new ArrayList<Client>();
+                serverSocket = new ServerSocket(PORT);
+                serverSocket.setSoTimeout(3000);
+                while(!this.shouldStop)
+                {
+                    try{
+                        clients.add(new Client(id, serverSocket.accept()));
+                    
+                        id++;
+                    }
+                    catch(Exception e){
+                        //timeout is reached
+                        continue;
+                    }
+                }
+            }
+            else
+            {
+                socket = new Socket(this.IP, PORT);
+                 DataInputStream inputStream = new DataInputStream(socket.getInputStream());
+                 BufferedWriter bw= new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+                 this.send("Hello world", bw);
 
-                break;
+
+                    int read;
+                    while(!this.shouldStop){
+                        Debug.log("found ");
+                    byte[] buffer = new byte[1024];
+                    while((read = inputStream.read(buffer)) != -1){
+                    if(this.shouldStop){
+                        bw.close();
+                        socket.close();
+                        return;
+                    }                                        
+                    String msg = new String(buffer, 0, read);
+                    Debug.log(msg);
+                    this.send("hai", bw);
+                }
+                }
             }
-            try {
-                Thread.sleep(10);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(ConnectionController.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        }
+        catch(Exception e)
+        {
+            System.out.println(e);
+        }
+    }
+    
+        public void send(String msg, BufferedWriter bw){
+        try {
+            bw.write(msg);
+            bw.flush();
+        } catch (IOException ex) {
+            Logger.getLogger(ConnectionController.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }
-}
+    
+    private class Client implements Runnable
+    {
+        public int id;
+        public Socket sock;
+        private DataInputStream dis;
+        private Thread thread;
+        
+        public Client(int id, Socket sock)
+        {
+            this.id = id;
+            this.sock = sock;
+          //  this.thread = new Thread();
+              Debug.log("client added");
+              this.write("Hallo jeffrey");
+          
+            
+            try{
+                dis = new DataInputStream(sock.getInputStream());
+                           int read;
+                byte[] buffer = new byte[1024];
+                while((read = dis.read(buffer)) != -1){
+                    Debug.log(new String(buffer,0,read));
+                }
+            }            try{
+                sock.getOutputStream().write(s.getBytes());
+            }
+            catch(Exception e) {System.out.println(e);}
+            catch(Exception e){System.out.println(e);}
+          //  this.thread.start();
+        }
+        
+        public void write(String s)
+        {
+            try{
+                sock.getOutputStream().write(s.getBytes());
+            }
+            catch(Exception e) {System.out.println(e);}
+        }
+        
+        public String read()
+        {
+            try {
+                int read;
+                byte[] buffer = new byte[1024];
+                while((read = dis.read(buffer)) != -1){
+                    Debug.log(new String(buffer,0,read));
+                }
+                
+                
+                return new String(buffer, 0, read);
+            } catch (IOException ex) {
+                System.out.println(ex);
+            }
+            return null;
+        }
+
+        @Override
+        public void run() {
+            for(;;){
+
+            }
+        }
+    }
+}*/

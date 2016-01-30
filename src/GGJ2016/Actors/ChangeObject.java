@@ -54,7 +54,8 @@ public class ChangeObject extends CollideAble
             this.setRenderer(new Renderer(
                 "Assets/Shaders/UnShadedVertex.glsl",
                 "Assets/Shaders/UnShadedFragment.glsl",
-                "Assets/Textures/cube.bmp",
+                "Assets/Textures/Weirdo.png",
+
                 "Assets/Meshes/Quad.obj"   
             ));
         } catch (Exception ex) {
@@ -77,13 +78,17 @@ public class ChangeObject extends CollideAble
             switch(otherActor.currentElement)
             {
                 case Sphere:
-                    otherActor.setupElement(Actor.Element.Cube);
+                     otherActor.setupElement(Actor.Element.Torus);
+                     
                     break;
                 case Cube:
-                    otherActor.setupElement(Actor.Element.Torus);
+                    otherActor.setupElement(Actor.Element.Sphere);
+                    
                     break;
                 case Torus:
-                    otherActor.setupElement(Actor.Element.Sphere);
+                   
+                   otherActor.setupElement(Actor.Element.Cube);
+                    
                     break;
             }
         }
