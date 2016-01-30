@@ -126,13 +126,14 @@ public class Player extends Actor
         PlayerInput(tpf);
         
         //changeTimer
+        /*
         changeTimer -= tpf * 10;
         if(changeTimer <= 0 )
         {
             changeTimer = (float)Math.random() * 10f + 1f;
             changeElement();
         }
-        
+        */
         super.update(tpf);
        
     }
@@ -165,44 +166,6 @@ public class Player extends Actor
         }
       //  Debug.log(movePos);
         translate(movePos,speed * tpf);
-    }
-    private void changeRandomElement()
-    {
-        Element chosenElement = this.currentElement;
-        double random = Math.random() * 10;
-        for(int i = 0; i < (int)random; i++)
-        {
-            switch(this.currentElement)
-            {
-                case Sphere:
-                    chosenElement = Element.Cube;
-                    break;
-                case Cube:
-                    chosenElement = Element.Torus;
-                    break;
-                case Torus:
-                    chosenElement = Element.Sphere;
-                    break;
-            }
-        }
-         this.setupElement(chosenElement);
-       AssetManager.getSound("change").PlaySound(0);
-    }
-    private void changeElement()
-    {
-        switch(this.currentElement)
-        {
-            case Sphere:
-                this.setupElement(Element.Cube);
-                break;
-            case Cube:
-                this.setupElement(Element.Torus);
-                break;
-            case Torus:
-                this.setupElement(Element.Sphere);
-                break;
-        }
-       AssetManager.getSound("change").PlaySound(0);
     }
     @Override
     public void onCollision(CollideAble collideWith)
