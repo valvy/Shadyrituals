@@ -73,9 +73,7 @@ public class Player extends Actor
     @Override
     public void update(float tpf) 
     {
-        //Notify the fellow players
-        //BaseConnection.getInstance().getAllConnections();
-     
+
         if(!lastPos.equals(this.getPosition()) || lastElement != this.currentElement)
         {
            //Debug.log(lastPos);

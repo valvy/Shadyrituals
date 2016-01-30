@@ -225,9 +225,9 @@ public class ConnectionServer extends BaseConnection {
         
         for(Client cl : clients){
             //Pass the server data
-        //    cl.addToBuffer(
-          //          player.id + ";" + player.currentPosition.toString() + ";" + player.playerElement.toString() + ";"
-            //);
+            cl.addToBuffer(
+                    player.id + ";" + player.currentPosition.toString() + ";" + player.playerElement.toString() + ";"
+            );
             
             //Get what's up
             
