@@ -143,7 +143,9 @@ public class ConnectionClient extends BaseConnection {
                 {
                     if(msg.contains("Player:"))
                     {
+                        if(!msg.contains("Server")){
                         idName = msg;
+                        }
                     }
                     this.from.add(msg);
                    

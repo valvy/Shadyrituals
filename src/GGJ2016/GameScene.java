@@ -48,9 +48,6 @@ public class GameScene extends Scene
         ((MainCamera)this.camera).followObject(pl);
         
         this.addGameObject(new Background());
-        this.addGameObject(new Enemy(new Vector3<>(-5f,-1f,-10f)));
-        this.addGameObject(new Enemy(new Vector3<>(5f,-1f,-10f)));
-        this.addGameObject(new Enemy(new Vector3<>(0f,3f,-10f)));
         this.addGameObject(pl);
 
         for(int i = 0; i < 100; i++){
