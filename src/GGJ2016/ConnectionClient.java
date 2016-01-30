@@ -49,7 +49,7 @@ public class ConnectionClient extends BaseConnection {
     private  BufferedWriter bw;
     private final Mutex mutex;
     private final ArrayList<String> from;
-  //  private final ArrayList<String> to;
+
     private String to = NOTHING;
     protected ConnectionClient(){
         this.mutex = new Mutex();
@@ -137,10 +137,16 @@ public class ConnectionClient extends BaseConnection {
             try {
                 this.mutex.acquire();
                 String msg = new String(buffer, 0, read);
+
                 Debug.log(msg);
-                if(!msg.equals(NOTHING)){
+                if(!msg.equals(NOTHING))
+                {
+                    if(msg.contains("Player:"))
+                    {
+                        idName = msg;
+                    }
                     this.from.add(msg);
-                    Debug.log(msg);
+                   
                 }
 
             } catch (InterruptedException ex) {
