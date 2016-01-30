@@ -41,6 +41,7 @@ public abstract class BaseConnection implements Runnable{
     private final Thread thread;
     protected final int PORT = 7000;
     protected final String NOTHING = "Nothing";
+    protected final String HANDSHAKE = "Player:";
     
     public static class ConnectedPlayer{
         

@@ -75,7 +75,7 @@ public class Player extends Actor
     {
         //Notify the fellow players
     
-        if(!lastPos.equals(this.getPosition()) && lastElement != this.currentElement)
+        if(!lastPos.equals(this.getPosition()) || lastElement != this.currentElement)
         {
            //Debug.log(lastPos);
             BaseConnection.getInstance().notifyWorld(

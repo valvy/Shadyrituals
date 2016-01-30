@@ -52,6 +52,7 @@ public class ConnectionServer extends BaseConnection {
     
     protected ConnectionServer(){
         this.globalBuffer = new ArrayList<>();
+        
     }
 
    
@@ -122,7 +123,7 @@ public class ConnectionServer extends BaseConnection {
                     
                     int read;
                     byte[] buffer = new byte[1024];
-                    this.send(Integer.toString(this.id), bw);
+                    this.send(HANDSHAKE + Integer.toString(this.id), bw);
                   
                     
                     while((read = inputStream.read(buffer)) != -1){
@@ -138,7 +139,6 @@ public class ConnectionServer extends BaseConnection {
                             
                             if(!msg.equals(NOTHING)){
                                 this.from.add(msg);
-                                Debug.log(msg);
                             }
                              
                         } catch (InterruptedException ex) {
@@ -235,7 +235,7 @@ public class ConnectionServer extends BaseConnection {
         
         for(String t : localBuffer){
             if(!t.equals(NOTHING)){
-                
+                Debug.log(t);
                 this.globalBuffer.add(t);
             }
         }
