@@ -89,7 +89,7 @@ public class Player extends Actor
                     this.setupElement(Element.Sphere);
                     break;
             }
-           AssetManager.getSound("clap").PlaySound(0);
+           AssetManager.getSound("change").PlaySound(0);
         }
         translate(movePos,speed * tpf);
     }

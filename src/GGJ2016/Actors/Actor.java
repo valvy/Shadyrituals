@@ -92,6 +92,9 @@ public class Actor extends GameObject
             case Cube:
             this.initRenderer("cube.obj");
             return;
+            case Torus:
+            this.initRenderer("monkey.obj");
+            return;
         }
     }
     protected void initRenderer(String mesh){
