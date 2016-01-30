@@ -196,14 +196,14 @@ public class ConnectionServer extends BaseConnection {
         }
          
         try {
-           Debug.log("Test");
            
-            clients.add(new Client(this.uniqueNumber, serverSocket.accept()));
+           Debug.log("Test1234");
+           clients.add(new Client(this.uniqueNumber, serverSocket.accept()));
             this.uniqueNumber++;
             
         } catch (IOException ex) {
            
-          // Logger.getLogger(ConnectionServer.class.getName()).log(Level.SEVERE, null, ex);
+           Logger.getLogger(ConnectionServer.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }
@@ -245,7 +245,7 @@ public class ConnectionServer extends BaseConnection {
     public boolean attemptToConnect() {
         try {
             serverSocket = new ServerSocket(PORT);
-            serverSocket.setSoTimeout(3000);
+            serverSocket.setSoTimeout(10000);
             
             return true;
         } catch (IOException ex) {

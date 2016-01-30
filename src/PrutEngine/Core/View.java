@@ -30,7 +30,9 @@ import PrutEngine.Core.Math.Vector2;
 import PrutEngine.Debug;
 import PrutEngine.GameObject;
 import static java.lang.System.exit;
+import java.nio.IntBuffer;
 import java.util.ArrayList;
+import static org.lwjgl.glfw.GLFW.glfwGetWindowSize;
 import static org.lwjgl.glfw.GLFW.glfwSetWindowSize;
 import static org.lwjgl.glfw.GLFW.glfwSetWindowTitle;
 import static org.lwjgl.opengl.ARBImaging.GL_TABLE_TOO_LARGE;
@@ -140,9 +142,14 @@ public final class View {
      * Draws the various gameobjects
      * @param obj 
      */
-    public void draw(ArrayList<GameObject> obj){  
+    public void draw(ArrayList<GameObject> obj){
+     /*   IntBuffer bufWidth = IntBuffer.allocate(1);
+        IntBuffer bufHeight = IntBuffer.allocate(1);
+        glfwGetWindowSize(WINDOW,bufWidth,bufHeight);
+        this.screenSize.x = bufWidth.get();
+        this.screenSize.y = bufHeight.get();*/
 //        glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-   GL11.glViewport(0, 0, screenSize.x, screenSize.y);
+        GL11.glViewport(0, 0, screenSize.x, screenSize.y);
         glClearColor(0.0f, 0f, 0f, 0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
