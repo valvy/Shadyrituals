@@ -41,7 +41,7 @@ public abstract class BaseConnection implements Runnable{
     private final Thread thread;
     protected final int PORT = 7000;
     protected final String NOTHING = "Nothing";
-    
+    protected String idName = "NULL";
     public static class ConnectedPlayer{
         
         public String id;
@@ -67,7 +67,10 @@ public abstract class BaseConnection implements Runnable{
         return this.shouldStop;
     }
     
-    
+    public String getIdName()
+    {
+        return idName;
+    }
     
     public void stopConnection(){
         this.shouldStop = true;
