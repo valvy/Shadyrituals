@@ -44,22 +44,7 @@ public class Player extends Actor
     public Player(Scene gameScene){
         super(new Vector3<Float>(0f,0f,-10f), 0f, 0f);
         this.setSize(new Vector3<Float>(2f, 2f, 2f));
-        //this.initRenderer("sphere.obj");
         this.gameScene = gameScene;
-        try
-        {
-            AssetManager.loadSound("Assets/Sounds/clap01.wav");
-            AssetManager.loadSound("Assets/Sounds/mmmm.wav");
-        }
-        catch(Exception e)
-        {
-            System.err.println(e.getMessage());
-        }
-        /*
-        Application.getInstance().prutKeyBoard.addKey(GLFW_KEY_W);
-        Application.getInstance().prutKeyBoard.addKey(GLFW_KEY_A);
-        Application.getInstance().prutKeyBoard.addKey(GLFW_KEY_S);
-        Application.getInstance().prutKeyBoard.addKey(GLFW_KEY_D);*/
     }
     @Override
     public void update(float tpf) 
@@ -88,7 +73,6 @@ public class Player extends Actor
         }  
         if(Application.getInstance().prutKeyBoard.GetState(GLFW_KEY_D) == GLFW_REPEAT)
         {
-            Application.getInstance().prutSoundManager.PlaySound( AssetManager.getSound(1));
             movePos.x = 1f;
         }
         if(Application.getInstance().prutKeyBoard.GetState(GLFW_KEY_F) == GLFW_PRESS)
@@ -99,11 +83,13 @@ public class Player extends Actor
                     this.setupElement(Element.Cube);
                     break;
                 case Cube:
+                    this.setupElement(Element.Torus);
+                    break;
+                case Torus:
                     this.setupElement(Element.Sphere);
                     break;
             }
-            Application.getInstance().prutSoundManager.PlaySound( AssetManager.getSound(0));
-            //Application.getInstance().prutSoundManager.playSound("Assets/Sounds/crow1a.wav");
+           AssetManager.getSound("clap").PlaySound(0);
         }
         Debug.log(movePos);
         translate(movePos,speed * tpf);

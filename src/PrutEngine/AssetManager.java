@@ -90,8 +90,19 @@ public final class AssetManager {
     {
         return(SOUNDS.get(id));
     }
-    
-    public static int loadSound(final String sound) throws IOException{
+    public static Sound getSound(String name)
+    {
+        for (Sound SOUNDS1 : SOUNDS) 
+        {
+            if (SOUNDS1.getSoundName().equals(name)) 
+            {
+                return SOUNDS1;
+            }
+        }
+        return null;
+        //return(SOUNDS.get(id));
+    }
+    public static int loadSound(final String sound,final String soundName) throws IOException{
         for(Sound snd : AssetManager.SOUNDS)
         {
             if(snd.getDataLocation().equals(sound))
@@ -99,7 +110,7 @@ public final class AssetManager {
                 return snd.addRef();
             }
         }
-        Sound snd = new Sound(sound,AssetManager.uniqueNumber);
+        Sound snd = new Sound(sound,AssetManager.uniqueNumber,soundName);
         AssetManager.uniqueNumber++;
         AssetManager.SOUNDS.add(snd);
         return snd.addRef();

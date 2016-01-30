@@ -79,8 +79,8 @@ public class Actor extends GameObject
     public void respawnActor(Vector4 bounds)
     {
        Random r = new Random();
-       position.y = (float)(r.nextInt((int)bounds.w + (int)bounds.y)-((int)bounds.y+(int)bounds.w)/2);
-       position.x = (float)(r.nextInt((int)bounds.x + (int)bounds.z)-((int)bounds.z+(int)bounds.x)/2);
+       position.y = (float)(r.nextInt((int)bounds.w + (int)bounds.y)-(int)bounds.y);
+       position.x = (float)(r.nextInt((int)bounds.x + (int)bounds.z)-(int)bounds.z);
     }
     
     protected void setupElement(Element element){
