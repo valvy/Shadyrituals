@@ -61,7 +61,7 @@ public class GameScene extends Scene{
         {
             ((MainCamera)this.camera).shakeScreen(1000f, 0.05f);
         }
-        ;
+        
         super.update(tpf);
     }
     
