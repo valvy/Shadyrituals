@@ -29,6 +29,7 @@ import Example.ExampleScene;
 import GGJ2016.Actors.SplashBackground;
 import PrutEngine.Application;
 import PrutEngine.AssetManager;
+import PrutEngine.Core.Math.Vector2;
 import PrutEngine.Scene;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_SPACE;
 import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
@@ -42,6 +43,7 @@ public class SplashScreen extends Scene{
     @Override
     public void awake() {
         this.addGameObject(new SplashBackground());
+        Application.getInstance().getWindow().setWindowSize(new Vector2<>(1920,1080));
     }
     
     @Override

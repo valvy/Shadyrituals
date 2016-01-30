@@ -61,6 +61,7 @@ import static org.lwjgl.opengl.GL11.glGetError;
 import static org.lwjgl.opengl.GL30.GL_INVALID_FRAMEBUFFER_OPERATION;
 import static org.lwjgl.system.APIUtil.apiUnknownToken;
 import static org.lwjgl.glfw.GLFW.glfwSetWindowTitle;
+import org.lwjgl.opengl.GL11;
 import static org.lwjgl.opengl.GL11.GL_DST_ALPHA;
 import static org.lwjgl.opengl.GL11.GL_ONE_MINUS_DST_ALPHA;
 import static org.lwjgl.system.APIUtil.apiUnknownToken;
@@ -73,7 +74,7 @@ import static org.lwjgl.system.APIUtil.apiUnknownToken;
 public final class View {
 
     private final long WINDOW;
-    
+    private final Vector2<Integer> screenSize;
     /**
      * initializes the window 
      * @param window 
@@ -81,9 +82,11 @@ public final class View {
     public View(long window){
         this.WINDOW = window;
         GL.createCapabilities();
-        glEnable(GL_CULL_FACE);
-        glEnable(GL_BLEND);// you enable blending function
-       glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        this.screenSize = new Vector2<Integer>(100,100);
+        this.setWindowSize(screenSize);
+         glEnable(GL_CULL_FACE);
+       // glEnable(GL_BLEND);// you enable blending function
+       //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glEnable(GL_DEPTH_TEST);
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -105,6 +108,7 @@ public final class View {
      */
     public void setWindowSize(Vector2<Integer> size){
         glfwSetWindowSize(WINDOW, size.x, size.y);
+        this.screenSize.set(size);
     }
     
     public static String getErrorString(int errorCode) {
@@ -138,6 +142,7 @@ public final class View {
      */
     public void draw(ArrayList<GameObject> obj){  
 //        glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+   GL11.glViewport(0, 0, screenSize.x, screenSize.y);
         glClearColor(0.0f, 0f, 0f, 0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
