@@ -26,6 +26,7 @@
 package GGJ2016.Actors;
 
 import GGJ2016.GameScene;
+import PrutEngine.Core.Math.PrutMath;
 import PrutEngine.Core.Math.Vector3;
 import PrutEngine.Core.Math.Vector4;
 import PrutEngine.Renderer;
@@ -84,7 +85,8 @@ public class ChangeObject extends CollideAble
                     break;
             }
         }
-        this.scene.destroy(this);
+        this.setPosition(new Vector3<>(PrutMath.random(-100, 100),PrutMath.random(-100, 100),-5f));
+        //this.scene.destroy(this);
         super.onCollision(collideWith);
     }
 }

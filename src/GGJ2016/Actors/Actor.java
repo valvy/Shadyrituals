@@ -122,7 +122,7 @@ public class Actor extends CollideAble
     protected void Die()
     {
         AssetManager.getSound("death01").PlaySound(0);
-        respawnActor(new Vector4(10,10,10,10));
+        respawnActor(new Vector4(100,100,100,100));
     }
     
     public void respawnActor(Vector4 bounds)

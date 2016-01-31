@@ -33,6 +33,7 @@ import PrutEngine.*;
 import static org.lwjgl.glfw.GLFW.*;
 
 import PrutEngine.Core.Math.Vector3;
+import PrutEngine.Core.Math.Vector4;
 import java.util.ArrayList;
 
 public class Player extends Actor
@@ -47,6 +48,7 @@ public class Player extends Actor
     public Player(GameScene gameScene)
     {
         super(new Vector3<Float>(0f,0f,-10f));
+        respawnActor(new Vector4(100,100,100,100));
         this.setSize(new Vector3<Float>(2f, 2f, 2f));
         this.gameScene = gameScene;
         changeTimer = (float)Math.random() * 10f + 1f;
