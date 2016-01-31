@@ -27,17 +27,26 @@ package GGJ2016.Actors;
 
 import GGJ2016.GameScene;
 import GGJ2016.Globals;
+import PrutEngine.Application;
+import PrutEngine.AssetManager;
 import PrutEngine.Core.Math.PrutMath;
 import PrutEngine.Core.Math.Vector3;
 import PrutEngine.Core.Math.Vector4;
 import PrutEngine.Renderer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static org.lwjgl.opengl.GL20.glGetUniformLocation;
+import static org.lwjgl.opengl.GL20.glUniform1f;
+import static org.lwjgl.opengl.GL20.glUniform2f;
+import static org.lwjgl.opengl.GL20.glUseProgram;
 
 public class ChangeObject extends CollideAble
 {
     private final GameScene scene;
-    
+        //Shader
+    int time = -1;
+    int resolution = -1;
+    float timer = 0f;
     public ChangeObject(Vector3<Float> startPos, GameScene scene)
     {
         this.scene = scene;
@@ -53,9 +62,16 @@ public class ChangeObject extends CollideAble
         try {
             this.setRenderer(new Renderer(
                 "Assets/Shaders/UnShadedVertex.glsl",
-                "Assets/Shaders/UnShadedFragment.glsl",
+                //"Assets/Shaders/UnShadedFragment.glsl",
+                "Assets/Shaders/GlowFragmentShader.glsl",
                 "Assets/Textures/Witch.png",
                 "Assets/Meshes/Quad.obj"));
+            
+            time = glGetUniformLocation(AssetManager.getProgram(this.getRenderer().getProgram()), "time");
+            resolution = glGetUniformLocation(AssetManager.getProgram(this.getRenderer().getProgram()), "resolution");
+            glUseProgram(AssetManager.getProgram(this.getRenderer().getProgram()));
+            //glUniform2f(resolution,1280,800);
+            glUniform2f(resolution,(int)Application.getInstance().getScreenSize().x,(int)Application.getInstance().getScreenSize().y);
         }
         catch (Exception ex) {
             System.out.println(ex);
@@ -65,6 +81,18 @@ public class ChangeObject extends CollideAble
     @Override
     public void update(float tpf)
     {
+        timer += 10 * tpf;
+        try{
+            if(time != -1){
+                //this.rotate(new Vector3<>(0f,0f,100f), 100 * tpf);
+                glUseProgram(AssetManager.getProgram(this.getRenderer().getProgram()));
+                glUniform1f(this.time,timer);
+            }
+            
+        }
+        catch(AssetManager.AssetNotFoundException ex){
+            System.out.println(ex);
+        }
         super.update(tpf);
     }
     

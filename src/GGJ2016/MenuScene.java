@@ -46,11 +46,13 @@ import static org.lwjgl.glfw.GLFW.GLFW_RELEASE;
  */
 public class MenuScene extends Scene {
     private int simpleState = 0;
+    private int view = 0;
     private int up,down,space,quit = 1;
     private Arrow cursor = new Arrow(new Vector3<>(-0.40f,0.9f,0f));
+    private MenuBackground background = new MenuBackground(new Vector3<>(0f,0f,0f));
     @Override
     public void awake() {
-        this.addGameObject(new MenuBackground(new Vector3<>(0f,0f,0f)));
+        this.addGameObject(background);
         this.addGameObject(cursor);
 
     }
@@ -88,16 +90,38 @@ public class MenuScene extends Scene {
             switch(simpleState)
             {
                 case 0:
-                    AssetManager.clearProgramsBuffer();
-                    AssetManager.clearShaderBuffer();
-                    Application.getInstance().loadScene(new GameScene());
+                    if(view > 0)
+                    {
+                        BaseConnection.create(false);
+                        LoadGame();
+                        break; 
+                    }
+                    background.initRenderer("multyscreen.png");
+                    view++;
+                    space = 0;
+                    //AssetManager.clearProgramsBuffer();
+                    //AssetManager.clearShaderBuffer();
+                    //Application.getInstance().loadScene(new GameScene());
                     break;
                 case 1:
+                    if(view > 0)
+                    {
+                        BaseConnection.create(true);
+                        LoadGame();
+                        break; 
+                    }
                     AssetManager.clearProgramsBuffer();
                     AssetManager.clearShaderBuffer();
                     Application.getInstance().loadScene(new InfoScreen());
                     break;
                 case 2:
+                    if(view > 0)
+                    {
+                        background.initRenderer("menuscreen.png");
+                        view--;
+                        space=0; 
+                        break;
+                    }
                     Application.getInstance().quit();
                     break;
             }
@@ -107,5 +131,14 @@ public class MenuScene extends Scene {
             Application.getInstance().getKeyboardKey(GLFW_KEY_SPACE) == GLFW_RELEASE ){
                 space = 1;
          }
+    }
+    private void LoadGame()
+    {
+        if(System.getProperty("os.name").equals("Mac OS X")){
+            System.setProperty("java.awt.headless", "true");//Otherwise freezes on os x :-(
+        }
+        AssetManager.clearProgramsBuffer();
+        AssetManager.clearShaderBuffer();
+        Application.getInstance().loadScene(new GameScene());
     }
 }
