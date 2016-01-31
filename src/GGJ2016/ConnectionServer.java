@@ -140,7 +140,7 @@ public class ConnectionServer extends BaseConnection {
                             
                             if(!msg.equals(NOTHING)){
                                 this.from = msg;
-                                Debug.log(msg);
+                              
                             }
                              
                         } catch (InterruptedException ex) {
