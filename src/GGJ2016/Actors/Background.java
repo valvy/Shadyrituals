@@ -46,7 +46,7 @@ public class Background extends GameObject
             this.setRenderer(new Renderer(
                 "Assets/Shaders/UnShadedVertex.glsl",
                 "Assets/Shaders/BackgroundFragment.glsl",
-                "",
+                "Assets/Textures/eye.png",
                 "Assets/Meshes/Quad.obj"    
             ));
            
@@ -54,7 +54,7 @@ public class Background extends GameObject
         } catch (Exception ex) {
             Logger.getLogger(Background.class.getName()).log(Level.SEVERE, null, ex);
         }
-        this.setSize(new Vector3<>(100f,100f,100f));
+        this.setSize(new Vector3<>(150f,150f,150f));
         this.setPosition(new Vector3<>(0f,0f,-11f));
         this.rotate(new Vector3<>(1f,0f,0f), -90);
     }
@@ -67,6 +67,7 @@ public class Background extends GameObject
             timer = 0;
         }
         try{
+            this.rotate(new Vector3<>(0f,0f,100f), 100 * tpf);
             glUseProgram(AssetManager.getProgram(this.getRenderer().getProgram()));
             glUniform1f(this.time, (float) Math.sin(timer) * 100);
         }

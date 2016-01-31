@@ -30,7 +30,7 @@ package PrutEngine;
  * @author Heiko van der Heijden
  */
 public final class Debug {
-    private final static boolean DEBUG = false;
+    private final static boolean DEBUG = true;
     
     /**
      * Logs an message whenever debug is true

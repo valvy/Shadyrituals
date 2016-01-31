@@ -7,15 +7,14 @@ in VS_OUT{
 } fs_in;
 
 uniform float time;
-
+uniform sampler2D text;
 
 
 void main(void){
     
-    
-  
     vec3 overlay = vec3(sin(time),cos(time) * 10,tan(time) * 10);
-    color = overlay;
+   
+    color = overlay * texture(text,fs_in.UV).rgb;
 
 }
 
