@@ -110,8 +110,6 @@ public class Player extends Actor
         
         if(!lastPos.equals(this.getPosition()) || lastElement != this.currentElement)
         {
-           //Debug.log(lastPos);
-            //Debug.log(BaseConnection.getInstance().getIdName());
             BaseConnection.getInstance().notifyWorld(
                         new ConnectedPlayer(
                             BaseConnection.getInstance().getIdName(),
@@ -142,10 +140,10 @@ public class Player extends Actor
         {
             movePos.x = 1f;
         }
-        if(Application.getInstance().prutKeyBoard.GetState(GLFW_KEY_F) == GLFW_PRESS)
+     /*   if(Application.getInstance().prutKeyBoard.GetState(GLFW_KEY_F) == GLFW_PRESS)
         {
             changeRandomElement();
-        }
+        }*/
         translate(movePos,speed * tpf);
     }
     
