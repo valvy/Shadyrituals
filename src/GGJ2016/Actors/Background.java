@@ -25,20 +25,26 @@
  */
 package GGJ2016.Actors;
 
+import PrutEngine.Application;
 import PrutEngine.AssetManager;
 import PrutEngine.Core.Math.Vector3;
 import PrutEngine.Debug;
 import PrutEngine.GameObject;
 import PrutEngine.Renderer;
+import com.sun.prism.impl.BufferUtil;
+import java.nio.FloatBuffer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.lwjgl.opengl.GL20;
 import static org.lwjgl.opengl.GL20.glGetUniformLocation;
 import static org.lwjgl.opengl.GL20.glUniform1f;
+import static org.lwjgl.opengl.GL20.glUniform2f;
 import static org.lwjgl.opengl.GL20.glUseProgram;
 
 public class Background extends GameObject
 {
     int time;
+    int resolution;
     float timer = 0f;
     
     public Background(){
@@ -51,25 +57,24 @@ public class Background extends GameObject
             ));
            
            time = glGetUniformLocation(AssetManager.getProgram(this.getRenderer().getProgram()), "time");
+           resolution = glGetUniformLocation(AssetManager.getProgram(this.getRenderer().getProgram()), "resolution");
         } catch (Exception ex) {
             Logger.getLogger(Background.class.getName()).log(Level.SEVERE, null, ex);
         }
-        this.setSize(new Vector3<>(150f,150f,150f));
+        this.setSize(new Vector3<>(100f,100f,100f));
         this.setPosition(new Vector3<>(0f,0f,-11f));
         this.rotate(new Vector3<>(1f,0f,0f), -90);
     }
     
     @Override
     public void update(float tpf){
-        timer += 1 * tpf;
-        if(timer % 360 == 0){
-            Debug.log("hai");
-            timer = 0;
-        }
+        timer += 10 * tpf;
+
         try{
-            this.rotate(new Vector3<>(0f,0f,100f), 100 * tpf);
+           // this.rotate(new Vector3<>(0f,0f,100f), 100 * tpf);
             glUseProgram(AssetManager.getProgram(this.getRenderer().getProgram()));
-            glUniform1f(this.time, (float) Math.sin(timer) * 100);
+            glUniform1f(this.time,timer);
+            glUniform2f(resolution,192,1080); 
         }
         catch(AssetManager.AssetNotFoundException ex){
             System.out.println(ex);
