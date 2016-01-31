@@ -29,10 +29,12 @@ import GGJ2016.BaseConnection;
 import GGJ2016.BaseConnection.ConnectedPlayer;
 import GGJ2016.GameScene;
 import PrutEngine.*;
+import PrutEngine.Core.Math.PrutMath;
 
 import static org.lwjgl.glfw.GLFW.*;
 
 import PrutEngine.Core.Math.Vector3;
+import PrutEngine.Core.Math.Vector4;
 import java.util.ArrayList;
 
 public class Player extends Actor
@@ -46,7 +48,7 @@ public class Player extends Actor
     private Element lastElement;
     public Player(GameScene gameScene)
     {
-        super(new Vector3<Float>(0f,0f,-10f));
+        super(new Vector3<>(PrutMath.random(-100, 100),PrutMath.random(-100, 100), -10f));
         this.setSize(new Vector3<Float>(2f, 2f, 2f));
         this.gameScene = gameScene;
         changeTimer = (float)Math.random() * 10f + 1f;

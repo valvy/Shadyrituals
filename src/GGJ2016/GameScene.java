@@ -61,7 +61,7 @@ public class GameScene extends Scene
         this.addGameObject(new Background());
         this.addGameObject(pl);
         
-        
+        this.addGameObject(new Actor(new Vector3<>(0f,0f,0f)));
 
         for(int i = 0; i < 100; i++){
             this.addGameObject(new ChangeObject(new Vector3<>(PrutMath.random(-100, 100),PrutMath.random(-100, 100),-5f),this));

@@ -26,6 +26,7 @@
 package GGJ2016.Actors;
 
 import PrutEngine.AssetManager;
+import PrutEngine.Core.Math.PrutMath;
 import PrutEngine.Core.Math.Vector3;
 import PrutEngine.Core.Math.Vector4;
 import PrutEngine.Renderer;
@@ -122,14 +123,16 @@ public class Actor extends CollideAble
     protected void Die()
     {
         AssetManager.getSound("death01").PlaySound(0);
-        respawnActor(new Vector4(10,10,10,10));
+        respawnActor();
     }
     
-    public void respawnActor(Vector4 bounds)
+    public void respawnActor()
     {
+       this.setPosition(new Vector3<>(PrutMath.random(-100, 100),PrutMath.random(-100, 100), this.getPosition().z));
+        /*
        Random r = new Random();
        position.y = (float)(r.nextInt((int)bounds.w + (int)bounds.y)-(int)bounds.y);
-       position.x = (float)(r.nextInt((int)bounds.x + (int)bounds.z)-(int)bounds.z);
+       position.x = (float)(r.nextInt((int)bounds.x + (int)bounds.z)-(int)bounds.z);*/
     }
     
     protected void setupElement(Element element){
