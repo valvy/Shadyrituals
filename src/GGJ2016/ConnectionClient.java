@@ -47,7 +47,7 @@ import java.util.logging.Logger;
  */
 public class ConnectionClient extends BaseConnection {
     private Socket socket;
-    private final String IP = "192.168.0.108";
+    private final String IP = Globals.IP_ADRES;
     private DataInputStream inputStream;
     private  BufferedWriter bw;
     private final Mutex mutex;

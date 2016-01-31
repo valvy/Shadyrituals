@@ -33,4 +33,5 @@ import PrutEngine.Core.Math.Vector2;
  */
 public class Globals {
     public static final Vector2<Integer> WORLD_SIZE = new Vector2<>(50,50);
+    public static String IP_ADRES = "192.168.0.108";
 }
