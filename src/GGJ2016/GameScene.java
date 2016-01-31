@@ -70,7 +70,7 @@ public class GameScene extends Scene
         try
         {
             AssetManager.loadSound("Assets/Sounds/change01.wav","change");
-            AssetManager.loadSound("Assets/Sounds/mmmm.wav","mmm");
+            //AssetManager.loadSound("Assets/Sounds/mmmm.wav","mmm");
             AssetManager.loadSound("Assets/Sounds/death01.wav","death01");
             //AssetManager.loadSound("Assets/Sounds/wanderMusic.wav","bgm01");
             AssetManager.loadSound("Assets/Sounds/background.wav","bgm01");
