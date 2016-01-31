@@ -34,17 +34,12 @@ import java.io.BufferedWriter;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import static java.lang.System.exit;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author Heiko van der Heijden
- */
 public class ConnectionClient extends BaseConnection {
     private Socket socket;
     private final String IP = "192.168.0.108";
@@ -52,12 +47,13 @@ public class ConnectionClient extends BaseConnection {
     private  BufferedWriter bw;
     private final Mutex mutex;
     private final ArrayList<String> from;
-
     private String to = NOTHING;
+    
     protected ConnectionClient(){
         this.mutex = new Mutex();
         this.from = new ArrayList<>();
     }
+    
     /**
      * Gets the data from the specific client
      * @return 
@@ -78,6 +74,7 @@ public class ConnectionClient extends BaseConnection {
         }
         return dat;
     }
+    
     /**
      * Sends a message to the client
      * @param msg 
@@ -87,15 +84,12 @@ public class ConnectionClient extends BaseConnection {
             mutex.acquire();
            // Debug.log("addToBuffer: " + msg);
             this.to = msg;
-            
-            
         } catch (InterruptedException ex) {
             Logger.getLogger(ConnectionServer.class.getName()).log(Level.SEVERE, null, ex);
         }finally{
             mutex.release();
         }
     }
-    
     
     @Override
     protected void stop() {
@@ -109,13 +103,11 @@ public class ConnectionClient extends BaseConnection {
         } catch (IOException ex) {
             Logger.getLogger(ConnectionClient.class.getName()).log(Level.SEVERE, null, ex);
         }
-       
     }
 
     @Override
     public boolean attemptToConnect() {
         try {
-            
             socket = new Socket(this.IP, PORT);
             Debug.log("test");
             inputStream = new DataInputStream(socket.getInputStream());
@@ -132,13 +124,10 @@ public class ConnectionClient extends BaseConnection {
         byte[] buffer = new byte[1024];
         int read;
         try {
-
-
             while((read = inputStream.read(buffer)) != -1){
                 if(this.shouldStop()){
                     bw.close();
                     socket.close();
-                    
                     break;
                 }
             try {
@@ -151,22 +140,15 @@ public class ConnectionClient extends BaseConnection {
                     if(msg.contains("Player:"))
                     {
                         if(!msg.contains("Server") && idName.equals("NULL")){
-
                             idName = msg;
-
                         }
                     }
                     this.from.add(msg);
-                   
                 }
-
             } catch (InterruptedException ex) {
                 Logger.getLogger(ConnectionServer.class.getName()).log(Level.SEVERE, null, ex);
             }finally{
-                
-       
                 this.mutex.release();
-
                 this.send(to, bw);                           
             }
         }   
@@ -180,19 +162,18 @@ public class ConnectionClient extends BaseConnection {
             }
           Application.getInstance().quit();
             Logger.getLogger(ConnectionClient.class.getName()).log(Level.SEVERE, null, ex);
-            
         }
     }
     
-    
     public void send(String msg, BufferedWriter bw){
-            try {
-                bw.write(msg);
-                bw.flush();
-            }   catch (IOException ex) {
-                Logger.getLogger(ConnectionClient.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        try {
+            bw.write(msg);
+            bw.flush();
         }
+        catch (IOException ex) {
+            Logger.getLogger(ConnectionClient.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     @Override
     public ArrayList<ConnectedPlayer> getAllConnections() {
@@ -224,7 +205,7 @@ public class ConnectionClient extends BaseConnection {
                 Logger.getLogger(ConnectionClient.class.getName()).log(Level.SEVERE, null, ex);
                 continue;
             }
-          //  Debug.log(currentPosition);
+            //Debug.log(currentPosition);
             Actor.Element playerElement = Actor.Element.Cube;
             String playerElementString = splitedData[2];
             if(playerElementString.equals(Actor.Element.Cube.toString()))
@@ -250,5 +231,4 @@ public class ConnectionClient extends BaseConnection {
     public void notifyWorld(ConnectedPlayer player) {
         this.addToBuffer(player.id + ";" + player.currentPosition.toString() + ";" + player.playerElement.toString() + ";");
     }
-    
 }

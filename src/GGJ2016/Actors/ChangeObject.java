@@ -31,8 +31,6 @@ import PrutEngine.Core.Math.PrutMath;
 import PrutEngine.Core.Math.Vector3;
 import PrutEngine.Core.Math.Vector4;
 import PrutEngine.Renderer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class ChangeObject extends CollideAble
 {
@@ -88,7 +86,6 @@ public class ChangeObject extends CollideAble
             }
         }
         this.setPosition(new Vector3<>(PrutMath.random(-Globals.WORLD_SIZE.x, Globals.WORLD_SIZE.x),PrutMath.random(-Globals.WORLD_SIZE.y, Globals.WORLD_SIZE.y),-5f));
-        //this.scene.destroy(this);
         super.onCollision(collideWith);
     }
 }

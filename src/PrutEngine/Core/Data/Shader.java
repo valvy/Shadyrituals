@@ -23,26 +23,20 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+
 package PrutEngine.Core.Data;
 
 
 import PrutEngine.Debug;
 import java.io.IOException;
-import static org.lwjgl.opengl.ARBTessellationShader.GL_TESS_CONTROL_SHADER;
-import static org.lwjgl.opengl.ARBTessellationShader.GL_TESS_EVALUATION_SHADER;
-import org.lwjgl.opengl.GL11;
-import static org.lwjgl.opengl.GL11.GL_FALSE;
-import org.lwjgl.opengl.GL20;
 import static org.lwjgl.opengl.GL20.GL_COMPILE_STATUS;
 import static org.lwjgl.opengl.GL20.GL_FRAGMENT_SHADER;
-import static org.lwjgl.opengl.GL20.GL_LINK_STATUS;
 import static org.lwjgl.opengl.GL20.GL_VERTEX_SHADER;
 import static org.lwjgl.opengl.GL20.glCompileShader;
 import static org.lwjgl.opengl.GL20.glCreateShader;
 import static org.lwjgl.opengl.GL20.glDeleteShader;
 import static org.lwjgl.opengl.GL20.glGetShaderInfoLog;
 import static org.lwjgl.opengl.GL20.glGetShaderi;
-import static org.lwjgl.opengl.GL20.glGetShaderiv;
 import static org.lwjgl.opengl.GL20.glShaderSource;
 
 /**
@@ -53,9 +47,7 @@ public final class Shader extends Resource {
     
     public enum Type{
         Vertex_Shader,
-        Fragment_Shader,
-      //  Tes_Control_Shader,
-       // Tes_Evaluation_Shader
+        Fragment_Shader
     }
     
     private final int shader;
@@ -82,9 +74,7 @@ public final class Shader extends Resource {
      */
     private int loadShader(final String fileLocation,final Type type) throws IOException{
         final String src = this.loadFile(fileLocation);
-        
         int result = 0;
-        
         switch(type){
             case Fragment_Shader:
                result = glCreateShader(GL_FRAGMENT_SHADER);
@@ -94,22 +84,17 @@ public final class Shader extends Resource {
                 break;
         }
         
-            
         glShaderSource(result,src);
         glCompileShader(result);
         if(glGetShaderi(result, GL_COMPILE_STATUS) == 0){
             Debug.log("Compile error in : " + fileLocation);
             Debug.log(glGetShaderInfoLog(result));
         }
-	
         return result;
     }
-    
-  
     
     @Override
     public void destroy() {
         glDeleteShader(this.shader);
     }
-    
 }

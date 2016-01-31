@@ -25,10 +25,6 @@
  */
 package PrutEngine.Core.Math;
 
-/**
- *
- * @author Heiko van der Heijden
- */
 public class Vector4<T> {
     public T x, y ,z ,w;
     
@@ -43,7 +39,7 @@ public class Vector4<T> {
         this.z = z;
     }
 
-   @Override
+    @Override
     public String toString(){
         return x.toString() + " " + y.toString() + " " + z.toString() + " " +  w.toString();
     }

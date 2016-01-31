@@ -26,55 +26,22 @@
 package PrutEngine.Core;
 
 
-import PrutEngine.Core.Math.Vector2;
 import PrutEngine.Debug;
 import PrutEngine.GameObject;
 import static java.lang.System.exit;
-import java.nio.IntBuffer;
 import java.util.ArrayList;
-import static org.lwjgl.glfw.GLFW.*;
-
 import static org.lwjgl.opengl.ARBImaging.GL_TABLE_TOO_LARGE;
 import org.lwjgl.opengl.GL;
-import static org.lwjgl.opengl.GL11.GL_BLEND;
-import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
-import static org.lwjgl.opengl.GL11.GL_CULL_FACE;
-import static org.lwjgl.opengl.GL11.GL_CW;
-import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
-import static org.lwjgl.opengl.GL11.GL_DEPTH_TEST;
-import static org.lwjgl.opengl.GL11.GL_INVALID_ENUM;
-import static org.lwjgl.opengl.GL11.GL_INVALID_OPERATION;
-import static org.lwjgl.opengl.GL11.GL_INVALID_VALUE;
-import static org.lwjgl.opengl.GL11.GL_LEQUAL;
-import static org.lwjgl.opengl.GL11.GL_NO_ERROR;
-import static org.lwjgl.opengl.GL11.GL_ONE_MINUS_SRC_ALPHA;
-import static org.lwjgl.opengl.GL11.GL_OUT_OF_MEMORY;
-import static org.lwjgl.opengl.GL11.GL_SRC_ALPHA;
-import static org.lwjgl.opengl.GL11.GL_STACK_OVERFLOW;
-import static org.lwjgl.opengl.GL11.GL_STACK_UNDERFLOW;
-import static org.lwjgl.opengl.GL11.glBlendFunc;
-import static org.lwjgl.opengl.GL11.glClear;
-import static org.lwjgl.opengl.GL11.glClearColor;
-import static org.lwjgl.opengl.GL11.glDepthFunc;
-import static org.lwjgl.opengl.GL11.glEnable;
-import static org.lwjgl.opengl.GL11.glFrontFace;
-import static org.lwjgl.opengl.GL11.glGetError;
+import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL30.GL_INVALID_FRAMEBUFFER_OPERATION;
-import static org.lwjgl.system.APIUtil.apiUnknownToken;
 import static org.lwjgl.glfw.GLFW.glfwSetWindowTitle;
-import org.lwjgl.glfw.GLFWVidMode;
-import org.lwjgl.opengl.GL11;
-import static org.lwjgl.opengl.GL11.GL_DST_ALPHA;
-import static org.lwjgl.opengl.GL11.GL_ONE_MINUS_DST_ALPHA;
 import static org.lwjgl.system.APIUtil.apiUnknownToken;
-
 
 /**
  * the window of the app, manages the rendering.
  * @author Heiko van der Heijden
  */
 public final class View {
-
     private long WINDOW;
 
     /**
@@ -84,19 +51,16 @@ public final class View {
     public View(long window){
         this.WINDOW = window;
         GL.createCapabilities();
-
-        
-  
-         glEnable(GL_CULL_FACE);
-       // glEnable(GL_BLEND);// you enable blending function
-       //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glEnable(GL_CULL_FACE);
+        //glEnable(GL_BLEND);// you enable blending function
+        //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glEnable(GL_DEPTH_TEST);
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glDepthFunc(GL_LEQUAL);
         glFrontFace(GL_CW);
-    
     }
+    
     /**
      * sets the title of the window
      * @param title 
@@ -105,9 +69,6 @@ public final class View {
         glfwSetWindowTitle(WINDOW, title);
     }
     
-    
-
-
     public static String getErrorString(int errorCode) {
 	switch ( errorCode ) {
             case GL_NO_ERROR:
@@ -138,16 +99,10 @@ public final class View {
      * @param obj 
      */
     public void draw(ArrayList<GameObject> obj){
-
-//        glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-       // GL11.glViewport(0, 0, screenSize.x, screenSize.y);
         glClearColor(0.0f, 0f, 0f, 0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-       // Graphics.glClearColor
         obj.stream().forEach((gameObject) -> {
             gameObject.draw();
-            
         });
         
         int error = glGetError();
@@ -157,8 +112,5 @@ public final class View {
         }
     }
     
-    public void destroy(){
-        
-    }
-    
+    public void destroy(){}
 }

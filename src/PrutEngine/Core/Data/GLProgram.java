@@ -25,7 +25,6 @@
  */
 package PrutEngine.Core.Data;
 
-
 import PrutEngine.Debug;
 import java.util.ArrayList;
 import static org.lwjgl.opengl.GL11.GL_FALSE;
@@ -36,7 +35,6 @@ import static org.lwjgl.opengl.GL20.glCreateProgram;
 import static org.lwjgl.opengl.GL20.glDeleteProgram;
 import static org.lwjgl.opengl.GL20.glGetProgramInfoLog;
 import static org.lwjgl.opengl.GL20.glGetProgrami;
-import static org.lwjgl.opengl.GL20.glGetProgramiv;
 import static org.lwjgl.opengl.GL20.glLinkProgram;
 
 /**
@@ -45,10 +43,8 @@ import static org.lwjgl.opengl.GL20.glLinkProgram;
  * @author Heiko van der Heijden
  */
 public final class GLProgram extends Resource{
-    
     private final int program;
     private final String errors;
-  //  private final int position;
     
     public GLProgram(final String fileLocation, final int position, final ArrayList<Integer> shaders){
         super(fileLocation, position);
@@ -59,20 +55,13 @@ public final class GLProgram extends Resource{
         glLinkProgram(this.program);
         this.errors = glGetProgramInfoLog(program, glGetProgrami(program, GL_INFO_LOG_LENGTH));
         if(this.containErrors()){
-           if(glGetProgrami(program,GL20.GL_LINK_STATUS) == GL_FALSE){
-                   Debug.log("Program : " + fileLocation + " could not be linked");
-           }
-            
-        
-            
-            
-            
+            if(glGetProgrami(program,GL20.GL_LINK_STATUS) == GL_FALSE){
+                Debug.log("Program : " + fileLocation + " could not be linked");
+            }
             Debug.log(this.errors);
         }
     }
 
-    
-    
     public boolean containErrors(){
         return errors.length() > 0;
     }
@@ -85,10 +74,8 @@ public final class GLProgram extends Resource{
         return this.program;
     }
     
-    
     @Override
     public void destroy() {
         glDeleteProgram(this.program);
     }
-    
 }

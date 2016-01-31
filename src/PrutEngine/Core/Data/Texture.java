@@ -23,6 +23,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+
 package PrutEngine.Core.Data;
 
 import java.awt.geom.AffineTransform;
@@ -56,7 +57,6 @@ public class Texture extends Resource{
     
     public Texture(String fileLocation, int position) throws IOException {
         super(fileLocation, position);
-
         File scrFile = new File(fileLocation);
 
         //Mirror the texture firsrt
@@ -90,7 +90,6 @@ public class Texture extends Resource{
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image.getWidth(), image.getHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-        
     }
     
     public int getTexture(){
@@ -101,6 +100,4 @@ public class Texture extends Resource{
     public void destroy() {
         GL11.glDeleteTextures(this.textureID);
     }
-
-    
 }

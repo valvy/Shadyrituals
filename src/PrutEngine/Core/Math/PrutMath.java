@@ -32,15 +32,12 @@ import java.util.Random;
  * @author Heiko van der Heijden
  */
 public class PrutMath {
-        // Precise method which guarantees v = v1 when t = 1.
     public static float lerp(float v0, float v1, float t) {
-         return (1-t)*v0 + t*v1;
+        return (1-t)*v0 + t*v1;
     }
     
     public static float random(float min, float max){
         Random ran = new Random();
-        
         return ran.nextFloat() * (max - min) + min;
-        
     }
 }

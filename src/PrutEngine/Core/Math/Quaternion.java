@@ -25,8 +25,6 @@
  */
 package PrutEngine.Core.Math;
 
-import PrutEngine.Debug;
-
 /**
  * Manages the data of quaternions This can be used to handle rotations without
  * problems of a gimbal lock
@@ -34,7 +32,6 @@ import PrutEngine.Debug;
  * @author Heiko van der Heijden
  */
 public class Quaternion {
-
     public final Vector3<Float> imaginary;
     public float real;
 
@@ -49,8 +46,8 @@ public class Quaternion {
         }
         Vector3<Float> unitV = Vector3.unitVector(rot);
         Quaternion tmp = new Quaternion(q);
-         float normalize = tmp.normalize();
-         tmp.real *= normalize;
+        float normalize = tmp.normalize();
+        tmp.real *= normalize;
         
         tmp.imaginary.x *= normalize;
         tmp.imaginary.y *= normalize;
@@ -58,10 +55,10 @@ public class Quaternion {
         final float degrees = (float) ((angle * Math.PI) / 180);
         final float halfSin = (float) Math.sin(degrees / 2);
         return Quaternion.multiply(new Quaternion(new Vector4<>(
-                (float) Math.cos(degrees / 2),
-                halfSin * unitV.x,
-                halfSin * unitV.y,
-                halfSin * unitV.z)), tmp);
+            (float) Math.cos(degrees / 2),
+            halfSin * unitV.x,
+            halfSin * unitV.y,
+            halfSin * unitV.z)), tmp);
     }
 
     /**
@@ -73,7 +70,6 @@ public class Quaternion {
      * @return
      */
     public static Quaternion rotateVector3(final Vector3<Float> from, final Vector3<Float> around, final float angle) {
-
         //Calculate the norm
         final Vector3<Float> unitVector = Vector3.unitVector(around);
         //Make a quaternion
@@ -86,9 +82,10 @@ public class Quaternion {
         ));
 
         return Quaternion.multiply(
-                Quaternion.multiply(
+                    Quaternion.multiply(
                         Quaternion.conjugate(quat),
-                        new Quaternion(new Vector4<>(0f, from.x, from.y, from.z))), quat);
+                        new Quaternion(new Vector4<>(0f, from.x, from.y, from.z))), 
+                    quat);
     }
 
     public Quaternion(Quaternion quaternion) {
@@ -120,21 +117,20 @@ public class Quaternion {
      */
     public static Quaternion conjugate(final Quaternion quat) {
         return new Quaternion(new Vector4<>(
-                quat.real,
-                -quat.imaginary.x,
-                -quat.imaginary.y,
-                -quat.imaginary.z));
+            quat.real,
+            -quat.imaginary.x,
+            -quat.imaginary.y,
+            -quat.imaginary.z));
 
     }
 
     public float normalize() {
         return (float) (1.0f / Math.sqrt(real * real
-                + imaginary.x * imaginary.x
-                + imaginary.y * imaginary.y
-                + imaginary.z * imaginary.z));
+            + imaginary.x * imaginary.x
+            + imaginary.y * imaginary.y
+            + imaginary.z * imaginary.z));
     }
 
-    
     /**
      * Converts the quaternion to a matrix
      *
@@ -154,10 +150,10 @@ public class Quaternion {
         float qw = tmp.real;
         
         return new Matrix4x4(
-                new Vector4<>(1.0f - 2.0f*qy*qy - 2.0f*qz*qz, 2.0f*qx*qy - 2.0f*qz*qw, 2.0f*qx*qz + 2.0f*qy*qw, 0.0f),
-                new Vector4<>(2.0f*qx*qy + 2.0f*qz*qw, 1.0f - 2.0f*qx*qx - 2.0f*qz*qz, 2.0f*qy*qz - 2.0f*qx*qw, 0.0f),
-                new Vector4<>(2.0f*qx*qz - 2.0f*qy*qw, 2.0f*qy*qz + 2.0f*qx*qw, 1.0f - 2.0f*qx*qx - 2.0f*qy*qy, 0.0f),
-                new Vector4<>(0f,0f,0f,1f)
+            new Vector4<>(1.0f - 2.0f*qy*qy - 2.0f*qz*qz, 2.0f*qx*qy - 2.0f*qz*qw, 2.0f*qx*qz + 2.0f*qy*qw, 0.0f),
+            new Vector4<>(2.0f*qx*qy + 2.0f*qz*qw, 1.0f - 2.0f*qx*qx - 2.0f*qz*qz, 2.0f*qy*qz - 2.0f*qx*qw, 0.0f),
+            new Vector4<>(2.0f*qx*qz - 2.0f*qy*qw, 2.0f*qy*qz + 2.0f*qx*qw, 1.0f - 2.0f*qx*qx - 2.0f*qy*qy, 0.0f),
+            new Vector4<>(0f,0f,0f,1f)
         );
     }
 
@@ -201,10 +197,10 @@ public class Quaternion {
      */
     public static Quaternion multiply(final Quaternion quat1, final Quaternion quat2) {
         return new Quaternion(new Vector4<>(
-                quat1.real * quat2.real - quat1.imaginary.x * quat2.imaginary.x - quat1.imaginary.y * quat2.imaginary.y - quat1.imaginary.z * quat2.imaginary.z,
-                quat1.real * quat2.imaginary.x + quat1.imaginary.x * quat2.real + quat1.imaginary.y * quat2.imaginary.z - quat1.imaginary.z * quat2.imaginary.y,
-                quat1.real * quat2.imaginary.y - quat1.imaginary.x * quat2.imaginary.z + quat1.imaginary.y * quat2.real + quat1.imaginary.z * quat2.imaginary.x,
-                quat1.real * quat2.imaginary.z + quat1.imaginary.x * quat2.imaginary.y - quat1.imaginary.y * quat2.imaginary.x + quat1.imaginary.z * quat2.real
+            quat1.real * quat2.real - quat1.imaginary.x * quat2.imaginary.x - quat1.imaginary.y * quat2.imaginary.y - quat1.imaginary.z * quat2.imaginary.z,
+            quat1.real * quat2.imaginary.x + quat1.imaginary.x * quat2.real + quat1.imaginary.y * quat2.imaginary.z - quat1.imaginary.z * quat2.imaginary.y,
+            quat1.real * quat2.imaginary.y - quat1.imaginary.x * quat2.imaginary.z + quat1.imaginary.y * quat2.real + quat1.imaginary.z * quat2.imaginary.x,
+            quat1.real * quat2.imaginary.z + quat1.imaginary.x * quat2.imaginary.y - quat1.imaginary.y * quat2.imaginary.x + quat1.imaginary.z * quat2.real
         ));
     }
 
@@ -212,5 +208,4 @@ public class Quaternion {
         this.imaginary = new Vector3<>(other.y, other.z, other.w);
         this.real = other.x;
     }
-
 }

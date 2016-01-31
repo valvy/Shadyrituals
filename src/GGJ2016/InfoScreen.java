@@ -34,33 +34,27 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_ENTER;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_SPACE;
 import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
 import static org.lwjgl.glfw.GLFW.GLFW_RELEASE;
-/**
- *
- * @author wander
- */
+
 public class InfoScreen extends Scene {
     private int state = 1;
     @Override
     public void awake() {
         this.addGameObject(new InfoBackground(new Vector3<>(0f,0f,0f)));
-
     }
     
     @Override
     public void update(float tpf){
         super.update(tpf);
         if(Application.getInstance().getKeyboardKey(GLFW_KEY_ENTER) == GLFW_RELEASE &&
-            Application.getInstance().getKeyboardKey(GLFW_KEY_SPACE) == GLFW_RELEASE ){
-                    state = 0;
-         }
+           Application.getInstance().getKeyboardKey(GLFW_KEY_SPACE) == GLFW_RELEASE ){
+            state = 0;
+        }
         if(state != 0) return;
-         if(Application.getInstance().getKeyboardKey(GLFW_KEY_ENTER) == GLFW_PRESS ||
-            Application.getInstance().getKeyboardKey(GLFW_KEY_SPACE) == GLFW_PRESS ){
-
-                    AssetManager.clearProgramsBuffer();
-                    AssetManager.clearShaderBuffer();
-                    Application.getInstance().loadScene(new MenuScene());
-
+        if(Application.getInstance().getKeyboardKey(GLFW_KEY_ENTER) == GLFW_PRESS ||
+           Application.getInstance().getKeyboardKey(GLFW_KEY_SPACE) == GLFW_PRESS ){
+            AssetManager.clearProgramsBuffer();
+            AssetManager.clearShaderBuffer();
+            Application.getInstance().loadScene(new MenuScene());
          }
     }
 }

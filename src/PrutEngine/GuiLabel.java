@@ -27,26 +27,9 @@ package PrutEngine;
 
 import java.io.IOException;
 
-/**
- *
- * @author Heiko van der Heijden
- */
 public class GuiLabel {
-
-    public GuiLabel() throws IOException{
- 
-    }
-    
-    public void draw(){
-        
-    }
-    
-    public void setText(String nText){
- 
-    }
-    
-    public void onDestroy(){
-
-    }
-    
+    public GuiLabel() throws IOException{}
+    public void draw(){}
+    public void setText(String nText){}
+    public void onDestroy(){}
 }

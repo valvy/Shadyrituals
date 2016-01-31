@@ -31,19 +31,12 @@ import PrutEngine.Core.Math.Quaternion;
 import PrutEngine.Core.Math.Vector4;
 import static org.lwjgl.opengl.GL20.glGetUniformLocation;
 import static org.lwjgl.opengl.GL20.glUniformMatrix4fv;
-import static org.lwjgl.opengl.GL20.glGetUniformLocation;
-import static org.lwjgl.opengl.GL20.glUniformMatrix4fv;
 import static org.lwjgl.opengl.GL20.glUseProgram;
 
-/**
- *
- * @author Heiko van der Heijden
- */
 public class Camera extends GameObject{
     private boolean needUpdate = true;
     private final Matrix4x4 projection;
     
-        
     public Camera(final Vector3<Float> position){
         this.rotate(new Vector3<>(0f,1f,0f), 180);
         final float vovy = 50f, aspect = 1, near = 0.1f, far = 10000f; //Standard cam settings
@@ -51,26 +44,21 @@ public class Camera extends GameObject{
         this.setPosition(position);
     }
     
-    
-    
     private void setProgramLocations(){
         if(needUpdate){//Only update when the camera has moved.. this is a costly operation
             final Matrix4x4 perspective = Matrix4x4.multiply(Quaternion.quaternionToMatrix(this.getRotationQuaternion()),this.projection);
            
             final Matrix4x4 matPosition = Matrix4x4.identityMatrix();
             matPosition.translate(this.getPosition());
-        //Set the projection
-       
+            //Set the projection
             for(int dat : AssetManager.allPrograms()){
                 glUseProgram(dat);
                 glUniformMatrix4fv( glGetUniformLocation(dat, "projection_matrix"),false,perspective.getRawData());
                 glUniformMatrix4fv( glGetUniformLocation(dat, "cam_matrix"),true,matPosition.getRawData());
             }
-
             this.needUpdate = false;
         }
     }
-    
     
     public void setPerspective(float vovy, float aspect, float near, float far){
         this.projection.set(this.perspective(vovy, aspect, near, far));
@@ -83,15 +71,12 @@ public class Camera extends GameObject{
         float q = (near + far) / (near - far);
         float c = (2.0f * near * far) / (near - far);
         return new Matrix4x4(
-                new Vector4<>(xscale,0f,0f,0f),
-                new Vector4<>(0f,yscale,0f,0f),
-                new Vector4<>(0f,0f,q,-1f),
-                new Vector4<>(0f,0f,c ,0f));
-        
-
+            new Vector4<>(xscale,0f,0f,0f),
+            new Vector4<>(0f,yscale,0f,0f),
+            new Vector4<>(0f,0f,q,-1f),
+            new Vector4<>(0f,0f,c ,0f));
     }
 
-    
     @Override
     public void setSize(Vector3<Float> nSize){
         this.needUpdate = true; 
@@ -107,7 +92,6 @@ public class Camera extends GameObject{
     public void translate(Vector3<Float> pos, float speed){
         this.needUpdate = true;
         super.translate(pos, speed);
-        
     }
     
     @Override

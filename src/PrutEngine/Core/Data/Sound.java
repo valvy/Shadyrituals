@@ -23,18 +23,17 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+
 package PrutEngine.Core.Data;
-import PrutEngine.Debug;
-import java.io.BufferedInputStream;
+
 import javax.sound.sampled.AudioInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+
 /**
  *
  * @author quget
@@ -47,6 +46,7 @@ public class Sound extends Resource
     private byte[] data;
     private int buffSize;
     private Clip clip;
+    
     public Sound(String fileLocation,int position,String soundName)
     {   
         super(fileLocation,position);

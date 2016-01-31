@@ -34,10 +34,10 @@ public class SplashBackground extends GameObject
     public SplashBackground(){
         try {
             this.setRenderer(new Renderer(
-                    "Assets/Shaders/UnShadedVertex.glsl",
-                    "Assets/Shaders/UnShadedFragment.glsl",
-                    "Assets/Textures/titlescreen.png",
-                    "Assets/Meshes/Quad.obj"));
+                "Assets/Shaders/UnShadedVertex.glsl",
+                "Assets/Shaders/UnShadedFragment.glsl",
+                "Assets/Textures/titlescreen.png",
+                "Assets/Meshes/Quad.obj"));
         }
         catch(Exception ex){
             System.out.println(ex);

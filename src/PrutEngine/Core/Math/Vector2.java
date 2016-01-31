@@ -25,10 +25,7 @@
  */
 package PrutEngine.Core.Math;
 
-/**
- *
- * @author Heiko van der Heijden
- */
+
 public class Vector2<T> {
     public T x, y;
     public Vector2(T x, T y){

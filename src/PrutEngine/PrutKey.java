@@ -27,10 +27,6 @@ package PrutEngine;
 
 import static org.lwjgl.glfw.GLFW.GLFW_RELEASE;
 
-/**
- *
- * @author quget
- */
 public class PrutKey 
 {
     public Boolean isPressed = false;

@@ -32,11 +32,8 @@ import PrutEngine.Core.Math.PrutMath;
 import PrutEngine.Core.Math.Vector3;
 import PrutEngine.Core.Math.Vector4;
 import PrutEngine.Renderer;
-import java.util.Random;
 import static org.lwjgl.opengl.GL20.glGetUniformLocation;
-
 import static org.lwjgl.opengl.GL20.glUniform1f;
-
 import static org.lwjgl.opengl.GL20.glUniform2f;
 import static org.lwjgl.opengl.GL20.glUseProgram;
 
@@ -55,6 +52,7 @@ public class Actor extends CollideAble
     int time = -1;
     int resolution = -1;
     float timer = 0f;
+    
     public Actor(Vector3<Float> startPos)
     {
         this.setPosition(startPos);
@@ -111,8 +109,8 @@ public class Actor extends CollideAble
                     break;
             }
         }
-       this.setupElement(chosenElement);
-       AssetManager.getSound("change").PlaySound(0);
+        this.setupElement(chosenElement);
+        AssetManager.getSound("change").PlaySound(0);
     }
     
     protected void changeElement()
@@ -129,7 +127,7 @@ public class Actor extends CollideAble
                 this.setupElement(Element.Sphere);
                 break;
         }
-       AssetManager.getSound("change").PlaySound(0);
+        AssetManager.getSound("change").PlaySound(0);
     }
     
     protected void Die()
@@ -141,10 +139,6 @@ public class Actor extends CollideAble
     public void respawnActor()
     {
        this.setPosition(new Vector3<>(PrutMath.random(-Globals.WORLD_SIZE.x, Globals.WORLD_SIZE.x),PrutMath.random(-Globals.WORLD_SIZE.y, Globals.WORLD_SIZE.y), this.getPosition().z));
-        /*
-       Random r = new Random();
-       position.y = (float)(r.nextInt((int)bounds.w + (int)bounds.y)-(int)bounds.y);
-       position.x = (float)(r.nextInt((int)bounds.x + (int)bounds.z)-(int)bounds.z);*/
     }
     
     protected void setupElement(Element element){
@@ -156,8 +150,7 @@ public class Actor extends CollideAble
             case Cube:
                 this.initRenderer("Square.png","LightShowFragment.glsl");
                 break;
-            case Torus:           
-                //this.initRenderer("Triangle.png");
+            case Torus:
                 this.initRenderer("Triangle.png","StarsFragment.glsl");
                 break;
         }
@@ -168,13 +161,11 @@ public class Actor extends CollideAble
             this.setRenderer(new Renderer(
                 "Assets/Shaders/UnShadedVertex.glsl",
                 "Assets/Shaders/UnShadedFragment.glsl",
-                //"Assets/Shaders/UnShadedShader.glsl",
                 "Assets/Textures/" + texture,
                 "Assets/Meshes/Quad.obj"));
            time = glGetUniformLocation(AssetManager.getProgram(this.getRenderer().getProgram()), "time");
            resolution = glGetUniformLocation(AssetManager.getProgram(this.getRenderer().getProgram()), "resolution");
            glUseProgram(AssetManager.getProgram(this.getRenderer().getProgram()));
-           //glUniform2f(resolution,1280,800); 
            glUniform2f(resolution,(int)Application.getInstance().getScreenSize().x,(int)Application.getInstance().getScreenSize().y);
         }
         catch(Exception e ){}
@@ -182,7 +173,6 @@ public class Actor extends CollideAble
     
     protected void initRenderer(String texture,String fragShader){
         try {
-            
             this.setRenderer(new Renderer(
                 "Assets/Shaders/UnShadedVertex.glsl",
                 "Assets/Shaders/" + fragShader,
@@ -191,7 +181,6 @@ public class Actor extends CollideAble
             time = glGetUniformLocation(AssetManager.getProgram(this.getRenderer().getProgram()), "time");
             resolution = glGetUniformLocation(AssetManager.getProgram(this.getRenderer().getProgram()), "resolution");
             glUseProgram(AssetManager.getProgram(this.getRenderer().getProgram()));
-            //glUniform2f(resolution,1280,800);
             glUniform2f(resolution,(int)Application.getInstance().getScreenSize().x,(int)Application.getInstance().getScreenSize().y);
         }
         catch(Exception e ){}
@@ -201,14 +190,12 @@ public class Actor extends CollideAble
     @Override
     public void update(float tpf) 
     {
-         timer += 10 * tpf;
+        timer += 10 * tpf;
         try{
             if(time != -1){
-                //this.rotate(new Vector3<>(0f,0f,100f), 100 * tpf);
                 glUseProgram(AssetManager.getProgram(this.getRenderer().getProgram()));
                 glUniform1f(this.time,timer);
             }
-            
         }
         catch(AssetManager.AssetNotFoundException ex){
             System.out.println(ex);

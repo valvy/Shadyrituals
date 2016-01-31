@@ -29,19 +29,15 @@ import PrutEngine.Camera;
 import PrutEngine.Core.Math.PrutMath;
 import PrutEngine.Core.Math.Quaternion;
 import PrutEngine.Core.Math.Vector3;
-import PrutEngine.Debug;
 import PrutEngine.GameObject;
-/**
- *
- * @author Heiko van der Heijden
- */
+
 public final class MainCamera extends Camera {
-    
     private float shakeMagnitude = 0;
     private float shakeDuration = 0;
     private final Quaternion oldQuaternion;
     private GameObject followObject;
     private final float movSpeed = 50f;
+    
     public MainCamera(Vector3<Float> position) {
         super(position);
         this.followObject = null;
@@ -53,30 +49,23 @@ public final class MainCamera extends Camera {
     public void update(float tpf){
         super.update(tpf);
         if(this.followObject != null){
-            
             this.setPosition(new Vector3<>(
-                    PrutMath.lerp(this.getPosition().x,-this.followObject.getPosition().x, movSpeed * tpf),
-                    PrutMath.lerp(this.getPosition().y,-this.followObject.getPosition().y, movSpeed * tpf),
-                    -30f
+                PrutMath.lerp(this.getPosition().x,-this.followObject.getPosition().x, movSpeed * tpf),
+                PrutMath.lerp(this.getPosition().y,-this.followObject.getPosition().y, movSpeed * tpf),
+                -30f
             ));
         }
-        
-        
-        
         if(this.shakeDuration > 0 && this.shakeMagnitude > 0){
             this.rotate(new Vector3<>(1f,1f,1f), (float) Math.sin(this.shakeDuration - (this.shakeDuration * this.shakeMagnitude) ));
             this.shakeDuration -= tpf;
         }else{
             this.setRotation(oldQuaternion);
-
         }
- 
     }
     
     public void followObject(GameObject gameObject){
         this.followObject = gameObject;
     }
-    
     
     public void shakeScreen(float magnitude, float duration){
         this.shakeMagnitude = magnitude;

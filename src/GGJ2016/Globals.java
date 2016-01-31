@@ -27,10 +27,6 @@ package GGJ2016;
 
 import PrutEngine.Core.Math.Vector2;
 
-/**
- *
- * @author Heiko van der Heijden
- */
 public class Globals {
     public static final Vector2<Integer> WORLD_SIZE = new Vector2<>(50,50);
 }

@@ -34,7 +34,6 @@ public class CollideAble extends GameObject
     
     public void updateBoundingBox()
     {
-        //Must always be a quad!
         boundingBox.w = position.y + 1;
         boundingBox.x = position.x + 1;
         boundingBox.y = position.y - 1;

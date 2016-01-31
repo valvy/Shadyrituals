@@ -31,11 +31,8 @@ import GGJ2016.GameScene;
 import GGJ2016.Globals;
 import PrutEngine.*;
 import PrutEngine.Core.Math.PrutMath;
-
 import static org.lwjgl.glfw.GLFW.*;
-
 import PrutEngine.Core.Math.Vector3;
-import PrutEngine.Core.Math.Vector4;
 import java.util.ArrayList;
 
 public class Player extends Actor
@@ -47,6 +44,7 @@ public class Player extends Actor
     private float changeTimer;
     private Vector3 lastPos = new Vector3(0f,0f,0f);
     private Element lastElement;
+    
     public Player(GameScene gameScene)
     {
         super(new Vector3<>(PrutMath.random(-100, 100),PrutMath.random(-100, 100), -10f));
@@ -91,7 +89,7 @@ public class Player extends Actor
             nPos.y = -(float)Globals.WORLD_SIZE.y;
         }
 
-            this.setPosition(nPos);
+        this.setPosition(nPos);
         int lineCountY = 0;
         int lineCountX = 1;
         for(int i = 0; i < scoreCubes.size(); i++)
@@ -114,14 +112,15 @@ public class Player extends Actor
         if(!lastPos.equals(this.getPosition()) || lastElement != this.currentElement)
         {
             BaseConnection.getInstance().notifyWorld(
-                        new ConnectedPlayer(
-                            BaseConnection.getInstance().getIdName(),
-                            this.getPosition(),
-                            this.currentElement));
+                new ConnectedPlayer(
+                    BaseConnection.getInstance().getIdName(),
+                    this.getPosition(),
+                    this.currentElement));
             lastPos = this.getPosition();
             lastElement = this.currentElement;
         } 
     }
+    
     public void PlayerInput(float tpf)
     {
         Vector3 movePos = new Vector3(0f, 0f, 0f);

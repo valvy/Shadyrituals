@@ -81,7 +81,6 @@ public class Renderer {
         }else{
             this.texture = AssetManager.loadTexture(texture);
         }
-        
         this.lastRot = new Quaternion();
         this.lastPosition = new Vector3<>(0f,0f,0f);
         this.lastSize = new Vector3<>(0f,0f,0f);
@@ -101,8 +100,7 @@ public class Renderer {
      * @param position
      * @param rotMat 
      */
-    public void render(final Vector3<Float> size, final Vector3<Float> position, 
-            final Quaternion rotation){
+    public void render(final Vector3<Float> size, final Vector3<Float> position, final Quaternion rotation){
         try {
             boolean recalculate = false;
             if(!size.equals(lastSize)){
@@ -124,7 +122,6 @@ public class Renderer {
                 Matrix4x4 pos = Matrix4x4.identityMatrix();
                 pos.translate(position);
                 mat = Matrix4x4.multiply(pos,mat);
-                
                 this.lastMat.set(Matrix4x4.multiply(mat, Quaternion.quaternionToMatrix(rotation)));
             }
             
@@ -137,7 +134,6 @@ public class Renderer {
             if(this.texture != -1){
                 glBindTexture(GL_TEXTURE_2D, AssetManager.getTexture(this.texture));
             }
-            
             
             glDrawArrays(GL_TRIANGLES, 0,AssetManager.getMeshSize(this.mesh));
             glDisableVertexAttribArray(0);

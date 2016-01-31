@@ -35,9 +35,7 @@ import PrutEngine.Core.Math.Vector3;
 import PrutEngine.Scene;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
 import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
-import PrutEngine.Debug;
 import java.util.ArrayList;
-
 
 public class GameScene extends Scene
 {
@@ -46,7 +44,6 @@ public class GameScene extends Scene
     
     public GameScene(){
         this.otherPlayers = new ArrayList<>();
-        
     }
     
     @Override
@@ -61,8 +58,6 @@ public class GameScene extends Scene
         this.addGameObject(new Background());
         this.addGameObject(pl);
         
-        //this.addGameObject(new Actor(new Vector3<>(0f,0f,0f)));
-
         for(int i = 0; i < Globals.WORLD_SIZE.x / 2; i++){
             this.addGameObject(new ChangeObject(new Vector3<>(PrutMath.random(-Globals.WORLD_SIZE.x, Globals.WORLD_SIZE.x),PrutMath.random(-Globals.WORLD_SIZE.y, Globals.WORLD_SIZE.y),-5f),this));
         }
@@ -70,9 +65,7 @@ public class GameScene extends Scene
         try
         {
             AssetManager.loadSound("Assets/Sounds/change01.wav","change");
-            //AssetManager.loadSound("Assets/Sounds/mmmm.wav","mmm");
             AssetManager.loadSound("Assets/Sounds/death01.wav","death01");
-            //AssetManager.loadSound("Assets/Sounds/wanderMusic.wav","bgm01");
             AssetManager.loadSound("Assets/Sounds/background.wav","bgm01");
         }
         catch(Exception e)
@@ -87,7 +80,6 @@ public class GameScene extends Scene
         return this.camera;
     }
     
-
     public void shakeScreen(float magnitude, float duration){
         ((MainCamera)this.camera).shakeScreen(1000f, 0.05f);
     }
@@ -95,11 +87,11 @@ public class GameScene extends Scene
     @Override
     public void update(float tpf){
         if(Application.getInstance().getKeyboardKey(GLFW_KEY_ESCAPE) == GLFW_PRESS){
-             AssetManager.clearProgramsBuffer();
-             AssetManager.clearShaderBuffer();
-             Application.getInstance().loadScene(new MenuScene());
-             return;
-         }
+            AssetManager.clearProgramsBuffer();
+            AssetManager.clearShaderBuffer();
+            Application.getInstance().loadScene(new MenuScene());
+            return;
+        }
     
         int index = 0;
         
@@ -112,7 +104,6 @@ public class GameScene extends Scene
                             PrutMath.lerp(e.getPosition().y, pl.currentPosition.y, 0.0001f * tpf),
                             pl.currentPosition.z
                     );
-                    
                     e.setPosition(pl.currentPosition);
                     e.setElementen(pl.playerElement);
                     inList = true;
@@ -125,17 +116,7 @@ public class GameScene extends Scene
                     this.addGameObject(a);
                 }
             }
-          
         }
-        
-        /*
-        for(ConnectedPlayer pl : BaseConnection.getInstance().getAllConnections()){
-            Debug.log(pl.currentPosition);
-            Enemy p = otherPlayers.get(index);
-            p.setPosition(pl.currentPosition);
-            p.currentElement = pl.playerElement;
-            index++;
-        }*/
         super.update(tpf);
     }
     
