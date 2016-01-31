@@ -202,9 +202,9 @@ public class ConnectionServer extends BaseConnection {
             
         } catch (IOException ex) {
            
-           Logger.getLogger(ConnectionServer.class.getName()).log(Level.SEVERE, null, ex);
+           //Logger.getLogger(ConnectionServer.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
-            Logger.getLogger(ConnectionServer.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(ConnectionServer.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }
