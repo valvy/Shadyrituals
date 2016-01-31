@@ -35,7 +35,7 @@ public class ScoreCube extends GameObject
     {
         initRenderer("cube.bmp");
         this.setPosition(startPos);
-        this.setSize(new Vector3(0.5f,0.5f,0.5f));
+        this.setSize(new Vector3(0.25f,0.25f,0.25f));
     }
     
     protected void initRenderer(String texture)

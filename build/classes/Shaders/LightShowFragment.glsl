@@ -31,8 +31,10 @@ void main( void ) {
 		float fTemp = abs(21.0 / uPos.y / 1000.0);
 		//vertColor += fTemp;
 		newColor += vec3( (sin(t)+1.)/5.*fTemp*(2.0-i)/5.0, (sin(.5*t)+1.)/2.*fTemp*i/6.0, (sin(t)+1.)/2.*pow(fTemp,0.99)*1.5 );
+
+                newColor += vec3(0.1,0.1,0.1);
 	}
 	
-	vec4 color_final = vec4(newColor, 2.0);
+	vec4 color_final = vec4(newColor, 1.0);
 	color = color_final * texture(text,fs_in.UV);
 }

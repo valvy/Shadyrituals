@@ -25,12 +25,21 @@
  */
 package GGJ2016.Actors;
 
+import PrutEngine.Application;
+import PrutEngine.AssetManager;
 import PrutEngine.Core.Math.Vector3;
 import PrutEngine.GameObject;
 import PrutEngine.Renderer;
+import static org.lwjgl.opengl.GL20.glGetUniformLocation;
+import static org.lwjgl.opengl.GL20.glUniform1f;
+import static org.lwjgl.opengl.GL20.glUniform2f;
+import static org.lwjgl.opengl.GL20.glUseProgram;
 
 public class InfoBackground extends GameObject
 {
+    int time;
+    int resolution;
+    float timer = 0f;
     public InfoBackground(Vector3<Float> startPos)
     {
         initRenderer("infoscreen.png");
@@ -44,9 +53,14 @@ public class InfoBackground extends GameObject
         try {
             this.setRenderer(new Renderer(
                 "Assets/Shaders/UnShadedVertex.glsl",
-                "Assets/Shaders/UnShadedFragment.glsl",
+                "Assets/Shaders/LightShowFragment.glsl",
                 "Assets/Textures/" + texture,
                 "Assets/Meshes/Quad.obj")); 
+            time = glGetUniformLocation(AssetManager.getProgram(this.getRenderer().getProgram()), "time");
+            resolution = glGetUniformLocation(AssetManager.getProgram(this.getRenderer().getProgram()), "resolution");
+            glUseProgram(AssetManager.getProgram(this.getRenderer().getProgram()));
+            glUniform2f(resolution,(int)Application.getInstance().getScreenSize().x,(int)Application.getInstance().getScreenSize().y);
+
         }
         catch(Exception e ){
             System.out.println(e);
@@ -56,6 +70,16 @@ public class InfoBackground extends GameObject
     @Override
     public void update(float tpf) 
     {
-        
+        timer += 10 * tpf;
+
+        try{
+           // this.rotate(new Vector3<>(0f,0f,100f), 100 * tpf);
+            glUseProgram(AssetManager.getProgram(this.getRenderer().getProgram()));
+            glUniform1f(this.time,timer);
+
+        }
+        catch(AssetManager.AssetNotFoundException ex){
+            System.out.println(ex);
+        }
     }
 }

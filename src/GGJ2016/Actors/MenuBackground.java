@@ -70,7 +70,8 @@ public class MenuBackground extends GameObject
     
     @Override
     public void update(float tpf) 
-    {        timer += 10 * tpf;
+    {       
+        timer += 10 * tpf;
 
         try{
            // this.rotate(new Vector3<>(0f,0f,100f), 100 * tpf);
