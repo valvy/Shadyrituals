@@ -32,9 +32,8 @@ import PrutEngine.GameObject;
 import static java.lang.System.exit;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
-import static org.lwjgl.glfw.GLFW.glfwGetWindowSize;
-import static org.lwjgl.glfw.GLFW.glfwSetWindowSize;
-import static org.lwjgl.glfw.GLFW.glfwSetWindowTitle;
+import static org.lwjgl.glfw.GLFW.*;
+
 import static org.lwjgl.opengl.ARBImaging.GL_TABLE_TOO_LARGE;
 import org.lwjgl.opengl.GL;
 import static org.lwjgl.opengl.GL11.GL_BLEND;
@@ -63,6 +62,7 @@ import static org.lwjgl.opengl.GL11.glGetError;
 import static org.lwjgl.opengl.GL30.GL_INVALID_FRAMEBUFFER_OPERATION;
 import static org.lwjgl.system.APIUtil.apiUnknownToken;
 import static org.lwjgl.glfw.GLFW.glfwSetWindowTitle;
+import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL11;
 import static org.lwjgl.opengl.GL11.GL_DST_ALPHA;
 import static org.lwjgl.opengl.GL11.GL_ONE_MINUS_DST_ALPHA;
@@ -75,8 +75,8 @@ import static org.lwjgl.system.APIUtil.apiUnknownToken;
  */
 public final class View {
 
-    private final long WINDOW;
-    private final Vector2<Integer> screenSize;
+    private long WINDOW;
+
     /**
      * initializes the window 
      * @param window 
@@ -84,8 +84,9 @@ public final class View {
     public View(long window){
         this.WINDOW = window;
         GL.createCapabilities();
-        this.screenSize = new Vector2<Integer>(100,100);
-        this.setWindowSize(screenSize);
+
+        
+  
          glEnable(GL_CULL_FACE);
        // glEnable(GL_BLEND);// you enable blending function
        //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -104,15 +105,9 @@ public final class View {
         glfwSetWindowTitle(WINDOW, title);
     }
     
-    /**
-     * Sets the size of the window
-     * @param size 
-     */
-    public void setWindowSize(Vector2<Integer> size){
-        glfwSetWindowSize(WINDOW, size.x, size.y);
-        this.screenSize.set(size);
-    }
     
+
+
     public static String getErrorString(int errorCode) {
 	switch ( errorCode ) {
             case GL_NO_ERROR:
@@ -143,13 +138,9 @@ public final class View {
      * @param obj 
      */
     public void draw(ArrayList<GameObject> obj){
-     /* IntBuffer bufWidth = IntBuffer.allocate(2);
-        IntBuffer bufHeight = IntBuffer.allocate(2);
-        glfwGetWindowSize(WINDOW,bufWidth,bufHeight);
-        this.screenSize.x = bufWidth.get();
-        this.screenSize.y = bufHeight.get();*/
+
 //        glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-        GL11.glViewport(0, 0, screenSize.x, screenSize.y);
+       // GL11.glViewport(0, 0, screenSize.x, screenSize.y);
         glClearColor(0.0f, 0f, 0f, 0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

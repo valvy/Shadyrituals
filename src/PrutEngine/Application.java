@@ -76,17 +76,24 @@ public final class Application {
         prutKeyBoard = new PrutKeyboard();
         glfwSetErrorCallback(errorCallback = GLFWErrorCallback.createPrint(System.err));
  
+        
+        
         // Initialize GLFW. Most GLFW functions will not work before doing this.
         if ( glfwInit() != GLFW_TRUE )
             throw new IllegalStateException("Unable to initialize GLFW");
  
      
         this.setWindowConfiguration();
-        int WIDTH = 700;
-        int HEIGHT = 700;
+        
+        long monitor = glfwGetPrimaryMonitor();
+
+        GLFWVidMode vidMode = glfwGetVideoMode(monitor);
+        int WIDTH= vidMode.width();
+        int HEIGHT = vidMode.height();
+
 
         
-        window = glfwCreateWindow(WIDTH, HEIGHT, "", NULL, NULL);
+        window = glfwCreateWindow(WIDTH, HEIGHT, "", monitor, NULL);
         if ( window == NULL )
             throw new RuntimeException("Failed to create the GLFW window");
  

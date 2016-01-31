@@ -107,8 +107,8 @@ public class GameScene extends Scene
             for(Enemy e : this.otherPlayers){
                 if(e.getName().equals(pl.id)){
                     Vector3<Float> nPos= new Vector3<>(
-                            PrutMath.lerp(e.getPosition().x, pl.currentPosition.x, 10 * tpf),
-                            PrutMath.lerp(e.getPosition().y, pl.currentPosition.y, 10 * tpf),
+                            PrutMath.lerp(e.getPosition().x, pl.currentPosition.x, 0.0001f * tpf),
+                            PrutMath.lerp(e.getPosition().y, pl.currentPosition.y, 0.0001f * tpf),
                             pl.currentPosition.z
                     );
                     

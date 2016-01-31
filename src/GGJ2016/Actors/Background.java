@@ -52,7 +52,7 @@ public class Background extends GameObject
            
            time = glGetUniformLocation(AssetManager.getProgram(this.getRenderer().getProgram()), "time");
         } catch (Exception ex) {
-            Logger.getLogger(Example.Background.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Background.class.getName()).log(Level.SEVERE, null, ex);
         }
         this.setSize(new Vector3<>(100f,100f,100f));
         this.setPosition(new Vector3<>(0f,0f,-11f));
