@@ -23,15 +23,49 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package GGJ2016;
+package GGJ2016.Actors;
 
-import PrutEngine.Core.Math.Vector2;
+import PrutEngine.Core.Math.Vector3;
+import PrutEngine.Core.Math.Vector4;
+import PrutEngine.Debug;
+import PrutEngine.GameObject;
+import PrutEngine.Renderer;
 
 /**
  *
  * @author Heiko van der Heijden
  */
-public class Globals {
-    public static final Vector2<Integer> WORLD_SIZE = new Vector2<>(50,50);
-    public static String IP_ADRES = "192.168.0.108";
+public class DeathWall extends CollideAble{
+
+    public DeathWall (Vector3<Float> position){
+        this.setPosition(position);
+        this.rotate(new Vector3<>(1f,0f,0f), -90); 
+        this.boundingBox = new Vector4<Float>(1f, 1f, 1f, 1f);
+        
+        try {
+            this.setRenderer(new Renderer(
+                "Assets/Shaders/UnShadedVertex.glsl",
+                "Assets/Shaders/UnShadedFragment.glsl",
+                "Assets/Textures/DeathWall.png",
+                "Assets/Meshes/Quad.obj")); 
+        }
+        catch(Exception e ){
+            System.out.println(e);
+        }
+        
+    }
+    @Override
+    public void update(float tpf) {
+        super.update(tpf);
+    }
+    
+    @Override
+    public void onCollision(CollideAble collideWith)
+    {
+       if(collideWith instanceof Player){
+          ((Player)collideWith).Die();
+       }
+       super.onCollision(collideWith);
+    }
+    
 }
