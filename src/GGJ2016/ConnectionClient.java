@@ -109,12 +109,10 @@ public class ConnectionClient extends BaseConnection {
     public boolean attemptToConnect() {
         try {
             socket = new Socket(this.IP, PORT);
-//            Debug.log("test");
             inputStream = new DataInputStream(socket.getInputStream());
             bw= new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
             return true;
         } catch (IOException ex) {
-         //   Logger.getLogger(ConnectionClient.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }
@@ -184,8 +182,6 @@ public class ConnectionClient extends BaseConnection {
             if(dat.equals(NOTHING)){
                 return results;
             }
-           // Debug.log(dat);
-            //Player:Server;-20.699997 1.1400026 -10.0;Cube;
             
             String[] splitedData =  dat.split(";");
             if(splitedData.length == 1){
@@ -205,7 +201,6 @@ public class ConnectionClient extends BaseConnection {
                 Logger.getLogger(ConnectionClient.class.getName()).log(Level.SEVERE, null, ex);
                 continue;
             }
-            //Debug.log(currentPosition);
             Actor.Element playerElement = Actor.Element.Cube;
             String playerElementString = splitedData[2];
             if(playerElementString.equals(Actor.Element.Cube.toString()))
