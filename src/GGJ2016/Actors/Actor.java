@@ -25,6 +25,7 @@
  */
 package GGJ2016.Actors;
 
+import GGJ2016.Globals;
 import PrutEngine.Application;
 import PrutEngine.AssetManager;
 import PrutEngine.Core.Math.PrutMath;
@@ -139,7 +140,7 @@ public class Actor extends CollideAble
     
     public void respawnActor()
     {
-       this.setPosition(new Vector3<>(PrutMath.random(-100, 100),PrutMath.random(-100, 100), this.getPosition().z));
+       this.setPosition(new Vector3<>(PrutMath.random(-Globals.WORLD_SIZE.x, Globals.WORLD_SIZE.x),PrutMath.random(-Globals.WORLD_SIZE.y, Globals.WORLD_SIZE.y), this.getPosition().z));
         /*
        Random r = new Random();
        position.y = (float)(r.nextInt((int)bounds.w + (int)bounds.y)-(int)bounds.y);

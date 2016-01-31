@@ -28,6 +28,7 @@ package GGJ2016.Actors;
 import GGJ2016.BaseConnection;
 import GGJ2016.BaseConnection.ConnectedPlayer;
 import GGJ2016.GameScene;
+import GGJ2016.Globals;
 import PrutEngine.*;
 import PrutEngine.Core.Math.PrutMath;
 
@@ -76,18 +77,18 @@ public class Player extends Actor
     public void update(float tpf) 
     { 
         Vector3<Float> nPos = new Vector3<>(this.getPosition());
-        if(this.getPosition().x > 100){
-            nPos.x = 100f;
+        if(this.getPosition().x > Globals.WORLD_SIZE.x){
+            nPos.x = (float)Globals.WORLD_SIZE.x;
         }
-        if(this.getPosition().x < -100){
-            nPos.x = -100f;
+        if(this.getPosition().x < -Globals.WORLD_SIZE.x){
+            nPos.x = -(float)Globals.WORLD_SIZE.x;
         }
 
-        if(this.getPosition().y > 100){
-            nPos.y = 100f;
+        if(this.getPosition().y > Globals.WORLD_SIZE.y){
+            nPos.y = (float)Globals.WORLD_SIZE.y;
         }
-        if(this.getPosition().y < -100){
-            nPos.y = -100f;
+        if(this.getPosition().y < -Globals.WORLD_SIZE.y){
+            nPos.y = -(float)Globals.WORLD_SIZE.y;
         }
 
             this.setPosition(nPos);

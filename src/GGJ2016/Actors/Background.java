@@ -25,6 +25,7 @@
  */
 package GGJ2016.Actors;
 
+import GGJ2016.Globals;
 import PrutEngine.Application;
 import PrutEngine.AssetManager;
 import PrutEngine.Core.Math.Vector3;
@@ -64,7 +65,7 @@ public class Background extends GameObject
         } catch (Exception ex) {
             Logger.getLogger(Background.class.getName()).log(Level.SEVERE, null, ex);
         }
-        this.setSize(new Vector3<>(100f,100f,100f));
+        this.setSize(new Vector3<>((float)Globals.WORLD_SIZE.x,(float)Globals.WORLD_SIZE.y,100f));
         this.setPosition(new Vector3<>(0f,0f,-11f));
         this.rotate(new Vector3<>(1f,0f,0f), -90); 
     }
