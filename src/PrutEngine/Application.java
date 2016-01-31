@@ -26,6 +26,7 @@
 package PrutEngine;
 
 import GGJ2016.BaseConnection;
+import PrutEngine.Core.Math.Vector2;
 import PrutEngine.Core.View;
 import java.util.Date;
 import java.util.HashMap;
@@ -50,6 +51,7 @@ public final class Application {
     private boolean shouldStop = false;
     private Scene currentModel;
     private final View view;
+    private Vector2 screenResolution = new Vector2(0f,0f);
     /**
      * Gets the instance of the application
      * if the instance does not exists, it makes a new instance
@@ -119,12 +121,11 @@ public final class Application {
             (vidmode.width() - WIDTH) / 2,
             (vidmode.height() - HEIGHT) / 2
         );
- 
+        screenResolution = new Vector2(vidmode.width(),vidmode.height());
         // Make the OpenGL context current
         glfwMakeContextCurrent(window);
         // Enable v-sync
         glfwSwapInterval(1);
- 
         // Make the window visible
         glfwShowWindow(window);
     }
@@ -152,7 +153,10 @@ public final class Application {
         this.shouldStop = true;
  
     }
-    
+    public Vector2 getScreenSize()
+    {
+        return screenResolution;
+    }
     public View getWindow(){
         return this.view;
     }

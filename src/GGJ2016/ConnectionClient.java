@@ -100,9 +100,11 @@ public class ConnectionClient extends BaseConnection {
     @Override
     protected void stop() {
         try {
-            this.socket.close();
-            this.bw.close();
-            this.inputStream.close();
+            if(!this.socket.isClosed()){
+                this.socket.close();
+                this.bw.close();
+                this.inputStream.close();
+            }
             
         } catch (IOException ex) {
             Logger.getLogger(ConnectionClient.class.getName()).log(Level.SEVERE, null, ex);

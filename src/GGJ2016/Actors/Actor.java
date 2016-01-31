@@ -25,6 +25,7 @@
  */
 package GGJ2016.Actors;
 
+import PrutEngine.Application;
 import PrutEngine.AssetManager;
 import PrutEngine.Core.Math.PrutMath;
 import PrutEngine.Core.Math.Vector3;
@@ -165,14 +166,15 @@ public class Actor extends CollideAble
         try {
             this.setRenderer(new Renderer(
                 "Assets/Shaders/UnShadedVertex.glsl",
-                //"Assets/Shaders/UnShadedFragment.glsl",
-                "Assets/Shaders/UnShadedShader.glsl",
+                "Assets/Shaders/UnShadedFragment.glsl",
+                //"Assets/Shaders/UnShadedShader.glsl",
                 "Assets/Textures/" + texture,
                 "Assets/Meshes/Quad.obj"));
            time = glGetUniformLocation(AssetManager.getProgram(this.getRenderer().getProgram()), "time");
            resolution = glGetUniformLocation(AssetManager.getProgram(this.getRenderer().getProgram()), "resolution");
            glUseProgram(AssetManager.getProgram(this.getRenderer().getProgram()));
-           glUniform2f(resolution,1280,800); 
+           //glUniform2f(resolution,1280,800); 
+           glUniform2f(resolution,(int)Application.getInstance().getScreenSize().x,(int)Application.getInstance().getScreenSize().y);
         }
         catch(Exception e ){}
     }
@@ -188,7 +190,8 @@ public class Actor extends CollideAble
             
            int resolution = glGetUniformLocation(AssetManager.getProgram(this.getRenderer().getProgram()), "resolution");
             glUseProgram(AssetManager.getProgram(this.getRenderer().getProgram()));
-            glUniform2f(resolution,1280,800); 
+            //glUniform2f(resolution,1280,800);
+            glUniform2f(resolution,(int)Application.getInstance().getScreenSize().x,(int)Application.getInstance().getScreenSize().y);
         }
         catch(Exception e ){}
     }
