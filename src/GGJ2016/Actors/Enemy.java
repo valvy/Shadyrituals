@@ -31,10 +31,11 @@ public final class Enemy extends Actor
 {
     
     private final String name;
-    public Enemy(Vector3<Float> startPos, String name)
+    public Enemy(Vector3<Float> startPos, String name, Element elem)
     {
         super(startPos);
         this.name = name;
+        this.currentElement = elem;
         this.setSize(new Vector3<Float>(2f, 2f, 2f));
         this.setPosition(startPos);
     }
@@ -42,6 +43,12 @@ public final class Enemy extends Actor
     public String getName(){
         return this.name;
     }
+    
+    public void setElementen(Element elem){
+        this.currentElement = elem;
+    }
+    
+   // public 
     
     @Override
     public void update(float tpf)
