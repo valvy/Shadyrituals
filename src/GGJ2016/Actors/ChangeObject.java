@@ -68,7 +68,7 @@ public class ChangeObject extends CollideAble
     @Override
     public void onCollision(CollideAble collideWith)
     {
-        if(collideWith instanceof Actor)
+        if(collideWith instanceof Player)
         {
             Actor otherActor = (Actor)collideWith;
             switch(otherActor.currentElement)
