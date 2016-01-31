@@ -72,20 +72,7 @@ public class Player extends Actor
     
     @Override
     public void update(float tpf) 
-    {
-
-        if(!lastPos.equals(this.getPosition()) || lastElement != this.currentElement)
-        {
-           //Debug.log(lastPos);
-            //Debug.log(BaseConnection.getInstance().getIdName());
-            BaseConnection.getInstance().notifyWorld(
-                        new ConnectedPlayer(
-                            BaseConnection.getInstance().getIdName(),
-                            this.getPosition(),
-                            this.currentElement));
-            lastPos = this.getPosition();
-            lastElement = this.currentElement;
-        }  
+    { 
         Vector3<Float> nPos = new Vector3<>(this.getPosition());
         if(this.getPosition().x > 100){
             nPos.x = 100f;
@@ -120,6 +107,19 @@ public class Player extends Actor
 
         PlayerInput(tpf);
         super.update(tpf);
+        
+        if(!lastPos.equals(this.getPosition()) || lastElement != this.currentElement)
+        {
+           //Debug.log(lastPos);
+            //Debug.log(BaseConnection.getInstance().getIdName());
+            BaseConnection.getInstance().notifyWorld(
+                        new ConnectedPlayer(
+                            BaseConnection.getInstance().getIdName(),
+                            this.getPosition(),
+                            this.currentElement));
+            lastPos = this.getPosition();
+            lastElement = this.currentElement;
+        } 
     }
     public void PlayerInput(float tpf)
     {
