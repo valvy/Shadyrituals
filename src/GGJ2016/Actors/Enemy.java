@@ -29,11 +29,18 @@ import PrutEngine.Core.Math.Vector3;
 
 public final class Enemy extends Actor
 {
-    public Enemy(Vector3<Float> startPos)
+    
+    private final String name;
+    public Enemy(Vector3<Float> startPos, String name)
     {
         super(startPos);
+        this.name = name;
         this.setSize(new Vector3<Float>(2f, 2f, 2f));
         this.setPosition(startPos);
+    }
+    
+    public String getName(){
+        return this.name;
     }
     
     @Override
@@ -41,6 +48,8 @@ public final class Enemy extends Actor
     {
         super.update(tpf);
     }
+    
+    
     
     @Override
     public void onCollision(CollideAble collideWith)

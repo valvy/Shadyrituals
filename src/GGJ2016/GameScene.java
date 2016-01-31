@@ -55,10 +55,7 @@ public class GameScene extends Scene
         Application.getInstance().getWindow().setWindowTitle("game");
         this.setCamera(new MainCamera(new Vector3<>(0f,0f,0f)));
         pl = new Player(this);
-        for(ConnectedPlayer pl : BaseConnection.getInstance().getAllConnections()){
-            Enemy a = new Enemy(pl.currentPosition);
-            otherPlayers.add(a);
-        }
+
         ((MainCamera)this.camera).followObject(pl);
         
         this.addGameObject(new Background());
@@ -89,6 +86,7 @@ public class GameScene extends Scene
         return this.camera;
     }
     
+
     public void shakeScreen(float magnitude, float duration){
         ((MainCamera)this.camera).shakeScreen(1000f, 0.05f);
     }
@@ -103,13 +101,33 @@ public class GameScene extends Scene
          }
     
         int index = 0;
+        
+        for(ConnectedPlayer pl : BaseConnection.getInstance().getAllConnections()){
+            boolean inList = false;
+            for(Enemy e : this.otherPlayers){
+                if(e.getName().equals(pl.id)){
+                    e.setPosition(pl.currentPosition);
+                    inList = true;
+                }
+            }
+            if(!inList){
+                if(!pl.id.equals(BaseConnection.getInstance().idName)){
+                    Enemy a = new Enemy(pl.currentPosition,pl.id);
+                    otherPlayers.add(a);
+                    this.addGameObject(a);
+                }
+            }
+          
+        }
+        
+        /*
         for(ConnectedPlayer pl : BaseConnection.getInstance().getAllConnections()){
             Debug.log(pl.currentPosition);
             Enemy p = otherPlayers.get(index);
             p.setPosition(pl.currentPosition);
             p.currentElement = pl.playerElement;
             index++;
-        }
+        }*/
         super.update(tpf);
     }
     

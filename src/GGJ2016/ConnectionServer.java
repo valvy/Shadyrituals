@@ -140,6 +140,7 @@ public class ConnectionServer extends BaseConnection {
                             
                             if(!msg.equals(NOTHING)){
                                 this.from = msg;
+                                Debug.log(msg);
                             }
                              
                         } catch (InterruptedException ex) {
@@ -265,6 +266,7 @@ public class ConnectionServer extends BaseConnection {
         }
         ArrayList<String> localBuffer = new ArrayList<>();
         this.globalBuffer.clear();
+        
         for(Client cl : clients){
             //Pass the server data
             String tmp = player.id + ";" + player.currentPosition.toString() + ";" + player.playerElement.toString() + ";";
