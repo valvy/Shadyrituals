@@ -5,7 +5,7 @@ import PrutEngine.Application;
 public class Main{
 
     public static void main(String[] args) {
-        System.out.println("Welcome to Ultra secret Magic Ritual");
+        System.out.println("Welcome to Shady ritual");
         System.out.println("To set the server set Server:<127.0.IP.adress>");
         
         for(String str : args){
