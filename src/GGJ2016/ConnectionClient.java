@@ -25,7 +25,9 @@
  */
 package GGJ2016;
 
+import GGJ2016.Actors.Actor;
 import PrutEngine.Application;
+import PrutEngine.Core.Math.Vector3;
 import PrutEngine.Debug;
 import com.sun.corba.se.impl.orbutil.concurrent.Mutex;
 import java.io.BufferedWriter;
@@ -35,6 +37,7 @@ import java.io.OutputStreamWriter;
 import static java.lang.System.exit;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -44,7 +47,7 @@ import java.util.logging.Logger;
  */
 public class ConnectionClient extends BaseConnection {
     private Socket socket;
-    private final String IP = "192.168.0.108";
+    private final String IP = "192.168.0.109";
     private DataInputStream inputStream;
     private  BufferedWriter bw;
     private final Mutex mutex;
@@ -112,7 +115,7 @@ public class ConnectionClient extends BaseConnection {
         try {
             
             socket = new Socket(this.IP, PORT);
-           
+            Debug.log("test");
             inputStream = new DataInputStream(socket.getInputStream());
             bw= new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
             return true;
@@ -192,13 +195,53 @@ public class ConnectionClient extends BaseConnection {
     @Override
     public ArrayList<ConnectedPlayer> getAllConnections() {
         String dat = NOTHING;
-       // do{
+        ArrayList<ConnectedPlayer> results = new ArrayList<>();
+        do{
             dat = getFrom();
+            if(dat.equals(NOTHING)){
+                return results;
+            }
+           // Debug.log(dat);
+            //Player:Server;-20.699997 1.1400026 -10.0;Cube;
             
-            //Debug.log(dat);
+            String[] splitedData =  dat.split(";");
+            if(splitedData.length == 1){
+                continue;
+            }
+  
+            String id = splitedData[0];
+      
+            final Vector3<Float> currentPosition = new Vector3<>(0f,0f,0f);
+            try{
+                final Scanner fi = new Scanner(splitedData[1]);
+           
+                currentPosition.x = fi.nextFloat();
+                currentPosition.y = fi.nextFloat();
+                currentPosition.z = fi.nextFloat();
+            }catch(java.util.InputMismatchException ex){
+                Logger.getLogger(ConnectionClient.class.getName()).log(Level.SEVERE, null, ex);
+                continue;
+            }
+          //  Debug.log(currentPosition);
+            Actor.Element playerElement = Actor.Element.Cube;
+            String playerElementString = splitedData[2];
+            if(playerElementString.equals(Actor.Element.Cube.toString()))
+            {
+                playerElement = Actor.Element.Cube;
+            }
+            else if(playerElementString.equals(Actor.Element.Sphere.toString()))
+            {
+                 playerElement = Actor.Element.Sphere;
+            }
+            else if(playerElementString.equals(Actor.Element.Torus.toString()))
+            {
+                 playerElement = Actor.Element.Torus;
+            }
+            ConnectedPlayer player = new ConnectedPlayer(id, currentPosition, playerElement);
+            results.add(player);
             
-     //   }while(dat != NOTHING);
-        return null;
+        }while(!dat.equals(NOTHING));
+        return results;
     }
 
     @Override

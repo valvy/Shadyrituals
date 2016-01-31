@@ -27,6 +27,8 @@
 package GGJ2016;
 
 
+import GGJ2016.Actors.Actor;
+import PrutEngine.Core.Math.Vector3;
 import PrutEngine.Debug;
 import com.sun.corba.se.impl.orbutil.concurrent.Mutex;
 import java.io.BufferedWriter;
@@ -37,6 +39,7 @@ import static java.lang.System.exit;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -145,7 +148,7 @@ public class ConnectionServer extends BaseConnection {
                             String dat = NOTHING;
                             if(this.to.size() > 0){
                                 dat = to.get(0);
-                                Debug.log(dat);
+                                //Debug.log(dat);
                                 this.to.remove(0);
                             }
                             this.mutex.release();
@@ -207,13 +210,52 @@ public class ConnectionServer extends BaseConnection {
     
     @Override
     public ArrayList<ConnectedPlayer> getAllConnections() {
+        final ArrayList<ConnectedPlayer> result = new ArrayList<>();
         for(String str : this.globalBuffer){
-          //  Debug.log(str);
+            if(str.equals(NOTHING)){
+                return result;
+            }
+            String[] splitedData =  str.split(";");
+            
+            if(splitedData.length == 1){
+                continue;
+            }
+            String id = splitedData[0];
+            final Vector3<Float> currentPosition = new Vector3<>(0f,0f,0f);
+            try{
+                final Scanner fi = new Scanner(splitedData[1]);
+                Debug.log(str);
+                currentPosition.x = fi.nextFloat();
+                currentPosition.y = fi.nextFloat();
+                currentPosition.z = fi.nextFloat();
+            }catch(java.util.InputMismatchException ex){
+                Logger.getLogger(ConnectionClient.class.getName()).log(Level.SEVERE, null, ex);
+                continue;
+            }
+          
+            
+            Actor.Element playerElement = Actor.Element.Cube;
+            String playerElementString = splitedData[2];
+            if(playerElementString.equals(Actor.Element.Cube.toString()))
+            {
+                playerElement = Actor.Element.Cube;
+            }
+            else if(playerElementString.equals(Actor.Element.Sphere.toString()))
+            {
+                 playerElement = Actor.Element.Sphere;
+            }
+            else if(playerElementString.equals(Actor.Element.Torus.toString()))
+            {
+                 playerElement = Actor.Element.Torus;
+            }
+            ConnectedPlayer player = new ConnectedPlayer(id, currentPosition, playerElement);
+            result.add(player);
+
             
         }
         this.globalBuffer.clear();
         
-        return null;
+        return result;
     }
 
     @Override
@@ -222,18 +264,20 @@ public class ConnectionServer extends BaseConnection {
             return;
         }
         ArrayList<String> localBuffer = new ArrayList<>();
-        
+        this.globalBuffer.clear();
         for(Client cl : clients){
             //Pass the server data
+            String tmp = player.id + ";" + player.currentPosition.toString() + ";" + player.playerElement.toString() + ";";
             cl.addToBuffer(
-                    player.id + ";" + player.currentPosition.toString() + ";" + player.playerElement.toString() + ";"
+                    tmp
             );
+            this.globalBuffer.add(tmp);
             
             //Get what's up
             
           
              localBuffer.add(cl.getFrom());
-      
+             
         }
         
         //send everything to everybody
@@ -245,32 +289,10 @@ public class ConnectionServer extends BaseConnection {
             }
         }
         
-        
-        
-        /*
-           
-        for(String t : localBuffer){
-            if(!t.equals(NOTHING)){
-                Debug.log(t);
-                this.globalBuffer.add(t);
-            }
+        for(String tr : localBuffer){
+            this.globalBuffer.add(tr);
         }
-        
-        for(Client cl : clients){
-            //localBuffer.add(cl.getFrom());
-            cl.addToBuffer(
-                    player.id + ";" + player.currentPosition.toString() + ";" + player.playerElement.toString() + ";"
-            );
-              
-            for(String t : localBuffer){
-                if(!t.equals(NOTHING)){
-                    cl.addToBuffer(t);
-                    Debug.log(t);
-                }
-            }
-            
-
-        }*/
+   
      
         
     }

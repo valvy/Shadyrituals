@@ -26,6 +26,7 @@
 package GGJ2016;
 
 import GGJ2016.Actors.*;
+import GGJ2016.BaseConnection.ConnectedPlayer;
 import PrutEngine.Application;
 import PrutEngine.AssetManager;
 import PrutEngine.Camera;
@@ -36,7 +37,9 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
 import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
 import static org.lwjgl.glfw.GLFW.GLFW_REPEAT;
 import GGJ2016.MenuScene;
+import PrutEngine.Debug;
 import java.util.ArrayList;
+
 
 public class GameScene extends Scene
 {
@@ -96,6 +99,11 @@ public class GameScene extends Scene
              Application.getInstance().loadScene(new MenuScene());
              return;
          }
+    
+        for(ConnectedPlayer pl : BaseConnection.getInstance().getAllConnections()){
+            Debug.log(pl.currentPosition);
+           
+        }
         super.update(tpf);
     }
     
