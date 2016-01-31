@@ -140,10 +140,6 @@ public class Player extends Actor
         {
             movePos.x = 1f;
         }
-     /*   if(Application.getInstance().prutKeyBoard.GetState(GLFW_KEY_F) == GLFW_PRESS)
-        {
-            changeRandomElement();
-        }*/
         translate(movePos,speed * tpf);
     }
     
