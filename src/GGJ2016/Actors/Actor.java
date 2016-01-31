@@ -31,6 +31,10 @@ import PrutEngine.Core.Math.Vector3;
 import PrutEngine.Core.Math.Vector4;
 import PrutEngine.Renderer;
 import java.util.Random;
+import static org.lwjgl.opengl.GL20.glGetUniformLocation;
+import static org.lwjgl.opengl.GL20.glUniform1f;
+import static org.lwjgl.opengl.GL20.glUniform2f;
+import static org.lwjgl.opengl.GL20.glUseProgram;
 
 public class Actor extends CollideAble
 {
@@ -43,6 +47,10 @@ public class Actor extends CollideAble
     public Element currentElement;
     protected final float speed = 500f;
     
+    //Shader
+    int time;
+    int resolution;
+    float timer = 0f;
     public Actor(Vector3<Float> startPos)
     {
         this.setPosition(startPos);
@@ -154,9 +162,14 @@ public class Actor extends CollideAble
         try {
             this.setRenderer(new Renderer(
                 "Assets/Shaders/UnShadedVertex.glsl",
-                "Assets/Shaders/UnShadedFragment.glsl",
+                //"Assets/Shaders/UnShadedFragment.glsl",
+                "Assets/Shaders/playerShader.glsl",
                 "Assets/Textures/" + texture,
-                "Assets/Meshes/Quad.obj")); 
+                "Assets/Meshes/Quad.obj"));
+           time = glGetUniformLocation(AssetManager.getProgram(this.getRenderer().getProgram()), "time");
+           resolution = glGetUniformLocation(AssetManager.getProgram(this.getRenderer().getProgram()), "resolution");
+           glUseProgram(AssetManager.getProgram(this.getRenderer().getProgram()));
+           glUniform2f(resolution,1920,1080); 
         }
         catch(Exception e ){}
     }
@@ -164,6 +177,16 @@ public class Actor extends CollideAble
     @Override
     public void update(float tpf) 
     {
+         timer += 10 * tpf;
+        try{
+           // this.rotate(new Vector3<>(0f,0f,100f), 100 * tpf);
+            glUseProgram(AssetManager.getProgram(this.getRenderer().getProgram()));
+            glUniform1f(this.time,timer);
+            
+        }
+        catch(AssetManager.AssetNotFoundException ex){
+            System.out.println(ex);
+        }
         super.update(tpf);
     }
 }
