@@ -159,9 +159,10 @@ public class ConnectionServer extends BaseConnection {
     
     @Override
     protected void stop() {
-        
-        for(Client cl : this.clients){
-            cl.stopConnection();
+        if(this.clients != null){
+            for(Client cl : this.clients){
+                cl.stopConnection();
+            }
         }
     }
 
