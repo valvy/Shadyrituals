@@ -183,9 +183,10 @@ public class ConnectionServer extends BaseConnection {
     
     @Override
     protected void stop() {
-        
-        for(Client cl : this.clients){
-            cl.stopConnection();
+        if(this.clients != null){
+            for(Client cl : this.clients){
+                cl.stopConnection();
+            }
         }
     }
 
@@ -304,7 +305,7 @@ public class ConnectionServer extends BaseConnection {
         try {
             serverSocket = new ServerSocket(PORT);
             serverSocket.setSoTimeout(TIME_OUT);
-            
+
             return true;
         } catch (IOException ex) {
           //  Logger.getLogger(ConnectionServer.class.getName()).log(Level.SEVERE, null, ex);

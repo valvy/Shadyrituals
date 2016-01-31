@@ -48,8 +48,9 @@ public class MenuScene extends Scene {
     private int simpleState = 0;
     private int view = 0;
     private int up,down,space,quit = 1;
-    private Arrow cursor = new Arrow(new Vector3<>(-0.40f,0.9f,0f));
-    private MenuBackground background = new MenuBackground(new Vector3<>(0f,0f,0f));
+    private final Arrow cursor = new Arrow(new Vector3<>(-0.40f,0.9f,0f));
+
+    private final MenuBackground background = new MenuBackground(new Vector3<>(0f,0f,0f));
     @Override
     public void awake() {
         this.addGameObject(background);
@@ -134,9 +135,7 @@ public class MenuScene extends Scene {
     }
     private void LoadGame()
     {
-        if(System.getProperty("os.name").equals("Mac OS X")){
-            System.setProperty("java.awt.headless", "true");//Otherwise freezes on os x :-(
-        }
+
         AssetManager.clearProgramsBuffer();
         AssetManager.clearShaderBuffer();
         Application.getInstance().loadScene(new GameScene());
