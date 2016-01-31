@@ -58,12 +58,14 @@ public class Background extends GameObject
            
            time = glGetUniformLocation(AssetManager.getProgram(this.getRenderer().getProgram()), "time");
            resolution = glGetUniformLocation(AssetManager.getProgram(this.getRenderer().getProgram()), "resolution");
+           glUseProgram(AssetManager.getProgram(this.getRenderer().getProgram()));
+           glUniform2f(resolution,1280,800);
         } catch (Exception ex) {
             Logger.getLogger(Background.class.getName()).log(Level.SEVERE, null, ex);
         }
         this.setSize(new Vector3<>(100f,100f,100f));
         this.setPosition(new Vector3<>(0f,0f,-11f));
-        this.rotate(new Vector3<>(1f,0f,0f), -90);
+        this.rotate(new Vector3<>(1f,0f,0f), -90); 
     }
     
     @Override
@@ -74,7 +76,7 @@ public class Background extends GameObject
            // this.rotate(new Vector3<>(0f,0f,100f), 100 * tpf);
             glUseProgram(AssetManager.getProgram(this.getRenderer().getProgram()));
             glUniform1f(this.time,timer);
-            glUniform2f(resolution,1280,800); 
+
         }
         catch(AssetManager.AssetNotFoundException ex){
             System.out.println(ex);
