@@ -153,7 +153,7 @@ public class Actor extends CollideAble
                 this.initRenderer("Circle.png","playerShader.glsl");
                 break;
             case Cube:
-                this.initRenderer("Square.png");
+                this.initRenderer("Square.png","LightShowFragment.glsl");
                 break;
             case Torus:           
                 //this.initRenderer("Triangle.png");
@@ -187,8 +187,8 @@ public class Actor extends CollideAble
                 "Assets/Shaders/" + fragShader,
                 "Assets/Textures/" + texture,
                 "Assets/Meshes/Quad.obj")); 
-            
-           int resolution = glGetUniformLocation(AssetManager.getProgram(this.getRenderer().getProgram()), "resolution");
+            time = glGetUniformLocation(AssetManager.getProgram(this.getRenderer().getProgram()), "time");
+            resolution = glGetUniformLocation(AssetManager.getProgram(this.getRenderer().getProgram()), "resolution");
             glUseProgram(AssetManager.getProgram(this.getRenderer().getProgram()));
             //glUniform2f(resolution,1280,800);
             glUniform2f(resolution,(int)Application.getInstance().getScreenSize().x,(int)Application.getInstance().getScreenSize().y);
