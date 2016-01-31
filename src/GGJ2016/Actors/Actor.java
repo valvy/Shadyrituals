@@ -98,7 +98,7 @@ public class Actor extends CollideAble
                     break;
             }
         }
-         this.setupElement(chosenElement);
+       this.setupElement(chosenElement);
        AssetManager.getSound("change").PlaySound(0);
     }
     
