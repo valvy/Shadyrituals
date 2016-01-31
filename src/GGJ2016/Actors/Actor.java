@@ -39,7 +39,7 @@ public class Actor extends CollideAble
         Torus
     }
     
-    protected Element currentElement;
+    public Element currentElement;
     protected final float speed = 600f;
     
     public Actor(Vector3<Float> startPos)

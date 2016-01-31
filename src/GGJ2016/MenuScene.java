@@ -76,10 +76,6 @@ public class MenuScene extends Scene {
              down = 0;
          }
                   
-         if(Application.getInstance().getKeyboardKey(GLFW_KEY_ENTER) == GLFW_RELEASE &&
-            Application.getInstance().getKeyboardKey(GLFW_KEY_SPACE) == GLFW_RELEASE ){
-                space = 0;
-         }
          
          if(Application.getInstance().getKeyboardKey(GLFW_KEY_ESCAPE) == GLFW_PRESS && quit == 0)
              Application.getInstance().quit();
@@ -87,9 +83,8 @@ public class MenuScene extends Scene {
          if(Application.getInstance().getKeyboardKey(GLFW_KEY_ESCAPE) == GLFW_RELEASE)
              quit = 0;
          
-         if(space == 1) return;
-         if(Application.getInstance().getKeyboardKey(GLFW_KEY_ENTER) == GLFW_PRESS ||
-            Application.getInstance().getKeyboardKey(GLFW_KEY_SPACE) == GLFW_PRESS ){
+         if(Application.getInstance().getKeyboardKey(GLFW_KEY_ENTER) == GLFW_PRESS && space == 1||
+            Application.getInstance().getKeyboardKey(GLFW_KEY_SPACE) == GLFW_PRESS && space == 1 ){
             switch(simpleState)
             {
                 case 0:
@@ -106,6 +101,11 @@ public class MenuScene extends Scene {
                     Application.getInstance().quit();
                     break;
             }
+         }
+         
+         if(Application.getInstance().getKeyboardKey(GLFW_KEY_ENTER) == GLFW_RELEASE &&
+            Application.getInstance().getKeyboardKey(GLFW_KEY_SPACE) == GLFW_RELEASE ){
+                space = 1;
          }
     }
 }

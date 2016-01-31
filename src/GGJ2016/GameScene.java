@@ -35,8 +35,6 @@ import PrutEngine.Core.Math.Vector3;
 import PrutEngine.Scene;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
 import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
-import static org.lwjgl.glfw.GLFW.GLFW_REPEAT;
-import GGJ2016.MenuScene;
 import PrutEngine.Debug;
 import java.util.ArrayList;
 
@@ -57,6 +55,10 @@ public class GameScene extends Scene
         Application.getInstance().getWindow().setWindowTitle("game");
         this.setCamera(new MainCamera(new Vector3<>(0f,0f,0f)));
         pl = new Player(this);
+        for(ConnectedPlayer pl : BaseConnection.getInstance().getAllConnections()){
+            Enemy a = new Enemy(pl.currentPosition);
+            otherPlayers.add(a);
+        }
         ((MainCamera)this.camera).followObject(pl);
         
         this.addGameObject(new Background());
@@ -100,9 +102,13 @@ public class GameScene extends Scene
              return;
          }
     
+        int index = 0;
         for(ConnectedPlayer pl : BaseConnection.getInstance().getAllConnections()){
             Debug.log(pl.currentPosition);
-           
+            Enemy p = otherPlayers.get(index);
+            p.setPosition(pl.currentPosition);
+            p.currentElement = pl.playerElement;
+            index++;
         }
         super.update(tpf);
     }
