@@ -25,22 +25,38 @@
  */
 package GGJ2016.Actors;
 
+import PrutEngine.Application;
+import PrutEngine.AssetManager;
 import PrutEngine.Core.Math.Vector3;
 import PrutEngine.GameObject;
 import PrutEngine.Renderer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import static org.lwjgl.opengl.GL20.glGetUniformLocation;
+import static org.lwjgl.opengl.GL20.glUniform1f;
+import static org.lwjgl.opengl.GL20.glUniform2f;
+import static org.lwjgl.opengl.GL20.glUseProgram;
 
 public class SplashBackground extends GameObject
 {
+    int time;
+    int resolution;
+    float timer = 0f;
     public SplashBackground(){
         try {
             this.setRenderer(new Renderer(
                     "Assets/Shaders/UnShadedVertex.glsl",
-                    "Assets/Shaders/UnShadedFragment.glsl",
-                    "Assets/Textures/titlescreen.png",
+                    "Assets/Shaders/JumpTextFragment.glsl",
+                    //"Assets/Textures/titlescreen.png",
+                    "",
                     "Assets/Meshes/Quad.obj"));
-        }
-        catch(Exception ex){
-            System.out.println(ex);
+            time = glGetUniformLocation(AssetManager.getProgram(this.getRenderer().getProgram()), "time");
+           resolution = glGetUniformLocation(AssetManager.getProgram(this.getRenderer().getProgram()), "resolution");
+           glUseProgram(AssetManager.getProgram(this.getRenderer().getProgram()));
+
+           glUniform2f(resolution,(int)Application.getInstance().getScreenSize().x,(int)Application.getInstance().getScreenSize().y);
+        } catch (Exception ex) {
+            Logger.getLogger(Background.class.getName()).log(Level.SEVERE, null, ex);
         }
         this.setSize(new Vector3<>(2f,2f,2f));
         this.rotate(new Vector3<>(1f,0f,0f), -90);
@@ -49,6 +65,16 @@ public class SplashBackground extends GameObject
     @Override
     public void update(float tpf)
     {
- 
+        timer += 10 * tpf;
+
+        try{
+           // this.rotate(new Vector3<>(0f,0f,100f), 100 * tpf);
+            glUseProgram(AssetManager.getProgram(this.getRenderer().getProgram()));
+            glUniform1f(this.time,timer);
+
+        }
+        catch(AssetManager.AssetNotFoundException ex){
+            System.out.println(ex);
+        }
     }
 }
