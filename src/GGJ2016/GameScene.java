@@ -106,6 +106,12 @@ public class GameScene extends Scene
             boolean inList = false;
             for(Enemy e : this.otherPlayers){
                 if(e.getName().equals(pl.id)){
+                    Vector3<Float> nPos= new Vector3<>(
+                            PrutMath.lerp(e.getPosition().x, pl.currentPosition.x, 10 * tpf),
+                            PrutMath.lerp(e.getPosition().y, pl.currentPosition.y, 10 * tpf),
+                            pl.currentPosition.z
+                    );
+                    
                     e.setPosition(pl.currentPosition);
                     e.setElementen(pl.playerElement);
                     inList = true;
