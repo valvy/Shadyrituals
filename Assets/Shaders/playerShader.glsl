@@ -217,7 +217,7 @@ void main(void)
     
     
     //vign from iq (very nice!)
-	//col *= pow(16.0*bp.x*bp.y*(1.0-bp.x)*(1.0-bp.y),.45);
-        col *= pow(1.0*bp.x*bp.y*(1.0-bp.x)*(1.0-bp.y),.45);
+	col *= pow(16.0*bp.x*bp.y*(1.0-bp.x)*(1.0-bp.y),.45);
+
 	color = vec4(col,1) * texture(text,fs_in.UV);
 }
