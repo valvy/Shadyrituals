@@ -71,7 +71,7 @@ void main( void )
     float r = voronoi( uv * 1.0 ) * 10.0;
     vec3 ringMod = rings();	
 	
-    vec3 finalColor = vec3(10.0, 2.0, 1.0 * r) * t*ringMod.g;
+    vec3 finalColor = vec3(2.0, 4.0, 1.0 * r) * t*ringMod.g;
     
     color = vec4(finalColor, 1.0 );
 }

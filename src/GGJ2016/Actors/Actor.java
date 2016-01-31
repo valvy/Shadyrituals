@@ -31,6 +31,9 @@ import PrutEngine.Core.Math.Vector3;
 import PrutEngine.Core.Math.Vector4;
 import PrutEngine.Renderer;
 import java.util.Random;
+import static org.lwjgl.opengl.GL20.glGetUniformLocation;
+import static org.lwjgl.opengl.GL20.glUniform2f;
+import static org.lwjgl.opengl.GL20.glUseProgram;
 
 public class Actor extends CollideAble
 {
@@ -145,7 +148,8 @@ public class Actor extends CollideAble
                 this.initRenderer("Square.png");
                 break;
             case Torus:           
-                this.initRenderer("Triangle.png");
+                //this.initRenderer("Triangle.png");
+                this.initRenderer("Triangle.png","StarsFragment.glsl");
                 break;
         }
     }
@@ -160,10 +164,28 @@ public class Actor extends CollideAble
         }
         catch(Exception e ){}
     }
+    
+    protected void initRenderer(String texture,String fragShader){
+        try {
+            
+            this.setRenderer(new Renderer(
+                "Assets/Shaders/UnShadedVertex.glsl",
+                "Assets/Shaders/" + fragShader,
+                "Assets/Textures/" + texture,
+                "Assets/Meshes/Quad.obj")); 
+            
+           int resolution = glGetUniformLocation(AssetManager.getProgram(this.getRenderer().getProgram()), "resolution");
+            glUseProgram(AssetManager.getProgram(this.getRenderer().getProgram()));
+            glUniform2f(resolution,1280,800); 
+        }
+        catch(Exception e ){}
+    }
+    
 
     @Override
     public void update(float tpf) 
     {
+
         super.update(tpf);
     }
 }

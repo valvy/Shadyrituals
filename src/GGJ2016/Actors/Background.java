@@ -74,7 +74,7 @@ public class Background extends GameObject
            // this.rotate(new Vector3<>(0f,0f,100f), 100 * tpf);
             glUseProgram(AssetManager.getProgram(this.getRenderer().getProgram()));
             glUniform1f(this.time,timer);
-            glUniform2f(resolution,192,1080); 
+            glUniform2f(resolution,1280,800); 
         }
         catch(AssetManager.AssetNotFoundException ex){
             System.out.println(ex);
