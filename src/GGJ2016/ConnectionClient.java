@@ -100,7 +100,7 @@ public class ConnectionClient extends BaseConnection {
     @Override
     protected void stop() {
         try {
-            if(!this.socket.isClosed()){
+            if(this.socket != null &&!this.socket.isClosed()){
                 this.socket.close();
                 this.bw.close();
                 this.inputStream.close();
@@ -117,12 +117,12 @@ public class ConnectionClient extends BaseConnection {
         try {
             
             socket = new Socket(this.IP, PORT);
-            Debug.log("test");
+//            Debug.log("test");
             inputStream = new DataInputStream(socket.getInputStream());
             bw= new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
             return true;
         } catch (IOException ex) {
-            Logger.getLogger(ConnectionClient.class.getName()).log(Level.SEVERE, null, ex);
+         //   Logger.getLogger(ConnectionClient.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }

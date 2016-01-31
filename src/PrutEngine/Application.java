@@ -116,11 +116,11 @@ public final class Application {
         // Get the resolution of the primary monitor
         GLFWVidMode vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
         // Center our window
-        glfwSetWindowPos(
+       /* glfwSetWindowPos(
             window,
             (vidmode.width() - WIDTH) / 2,
             (vidmode.height() - HEIGHT) / 2
-        );
+        );*/
         screenResolution = new Vector2(vidmode.width(),vidmode.height());
         // Make the OpenGL context current
         glfwMakeContextCurrent(window);
@@ -142,8 +142,9 @@ public final class Application {
     }
     
     private void destroy(){
-        BaseConnection.getInstance().stopConnection();
-        
+        if(BaseConnection.getInstance() != null){
+            BaseConnection.getInstance().stopConnection();
+        }
         this.currentModel.onQuit();
         this.view.destroy();
         glfwSetWindowShouldClose(window, GLFW_TRUE);
