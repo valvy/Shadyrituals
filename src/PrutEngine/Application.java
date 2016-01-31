@@ -98,11 +98,7 @@ public final class Application {
         // Get the resolution of the primary monitor
         GLFWVidMode vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
         // Center our window
-       /* glfwSetWindowPos(
-            window,
-            (vidmode.width() - WIDTH) / 2,
-            (vidmode.height() - HEIGHT) / 2
-        );*/
+        
         screenResolution = new Vector2(vidmode.width(),vidmode.height());
         // Make the OpenGL context current
         glfwMakeContextCurrent(window);
