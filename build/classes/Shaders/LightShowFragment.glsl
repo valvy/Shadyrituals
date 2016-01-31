@@ -33,6 +33,6 @@ void main( void ) {
 		newColor += vec3( (sin(t)+1.)/5.*fTemp*(2.0-i)/5.0, (sin(.5*t)+1.)/2.*fTemp*i/6.0, (sin(t)+1.)/2.*pow(fTemp,0.99)*1.5 );
 	}
 	
-	vec4 color_final = vec4(newColor, 7.0);
+	vec4 color_final = vec4(newColor, 2.0);
 	color = color_final * texture(text,fs_in.UV);
 }
