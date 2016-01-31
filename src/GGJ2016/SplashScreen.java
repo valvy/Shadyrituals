@@ -43,7 +43,7 @@ public class SplashScreen extends Scene{
     @Override
     public void awake() {
         this.addGameObject(new SplashBackground());
-        Application.getInstance().getWindow().setWindowSize(new Vector2<>(700,700));
+     //   Application.getInstance().getWindow().setFullScreen();//.setWindowSize(new Vector2<>(700,700));
     }
     
     @Override

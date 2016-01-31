@@ -29,7 +29,6 @@ import PrutEngine.Core.Data.Shader;
 import PrutEngine.Core.Math.Vector3;
 import PrutEngine.Core.Math.Matrix4x4;
 import PrutEngine.Core.Math.Quaternion;
-import Example.ExampleScene;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -144,7 +143,7 @@ public class Renderer {
             glDisableVertexAttribArray(0);
             glBindVertexArray(0);
         } catch (AssetManager.AssetNotFoundException ex) {
-            Logger.getLogger(ExampleScene.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Renderer.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
