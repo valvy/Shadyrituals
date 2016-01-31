@@ -26,7 +26,6 @@
 package GGJ2016.Actors;
 
 import PrutEngine.Core.Math.Vector3;
-import PrutEngine.Debug;
 import PrutEngine.GameObject;
 import PrutEngine.Renderer;
 

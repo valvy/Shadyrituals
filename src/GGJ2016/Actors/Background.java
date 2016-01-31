@@ -75,10 +75,8 @@ public class Background extends GameObject
         timer += 10 * tpf;
 
         try{
-           // this.rotate(new Vector3<>(0f,0f,100f), 100 * tpf);
             glUseProgram(AssetManager.getProgram(this.getRenderer().getProgram()));
             glUniform1f(this.time,timer);
-
         }
         catch(AssetManager.AssetNotFoundException ex){
             System.out.println(ex);

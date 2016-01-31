@@ -31,7 +31,6 @@ import PrutEngine.Renderer;
 
 public class InfoBackground extends GameObject
 {
-
     public InfoBackground(Vector3<Float> startPos)
     {
         initRenderer("infoscreen.png");

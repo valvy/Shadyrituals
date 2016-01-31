@@ -25,14 +25,7 @@
  */
 package PrutEngine.Core.Math;
 
-/**
- *
- * @author Heiko van der Heijden
- */
-
 public class Vector3<T> {
-
-    
     public T x, y ,z;
     
     public Vector3(T x, T y, T z){
@@ -49,19 +42,16 @@ public class Vector3<T> {
         return other.x == this.x && other.y == this.y && this.z == other.z;
     }
     
-    
     public static float norm(final Vector3<Float> vec){
         return (float) Math.sqrt(Math.pow(vec.x, 2) + Math.pow(vec.y, 2) + Math.pow(vec.z, 2));
     }
     
     public static Vector3<Float> unitVector(final Vector3<Float> vec){
-
         float length = vec.x * vec.x + vec.y * vec.y + vec.z + vec.z;
         if(length != 1f && length != 0f){
             length = (float) (1.0f / Math.sqrt(length));
             return new Vector3<>(vec.x * length,vec.y * length, vec.z * length );
         }
-      
         return new Vector3<>(vec);
     }
     
@@ -75,5 +65,4 @@ public class Vector3<T> {
     public String toString(){
         return x.toString() + " " + y.toString() + " " + z.toString();
     }
-    
 }

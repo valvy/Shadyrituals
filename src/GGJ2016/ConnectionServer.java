@@ -35,7 +35,6 @@ import java.io.BufferedWriter;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import static java.lang.System.exit;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -43,10 +42,6 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author Heiko van der Heijden
- */
 public class ConnectionServer extends BaseConnection {
 
     private int uniqueNumber = 0;
@@ -55,10 +50,8 @@ public class ConnectionServer extends BaseConnection {
     
     protected ConnectionServer(){
         this.globalBuffer = new ArrayList<>();
-        
     }
 
-   
     private class Client implements Runnable{
         private final int id;
         private final Socket sock;
@@ -95,10 +88,7 @@ public class ConnectionServer extends BaseConnection {
         
         public Client(int id, Socket sock) throws Exception{
             this.id =id;
-            
             this.sock = sock;
-           
-            
             this.to = new ArrayList<>();
             this.mutex = new Mutex();
             this.thread = new Thread(this);
@@ -106,9 +96,7 @@ public class ConnectionServer extends BaseConnection {
         }
         
         public void stopConnection(){
- 
             shouldStop = true;
-            
             try {
                 thread.join();
             } catch (InterruptedException ex) {
@@ -118,51 +106,42 @@ public class ConnectionServer extends BaseConnection {
         
         @Override
         public void run() {
-                try {
-                    DataInputStream inputStream = new DataInputStream(sock.getInputStream());
-                    BufferedWriter bw= new BufferedWriter(new OutputStreamWriter(sock.getOutputStream()));
-                    
-                    int read;
-                    byte[] buffer = new byte[1024];
-                    this.send(HANDSHAKE + Integer.toString(this.id), bw);
-                  
-                    
-                    while((read = inputStream.read(buffer)) != -1){
-                        if(shouldStop){
-                            inputStream.close();
-                            bw.close();
-                            this.sock.close();
-                            break;
-                        }
-                        try {
-                            this.mutex.acquire();
-                            String msg = new String(buffer, 0, read);
-                            
-                            if(!msg.equals(NOTHING)){
-                                this.from = msg;
-                              
-                            }
-                             
-                        } catch (InterruptedException ex) {
-                            Logger.getLogger(ConnectionServer.class.getName()).log(Level.SEVERE, null, ex);
-                        }finally{
-                            String dat = NOTHING;
-                            if(this.to.size() > 0){
-                                dat = to.get(0);
-                                //Debug.log(dat);
-                                this.to.remove(0);
-                            }
-                            this.mutex.release();
-                            this.send(dat, bw);                           
-                        }
-              
-                        
-                        
+            try {
+                DataInputStream inputStream = new DataInputStream(sock.getInputStream());
+                BufferedWriter bw= new BufferedWriter(new OutputStreamWriter(sock.getOutputStream()));
+
+                int read;
+                byte[] buffer = new byte[1024];
+                this.send(HANDSHAKE + Integer.toString(this.id), bw);
+                while((read = inputStream.read(buffer)) != -1){
+                    if(shouldStop){
+                        inputStream.close();
+                        bw.close();
+                        this.sock.close();
+                        break;
                     }
-                    
-                } catch (IOException ex) {
-                    Logger.getLogger(ConnectionServer.class.getName()).log(Level.SEVERE, null, ex);
+                    try {
+                        this.mutex.acquire();
+                        String msg = new String(buffer, 0, read);
+                        if(!msg.equals(NOTHING)){
+                            this.from = msg;
+                        }
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(ConnectionServer.class.getName()).log(Level.SEVERE, null, ex);
+                    }finally{
+                        String dat = NOTHING;
+                        if(this.to.size() > 0){
+                            dat = to.get(0);
+                            //Debug.log(dat);
+                            this.to.remove(0);
+                        }
+                        this.mutex.release();
+                        this.send(dat, bw);                           
+                    }
                 }
+            } catch (IOException ex) {
+                Logger.getLogger(ConnectionServer.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         
         public void send(String msg, BufferedWriter bw){
@@ -173,13 +152,10 @@ public class ConnectionServer extends BaseConnection {
                 Logger.getLogger(ConnectionServer.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
-        
-       
     }
+    
     private ArrayList<Client> clients;
     private ServerSocket serverSocket;
-  
     
     @Override
     protected void stop() {
@@ -190,24 +166,19 @@ public class ConnectionServer extends BaseConnection {
         }
     }
 
-    
     @Override
     public void connected() {
         if(this.clients == null){
             this.clients = new ArrayList<>();
         }
-         
         try {
            clients.add(new Client(this.uniqueNumber, serverSocket.accept()));
             this.uniqueNumber++;
-            
         } catch (IOException ex) {
-           
            //Logger.getLogger(ConnectionServer.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
             //Logger.getLogger(ConnectionServer.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
     }
     
     @Override
@@ -235,7 +206,6 @@ public class ConnectionServer extends BaseConnection {
                 continue;
             }
           
-            
             Actor.Element playerElement = Actor.Element.Cube;
             String playerElementString = splitedData[2];
             if(playerElementString.equals(Actor.Element.Cube.toString()))
@@ -252,11 +222,8 @@ public class ConnectionServer extends BaseConnection {
             }
             ConnectedPlayer player = new ConnectedPlayer(id, currentPosition, playerElement);
             result.add(player);
-
-            
         }
         this.globalBuffer.clear();
-        
         return result;
     }
 
@@ -275,18 +242,12 @@ public class ConnectionServer extends BaseConnection {
                     tmp
             );
             this.globalBuffer.add(tmp);
-            
-            //Get what's up
-            
-          
-             localBuffer.add(cl.getFrom());
-             
+            localBuffer.add(cl.getFrom());
         }
         
         //send everything to everybody
         for(Client cl : clients){
             for(String str : localBuffer){
-        //        Debug.log(str);
                 cl.addToBuffer(str);
                 Debug.log(str);
             }
@@ -295,9 +256,6 @@ public class ConnectionServer extends BaseConnection {
         for(String tr : localBuffer){
             this.globalBuffer.add(tr);
         }
-   
-     
-        
     }
 
     @Override
@@ -305,12 +263,9 @@ public class ConnectionServer extends BaseConnection {
         try {
             serverSocket = new ServerSocket(PORT);
             serverSocket.setSoTimeout(TIME_OUT);
-
             return true;
         } catch (IOException ex) {
-          //  Logger.getLogger(ConnectionServer.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }
-    
 }

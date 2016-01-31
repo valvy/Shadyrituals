@@ -24,29 +24,27 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 package PrutEngine;
+
 import static org.lwjgl.glfw.GLFW.*;
 import java.util.ArrayList;
 
-/**
- *
- * @author quget
- */
 public class PrutKeyboard
 {
     private ArrayList<PrutKey> prutKeys = new ArrayList<PrutKey>();
-    void PrutKeyboard()
-    {
-        
-    }
+    
+    void PrutKeyboard(){}
+    
     public void addKey(int keyCode)
     {
         prutKeys.add(new PrutKey(keyCode));
     }
+    
     public void addKey(PrutKey prutKey)
     {
         prutKeys.add(prutKey);
     }
-    public void changeState(int keyCode,/* Boolean isPressed*/ int action)
+    
+    public void changeState(int keyCode, int action)
     {
         PrutKey pressedKey = null;
         for (PrutKey prutKey : prutKeys)
@@ -54,7 +52,6 @@ public class PrutKeyboard
             if (prutKey.keyCode == keyCode) 
             {
                 pressedKey = prutKey;
-                //prutKey.action = action;
                 break;
             }
         }
@@ -63,9 +60,9 @@ public class PrutKeyboard
             pressedKey = new PrutKey(keyCode);
             addKey(pressedKey);
         }
-       //GLFW_PRESS, GLFW_RELEASE or GLFW_REPEAT
         pressedKey.action = action;
     }
+    
     public int GetState(int keyCode)
     {
         for (PrutKey prutKey : prutKeys)

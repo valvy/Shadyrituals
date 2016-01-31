@@ -37,10 +37,6 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import org.lwjgl.BufferUtils;
 
-/**
- *
- * @author Heiko van der Heijden
- */
 public final class WaveFrontLoader {
     //The tokens for parsing
     private static final String COMMENT = "#";
@@ -48,7 +44,6 @@ public final class WaveFrontLoader {
     private static final String VERTEX_NORMAL = "vn";
     private static final String VERTEX = "v";
     private static final String FACE = "f";
-    
     
     //The loaded data
     private final ArrayList<Vector3<Float>> vertex;
@@ -62,7 +57,6 @@ public final class WaveFrontLoader {
         this.normals = new ArrayList<>();
         this.faces = new ArrayList<>();
         this.loadFile(path);
-       
     }
     
     private Vector2<Float> parseVector2f(final String line){
@@ -90,8 +84,6 @@ public final class WaveFrontLoader {
         
         return new Vector3<>(fst,snd,third);
     }
-    
-    
     
     private Vector3<Float> parseVector3f(final String line){
         final Scanner fi = new Scanner(line);
@@ -130,13 +122,11 @@ public final class WaveFrontLoader {
         });
         result.flip();
         return result;
-        
     }
     
     public FloatBuffer rawVertexData(){
        final ArrayList<Float> rawData = new ArrayList<>();
         for(final Vector3<Vector3<Integer>> face : this.faces){
-          
             Vector3<Float> v = this.vertex.get(face.x.x -1);
             rawData.add(v.x);
             rawData.add(v.y);
@@ -209,7 +199,5 @@ public final class WaveFrontLoader {
         } finally {
             br.close();
         }
-      
     }
-    
 }

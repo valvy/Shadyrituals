@@ -29,8 +29,8 @@ import PrutEngine.Core.Math.Vector3;
 
 public final class Enemy extends Actor
 {
-    
     private final String name;
+    
     public Enemy(Vector3<Float> startPos, String name, Element elem)
     {
         super(startPos);
@@ -53,15 +53,11 @@ public final class Enemy extends Actor
         }
     }
     
-   // public 
-    
     @Override
     public void update(float tpf)
     {
         super.update(tpf);
     }
-    
-    
     
     @Override
     public void onCollision(CollideAble collideWith)

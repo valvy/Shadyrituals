@@ -28,32 +28,25 @@ package GGJ2016;
 import GGJ2016.Actors.SplashBackground;
 import PrutEngine.Application;
 import PrutEngine.AssetManager;
-import PrutEngine.Core.Math.Vector2;
 import PrutEngine.Scene;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_ENTER;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_SPACE;
 import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
 
-/**
- *
- * @author Heiko van der Heijden
- */
 public class SplashScreen extends Scene{
-
     @Override
     public void awake() {
         this.addGameObject(new SplashBackground());
-     //   Application.getInstance().getWindow().setFullScreen();//.setWindowSize(new Vector2<>(700,700));
     }
     
     @Override
     public void update(float tpf){
         super.update(tpf);
-                 if(Application.getInstance().getKeyboardKey(GLFW_KEY_SPACE) == GLFW_PRESS
-                 ||Application.getInstance().getKeyboardKey(GLFW_KEY_ENTER) == GLFW_PRESS){
-             AssetManager.clearProgramsBuffer();
-             AssetManager.clearShaderBuffer();
-             Application.getInstance().loadScene(new MenuScene());
-         }
+        if(Application.getInstance().getKeyboardKey(GLFW_KEY_SPACE) == GLFW_PRESS
+         ||Application.getInstance().getKeyboardKey(GLFW_KEY_ENTER) == GLFW_PRESS){
+            AssetManager.clearProgramsBuffer();
+            AssetManager.clearShaderBuffer();
+            Application.getInstance().loadScene(new MenuScene());
+        }
     }
 }

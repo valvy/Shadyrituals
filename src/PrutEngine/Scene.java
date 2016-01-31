@@ -27,8 +27,6 @@ package PrutEngine;
 
 import GGJ2016.Actors.Actor;
 import GGJ2016.Actors.CollideAble;
-import GGJ2016.Actors.Enemy;
-import GGJ2016.Actors.Player;
 import PrutEngine.Core.Math.Vector3;
 import PrutEngine.Core.View;
 import java.util.ArrayList;
@@ -61,7 +59,6 @@ public abstract class Scene {
         GameObject obj = null;
         for(GameObject ga : this.gameObjects){
             if(gameobject == ga){
-                
                 obj = ga;
             }
         }
@@ -69,8 +66,6 @@ public abstract class Scene {
             this.toDestroy.add(obj);
         }
     }
-    
-
     
     public void setCamera(Camera cam){
         this.camera = cam;
@@ -83,9 +78,11 @@ public abstract class Scene {
     protected void addGameObject(GameObject gameObject){
         this.gameObjects.add(gameObject);
     }
+    
     public void addGameObjectRealTime(GameObject gameObject){
         gameObjectsToAdd.add(gameObject);
     }
+    
     /**
      * Removes an GameObject in the scene
      * @param gameObject
@@ -116,7 +113,6 @@ public abstract class Scene {
         for(GameObject obj : this.gameObjects){
             obj.update(tpf);
         }
-        
         
         for(GameObject obj : this.gameObjects)
         {
@@ -165,7 +161,5 @@ public abstract class Scene {
             if(go instanceof Actor)
                 ((Actor)go).updateBoundingBox();
         }
-        
     }
-    
 }

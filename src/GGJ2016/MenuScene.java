@@ -40,10 +40,7 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_UP;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_W;
 import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
 import static org.lwjgl.glfw.GLFW.GLFW_RELEASE;
-/**
- *
- * @author wander
- */
+
 public class MenuScene extends Scene {
     private int simpleState = 0;
     private int view = 0;
@@ -55,13 +52,11 @@ public class MenuScene extends Scene {
     public void awake() {
         this.addGameObject(background);
         this.addGameObject(cursor);
-
     }
     
     @Override
     public void update(float tpf){
         super.update(tpf);
-        
          if(Application.getInstance().getKeyboardKey(GLFW_KEY_W) == GLFW_PRESS | Application.getInstance().getKeyboardKey(GLFW_KEY_UP) == GLFW_PRESS  && simpleState > 0 && up == 0){
              simpleState--;
              up = 1;
@@ -78,8 +73,6 @@ public class MenuScene extends Scene {
          if(Application.getInstance().getKeyboardKey(GLFW_KEY_S) == GLFW_RELEASE && Application.getInstance().getKeyboardKey(GLFW_KEY_DOWN) == GLFW_RELEASE){
              down = 0;
          }
-                  
-         
          if(Application.getInstance().getKeyboardKey(GLFW_KEY_ESCAPE) == GLFW_PRESS && quit == 0)
              Application.getInstance().quit();
          
@@ -100,9 +93,6 @@ public class MenuScene extends Scene {
                     background.initRenderer("multyscreen.png");
                     view++;
                     space = 0;
-                    //AssetManager.clearProgramsBuffer();
-                    //AssetManager.clearShaderBuffer();
-                    //Application.getInstance().loadScene(new GameScene());
                     break;
                 case 1:
                     if(view > 0)
@@ -126,13 +116,13 @@ public class MenuScene extends Scene {
                     Application.getInstance().quit();
                     break;
             }
-         }
-         
-         if(Application.getInstance().getKeyboardKey(GLFW_KEY_ENTER) == GLFW_RELEASE &&
-            Application.getInstance().getKeyboardKey(GLFW_KEY_SPACE) == GLFW_RELEASE ){
-                space = 1;
-         }
+        }
+        if(Application.getInstance().getKeyboardKey(GLFW_KEY_ENTER) == GLFW_RELEASE &&
+           Application.getInstance().getKeyboardKey(GLFW_KEY_SPACE) == GLFW_RELEASE ){
+            space = 1;
+        }
     }
+    
     private void LoadGame()
     {
 

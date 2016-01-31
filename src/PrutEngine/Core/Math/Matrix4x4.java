@@ -23,9 +23,9 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+
 package PrutEngine.Core.Math;
 
-import PrutEngine.Debug;
 import java.nio.FloatBuffer;
 import org.lwjgl.BufferUtils;
 
@@ -35,11 +35,8 @@ import org.lwjgl.BufferUtils;
  * @author Heiko van der Heijden
  */
 public final class Matrix4x4 {
-    
-    /**
-     *
-     */
     public final Vector4<Vector4<Float>> mat;
+    
     /**
      * Loads the matrix with an identity matrix
      */
@@ -77,7 +74,6 @@ public final class Matrix4x4 {
     public String toString(){
         return mat.x.toString() + '\n' +  mat.y.toString() + '\n' + mat.z.toString() + '\n'+ mat.w.toString();
     }
-    
     
     /**
      * Scales an matrix with the specified values
@@ -132,7 +128,7 @@ public final class Matrix4x4 {
      * @return rotation matrix
      */
     public static Matrix4x4 rotate(final float angle, final Vector3<Float> around){
-    //    Matrix4x4 rotation = new Matrix4x4();
+        //Matrix4x4 rotation = new Matrix4x4();
         //get radians
         float rad = (float) Math.toRadians(angle);
         final float x2 = around.x * around.x;
@@ -143,21 +139,19 @@ public final class Matrix4x4 {
         final float omc = 1.0f - c;
         
         return new Matrix4x4(
-                new Vector4<>(x2 * omc + c,around.y * around.x * omc + around.z * s,around.x * around.z * omc - around.y * s,0f),
-                new Vector4<>(around.x * around.y * omc - around.z * s,y2 * omc + c,around.y * around.z  * omc + around.x * s,0f),
-                new Vector4<>(around.x * around.z * omc + around.y * s,around.y * around.z * omc - around.x * s,z2 * omc + c,0f),
-                new Vector4<>(0f,0f,0f,1f)
+            new Vector4<>(x2 * omc + c,around.y * around.x * omc + around.z * s,around.x * around.z * omc - around.y * s,0f),
+            new Vector4<>(around.x * around.y * omc - around.z * s,y2 * omc + c,around.y * around.z  * omc + around.x * s,0f),
+            new Vector4<>(around.x * around.z * omc + around.y * s,around.y * around.z * omc - around.x * s,z2 * omc + c,0f),
+            new Vector4<>(0f,0f,0f,1f)
         );
     }
     
-    
     public static Vector3<Float> multiply(final Matrix4x4 mat, final Vector3<Float> vec){
         return new Vector3<>(
-                mat.mat.x.x * vec.x + mat.mat.x.y * vec.y + mat.mat.x.z * vec.z,
-                mat.mat.y.x * vec.x + mat.mat.y.y * vec.y + mat.mat.y.z * vec.z,
-                mat.mat.z.x * vec.x + mat.mat.z.y * vec.y + mat.mat.z.z * vec.z
+            mat.mat.x.x * vec.x + mat.mat.x.y * vec.y + mat.mat.x.z * vec.z,
+            mat.mat.y.x * vec.x + mat.mat.y.y * vec.y + mat.mat.y.z * vec.z,
+            mat.mat.z.x * vec.x + mat.mat.z.y * vec.y + mat.mat.z.z * vec.z
         );
-        
     }
     
     /**
@@ -193,8 +187,6 @@ public final class Matrix4x4 {
         result.mat.w.z = mat1.mat.w.x * mat2.mat.x.z +mat1.mat.w.y * mat2.mat.y.z + mat1.mat.w.z * mat2.mat.z.z +mat1.mat.w.w * mat2.mat.w.z;
         result.mat.w.w =  mat1.mat.w.x * mat2.mat.x.w +mat1.mat.w.y * mat2.mat.y.w + mat1.mat.w.z * mat2.mat.z.w +mat1.mat.w.w * mat2.mat.w.w;
         
-        
-        
         return result;
     }
     
@@ -213,12 +205,11 @@ public final class Matrix4x4 {
      * @return Matrix
      */
     public static Matrix4x4 identityMatrix(){
-      return new Matrix4x4(
-              new Vector4<>(1f,0f,0f,0f),
-              new Vector4<>(0f,1f,0f,0f),
-              new Vector4<>(0f,0f,1f,0f),
-              new Vector4<>(0f,0f,0f,1f)
-      );
-        
+        return new Matrix4x4(
+            new Vector4<>(1f,0f,0f,0f),
+            new Vector4<>(0f,1f,0f,0f),
+            new Vector4<>(0f,0f,1f,0f),
+            new Vector4<>(0f,0f,0f,1f)
+        );
     }
 }

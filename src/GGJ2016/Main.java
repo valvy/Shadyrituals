@@ -3,7 +3,6 @@ package GGJ2016;
 import PrutEngine.Application;
 
 public class Main{
-
     public static void main(String[] args) {
         System.out.println("Welcome to Shady ritual");
         System.out.println("To set the server set Server:<127.0.IP.adress>");
@@ -24,6 +23,5 @@ public class Main{
             System.setProperty("java.awt.headless", "true");//Otherwise freezes on os x :-(
         }
         Application.getInstance().loadScene(new SplashScreen());
-        
     }
 }

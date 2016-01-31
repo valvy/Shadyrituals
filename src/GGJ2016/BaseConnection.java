@@ -31,10 +31,6 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author Heiko van der Heijden
- */
 public abstract class BaseConnection implements Runnable{
     private boolean shouldStop = false;
     private static BaseConnection instance;
@@ -46,7 +42,6 @@ public abstract class BaseConnection implements Runnable{
     protected String idName = "NULL";
 
     public static class ConnectedPlayer{
-        
         public String id;
         public Vector3<Float> currentPosition;
         public Actor.Element playerElement;
@@ -78,7 +73,6 @@ public abstract class BaseConnection implements Runnable{
     public void stopConnection(){
         this.shouldStop = true;
         try {
-            
             this.stop();
             this.thread.join();
         } catch (InterruptedException ex) {
@@ -86,16 +80,13 @@ public abstract class BaseConnection implements Runnable{
         }
     }
     
-    
     protected abstract void stop();
     
     @Override
     public void run() {
         if(this.attemptToConnect()){
             while(!shouldStop){
-            
                 this.connected();
-            
             }
         }
     }
@@ -104,13 +95,10 @@ public abstract class BaseConnection implements Runnable{
     
     public static void create(boolean host){
         if(host){
-            
             instance = new ConnectionServer();
             instance.idName = instance.HANDSHAKE + "Server";
         }else{
-            
             instance = new ConnectionClient();
-            
         }
     }
     

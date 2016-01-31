@@ -23,6 +23,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+
 package PrutEngine.Core.Data;
 
 import PrutEngine.Core.Utilities.Primitives;
@@ -30,7 +31,6 @@ import PrutEngine.Core.Utilities.WaveFrontLoader;
 import java.io.IOException;
 import java.nio.FloatBuffer;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
 import org.lwjgl.opengl.GL15;
 import static org.lwjgl.opengl.GL15.glBindBuffer;
 import static org.lwjgl.opengl.GL15.glBufferData;
@@ -49,7 +49,6 @@ import static org.lwjgl.opengl.GL30.glGenVertexArrays;
  * @author Heiko van der Heijden
  */
 public final class Mesh extends Resource{
-    
     private final FloatBuffer rawVertexdata;
     private final FloatBuffer rawUVData;
     private final FloatBuffer rawNormalData;
@@ -58,8 +57,8 @@ public final class Mesh extends Resource{
     private final int vertex_vbo;
     private final int uv_vbo;
     private final int normal_vbo;
+    
     /**
-     *
      * @param fileLocation
      * @param position
      * @throws java.io.IOException
@@ -121,7 +120,6 @@ public final class Mesh extends Resource{
     public int getVao(){
         return this.vao;
     }
-
     
     @Override
     public void destroy() {
@@ -129,5 +127,4 @@ public final class Mesh extends Resource{
         glDeleteBuffers(this.vertex_vbo);
         glDeleteBuffers(this.uv_vbo);
     }
-    
 }

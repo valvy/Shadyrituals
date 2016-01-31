@@ -29,9 +29,7 @@ import GGJ2016.BaseConnection;
 import PrutEngine.Core.Math.Vector2;
 import PrutEngine.Core.View;
 import java.util.Date;
-import java.util.HashMap;
 import org.lwjgl.glfw.*;
-
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryUtil.*;
@@ -42,7 +40,6 @@ import static org.lwjgl.system.MemoryUtil.*;
  * @author Heiko van der Heijden
  */
 public final class Application {
-    
     private static Application instance;
     public PrutKeyboard prutKeyBoard;
     private GLFWErrorCallback errorCallback;
@@ -52,6 +49,7 @@ public final class Application {
     private Scene currentModel;
     private final View view;
     private Vector2 screenResolution = new Vector2(0f,0f);
+    
     /**
      * Gets the instance of the application
      * if the instance does not exists, it makes a new instance
@@ -64,27 +62,19 @@ public final class Application {
         return Application.instance;
     }
     
-    
-    
     private Application(){
         this.init();
         this.view = new View(this.window);
- 
     }
     
-    
     private void init(){
-        
         prutKeyBoard = new PrutKeyboard();
         glfwSetErrorCallback(errorCallback = GLFWErrorCallback.createPrint(System.err));
- 
-        
         
         // Initialize GLFW. Most GLFW functions will not work before doing this.
         if ( glfwInit() != GLFW_TRUE )
             throw new IllegalStateException("Unable to initialize GLFW");
- 
-     
+
         this.setWindowConfiguration();
         
         long monitor = glfwGetPrimaryMonitor();
@@ -93,23 +83,15 @@ public final class Application {
         int WIDTH= vidMode.width();
         int HEIGHT = vidMode.height();
 
-
-        
         window = glfwCreateWindow(WIDTH, HEIGHT, "", monitor, NULL);
         if ( window == NULL )
             throw new RuntimeException("Failed to create the GLFW window");
  
-        
-        
         // Setup a key callback. It will be called every time a key is pressed, repeated or released.
         glfwSetKeyCallback(window, keyCallback = new GLFWKeyCallback() {
             @Override
             public void invoke(long window, int key, int scancode, int action, int mods) {
-               // Debug.log(action);
                 prutKeyBoard.changeState(key, action);
-                
-              //  if ( key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE )
-              //      glfwSetWindowShouldClose(window, GLFW_TRUE); // We will detect this in our rendering loop
             }
         });
  
@@ -131,20 +113,20 @@ public final class Application {
     }
     
     private void setWindowConfiguration(){
-     
         glfwDefaultWindowHints(); // optional, the current window hints are already the default
         glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE); // the window will stay hidden after creation
         glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE); // the window will be resizable
-                    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4); //setup opengl version 4
-            glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1); 
-            glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-            glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4); //setup opengl version 4
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1); 
+        glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     }
     
     private void destroy(){
         if(BaseConnection.getInstance() != null){
             BaseConnection.getInstance().stopConnection();
         }
+
         this.currentModel.onQuit();
         this.view.destroy();
         glfwSetWindowShouldClose(window, GLFW_TRUE);
@@ -152,12 +134,13 @@ public final class Application {
     
     public void quit(){
         this.shouldStop = true;
- 
     }
+    
     public Vector2 getScreenSize()
     {
         return screenResolution;
     }
+    
     public View getWindow(){
         return this.view;
     }
@@ -185,43 +168,39 @@ public final class Application {
         if(this.currentModel!= null){
             this.currentModel.onQuit();
             this.currentModel = scene;
-        }else{
+        }
+        else{
             this.currentModel = scene;
             this.run();
         }
-        //    System.gc();
     }    
     
     private Thread thread ;
     
     private void loop(){
-         long lastTime = 0;
-         while ( glfwWindowShouldClose(window) == GLFW_FALSE ) {
-             Date date = new Date();
-             long time = date.getTime();
-             if(this.shouldStop){
-                 this.destroy();
-                 return;
-             }
-             
-             glfwSwapBuffers(window); // swap the color buffers
-             if(this.currentModel != null){
+        long lastTime = 0;
+        while ( glfwWindowShouldClose(window) == GLFW_FALSE ) {
+            Date date = new Date();
+            long time = date.getTime();
+            if(this.shouldStop){
+                this.destroy();
+                return;
+            }
+            
+            glfwSwapBuffers(window); // swap the color buffers
+            if(this.currentModel != null){
                 this.currentModel.draw(this.view);
-                
+               
                 if(lastTime > 0){
-                    float tmp = (float)lastTime / 10000;
-                    this.currentModel.update(tmp);
+                   float tmp = (float)lastTime / 10000;
+                   this.currentModel.update(tmp);
                 }
-                 
                 date = new Date();
                 lastTime = date.getTime() - time;
-                
-                        
-             }
-             glfwPollEvents();
-         }
-         
-         this.destroy();
+            }
+            glfwPollEvents();
+        }
+        this.destroy();
     }
     
     private void run(){
@@ -239,9 +218,6 @@ public final class Application {
         }finally{
             glfwTerminate();
             errorCallback.release();
-            
         }
     }
-    
-  
 }

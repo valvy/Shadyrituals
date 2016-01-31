@@ -34,7 +34,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
  * Management of all the resources
@@ -45,9 +44,7 @@ public final class AssetManager {
     /**
      * Called when the program can't find an asset
      */
-    public static class AssetNotFoundException extends Exception{
-        
-    }
+    public static class AssetNotFoundException extends Exception{}
     
     /**
      * An unique number that represents a reference
@@ -79,17 +76,12 @@ public final class AssetManager {
      */
     private static final ArrayList<Sound> SOUNDS = new ArrayList<>();
     
-    //ToDo Sounds....
-    /*
-    public static int getSound(int reference) throws AssetNotFoundException
-    {
-        throw new NotImplementedException();
-    }*/
     //Fix this pls
     public static Sound getSound(int id)
     {
         return(SOUNDS.get(id));
     }
+    
     public static Sound getSound(String name)
     {
         for (Sound SOUNDS1 : SOUNDS) 
@@ -100,8 +92,8 @@ public final class AssetManager {
             }
         }
         return null;
-        //return(SOUNDS.get(id));
     }
+    
     public static int loadSound(final String sound,final String soundName) throws IOException{
         for(Sound snd : AssetManager.SOUNDS)
         {
@@ -115,6 +107,7 @@ public final class AssetManager {
         AssetManager.SOUNDS.add(snd);
         return snd.addRef();
     }
+    
     /**
      * Loads an shader and passes the reference if the shader does not exists
      * @param shaderName    The relative path of the shader.
@@ -135,7 +128,6 @@ public final class AssetManager {
         return result.addRef();
     }
     
-    
     /**
      * Gets the texture from the stack
      * @param reference The code you received while loading the asset
@@ -145,13 +137,11 @@ public final class AssetManager {
     public static int getTexture(int reference) throws AssetNotFoundException{
         for(Texture tex : AssetManager.TEXTURES){
             if(tex.getMemoryPosition() == reference){
-                
                 return tex.getTexture();
             }
         }
         throw new AssetNotFoundException();
     }
-    
     
     /**
      * Loads an texture on the stack
@@ -169,7 +159,6 @@ public final class AssetManager {
         Texture tex = new Texture(texture,AssetManager.uniqueNumber);
         AssetManager.uniqueNumber++;
         AssetManager.TEXTURES.add(tex);
-        
         return tex.addRef();
     }
     
@@ -182,7 +171,6 @@ public final class AssetManager {
     private static int getShader(int reference) throws AssetNotFoundException{
         for(Shader sh : AssetManager.SHADERS){
             if(sh.getMemoryPosition() == reference){
-                
                 return sh.getShader();
             }
         }
@@ -198,11 +186,8 @@ public final class AssetManager {
         AssetManager.PROGRAMS.stream().forEach((pr) -> {
             result.add(pr.getProgram());
         });
-        
         return result;
     }
-    
-    
     
     /**
      * Loads and links shaders into a opengl program.
@@ -211,10 +196,7 @@ public final class AssetManager {
      * @return  The program reference
      * @throws Exception 
      */
-    public static final int loadProgram(
-            final HashMap<String, Shader.Type> shaders
-    ) throws Exception{
-        
+    public static final int loadProgram(final HashMap<String, Shader.Type> shaders) throws Exception{
         String programName = "";
         programName = shaders.entrySet().stream().map((entry) -> entry.getKey()).reduce(programName, String::concat);
         //Check if program already exists
@@ -232,15 +214,11 @@ public final class AssetManager {
         }
 
         GLProgram program = new GLProgram(
-                programName,
-                AssetManager.uniqueNumber, 
-                shaderList);
+            programName,
+            AssetManager.uniqueNumber, 
+            shaderList);
         AssetManager.uniqueNumber++;
-
         AssetManager.PROGRAMS.add(program);
-        
-
-        
         return program.addRef();
     }
     
@@ -251,10 +229,8 @@ public final class AssetManager {
      * @throws IOException  When the 3d mesh does not exists
      */
     public static final int loadMesh(final String path) throws IOException{
-        
         for(Mesh mesh : AssetManager.MESHES){
             if(mesh.getDataLocation().equals(path)){
-            //    Debug.log("adsf");
                 return mesh.addRef();
             }
         }
@@ -262,7 +238,6 @@ public final class AssetManager {
         final Mesh mesh = new Mesh(path,AssetManager.uniqueNumber);
         AssetManager.uniqueNumber++;
         AssetManager.MESHES.add(mesh);
-        
         return mesh.addRef();
     }
     
@@ -273,10 +248,8 @@ public final class AssetManager {
      * @throws PrutEngine.AssetManager.AssetNotFoundException 
      */
     public static final int getProgram(final int reference) throws AssetNotFoundException{
-      
         for(GLProgram pr : AssetManager.PROGRAMS){
             if(pr.getMemoryPosition() == reference){
-               // Debug.log(reference);
                 return pr.getProgram();
             }
         }
@@ -323,8 +296,7 @@ public final class AssetManager {
         });
         SHADERS.clear();
     }
-    
-
+   
     public static void clearProgramsBuffer(){
         AssetManager.PROGRAMS.stream().forEach((pr) -> {
             pr.destroy();
@@ -346,15 +318,12 @@ public final class AssetManager {
         AssetManager.MESHES.clear();
     }
 
-    
     /**
      * Removes an program when it exists
      * @param reference 
      */
     public static void removeProgram(final int reference){
-
         GLProgram tmp = null;
-        
         for(GLProgram pr : AssetManager.PROGRAMS){
             if(pr.getMemoryPosition() == reference){
                 if(pr.removeRef()){
@@ -375,9 +344,7 @@ public final class AssetManager {
      * @param reference 
      */
      public static void removeTexture(final int reference){
-
         Texture tmp = null;
-        
         for(Texture tex : AssetManager.TEXTURES){
             if(tex.getMemoryPosition() == reference){
                 if(tex.removeRef()){
@@ -390,7 +357,6 @@ public final class AssetManager {
         if(tmp != null){
             AssetManager.TEXTURES.remove(tmp);
         }
-        
     }
     
      /**
@@ -398,9 +364,7 @@ public final class AssetManager {
      * @param reference 
      */
     public static void removeMesh(final int reference){
-        
         Mesh tmp = null;
-        
         for(Mesh mesh : AssetManager.MESHES){
             if(mesh.getMemoryPosition() == reference){
                 if(mesh.removeRef()){
@@ -409,14 +373,8 @@ public final class AssetManager {
                 }
             }
         }
-        
         if(tmp != null){
             AssetManager.MESHES.remove(tmp);
         }
-        
     }
-
-    
-    
-    
 }

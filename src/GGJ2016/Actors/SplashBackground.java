@@ -45,17 +45,17 @@ public class SplashBackground extends GameObject
     public SplashBackground(){
         try {
             this.setRenderer(new Renderer(
-                    "Assets/Shaders/UnShadedVertex.glsl",
-                    "Assets/Shaders/JumpTextFragment.glsl",
-                    //"Assets/Textures/titlescreen.png",
-                    "",
-                    "Assets/Meshes/Quad.obj"));
+                "Assets/Shaders/UnShadedVertex.glsl",
+                "Assets/Shaders/JumpTextFragment.glsl",
+                "",
+                "Assets/Meshes/Quad.obj"));
             time = glGetUniformLocation(AssetManager.getProgram(this.getRenderer().getProgram()), "time");
-           resolution = glGetUniformLocation(AssetManager.getProgram(this.getRenderer().getProgram()), "resolution");
-           glUseProgram(AssetManager.getProgram(this.getRenderer().getProgram()));
+            resolution = glGetUniformLocation(AssetManager.getProgram(this.getRenderer().getProgram()), "resolution");
+            glUseProgram(AssetManager.getProgram(this.getRenderer().getProgram()));
 
-           glUniform2f(resolution,(int)Application.getInstance().getScreenSize().x,(int)Application.getInstance().getScreenSize().y);
-        } catch (Exception ex) {
+            glUniform2f(resolution,(int)Application.getInstance().getScreenSize().x,(int)Application.getInstance().getScreenSize().y);
+        }
+        catch (Exception ex) {
             Logger.getLogger(Background.class.getName()).log(Level.SEVERE, null, ex);
         }
         this.setSize(new Vector3<>(2f,2f,2f));
