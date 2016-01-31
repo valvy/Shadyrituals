@@ -66,7 +66,11 @@ public class GameScene extends Scene
         for(int i = 0; i < Globals.WORLD_SIZE.x / 2; i++){
             this.addGameObject(new ChangeObject(new Vector3<>(PrutMath.random(-Globals.WORLD_SIZE.x, Globals.WORLD_SIZE.x),PrutMath.random(-Globals.WORLD_SIZE.y, Globals.WORLD_SIZE.y),-5f),this));
         }
-
+        
+        for(int i = 0; i < Globals.WORLD_SIZE.x / 3; i++){
+             this.addGameObject(new DeathWall(new Vector3<>(PrutMath.random(-Globals.WORLD_SIZE.x, Globals.WORLD_SIZE.x),PrutMath.random(-Globals.WORLD_SIZE.y, Globals.WORLD_SIZE.y),0f)));
+        }
+        
         try
         {
             AssetManager.loadSound("Assets/Sounds/change01.wav","change");
@@ -99,7 +103,6 @@ public class GameScene extends Scene
              Application.getInstance().loadScene(new MenuScene());
              return;
          }
-    
         int index = 0;
         
         for(ConnectedPlayer pl : BaseConnection.getInstance().getAllConnections()){
