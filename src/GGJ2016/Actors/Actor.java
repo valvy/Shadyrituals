@@ -49,7 +49,7 @@ public class Actor extends CollideAble
     }
     
     public Element currentElement;
-    protected final float speed = 500f;
+    protected final float speed = 250f;
     
     //Shader
     int time = -1;
