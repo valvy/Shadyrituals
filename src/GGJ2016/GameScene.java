@@ -107,6 +107,7 @@ public class GameScene extends Scene
             for(Enemy e : this.otherPlayers){
                 if(e.getName().equals(pl.id)){
                     e.setPosition(pl.currentPosition);
+                    e.currentElement = pl.playerElement;
                     inList = true;
                 }
             }
