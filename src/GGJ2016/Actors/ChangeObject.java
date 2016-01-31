@@ -42,6 +42,7 @@ public class ChangeObject extends CollideAble
         this.scene = scene;
         this.setPosition(startPos);
         this.rotate(new Vector3<>(1f,0f,0f), -90);
+        this.setSize(new Vector3<>(1.4f,1.4f,1.4f));
         this.boundingBox = new Vector4<Float>(1f, 1f, 1f, 1f);
         initRenderer();
     }
@@ -52,7 +53,7 @@ public class ChangeObject extends CollideAble
             this.setRenderer(new Renderer(
                 "Assets/Shaders/UnShadedVertex.glsl",
                 "Assets/Shaders/UnShadedFragment.glsl",
-                "Assets/Textures/Weirdo.png",
+                "Assets/Textures/Witch.png",
                 "Assets/Meshes/Quad.obj"));
         }
         catch (Exception ex) {
