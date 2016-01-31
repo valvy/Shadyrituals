@@ -61,7 +61,7 @@ public class GameScene extends Scene
         this.addGameObject(new Background());
         this.addGameObject(pl);
         
-        this.addGameObject(new Actor(new Vector3<>(0f,0f,0f)));
+        //this.addGameObject(new Actor(new Vector3<>(0f,0f,0f)));
 
         for(int i = 0; i < Globals.WORLD_SIZE.x / 2; i++){
             this.addGameObject(new ChangeObject(new Vector3<>(PrutMath.random(-Globals.WORLD_SIZE.x, Globals.WORLD_SIZE.x),PrutMath.random(-Globals.WORLD_SIZE.y, Globals.WORLD_SIZE.y),-5f),this));
@@ -70,9 +70,10 @@ public class GameScene extends Scene
         try
         {
             AssetManager.loadSound("Assets/Sounds/change01.wav","change");
-            AssetManager.loadSound("Assets/Sounds/mmmm.wav","mmm");
+            //AssetManager.loadSound("Assets/Sounds/mmmm.wav","mmm");
             AssetManager.loadSound("Assets/Sounds/death01.wav","death01");
-            AssetManager.loadSound("Assets/Sounds/wanderMusic.wav","bgm01");
+            //AssetManager.loadSound("Assets/Sounds/wanderMusic.wav","bgm01");
+            AssetManager.loadSound("Assets/Sounds/background.wav","bgm01");
         }
         catch(Exception e)
         {

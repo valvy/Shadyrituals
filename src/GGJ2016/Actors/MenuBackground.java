@@ -39,7 +39,7 @@ public class MenuBackground extends GameObject
         this.rotate(new Vector3<>(1f,0f,0f), -90);
     }
     
-    protected void initRenderer(String texture)
+    public void initRenderer(String texture)
     {
         try {
             this.setRenderer(new Renderer(
