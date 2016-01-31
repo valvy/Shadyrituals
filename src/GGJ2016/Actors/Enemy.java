@@ -35,7 +35,7 @@ public final class Enemy extends Actor
     {
         super(startPos);
         this.name = name;
-        this.currentElement = elem;
+        this.currentElement = null;
         this.setSize(new Vector3<Float>(2f, 2f, 2f));
         this.setPosition(startPos);
     }
@@ -45,7 +45,12 @@ public final class Enemy extends Actor
     }
     
     public void setElementen(Element elem){
-        this.currentElement = elem;
+        
+        if(this.currentElement != elem)
+        {
+            this.setupElement(elem);
+            this.currentElement = elem;
+        }
     }
     
    // public 
