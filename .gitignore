@@ -8,10 +8,8 @@
 *.jar
 *.war
 *.ear
-<<<<<<< HEAD
-=======
 *.xml
->>>>>>> c45ee7028ea09b6ba932d84152d5f208e869362d
+
 *.properties
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
