@@ -38,6 +38,11 @@ import static org.lwjgl.opengl.GL20.glUniform1f;
 import static org.lwjgl.opengl.GL20.glUniform2f;
 import static org.lwjgl.opengl.GL20.glUseProgram;
 
+/**
+ * the gameobject (wizard/witch) that changes the players element
+ * it despawn when collided with player
+ * @author Eddy
+ */
 public class ChangeObject extends CollideAble
 {
     private final GameScene scene;

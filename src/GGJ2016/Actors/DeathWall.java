@@ -32,7 +32,7 @@ import PrutEngine.GameObject;
 import PrutEngine.Renderer;
 
 /**
- *
+ * Kills of the player when touched
  * @author Heiko van der Heijden
  */
 public class DeathWall extends CollideAble{

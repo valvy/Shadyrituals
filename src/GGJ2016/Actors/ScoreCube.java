@@ -29,6 +29,11 @@ import PrutEngine.Core.Math.Vector3;
 import PrutEngine.GameObject;
 import PrutEngine.Renderer;
 
+/**
+ * Represents the score of the player.
+ * Each cube represents one kill
+ * @author Jeffrey Verbeek
+ */
 public class ScoreCube extends GameObject
 {
     public ScoreCube(Vector3<Float> startPos)

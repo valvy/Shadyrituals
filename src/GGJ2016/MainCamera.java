@@ -31,13 +31,40 @@ import PrutEngine.Core.Math.Quaternion;
 import PrutEngine.Core.Math.Vector3;
 import PrutEngine.GameObject;
 
+/**
+ * Manages the camera in the scene
+ * @author Heiko van der Heijden 
+ */
 public final class MainCamera extends Camera {
+    /**
+     * How much should the cam shake?
+     */
     private float shakeMagnitude = 0;
+    
+    /**
+     * How long should the cam shake?
+     */
     private float shakeDuration = 0;
+    
+    /**
+     * Starting rotation
+     */
     private final Quaternion oldQuaternion;
+    
+    /**
+     * which object should it follow
+     */
     private GameObject followObject;
+    
+    /**
+     * The speed it follows
+     */
     private final float movSpeed = 50f;
     
+    /**
+     * Initializes the camera with the given position
+     * @param position 
+     */
     public MainCamera(Vector3<Float> position) {
         super(position);
         this.followObject = null;
@@ -48,25 +75,34 @@ public final class MainCamera extends Camera {
     @Override
     public void update(float tpf){
         super.update(tpf);
-        if(this.followObject != null){
+        if(this.followObject != null){//Follow the gameobject with linear interpolation (nice effect)
             this.setPosition(new Vector3<>(
                 PrutMath.lerp(this.getPosition().x,-this.followObject.getPosition().x, movSpeed * tpf),
                 PrutMath.lerp(this.getPosition().y,-this.followObject.getPosition().y, movSpeed * tpf),
                 -30f
             ));
         }
-        if(this.shakeDuration > 0 && this.shakeMagnitude > 0){
+        if(this.shakeDuration > 0 && this.shakeMagnitude > 0){//Shake the camera when necessary
             this.rotate(new Vector3<>(1f,1f,1f), (float) Math.sin(this.shakeDuration - (this.shakeDuration * this.shakeMagnitude) ));
             this.shakeDuration -= tpf;
         }else{
-            this.setRotation(oldQuaternion);
+            this.setRotation(oldQuaternion); //if done set the rotation as the old one
         }
     }
     
+    /**
+     * follows an gameobject 
+     * @param gameObject 
+     */
     public void followObject(GameObject gameObject){
         this.followObject = gameObject;
     }
     
+    /**
+     * Shakes the camera
+     * @param magnitude
+     * @param duration 
+     */
     public void shakeScreen(float magnitude, float duration){
         this.shakeMagnitude = magnitude;
         this.shakeDuration = duration;

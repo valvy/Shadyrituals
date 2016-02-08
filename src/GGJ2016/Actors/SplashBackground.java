@@ -37,6 +37,10 @@ import static org.lwjgl.opengl.GL20.glUniform1f;
 import static org.lwjgl.opengl.GL20.glUniform2f;
 import static org.lwjgl.opengl.GL20.glUseProgram;
 
+/**
+ * Represents the splash screen
+ * @author Wander 
+ */
 public class SplashBackground extends GameObject
 {
     int time;

@@ -42,6 +42,10 @@ import static org.lwjgl.opengl.GL20.glUniform1f;
 import static org.lwjgl.opengl.GL20.glUniform2f;
 import static org.lwjgl.opengl.GL20.glUseProgram;
 
+/**
+ * The background of the game
+ * @author Eddy
+ */
 public class Background extends GameObject
 {
     int time;

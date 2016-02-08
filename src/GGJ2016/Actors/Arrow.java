@@ -29,6 +29,10 @@ import PrutEngine.Core.Math.Vector3;
 import PrutEngine.GameObject;
 import PrutEngine.Renderer;
 
+/**
+ * The arrow for the main menu
+ * @author Wander
+ */
 public class Arrow extends GameObject{
     
     public Arrow(Vector3<Float> startPos)

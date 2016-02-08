@@ -28,6 +28,10 @@ package GGJ2016.Actors;
 import PrutEngine.Core.Math.Vector4;
 import PrutEngine.GameObject;
 
+/**
+ * Does the collision detection through bounding box collision
+ * @author Jeffrey Verbeek
+ */
 public class CollideAble extends GameObject
 {
     public Vector4<Float> boundingBox;

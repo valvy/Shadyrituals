@@ -37,15 +37,30 @@ import static org.lwjgl.opengl.GL20.glUniform1f;
 import static org.lwjgl.opengl.GL20.glUniform2f;
 import static org.lwjgl.opengl.GL20.glUseProgram;
 
+
+/**
+ * The base class of each actor
+ * 
+ * @author Eddy 
+ */
 public class Actor extends CollideAble
 {
+    /**
+     * The element it currently is
+     */
     public enum Element{
         Sphere,
         Cube,
         Torus
     }
     
+    /**
+     * what is it
+     */
     public Element currentElement;
+    /**
+     * Movement speed
+     */
     protected final float speed = 250f;
     
     //Shader
@@ -53,6 +68,11 @@ public class Actor extends CollideAble
     int resolution = -1;
     float timer = 0f;
     
+    /**
+     * initializes the actor with given startposition
+     * Sets the rotation and starts as sphere 
+     * @param startPos 
+     */
     public Actor(Vector3<Float> startPos)
     {
         this.setPosition(startPos);
@@ -84,12 +104,16 @@ public class Actor extends CollideAble
             }
         }
     }
-    
+    /**
+     * Initializes a random element
+     */
     private void initElement()
     {
         changeRandomElement();
     }
-    
+    /**
+     * Changes to a random element
+     */
     protected void changeRandomElement()
     {
         Element chosenElement = this.currentElement;
@@ -113,6 +137,7 @@ public class Actor extends CollideAble
         AssetManager.getSound("change").PlaySound(0);
     }
     
+    
     protected void changeElement()
     {
         switch(this.currentElement)
@@ -129,18 +154,26 @@ public class Actor extends CollideAble
         }
         AssetManager.getSound("change").PlaySound(0);
     }
-    
+    /**
+     * Kills of the actor
+     */
     protected void Die()
     {
         AssetManager.getSound("death01").PlaySound(0);
         respawnActor();
     }
-    
+    /**
+     * Places the actor on a random place
+     */
     public void respawnActor()
     {
        this.setPosition(new Vector3<>(PrutMath.random(-Globals.WORLD_SIZE.x, Globals.WORLD_SIZE.x),PrutMath.random(-Globals.WORLD_SIZE.y, Globals.WORLD_SIZE.y), this.getPosition().z));
     }
     
+    /**
+     * Setups the element with it dedicated resources
+     * @param element 
+     */
     protected void setupElement(Element element){
         this.currentElement = element;
         switch(this.currentElement){
@@ -156,21 +189,13 @@ public class Actor extends CollideAble
         }
     }
     
-    protected void initRenderer(String texture){
-        try {
-            this.setRenderer(new Renderer(
-                "Assets/Shaders/UnShadedVertex.glsl",
-                "Assets/Shaders/UnShadedFragment.glsl",
-                "Assets/Textures/" + texture,
-                "Assets/Meshes/Quad.obj"));
-           time = glGetUniformLocation(AssetManager.getProgram(this.getRenderer().getProgram()), "time");
-           resolution = glGetUniformLocation(AssetManager.getProgram(this.getRenderer().getProgram()), "resolution");
-           glUseProgram(AssetManager.getProgram(this.getRenderer().getProgram()));
-           glUniform2f(resolution,(int)Application.getInstance().getScreenSize().x,(int)Application.getInstance().getScreenSize().y);
-        }
-        catch(Exception e ){}
-    }
+   
     
+    /**
+     * Initializes the rendered with given fragment shader and texture
+     * @param texture
+     * @param fragShader 
+     */
     protected void initRenderer(String texture,String fragShader){
         try {
             this.setRenderer(new Renderer(

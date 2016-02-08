@@ -27,10 +27,21 @@ package GGJ2016.Actors;
 
 import PrutEngine.Core.Math.Vector3;
 
+/**
+ * Represents an connected player.
+ * Can kill the player when it's a corresponding element
+ * @author Heiko van der Heijden 
+ */
 public final class Enemy extends Actor
 {
     private final String name;
     
+    /**
+     * Initializes the enemy with the corresponding variables
+     * @param startPos The starting position
+     * @param name The enemy name
+     * @param elem The element the enemy is.
+     */
     public Enemy(Vector3<Float> startPos, String name, Element elem)
     {
         super(startPos);

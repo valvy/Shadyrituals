@@ -41,6 +41,10 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_W;
 import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
 import static org.lwjgl.glfw.GLFW.GLFW_RELEASE;
 
+/**
+ * Shows the menu
+ * @author Wander
+ */
 public class MenuScene extends Scene {
     private int simpleState = 0;
     private int view = 0;

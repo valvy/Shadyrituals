@@ -40,15 +40,49 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Manages the connection to a server. 
+ * Request data and passes it to the server
+ * @author Heiko van der Heijden 
+ */
 public class ConnectionClient extends BaseConnection {
+    /**
+     * The socket it want's to connect to
+     */
     private Socket socket;
+    
+    /**
+     * The server ip adres
+     */
     private final String IP = Globals.IP_ADRES;
+    
+    /**
+     * Data stream to read
+     */
     private DataInputStream inputStream;
+    
+    /**
+     * stream to write
+     */
     private  BufferedWriter bw;
+    /**
+     * Concurrency mutex to avoid data races
+     */
     private final Mutex mutex;
+    
+    /**
+     * The buffer that the client receives from the server
+     */
     private final ArrayList<String> from;
+    
+    /**
+     * the last message that it should send to the server
+     */
     private String to = NOTHING;
     
+    /**
+     * Initializes the client 
+     */
     protected ConnectionClient(){
         this.mutex = new Mutex();
         this.from = new ArrayList<>();
@@ -163,6 +197,11 @@ public class ConnectionClient extends BaseConnection {
         }
     }
     
+    /**
+     * Sends a message to the server
+     * @param msg the message
+     * @param bw the writer
+     */
     public void send(String msg, BufferedWriter bw){
         try {
             bw.write(msg);
@@ -179,17 +218,17 @@ public class ConnectionClient extends BaseConnection {
         ArrayList<ConnectedPlayer> results = new ArrayList<>();
         do{
             dat = getFrom();
-            if(dat.equals(NOTHING)){
+            if(dat.equals(NOTHING)){//nothing to do
                 return results;
             }
             
             String[] splitedData =  dat.split(";");
-            if(splitedData.length == 1){
+            if(splitedData.length == 1){//invalid input
                 continue;
             }
   
             String id = splitedData[0];
-      
+            //parse it to a vector3
             final Vector3<Float> currentPosition = new Vector3<>(0f,0f,0f);
             try{
                 final Scanner fi = new Scanner(splitedData[1]);
@@ -201,6 +240,8 @@ public class ConnectionClient extends BaseConnection {
                 Logger.getLogger(ConnectionClient.class.getName()).log(Level.SEVERE, null, ex);
                 continue;
             }
+            
+            //set the correct data
             Actor.Element playerElement = Actor.Element.Cube;
             String playerElementString = splitedData[2];
             if(playerElementString.equals(Actor.Element.Cube.toString()))

@@ -33,6 +33,10 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_ENTER;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_SPACE;
 import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
 
+/**
+ * Shows the splashscreen
+ * @author Wander & eddy
+ */
 public class SplashScreen extends Scene{
     @Override
     public void awake() {

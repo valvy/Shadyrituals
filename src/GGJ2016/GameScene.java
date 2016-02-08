@@ -97,7 +97,7 @@ public class GameScene extends Scene
         }
         int index = 0;
         
-        for(ConnectedPlayer pl : BaseConnection.getInstance().getAllConnections()){
+        BaseConnection.getInstance().getAllConnections().stream().forEach((pl) -> {
             boolean inList = false;
             for(Enemy e : this.otherPlayers){
                 if(e.getName().equals(pl.id)){
@@ -111,14 +111,14 @@ public class GameScene extends Scene
                     inList = true;
                 }
             }
-            if(!inList){
-                if(!pl.id.equals(BaseConnection.getInstance().idName)){
+            if (!inList) {
+                if (!pl.id.equals(BaseConnection.getInstance().idName)) {
                     Enemy a = new Enemy(pl.currentPosition,pl.id,pl.playerElement);
                     otherPlayers.add(a);
                     this.addGameObject(a);
                 }
             }
-        }
+        });
         super.update(tpf);
     }
     

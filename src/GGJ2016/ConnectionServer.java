@@ -42,25 +42,73 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Manages the server, and notifies all the clients connected to the server
+ * @author Heiko van der Heijden 
+ */
 public class ConnectionServer extends BaseConnection {
 
+    /**
+     * An unique number to identify the clients
+     */
     private int uniqueNumber = 0;
+    /**
+     * How long to wait for a connection
+     */
     private final int TIME_OUT = 3000;
+    
+    /**
+     * The buffer containing all the data from the connected players
+     * send to the connected players
+     */
     private final ArrayList<String> globalBuffer;
     
     protected ConnectionServer(){
         this.globalBuffer = new ArrayList<>();
     }
 
+    /**
+     * An connected client
+     * Manages it's own thread and loop
+     */
     private class Client implements Runnable{
+        /**
+         * The id of a client
+         */
         private final int id;
+        /**
+         * The connection socket
+         */
         private final Socket sock;
+        /**
+         * the thread of the client
+         */
         private final Thread thread;
+        
+        /**
+         * if true the client will close itself
+         */
         private boolean shouldStop = false;
+        /**
+         * the mutex lock to avoid data races
+         */
         private final Mutex mutex;
+        
+        /**
+         * the data what it did last time
+         */
         private String from = NOTHING;
+        
+        /**
+         * The buffer that it should send
+         */
         private final ArrayList<String> to;
         
+        
+        /**
+         * Gets the the data it should get
+         * @return 
+         */
         public String getFrom(){
             String dat = NOTHING;
             try{
@@ -75,6 +123,10 @@ public class ConnectionServer extends BaseConnection {
             return dat;
         }
         
+        /**
+         * Adds it on the buffer to send to the dedicated player
+         * @param msg 
+         */
         public void addToBuffer(String msg){
             try {
                 mutex.acquire();
@@ -86,7 +138,13 @@ public class ConnectionServer extends BaseConnection {
             }
         }
         
-        public Client(int id, Socket sock) throws Exception{
+        /**
+         * initializes the client with specified id and socket
+         * @param id the player id
+         * @param sock the socket of the player
+         * @throws Exception 
+         */
+        public Client(int id, Socket sock){
             this.id =id;
             this.sock = sock;
             this.to = new ArrayList<>();
@@ -95,6 +153,10 @@ public class ConnectionServer extends BaseConnection {
             this.thread.start();
         }
         
+        /**
+         * Stops the connection 
+         * And joins the connection thread
+         */
         public void stopConnection(){
             shouldStop = true;
             try {
@@ -144,6 +206,11 @@ public class ConnectionServer extends BaseConnection {
             }
         }
         
+        /**
+         * Sends an message to the client
+         * @param msg
+         * @param bw 
+         */
         public void send(String msg, BufferedWriter bw){
             try {
                 bw.write(msg);
@@ -154,7 +221,14 @@ public class ConnectionServer extends BaseConnection {
         }
     }
     
+    /**
+     * The list containing all the clients
+     */
     private ArrayList<Client> clients;
+    
+    /**
+     * The socket of the server
+     */
     private ServerSocket serverSocket;
     
     @Override
@@ -183,17 +257,22 @@ public class ConnectionServer extends BaseConnection {
     
     @Override
     public ArrayList<ConnectedPlayer> getAllConnections() {
+        //create a temporary list with all the players 
         final ArrayList<ConnectedPlayer> result = new ArrayList<>();
+        
+        //check the buffer for data
         for(String str : this.globalBuffer){
-            if(str.equals(NOTHING)){
+            if(str.equals(NOTHING)){//do nothing.. the buffer is empty
                 return result;
             }
+            //split the data with semicolon
             String[] splitedData =  str.split(";");
             
+            //the data is invalid :-(
             if(splitedData.length == 1){
                 continue;
             }
-            String id = splitedData[0];
+            String id = splitedData[0]; //parse it to an vector3
             final Vector3<Float> currentPosition = new Vector3<>(0f,0f,0f);
             try{
                 final Scanner fi = new Scanner(splitedData[1]);
@@ -206,6 +285,7 @@ public class ConnectionServer extends BaseConnection {
                 continue;
             }
           
+            //set the type of the actor
             Actor.Element playerElement = Actor.Element.Cube;
             String playerElementString = splitedData[2];
             if(playerElementString.equals(Actor.Element.Cube.toString()))
@@ -223,18 +303,19 @@ public class ConnectionServer extends BaseConnection {
             ConnectedPlayer player = new ConnectedPlayer(id, currentPosition, playerElement);
             result.add(player);
         }
+        //The globalbuffer is interpreted.
         this.globalBuffer.clear();
         return result;
     }
 
     @Override
     public void notifyWorld(ConnectedPlayer player) {
-        if(clients == null){
+        if(clients == null){//nothing todo
             return;
         }
         ArrayList<String> localBuffer = new ArrayList<>();
         this.globalBuffer.clear();
-        
+        //foreach client add it to the buffer
         for(Client cl : clients){
             //Pass the server data
             String tmp = player.id + ";" + player.currentPosition.toString() + ";" + player.playerElement.toString() + ";";

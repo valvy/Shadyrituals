@@ -35,6 +35,10 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_SPACE;
 import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
 import static org.lwjgl.glfw.GLFW.GLFW_RELEASE;
 
+/**
+ * Shows information about the game
+ * @author Wander
+ */
 public class InfoScreen extends Scene {
     private int state = 1;
     @Override
@@ -45,6 +49,7 @@ public class InfoScreen extends Scene {
     @Override
     public void update(float tpf){
         super.update(tpf);
+        //if enter or space is pressed go to the next scene
         if(Application.getInstance().getKeyboardKey(GLFW_KEY_ENTER) == GLFW_RELEASE &&
            Application.getInstance().getKeyboardKey(GLFW_KEY_SPACE) == GLFW_RELEASE ){
             state = 0;

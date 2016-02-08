@@ -31,16 +31,43 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+
+/**
+ * This is an interface to the game for the connection
+ * Manages the connected players. (it's a singleton)
+ * @author Heiko van der Heijden 
+ */
 public abstract class BaseConnection implements Runnable{
+    /**
+     * Called when the game wants to quit
+     */
     private boolean shouldStop = false;
+    /**
+     * The instance of the singleton
+     */
     private static BaseConnection instance;
+    /**
+     * Connection thread
+     */
     private final Thread thread;
+    /**
+     * Default port to connect
+     */
     protected final int PORT = 7000;
+    /**
+     * Called when te server has nothing to say
+     */
     protected final String NOTHING = "Nothing";
     protected final String HANDSHAKE = "Player:";
 
+    /**
+     * The name that it receives from the server to identify with
+     */
     protected String idName = "NULL";
 
+    /**
+     * The player that is currently conencted
+     */
     public static class ConnectedPlayer{
         public String id;
         public Vector3<Float> currentPosition;
@@ -52,24 +79,46 @@ public abstract class BaseConnection implements Runnable{
         }
     }
     
+    /**
+     * Asks the child for the connected players.
+     * @return the list of players
+     */
     public abstract ArrayList<ConnectedPlayer> getAllConnections();
     
+    /**
+     * Gives the child the player data for the other players
+     * @param player 
+     */
     public abstract void notifyWorld(ConnectedPlayer player);
     
+    /**
+     * Initializes the connection
+     */
     protected BaseConnection(){
         this.thread = new Thread(this);
         this.thread.start();
     }
     
+    /**
+     * The getter for shouldstop
+     * @return 
+     */
     protected boolean shouldStop(){
         return this.shouldStop;
     }
     
+    /**
+     * gets the id name
+     * @return 
+     */
     public String getIdName()
     {
         return idName;
     }
     
+    /**
+     * Stops the connection and stops the connection thread
+     */
     public void stopConnection(){
         this.shouldStop = true;
         try {
@@ -80,6 +129,9 @@ public abstract class BaseConnection implements Runnable{
         }
     }
     
+    /**
+     * Stops the child
+     */
     protected abstract void stop();
     
     @Override
@@ -91,8 +143,16 @@ public abstract class BaseConnection implements Runnable{
         }
     }
     
+    /**
+     * Attemps to connect. implementation depends on the child
+     * @return 
+     */
     public abstract boolean attemptToConnect();
     
+    /**
+     * Creates the singleton depending on what you want
+     * @param host if true it wil set itself as server
+     */
     public static void create(boolean host){
         if(host){
             instance = new ConnectionServer();
@@ -102,9 +162,15 @@ public abstract class BaseConnection implements Runnable{
         }
     }
     
+    /**
+     * Gets the instance
+     * @return 
+     */
     public static BaseConnection getInstance(){
         return instance;
     }
-    
+    /**
+     * Do connection 
+     */
     public  abstract void connected();
 }

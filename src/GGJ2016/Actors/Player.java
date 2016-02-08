@@ -35,6 +35,10 @@ import static org.lwjgl.glfw.GLFW.*;
 import PrutEngine.Core.Math.Vector3;
 import java.util.ArrayList;
 
+/**
+ * The player
+ * @author Wander
+ */
 public class Player extends Actor
 {
     private final GameScene gameScene;
