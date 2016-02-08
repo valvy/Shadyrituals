@@ -69,13 +69,13 @@ public class GameScene extends Scene
         {
             AssetManager.loadSound("Assets/Sounds/change01.wav","change");
             AssetManager.loadSound("Assets/Sounds/death01.wav","death01");
-            AssetManager.loadSound("Assets/Sounds/background.wav","bgm01");
+         //   AssetManager.loadSound("Assets/Sounds/background.wav","bgm01");
         }
         catch(Exception e)
         {
             System.err.println(e.getMessage());
         }
-        AssetManager.getSound("bgm01").PlaySound(-1);
+       // AssetManager.getSound("bgm01").PlaySound(-1);
     }
     
     public Camera getCamera()
