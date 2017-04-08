@@ -26,11 +26,9 @@
 package nl.globalgamejam.shadyrituals.actors;
 
 import nl.globalgamejam.shadyrituals.Globals;
-import nl.hvanderheijden.prutengine.Application;
-import nl.hvanderheijden.prutengine.AssetManager;
+import nl.hvanderheijden.prutengine.*;
+import nl.hvanderheijden.prutengine.core.math.Vector2;
 import nl.hvanderheijden.prutengine.core.math.Vector3;
-import nl.hvanderheijden.prutengine.GameObject;
-import nl.hvanderheijden.prutengine.Renderer;
 import nl.hvanderheijden.prutengine.exceptions.PrutEngineException;
 
 import java.util.logging.Level;
@@ -51,7 +49,7 @@ public class Background extends GameObject
     int resolution;
     float timer = 0f;
     
-    public Background(){
+    public Background() throws PrutEngineException{
         try {
             this.setRenderer(new Renderer(
                 "/Assets/Shaders/UnShadedVertex.glsl",
@@ -68,7 +66,10 @@ public class Background extends GameObject
         } catch (Exception ex) {
             Logger.getLogger(Background.class.getName()).log(Level.SEVERE, null, ex);
         }
-        this.setSize(new Vector3<>((float) Globals.WORLD_SIZE.x,(float)Globals.WORLD_SIZE.y,100f));
+
+        Vector2<Integer> worldSize = SettingsManager.getInstance().getWorld_size();
+
+        this.setSize(new Vector3<>((float) worldSize.x,(float)worldSize.y,100f));
         this.setPosition(new Vector3<>(0f,0f,-11f));
         this.rotate(new Vector3<>(1f,0f,0f), -90); 
     }

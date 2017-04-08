@@ -28,10 +28,13 @@ package nl.globalgamejam.shadyrituals.actors;
 import nl.globalgamejam.shadyrituals.Globals;
 import nl.hvanderheijden.prutengine.Application;
 import nl.hvanderheijden.prutengine.AssetManager;
+import nl.hvanderheijden.prutengine.SettingsManager;
 import nl.hvanderheijden.prutengine.core.math.PrutMath;
+import nl.hvanderheijden.prutengine.core.math.Vector2;
 import nl.hvanderheijden.prutengine.core.math.Vector3;
 import nl.hvanderheijden.prutengine.core.math.Vector4;
 import nl.hvanderheijden.prutengine.Renderer;
+import nl.hvanderheijden.prutengine.exceptions.InitException;
 import nl.hvanderheijden.prutengine.exceptions.PrutEngineException;
 
 import static org.lwjgl.opengl.GL20.glGetUniformLocation;
@@ -84,7 +87,7 @@ public class Actor extends CollideAble
     }
     
     @Override
-    public void onCollision(CollideAble collideWith)
+    public void onCollision(CollideAble collideWith) throws PrutEngineException
     {
         if(collideWith instanceof Actor)
         {
@@ -159,17 +162,16 @@ public class Actor extends CollideAble
     /**
      * Kills of the actor
      */
-    protected void Die()
-    {
+    protected void Die() throws InitException, PrutEngineException {
         AssetManager.getSound("death01").PlaySound(0);
         respawnActor();
     }
     /**
      * Places the actor on a random place
      */
-    public void respawnActor()
-    {
-       this.setPosition(new Vector3<>(PrutMath.random(-Globals.WORLD_SIZE.x, Globals.WORLD_SIZE.x),PrutMath.random(-Globals.WORLD_SIZE.y, Globals.WORLD_SIZE.y), this.getPosition().z));
+    public void respawnActor() throws InitException {
+        final Vector2<Integer> worldSize = SettingsManager.getInstance().getWorld_size();
+       this.setPosition(new Vector3<>(PrutMath.random(-worldSize.x, worldSize.x),PrutMath.random(-worldSize.y, worldSize.y), this.getPosition().z));
     }
     
     /**

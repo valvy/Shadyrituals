@@ -29,7 +29,9 @@ import nl.globalgamejam.shadyrituals.GameScene;
 import nl.globalgamejam.shadyrituals.Globals;
 import nl.hvanderheijden.prutengine.Application;
 import nl.hvanderheijden.prutengine.AssetManager;
+import nl.hvanderheijden.prutengine.SettingsManager;
 import nl.hvanderheijden.prutengine.core.math.PrutMath;
+import nl.hvanderheijden.prutengine.core.math.Vector2;
 import nl.hvanderheijden.prutengine.core.math.Vector3;
 import nl.hvanderheijden.prutengine.core.math.Vector4;
 import nl.hvanderheijden.prutengine.Renderer;
@@ -99,7 +101,7 @@ public class ChangeObject extends CollideAble
     }
     
     @Override
-    public void onCollision(CollideAble collideWith)
+    public void onCollision(CollideAble collideWith) throws PrutEngineException
     {
         if(collideWith instanceof Player)
         {
@@ -117,7 +119,9 @@ public class ChangeObject extends CollideAble
                     break;
             }
         }
-        this.setPosition(new Vector3<>(PrutMath.random(-Globals.WORLD_SIZE.x, Globals.WORLD_SIZE.x),PrutMath.random(-Globals.WORLD_SIZE.y, Globals.WORLD_SIZE.y),-5f));
+
+        final Vector2<Integer> worldSize = SettingsManager.getInstance().getWorld_size();
+        this.setPosition(new Vector3<>(PrutMath.random(-worldSize.x, worldSize.x),PrutMath.random(-worldSize.y, worldSize.y),-5f));
         super.onCollision(collideWith);
     }
 }

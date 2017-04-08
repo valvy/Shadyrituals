@@ -1,6 +1,9 @@
 package nl.globalgamejam.shadyrituals;
 
 import nl.hvanderheijden.prutengine.Application;
+import nl.hvanderheijden.prutengine.SettingsManager;
+import nl.hvanderheijden.prutengine.exceptions.InitException;
+import nl.hvanderheijden.prutengine.exceptions.PrutEngineException;
 
 
 public class Main{
@@ -15,7 +18,11 @@ public class Main{
                 return;
             }else if(str.startsWith("Server:")){
                 System.out.println("Connecting to server : " + str.replace("Server:", ""));
-                Globals.IP_ADRES = str.replace("Server:", "");
+                try {
+                    SettingsManager.getInstance().setIp(str.replace("Server:",""));
+                } catch (InitException e) {
+                    System.out.println("Failed to initialize settings manager");
+                }
             }
         }
         
@@ -26,6 +33,10 @@ public class Main{
 
              System.setProperty("java.awt.headless", "true");//Otherwise freezes on os x :-(
         }
-        Application.getInstance().loadScene(new SplashScreen());
+        try {
+            Application.getInstance().loadScene(new SplashScreen());
+        } catch (PrutEngineException e) {
+            e.printStackTrace();
+        }
     }
 }

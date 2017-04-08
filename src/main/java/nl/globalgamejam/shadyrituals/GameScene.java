@@ -26,17 +26,16 @@
 package nl.globalgamejam.shadyrituals;
 
 import nl.globalgamejam.shadyrituals.actors.*;
-import nl.hvanderheijden.prutengine.Application;
-import nl.hvanderheijden.prutengine.AssetManager;
-import nl.hvanderheijden.prutengine.Camera;
+import nl.hvanderheijden.prutengine.*;
 import nl.hvanderheijden.prutengine.core.math.PrutMath;
+import nl.hvanderheijden.prutengine.core.math.Vector2;
 import nl.hvanderheijden.prutengine.core.math.Vector3;
-import nl.hvanderheijden.prutengine.Scene;
 import nl.hvanderheijden.prutengine.exceptions.PrutEngineException;
 
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
 import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
 import java.util.ArrayList;
+import java.util.Vector;
 
 public class GameScene extends Scene
 {
@@ -48,7 +47,7 @@ public class GameScene extends Scene
     }
     
     @Override
-    public void awake()
+    public void awake() throws PrutEngineException
     {
         Application.getInstance().getWindow().setWindowTitle("game");
         this.setCamera(new MainCamera(new Vector3<>(0f,0f,0f)));
@@ -58,12 +57,13 @@ public class GameScene extends Scene
         
         this.addGameObject(new Background());
         this.addGameObject(pl);
-        for(int i = 0; i < Globals.WORLD_SIZE.x / 2; i++){
-            this.addGameObject(new ChangeObject(new Vector3<>(PrutMath.random(-Globals.WORLD_SIZE.x, Globals.WORLD_SIZE.x),PrutMath.random(-Globals.WORLD_SIZE.y, Globals.WORLD_SIZE.y),-5f),this));
+        final Vector2<Integer> worldSize = SettingsManager.getInstance().getWorld_size();
+        for(int i = 0; i < worldSize.x / 2; i++){
+            this.addGameObject(new ChangeObject(new Vector3<>(PrutMath.random(-worldSize.x, worldSize.x),PrutMath.random(-worldSize.y, worldSize.y),-5f),this));
         }
         
-        for(int i = 0; i < Globals.WORLD_SIZE.x / 3; i++){
-             this.addGameObject(new DeathWall(new Vector3<>(PrutMath.random(-Globals.WORLD_SIZE.x, Globals.WORLD_SIZE.x),PrutMath.random(-Globals.WORLD_SIZE.y, Globals.WORLD_SIZE.y),0f)));
+        for(int i = 0; i < worldSize.x / 3; i++){
+             this.addGameObject(new DeathWall(new Vector3<>(PrutMath.random(-worldSize.x, worldSize.x),PrutMath.random(-worldSize.y, worldSize.y),0f)));
         }
         
         try

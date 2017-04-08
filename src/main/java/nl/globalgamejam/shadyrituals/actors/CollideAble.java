@@ -45,8 +45,7 @@ public class CollideAble extends GameObject
         boundingBox.z = position.x - 1;
     }
     
-    public void onCollision(CollideAble collideWith)
-    {
+    public void onCollision(CollideAble collideWith) throws PrutEngineException {
         
     }
     

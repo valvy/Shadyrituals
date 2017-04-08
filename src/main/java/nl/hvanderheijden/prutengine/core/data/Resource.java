@@ -63,7 +63,7 @@ public abstract class Resource {
             }
             return result;
         } catch (final IOException ex){
-            throw new ResourceNotFoundException();
+            throw new ResourceNotFoundException(String.format("File : %s has not been found", path));
         }
     }
 

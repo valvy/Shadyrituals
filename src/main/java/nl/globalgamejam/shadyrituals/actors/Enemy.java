@@ -71,8 +71,7 @@ public final class Enemy extends Actor
     }
     
     @Override
-    public void onCollision(CollideAble collideWith)
-    {
+    public void onCollision(CollideAble collideWith) throws PrutEngineException {
         super.onCollision(collideWith);
     }
 }

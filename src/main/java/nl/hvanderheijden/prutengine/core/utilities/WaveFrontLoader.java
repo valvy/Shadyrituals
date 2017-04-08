@@ -60,7 +60,7 @@ public final class WaveFrontLoader {
         try {
             this.loadFile(path);
         } catch (IOException e) {
-            throw new ResourceNotFoundException();
+            throw new ResourceNotFoundException(String.format("File %s has not been found", path));
         }
     }
     

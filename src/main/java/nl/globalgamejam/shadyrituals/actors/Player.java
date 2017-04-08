@@ -30,8 +30,11 @@ import nl.globalgamejam.shadyrituals.Globals;
 import nl.globalgamejam.shadyrituals.BaseConnection;
 import nl.globalgamejam.shadyrituals.BaseConnection.ConnectedPlayer;
 import nl.hvanderheijden.prutengine.Application;
+import nl.hvanderheijden.prutengine.SettingsManager;
 import nl.hvanderheijden.prutengine.core.math.PrutMath;
 import static org.lwjgl.glfw.GLFW.*;
+
+import nl.hvanderheijden.prutengine.core.math.Vector2;
 import nl.hvanderheijden.prutengine.core.math.Vector3;
 import nl.hvanderheijden.prutengine.exceptions.PrutEngineException;
 
@@ -79,19 +82,19 @@ public class Player extends Actor
     
     @Override
     public void update(float tpf) throws PrutEngineException {
+        final Vector2<Integer> worldSize = SettingsManager.getInstance().getWorld_size();
         Vector3<Float> nPos = new Vector3<>(this.getPosition());
-        if(this.getPosition().x > Globals.WORLD_SIZE.x){
-            nPos.x = (float)Globals.WORLD_SIZE.x;
+        if(this.getPosition().x > worldSize.x){nPos.x = (float)worldSize.x;
         }
-        if(this.getPosition().x < -Globals.WORLD_SIZE.x){
-            nPos.x = -(float)Globals.WORLD_SIZE.x;
+        if(this.getPosition().x < -worldSize.x){
+            nPos.x = -(float)worldSize.x;
         }
 
-        if(this.getPosition().y > Globals.WORLD_SIZE.y){
-            nPos.y = (float)Globals.WORLD_SIZE.y;
+        if(this.getPosition().y > worldSize.y){
+            nPos.y = (float)worldSize.y;
         }
-        if(this.getPosition().y < -Globals.WORLD_SIZE.y){
-            nPos.y = -(float)Globals.WORLD_SIZE.y;
+        if(this.getPosition().y < -worldSize.y){
+            nPos.y = -(float)worldSize.y;
         }
 
         this.setPosition(nPos);
@@ -131,19 +134,19 @@ public class Player extends Actor
         Vector3 movePos = new Vector3(0f, 0f, 0f);
         int moveKeyCount = 0;
 
-        if(Application.getInstance().prutKeyBoard.GetState(GLFW_KEY_W) == GLFW_REPEAT || Application.getInstance().prutKeyBoard.GetState(GLFW_KEY_UP) == GLFW_REPEAT)
+        if(Application.getInstance().getPrutKeyBoard().GetState(GLFW_KEY_W) == GLFW_REPEAT || Application.getInstance().getPrutKeyBoard().GetState(GLFW_KEY_UP) == GLFW_REPEAT)
         {
             movePos.y = 1f;
         }
-        if(Application.getInstance().prutKeyBoard.GetState(GLFW_KEY_A) == GLFW_REPEAT || Application.getInstance().prutKeyBoard.GetState(GLFW_KEY_LEFT) == GLFW_REPEAT)
+        if(Application.getInstance().getPrutKeyBoard().GetState(GLFW_KEY_A) == GLFW_REPEAT || Application.getInstance().getPrutKeyBoard().GetState(GLFW_KEY_LEFT) == GLFW_REPEAT)
         {
             movePos.x = -1f;
         }      
-        if(Application.getInstance().prutKeyBoard.GetState(GLFW_KEY_S) == GLFW_REPEAT || Application.getInstance().prutKeyBoard.GetState(GLFW_KEY_DOWN) == GLFW_REPEAT)
+        if(Application.getInstance().getPrutKeyBoard().GetState(GLFW_KEY_S) == GLFW_REPEAT || Application.getInstance().getPrutKeyBoard().GetState(GLFW_KEY_DOWN) == GLFW_REPEAT)
         {
             movePos.y = -1f;
         }  
-        if(Application.getInstance().prutKeyBoard.GetState(GLFW_KEY_D) == GLFW_REPEAT || Application.getInstance().prutKeyBoard.GetState(GLFW_KEY_RIGHT) == GLFW_REPEAT)
+        if(Application.getInstance().getPrutKeyBoard().GetState(GLFW_KEY_D) == GLFW_REPEAT || Application.getInstance().getPrutKeyBoard().GetState(GLFW_KEY_RIGHT) == GLFW_REPEAT)
         {
             movePos.x = 1f;
         }
@@ -151,8 +154,7 @@ public class Player extends Actor
     }
     
     @Override
-    public void onCollision(CollideAble collideWith)
-    {
+    public void onCollision(CollideAble collideWith) throws PrutEngineException {
         if(collideWith instanceof Actor)
         {
             Actor otherActor = (Actor)collideWith;
@@ -176,7 +178,7 @@ public class Player extends Actor
     }
     
     @Override
-    protected void Die()
+    protected void Die() throws PrutEngineException
     {
         super.Die();
         ResetScore();

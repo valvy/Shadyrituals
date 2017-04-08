@@ -25,13 +25,27 @@
  */
 package nl.hvanderheijden.prutengine;
 
+import nl.hvanderheijden.prutengine.exceptions.InitException;
+
+import static nl.hvanderheijden.prutengine.SettingsManager.getInstance;
+
 /**
  * The class containing all the various methods for debugging
  * @author Heiko van der Heijden
  */
 public final class Debug {
-    private final static boolean DEBUG = false;
-    
+    private final static boolean DEBUG;
+
+
+    static{
+        boolean deb = false;
+        try {
+            deb = SettingsManager.getInstance().isDebugMode();
+        } catch (InitException e) {
+
+        }
+        DEBUG = deb;
+    }
     /**
      * Logs an message whenever debug is true
      * @param <T>   type of message

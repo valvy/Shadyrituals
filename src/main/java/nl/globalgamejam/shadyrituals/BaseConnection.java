@@ -27,6 +27,8 @@ package nl.globalgamejam.shadyrituals;
 
 import nl.globalgamejam.shadyrituals.actors.Actor;
 import nl.hvanderheijden.prutengine.core.math.Vector3;
+import nl.hvanderheijden.prutengine.exceptions.InitException;
+
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -153,7 +155,7 @@ public abstract class BaseConnection implements Runnable{
      * Creates the singleton depending on what you want
      * @param host if true it wil set itself as server
      */
-    public static void create(boolean host){
+    public static void create(boolean host) throws InitException {
         if(host){
             instance = new ConnectionServer();
             instance.idName = instance.HANDSHAKE + "Server";

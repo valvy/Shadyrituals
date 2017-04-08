@@ -59,14 +59,14 @@ public class Texture extends Resource{
     
     public Texture(String fileLocation, int position)  throws ResourceNotFoundException {
         super(fileLocation, position);
-        File scrFile = new File(fileLocation);
+        File scrFile = new File(Texture.class.getResource(fileLocation).getPath());
 
         //Mirror the texture firsrt
         BufferedImage image = null;
         try {
             image = ImageIO.read(scrFile);
         } catch (IOException e) {
-            throw new ResourceNotFoundException();
+            throw new ResourceNotFoundException(String.format("File %s has not been found", fileLocation));
         }
         AffineTransform tx = AffineTransform.getScaleInstance(-1, -1);
         tx.translate(-image.getWidth(null), -image.getHeight(null));

@@ -59,8 +59,7 @@ public class DeathWall extends CollideAble{
     }
     
     @Override
-    public void onCollision(CollideAble collideWith)
-    {
+    public void onCollision(CollideAble collideWith) throws PrutEngineException {
        if(collideWith instanceof Player){
           ((Player)collideWith).Die();
        }

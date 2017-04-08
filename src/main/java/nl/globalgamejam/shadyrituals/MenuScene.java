@@ -135,8 +135,7 @@ public class MenuScene extends Scene {
         }
     }
     
-    private void LoadGame()
-    {
+    private void LoadGame() throws PrutEngineException {
 
         AssetManager.clearProgramsBuffer();
         AssetManager.clearShaderBuffer();
