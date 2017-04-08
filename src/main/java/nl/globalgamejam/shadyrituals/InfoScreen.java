@@ -42,6 +42,7 @@ import static org.lwjgl.glfw.GLFW.GLFW_RELEASE;
  * @author Wander
  */
 public class InfoScreen extends Scene {
+
     private int state = 1;
     @Override
     public void awake() {

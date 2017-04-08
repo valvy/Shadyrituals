@@ -28,7 +28,7 @@ package nl.globalgamejam.shadyrituals;
 import nl.hvanderheijden.prutengine.core.math.Vector2;
 
 public class Globals {
-    public static final Vector2<Integer> WORLD_SIZE = new Vector2<>(50,50);
+    //public static final Vector2<Integer> WORLD_SIZE = new Vector2<>(50,50);
 
-    public static String IP_ADRES = "192.168.0.108";
+  //  public static String IP_ADRES = ;
 }

@@ -140,7 +140,7 @@ public final class AssetManager {
                 return tex.getTexture();
             }
         }
-        throw new ResourceNotFoundException();
+        throw new ResourceNotFoundException(String.format("Reference has not been found %i", reference));
     }
     
     /**
@@ -174,7 +174,7 @@ public final class AssetManager {
                 return sh.getShader();
             }
         }
-        throw new ResourceNotFoundException();
+        throw new ResourceNotFoundException(String.format("Reference has not been found : %i", reference));
     }
     
     /**
@@ -253,7 +253,7 @@ public final class AssetManager {
                 return pr.getProgram();
             }
         }
-        throw new ResourceNotFoundException();
+        throw new ResourceNotFoundException(String.format("Reference has not been found : %i", reference));
     }
     
     /**
@@ -268,7 +268,7 @@ public final class AssetManager {
                 return mesh.getSize();
             }
         }
-        throw new ResourceNotFoundException();
+        throw new ResourceNotFoundException(String.format("Reference has not been found : %i", reference));
     }
     
     /**
@@ -283,7 +283,7 @@ public final class AssetManager {
                 return mesh.getVao();
             }
         }
-        throw new ResourceNotFoundException();
+        throw new ResourceNotFoundException(String.format("Reference has not been found %i", reference));
     }
     
     /**

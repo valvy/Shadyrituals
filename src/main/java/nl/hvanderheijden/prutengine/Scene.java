@@ -105,7 +105,7 @@ public abstract class Scene {
     /**
      * Called when everything is setup in the Application
      */
-    public abstract void awake();
+    public abstract void awake() throws PrutEngineException;
     
     /**
      * Called by every frame in the game

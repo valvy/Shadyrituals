@@ -27,9 +27,12 @@ package nl.globalgamejam.shadyrituals;
 
 import nl.globalgamejam.shadyrituals.actors.Actor;
 import nl.hvanderheijden.prutengine.Application;
+import nl.hvanderheijden.prutengine.SettingsManager;
 import nl.hvanderheijden.prutengine.core.math.Vector3;
 import nl.hvanderheijden.prutengine.Debug;
 import com.sun.corba.se.impl.orbutil.concurrent.Mutex;
+import nl.hvanderheijden.prutengine.exceptions.InitException;
+
 import java.io.BufferedWriter;
 import java.io.DataInputStream;
 import java.io.IOException;
@@ -54,7 +57,7 @@ public class ConnectionClient extends BaseConnection {
     /**
      * The server ip adres
      */
-    private final String IP = Globals.IP_ADRES;
+    private final String IP;
     
     /**
      * data stream to read
@@ -83,9 +86,10 @@ public class ConnectionClient extends BaseConnection {
     /**
      * Initializes the client 
      */
-    protected ConnectionClient(){
+    protected ConnectionClient() throws  InitException{
         this.mutex = new Mutex();
         this.from = new ArrayList<>();
+        IP = SettingsManager.getInstance().getIp();
     }
     
     /**

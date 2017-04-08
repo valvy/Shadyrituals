@@ -53,7 +53,7 @@ public class Sound extends Resource
         try
         {
             name = soundName;
-            File scrFile = new File(fileLocation);
+            File scrFile = new File(Sound.class.getResource(fileLocation).getPath());
             InputStream inputStream = new FileInputStream(scrFile);
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(scrFile);
             buffSize = audioInputStream.available() - 1;

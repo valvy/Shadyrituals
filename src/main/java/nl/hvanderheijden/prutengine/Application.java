@@ -44,7 +44,9 @@ import static org.lwjgl.system.MemoryUtil.*;
  */
 public final class Application {
     private static Application instance;
-    public PrutKeyboard prutKeyBoard;
+
+
+    private PrutKeyboard prutKeyBoard;
     private GLFWErrorCallback errorCallback;
     private GLFWKeyCallback   keyCallback;
     private long window;
@@ -70,7 +72,13 @@ public final class Application {
         this.view = new View(this.window);
     }
 
+
+    public PrutKeyboard getPrutKeyBoard() {
+        return prutKeyBoard;
+    }
+
     private void init(){
+        prutKeyBoard = new PrutKeyboard();
         glfwSetErrorCallback(errorCallback = GLFWErrorCallback.createPrint(System.err));
 
         // Initialize GLFW. Most GLFW functions will not work before doing this.
@@ -93,7 +101,7 @@ public final class Application {
         glfwSetKeyCallback(window, keyCallback = new GLFWKeyCallback() {
             @Override
             public void invoke(long window, int key, int scancode, int action, int mods) {
-                //prutKeyBoard.changeState(key, action);
+                prutKeyBoard.changeState(key, action);
             }
         });
 
@@ -157,7 +165,7 @@ public final class Application {
      * This will call the Awake method and destroys the old scene
      * @param scene
      */
-    public void loadScene(Scene scene){
+    public void loadScene(Scene scene) throws PrutEngineException {
         if(scene == null){
             return;
         }
@@ -214,7 +222,7 @@ public final class Application {
             glfwDestroyWindow(window);
     //        keyCallback.release();
         } catch (PrutEngineException e) {
-
+            Debug.log(e.getMessage());
         } finally{
             glfwTerminate();
        //     errorCallback.release();
