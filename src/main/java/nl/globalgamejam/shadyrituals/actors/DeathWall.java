@@ -36,20 +36,33 @@ import org.apache.logging.log4j.Logger;
  * Kills of the player when touched
  * @author Heiko van der Heijden
  */
-public class DeathWall extends CollideAble{
+public final class DeathWall extends CollideAble{
 
     private final static Logger logger = LogManager.getLogger(DeathWall.class.getName());
+
+    private static final String VERTEX_SHADER = "/Assets/Shaders/UnShadedVertex.glsl";
+
+    private static final String FRAGMENT_SHADER = "/Assets/Shaders/UnShadedFragment.glsl";
+
+    private static final String TEXTURE = "/Assets/Textures/DeathWall.png";
+
+    private static final String MESH = "/Assets/Meshes/Quad.obj";
+
+    private DeathWall(){
+        throw new UnsupportedOperationException();
+    }
+
     public DeathWall (Vector3<Float> position){
         this.setPosition(position);
         this.rotate(new Vector3<>(1f,0f,0f), -90); 
-        this.boundingBox = new Vector4<Float>(1f, 1f, 1f, 1f);
+        this.boundingBox = new Vector4<>(1f, 1f, 1f, 1f);
         
         try {
             this.setRenderer(new Renderer(
-                "/Assets/Shaders/UnShadedVertex.glsl",
-                "/Assets/Shaders/UnShadedFragment.glsl",
-                "/Assets/Textures/DeathWall.png",
-                "/Assets/Meshes/Quad.obj"));
+                VERTEX_SHADER,
+                FRAGMENT_SHADER,
+                TEXTURE,
+                MESH));
         }
         catch(PrutEngineException e ){
             logger.warn("Could not load deathwall, " , e);

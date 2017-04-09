@@ -25,7 +25,6 @@
  */
 package nl.hvanderheijden.prutengine.core.utilities;
 
-import nl.hvanderheijden.prutengine.SettingsManager;
 import nl.hvanderheijden.prutengine.core.math.Vector2;
 import nl.hvanderheijden.prutengine.core.math.Vector3;
 import nl.hvanderheijden.prutengine.Debug;
@@ -34,7 +33,7 @@ import java.io.*;
 import java.nio.FloatBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
 import nl.hvanderheijden.prutengine.exceptions.PrutEngineException;
@@ -55,16 +54,20 @@ public final class WaveFrontLoader {
     private static final String FACE = "f";
     
     //The loaded data
-    private final ArrayList<Vector3<Float>> vertex;
-    private final ArrayList<Vector2<Float>> vertexTexture;
-    private final ArrayList<Vector3<Float>> normals;
-    private final ArrayList<Vector3<Vector3<Integer>>> faces;
-    
+    private final List<Vector3<Float>> vertexList;
+    private final List<Vector2<Float>> vertexTextureList;
+    private final List<Vector3<Float>> normalsList;
+    private final List<Vector3<Vector3<Integer>>> facesList;
+
+    private WaveFrontLoader(){
+        throw new UnsupportedOperationException();
+    }
+
     public WaveFrontLoader(final String path) throws PrutEngineException{
-        this.vertex = new ArrayList<>();
-        this.vertexTexture = new ArrayList<>();
-        this.normals = new ArrayList<>();
-        this.faces = new ArrayList<>();
+        this.vertexList = new ArrayList<>();
+        this.vertexTextureList = new ArrayList<>();
+        this.normalsList = new ArrayList<>();
+        this.facesList = new ArrayList<>();
         try {
             this.loadFile(path);
         } catch (IOException e) {
@@ -74,104 +77,94 @@ public final class WaveFrontLoader {
     }
     
     private Vector2<Float> parseVector2f(final String line){
-        final Scanner fi = new Scanner(line);
-        final Vector2<Float> result = new Vector2<>(
-                //fi.nextFloat(),
-                //fi.nextFloat()
-                Float.parseFloat(fi.next()),
-                Float.parseFloat(fi.next())
-        );
-        return result;
+       try(final Scanner sc = new Scanner(line)){
+           return new Vector2<>(
+                   Float.parseFloat(sc.next()),
+                   Float.parseFloat(sc.next())
+           );
+
+       }
+
     }
     
     
     private Vector3<Vector3<Integer>> parseFace(final String line){
-        final Scanner fi = new Scanner(line);
-        Vector3<Integer> fst = new Vector3<>(
-                fi.nextInt(),
-                fi.nextInt(),
-                fi.nextInt());
-        
-        Vector3<Integer> snd = new Vector3<>(
-                fi.nextInt(),
-                fi.nextInt(),
-                fi.nextInt());
-        Vector3<Integer> third = new Vector3<>(
-                fi.nextInt(),
-                fi.nextInt(),
-                fi.nextInt());
-        
-        return new Vector3<>(fst,snd,third);
+        try(final Scanner fi = new Scanner(line)) {
+            Vector3<Integer> fst = new Vector3<>(
+                    fi.nextInt(),
+                    fi.nextInt(),
+                    fi.nextInt());
+
+            Vector3<Integer> snd = new Vector3<>(
+                    fi.nextInt(),
+                    fi.nextInt(),
+                    fi.nextInt());
+            Vector3<Integer> third = new Vector3<>(
+                    fi.nextInt(),
+                    fi.nextInt(),
+                    fi.nextInt());
+
+            return new Vector3<>(fst, snd, third);
+        }
     }
     
     private Vector3<Float> parseVector3f(final String line){
-
-      //  System.out.println(line);
-
-        final Scanner fi = new Scanner(line);
-
-        final Vector3<Float> result = new Vector3<>(0.0f,0.0f,0.0f);
-
-        //result.x = fi.nextFloat();
-        //result.y = fi.nextFloat();
-        //result.z = fi.nextFloat();
-        result.x = Float.parseFloat(fi.next());
-        result.y = Float.parseFloat(fi.next());
-        result.z = Float.parseFloat(fi.next());
+        try(final Scanner fi = new Scanner(line)) {
+            final Vector3<Float> result = new Vector3<>(0.0f, 0.0f, 0.0f);
+            result.x = Float.parseFloat(fi.next());
+            result.y = Float.parseFloat(fi.next());
+            result.z = Float.parseFloat(fi.next());
 
 
-        return result;
+            return result;
+        }
     }
     
     public int triangleAmount(){
-        return this.faces.size() * 3;
+        return this.facesList.size() * 3;
     }
     
     public FloatBuffer rawNormalData(){
         final ArrayList<Float> rawData = new ArrayList<>();
-        for(final Vector3<Vector3<Integer>> face : this.faces){
-            Vector3<Float> n = this.normals.get(face.x.z - 1);
+        for(final Vector3<Vector3<Integer>> face : this.facesList){
+            Vector3<Float> n = this.normalsList.get(face.x.z - 1);
             rawData.add(n.x);
             rawData.add(n.y);
             rawData.add(n.z);
-            n = this.normals.get(face.y.z - 1);
+            n = this.normalsList.get(face.y.z - 1);
             rawData.add(n.x);
             rawData.add(n.y);
             rawData.add(n.z);
-            n = this.normals.get(face.z.z - 1);
+            n = this.normalsList.get(face.z.z - 1);
             rawData.add(n.x);
             rawData.add(n.y);
             rawData.add(n.z);
         }
         FloatBuffer result = BufferUtils.createFloatBuffer(rawData.size());
-        rawData.stream().forEach((d) -> {            
-            result.put(d);
-        });
+        rawData.stream().forEach(result::put);
         result.flip();
         return result;
     }
     
     public FloatBuffer rawVertexData(){
        final ArrayList<Float> rawData = new ArrayList<>();
-        for(final Vector3<Vector3<Integer>> face : this.faces){
-            Vector3<Float> v = this.vertex.get(face.x.x -1);
-            rawData.add(v.x);
-            rawData.add(v.y);
-            rawData.add(v.z);;
-            v = this.vertex.get(face.y.x - 1);
+        for(final Vector3<Vector3<Integer>> face : this.facesList){
+            Vector3<Float> v = this.vertexList.get(face.x.x -1);
             rawData.add(v.x);
             rawData.add(v.y);
             rawData.add(v.z);
-            v = this.vertex.get(face.z.x - 1);
+            v = this.vertexList.get(face.y.x - 1);
+            rawData.add(v.x);
+            rawData.add(v.y);
+            rawData.add(v.z);
+            v = this.vertexList.get(face.z.x - 1);
             rawData.add(v.x);
             rawData.add(v.y);
             rawData.add(v.z);        
         }
         
         FloatBuffer result = BufferUtils.createFloatBuffer(rawData.size());
-        rawData.stream().forEach((d) -> {            
-            result.put(d);
-        });
+        rawData.stream().forEach(result::put);
         result.flip();
         
         return result;   
@@ -179,22 +172,20 @@ public final class WaveFrontLoader {
     
     public FloatBuffer rawUVData(){
         final ArrayList<Float> rawData = new ArrayList<>();
-        for(final Vector3<Vector3<Integer>> face : this.faces){
-            Vector2<Float> v = this.vertexTexture.get(face.x.y -1);
+        for(final Vector3<Vector3<Integer>> face : this.facesList){
+            Vector2<Float> v = this.vertexTextureList.get(face.x.y -1);
             rawData.add(v.x);
             rawData.add(v.y);
-            v = this.vertexTexture.get(face.y.y - 1);
+            v = this.vertexTextureList.get(face.y.y - 1);
             rawData.add(v.x);
             rawData.add(v.y);
-            v = this.vertexTexture.get(face.z.y - 1);
+            v = this.vertexTextureList.get(face.z.y - 1);
             rawData.add(v.x);
             rawData.add(v.y);    
         }
         
         FloatBuffer result = BufferUtils.createFloatBuffer(rawData.size());
-        rawData.stream().forEach((d) -> {            
-            result.put(d);
-        });
+        rawData.stream().forEach(result::put);
         result.flip();
 
         return result;
@@ -211,15 +202,15 @@ public final class WaveFrontLoader {
                 if(line.startsWith(COMMENT)){
                     //Comment
                 }else if(line.startsWith(VERTEX_TEXTURE)){
-                    this.vertexTexture.add(this.parseVector2f(line.substring(VERTEX_TEXTURE.length())));
+                    this.vertexTextureList.add(this.parseVector2f(line.substring(VERTEX_TEXTURE.length())));
                 }else if(line.startsWith(VERTEX_NORMAL)) {
-                    this.normals.add(this.parseVector3f(line.substring(VERTEX_NORMAL.length())));
+                    this.normalsList.add(this.parseVector3f(line.substring(VERTEX_NORMAL.length())));
                 } else if(line.startsWith(VERTEX)){
-                    this.vertex.add(this.parseVector3f(line.substring(VERTEX.length())));
+                    this.vertexList.add(this.parseVector3f(line.substring(VERTEX.length())));
 
                 }else if(line.startsWith(FACE)){
                     line = line.replace("/", " ");
-                    this.faces.add(this.parseFace(line.substring(FACE.length())));
+                    this.facesList.add(this.parseFace(line.substring(FACE.length())));
                 }else{
                     Debug.log("unkown command error ignoring line");
                 }

@@ -29,6 +29,11 @@ import java.nio.FloatBuffer;
 import org.lwjgl.BufferUtils;
 
 public final class Primitives {
+
+    private Primitives(){
+        throw new UnsupportedOperationException();
+    }
+
     public static class Cube {
         public static FloatBuffer rawVertexData(){
             float[] tmp = {

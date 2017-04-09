@@ -49,13 +49,18 @@ public class SplashBackground extends GameObject
     int time;
     int resolution;
     float timer = 0f;
+
+    private static final String VERTEX_SHADER = "/Assets/Shaders/UnShadedVertex.glsl";
+
+    private static final String FRAGMENT_SHADER = "/Assets/Shaders/JumpTextFragment.glsl";
+
+    private static final String TEXTURE = "/Assets/Textures/cube.bmp";
+
+    private static final String MESH = "/Assets/Meshes/Quad.obj";
+
     public SplashBackground(){
         try {
-            this.setRenderer(new Renderer(
-                "/Assets/Shaders/UnShadedVertex.glsl",
-                "/Assets/Shaders/JumpTextFragment.glsl",
-                "",
-                "/Assets/Meshes/Quad.obj"));
+            this.setRenderer(new Renderer(VERTEX_SHADER, FRAGMENT_SHADER, "", MESH));
             time = glGetUniformLocation(AssetManager.getProgram(this.getRenderer().getProgram()), "time");
             resolution = glGetUniformLocation(AssetManager.getProgram(this.getRenderer().getProgram()), "resolution");
             glUseProgram(AssetManager.getProgram(this.getRenderer().getProgram()));

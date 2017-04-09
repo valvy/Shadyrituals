@@ -53,7 +53,8 @@ public final class Shader extends Resource {
     }
     
     private final int shader;
-    
+
+
     public Shader(final String fileLocation,final int position, final Type type) throws ResourceNotFoundException {
         super(fileLocation, position);
         this.shader = loadShader(fileLocation, type);

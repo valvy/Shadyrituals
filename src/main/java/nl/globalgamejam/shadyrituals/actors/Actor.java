@@ -25,8 +25,7 @@
  */
 package nl.globalgamejam.shadyrituals.actors;
 
-import nl.globalgamejam.shadyrituals.GameScene;
-import nl.globalgamejam.shadyrituals.Globals;
+
 import nl.hvanderheijden.prutengine.Application;
 import nl.hvanderheijden.prutengine.AssetManager;
 import nl.hvanderheijden.prutengine.SettingsManager;
@@ -52,7 +51,7 @@ import static org.lwjgl.opengl.GL20.glUseProgram;
  * 
  * @author Eddy 
  */
-public class Actor extends CollideAble
+public abstract class Actor extends CollideAble
 {
 
     private final static Logger logger = LogManager.getLogger(Actor.class.getName());
@@ -75,21 +74,24 @@ public class Actor extends CollideAble
     protected final float speed = 250f;
     
     //Shader
-    int time = -1;
-    int resolution = -1;
-    float timer = 0f;
-    
+    private int time = -1;
+    private float timer = 0f;
+
+    private Actor(){
+        throw new UnsupportedOperationException();
+    }
+
     /**
      * initializes the actor with given startposition
      * Sets the rotation and starts as sphere 
-     * @param startPos 
+     * @param startPos start position
      */
-    public Actor(Vector3<Float> startPos)
+    protected Actor(Vector3<Float> startPos)
     {
         this.setPosition(startPos);
         this.rotate(new Vector3<>(1f,0f,0f), -90);
         setupElement(Element.Sphere);
-        this.boundingBox = new Vector4<Float>(1f, 1f, 1f, 1f);
+        this.boundingBox = new Vector4<>(1f, 1f, 1f, 1f);
     }
     
     @Override
@@ -115,13 +117,7 @@ public class Actor extends CollideAble
             }
         }
     }
-    /**
-     * Initializes a random element
-     */
-    private void initElement()
-    {
-        changeRandomElement();
-    }
+
     /**
      * Changes to a random element
      */
@@ -145,31 +141,25 @@ public class Actor extends CollideAble
             }
         }
         this.setupElement(chosenElement);
-        AssetManager.getSound("change").PlaySound(0);
-    }
-    
-    
-    protected void changeElement()
-    {
-        switch(this.currentElement)
-        {
-            case Sphere:
-                this.setupElement(Element.Cube);
-                break;
-            case Cube:
-                this.setupElement(Element.Torus);
-                break;
-            case Torus:
-                this.setupElement(Element.Sphere);
-                break;
+        try {
+            AssetManager.getSound("change").PlaySound(0);
+        } catch (final ResourceNotFoundException ex){
+            logger.warn("Sound was not found..", ex);
         }
-        AssetManager.getSound("change").PlaySound(0);
     }
+    
+    
+
     /**
      * Kills of the actor
      */
-    protected void Die() throws InitException, PrutEngineException {
-        AssetManager.getSound("death01").PlaySound(0);
+    protected void Die() throws PrutEngineException {
+        try {
+            AssetManager.getSound("death01").PlaySound(0);
+        } catch(ResourceNotFoundException ex){
+            logger.warn("Sound was not found...", ex);
+        }
+
         respawnActor();
     }
     /**
@@ -214,11 +204,9 @@ public class Actor extends CollideAble
                 "/Assets/Textures/" + texture,
                 "/Assets/Meshes/Quad.obj"));
             time = glGetUniformLocation(AssetManager.getProgram(this.getRenderer().getProgram()), "time");
-            resolution = glGetUniformLocation(AssetManager.getProgram(this.getRenderer().getProgram()), "resolution");
+            int resolution = glGetUniformLocation(AssetManager.getProgram(this.getRenderer().getProgram()), "resolution");
             glUseProgram(AssetManager.getProgram(this.getRenderer().getProgram()));
             glUniform2f(resolution,(int)Application.getInstance().getScreenSize().x,(int)Application.getInstance().getScreenSize().y);
-        } catch (ResourceNotFoundException e) {
-            logger.error(e);
         } catch (PrutEngineException e) {
             logger.error(e);
         }

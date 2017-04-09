@@ -26,14 +26,11 @@
 
 package nl.hvanderheijden.prutengine.core.data;
 
-import nl.hvanderheijden.prutengine.SettingsManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.sound.sampled.AudioInputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;

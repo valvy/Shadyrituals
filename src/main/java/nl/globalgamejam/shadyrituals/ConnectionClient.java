@@ -42,6 +42,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -221,9 +222,9 @@ public class ConnectionClient extends BaseConnection {
     }
 
     @Override
-    public ArrayList<ConnectedPlayer> getAllConnections() {
-        String dat = NOTHING;
-        ArrayList<ConnectedPlayer> results = new ArrayList<>();
+    public List<ConnectedPlayer> getAllConnections() {
+        String dat;
+        List<ConnectedPlayer> results = new ArrayList<>();
         do{
             dat = getFrom();
             if(dat.equals(NOTHING)){//nothing to do
@@ -238,9 +239,7 @@ public class ConnectionClient extends BaseConnection {
             String id = splitedData[0];
             //parse it to a vector3
             final Vector3<Float> currentPosition = new Vector3<>(0f,0f,0f);
-            try{
-                final Scanner fi = new Scanner(splitedData[1]);
-           
+            try( final Scanner fi = new Scanner(splitedData[1])){
                 currentPosition.x = fi.nextFloat();
                 currentPosition.y = fi.nextFloat();
                 currentPosition.z = fi.nextFloat();

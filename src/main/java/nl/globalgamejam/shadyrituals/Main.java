@@ -3,11 +3,8 @@ package nl.globalgamejam.shadyrituals;
 import nl.hvanderheijden.prutengine.Application;
 import nl.hvanderheijden.prutengine.SettingsManager;
 import nl.hvanderheijden.prutengine.exceptions.InitException;
-import nl.hvanderheijden.prutengine.exceptions.PrutEngineException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import javax.swing.*;
 
 
 public class Main{

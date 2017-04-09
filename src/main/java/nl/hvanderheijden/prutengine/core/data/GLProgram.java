@@ -49,9 +49,7 @@ public final class GLProgram extends Resource{
     public GLProgram(final String fileLocation, final int position, final ArrayList<Integer> shaders){
         super(fileLocation, position);
         this.program = glCreateProgram();
-        shaders.stream().forEach((i) -> {
-           glAttachShader(this.program, i);
-        });
+        shaders.stream().forEach((i) -> glAttachShader(this.program, i));
         glLinkProgram(this.program);
         this.errors = glGetProgramInfoLog(program, glGetProgrami(program, GL_INFO_LOG_LENGTH));
         if(this.containErrors()){

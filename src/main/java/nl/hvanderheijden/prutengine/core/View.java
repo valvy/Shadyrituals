@@ -44,6 +44,10 @@ import static org.lwjgl.system.APIUtil.apiUnknownToken;
 public final class View {
     private long WINDOW;
 
+    private View(){
+        throw new UnsupportedOperationException();
+    }
+
     /**
      * initializes the window 
      * @param window 
@@ -52,8 +56,6 @@ public final class View {
         this.WINDOW = window;
         GL.createCapabilities();
         glEnable(GL_CULL_FACE);
-        //glEnable(GL_BLEND);// you enable blending function
-        //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glEnable(GL_DEPTH_TEST);
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -101,13 +103,15 @@ public final class View {
     public void draw(ArrayList<GameObject> obj){
         glClearColor(0.0f, 0f, 0f, 0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        obj.stream().forEach((gameObject) -> {
-            gameObject.draw();
-        });
+        obj.stream().forEach(GameObject::draw);
         
         int error = glGetError();
-        while(error != GL_NO_ERROR){
-            Debug.log(getErrorString(error));
+        if(error != GL_NO_ERROR){
+            while(error != GL_NO_ERROR){
+                Debug.log(getErrorString(error));
+                error = glGetError();
+            }
+
             exit(-1);
         }
     }

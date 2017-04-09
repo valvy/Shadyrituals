@@ -72,12 +72,12 @@ public class MenuScene extends Scene {
          if(Application.getInstance().getKeyboardKey(GLFW_KEY_W) == GLFW_PRESS | Application.getInstance().getKeyboardKey(GLFW_KEY_UP) == GLFW_PRESS  && simpleState > 0 && up == 0){
              simpleState--;
              up = 1;
-             cursor.translate(new Vector3(0f,0.8f,0f), 1);
+             cursor.translate(new Vector3<>(0f, 0.8f, 0f), 1);
          }
          if(Application.getInstance().getKeyboardKey(GLFW_KEY_S) == GLFW_PRESS | Application.getInstance().getKeyboardKey(GLFW_KEY_DOWN) == GLFW_PRESS  && simpleState < 2 && down == 0){
              simpleState++;
              down = 1;
-             cursor.translate(new Vector3(0f,-0.8f,0f), 1);
+             cursor.translate(new Vector3<>(0f, -0.8f, 0f), 1);
          }
          if(Application.getInstance().getKeyboardKey(GLFW_KEY_W) == GLFW_RELEASE && Application.getInstance().getKeyboardKey(GLFW_KEY_UP) == GLFW_RELEASE){
              up = 0;

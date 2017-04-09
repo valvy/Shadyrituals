@@ -26,7 +26,6 @@
 package nl.hvanderheijden.prutengine;
 
 import nl.globalgamejam.shadyrituals.BaseConnection;
-import nl.globalgamejam.shadyrituals.actors.Background;
 import nl.hvanderheijden.prutengine.core.math.Vector2;
 import nl.hvanderheijden.prutengine.core.View;
 import nl.hvanderheijden.prutengine.exceptions.PrutEngineException;
@@ -50,13 +49,11 @@ public final class Application {
     private final static Logger logger = LogManager.getLogger(Application.class.getName());
 
     private PrutKeyboard prutKeyBoard;
-    private GLFWErrorCallback errorCallback;
-    private GLFWKeyCallback   keyCallback;
     private long window;
     private boolean shouldStop = false;
     private Scene currentModel;
     private final View view;
-    private Vector2 screenResolution = new Vector2(0f,0f);
+    private final Vector2<Integer> screenResolution;
 
     /**
      * Gets the instance of the application
@@ -71,7 +68,9 @@ public final class Application {
     }
 
     private Application(){
+        this.screenResolution = new Vector2<>(0, 0);
         this.init();
+
         this.view = new View(this.window);
     }
 
@@ -82,6 +81,7 @@ public final class Application {
 
     private void init(){
         prutKeyBoard = new PrutKeyboard();
+        GLFWErrorCallback errorCallback;
         glfwSetErrorCallback(errorCallback = GLFWErrorCallback.createPrint(System.err));
 
         // Initialize GLFW. Most GLFW functions will not work before doing this.
@@ -101,6 +101,7 @@ public final class Application {
             throw new RuntimeException("Failed to create the GLFW window");
         }
         // Setup a key callback. It will be called every time a key is pressed, repeated or released.
+        GLFWKeyCallback keyCallback;
         glfwSetKeyCallback(window, keyCallback = new GLFWKeyCallback() {
             @Override
             public void invoke(long window, int key, int scancode, int action, int mods) {
@@ -112,7 +113,9 @@ public final class Application {
         GLFWVidMode vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
         // Center our window
 
-        screenResolution = new Vector2(vidmode.width(),vidmode.height());
+        screenResolution.x = vidmode.width(); // Float.valueOf(vidmode.width());
+        screenResolution.y = vidmode.height();
+
         // Make the OpenGL context current
         glfwMakeContextCurrent(window);
         // Enable v-sync

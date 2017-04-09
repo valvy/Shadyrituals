@@ -25,17 +25,13 @@
  */
 package nl.hvanderheijden.prutengine;
 
-import nl.globalgamejam.shadyrituals.actors.Background;
 import nl.hvanderheijden.prutengine.core.data.GLProgram;
 import nl.hvanderheijden.prutengine.core.data.Mesh;
 import nl.hvanderheijden.prutengine.core.data.Shader;
 import nl.hvanderheijden.prutengine.core.data.Sound;
 import nl.hvanderheijden.prutengine.core.data.Texture;
-import nl.hvanderheijden.prutengine.exceptions.OpenGLException;
 import nl.hvanderheijden.prutengine.exceptions.PrutEngineException;
 import nl.hvanderheijden.prutengine.exceptions.ResourceNotFoundException;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -86,8 +82,7 @@ public final class AssetManager {
         return(SOUNDS.get(id));
     }
     
-    public static Sound getSound(String name)
-    {
+    public static Sound getSound(String name) throws ResourceNotFoundException {
         for (Sound SOUNDS1 : SOUNDS) 
         {
             if (SOUNDS1.getSoundName().equals(name)) 
@@ -95,7 +90,7 @@ public final class AssetManager {
                 return SOUNDS1;
             }
         }
-        return null;
+        throw new ResourceNotFoundException(String.format("Could not find %s", name));
     }
     
     public static int loadSound(final String sound,final String soundName) throws IOException{
@@ -187,9 +182,7 @@ public final class AssetManager {
      */
     public static ArrayList<Integer> allPrograms(){
         final ArrayList<Integer> result = new ArrayList<>();
-        AssetManager.PROGRAMS.stream().forEach((pr) -> {
-            result.add(pr.getProgram());
-        });
+        AssetManager.PROGRAMS.stream().forEach((pr) -> result.add(pr.getProgram()));
         return result;
     }
     
@@ -200,9 +193,9 @@ public final class AssetManager {
      * @return  The program reference
      * @throws Exception 
      */
-    public static final int loadProgram(final HashMap<String, Shader.Type> shaders) throws PrutEngineException{
+    public static int loadProgram(final HashMap<String, Shader.Type> shaders) throws PrutEngineException{
         String programName = "";
-        programName = shaders.entrySet().stream().map((entry) -> entry.getKey()).reduce(programName, String::concat);
+        programName = shaders.entrySet().stream().map(Map.Entry::getKey).reduce(programName, String::concat);
         //Check if program already exists
         for(GLProgram program : AssetManager.PROGRAMS){
             if(program.getDataLocation().equals(programName)){
@@ -232,7 +225,7 @@ public final class AssetManager {
      * @return  the reference you can use to use this asset
      * @throws IOException  When the 3d mesh does not exists
      */
-    public static final int loadMesh(final String path) throws PrutEngineException{
+    public static int loadMesh(final String path) throws PrutEngineException{
         for(Mesh mesh : AssetManager.MESHES){
             if(mesh.getDataLocation().equals(path)){
                 return mesh.addRef();
@@ -251,7 +244,7 @@ public final class AssetManager {
      * @return  the GLProgram
      * @throws ResourceNotFoundException
      */
-    public static final int getProgram(final int reference) throws ResourceNotFoundException {
+    public static int getProgram(final int reference) throws ResourceNotFoundException {
         for(GLProgram pr : AssetManager.PROGRAMS){
             if(pr.getMemoryPosition() == reference){
                 return pr.getProgram();
@@ -266,7 +259,7 @@ public final class AssetManager {
      * @return  the amount of vertices
      * @throws ResourceNotFoundException
      */
-    public static final int getMeshSize(final int reference) throws ResourceNotFoundException{
+    public static int getMeshSize(final int reference) throws ResourceNotFoundException{
         for(Mesh mesh : AssetManager.MESHES){
             if(mesh.getMemoryPosition() == reference){
                 return mesh.getSize();
@@ -295,30 +288,22 @@ public final class AssetManager {
      * It will remain in memory until the programs using the shaders are removed to
      */
     public static void clearShaderBuffer(){
-        AssetManager.SHADERS.stream().forEach((shader) -> {
-            shader.destroy();
-        });
+        AssetManager.SHADERS.stream().forEach(Shader::destroy);
         SHADERS.clear();
     }
    
     public static void clearProgramsBuffer(){
-        AssetManager.PROGRAMS.stream().forEach((pr) -> {
-            pr.destroy();
-        });
+        AssetManager.PROGRAMS.stream().forEach(GLProgram::destroy);
         AssetManager.PROGRAMS.clear();
     }
     
     public static void clearTextureBuffer(){
-        AssetManager.TEXTURES.stream().forEach((tex)->{
-            tex.destroy();
-        });
+        AssetManager.TEXTURES.stream().forEach(Texture::destroy);
         AssetManager.TEXTURES.clear();
     }
     
     public static void clearMeshBuffer(){
-        AssetManager.MESHES.stream().forEach((mesh) ->{
-            mesh.destroy();
-        });
+        AssetManager.MESHES.stream().forEach(Mesh::destroy);
         AssetManager.MESHES.clear();
     }
 

@@ -185,7 +185,7 @@ public class Quaternion {
         vecQuat.real = 0;
         vecQuat.imaginary.set(Vector3.unitVector(vec));
         final Quaternion res = Quaternion.multiply(quat, Quaternion.multiply(vecQuat, Quaternion.conjugate(quat)));
-        return new Vector3(res.imaginary.x, res.imaginary.y, res.imaginary.z);
+        return new Vector3<>(res.imaginary.x, res.imaginary.y, res.imaginary.z);
     }
 
     /**

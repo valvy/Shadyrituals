@@ -27,12 +27,12 @@ package nl.hvanderheijden.prutengine;
 
 import static org.lwjgl.glfw.GLFW.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class PrutKeyboard
 {
-    private ArrayList<PrutKey> prutKeys = new ArrayList<PrutKey>();
-    
-    void PrutKeyboard(){}
+    private List<PrutKey> prutKeys = new ArrayList<>();
+
     
     public void addKey(int keyCode)
     {
@@ -49,7 +49,7 @@ public class PrutKeyboard
         PrutKey pressedKey = null;
         for (PrutKey prutKey : prutKeys)
         {
-            if (prutKey.keyCode == keyCode) 
+            if (prutKey.getKeyCode() == keyCode)
             {
                 pressedKey = prutKey;
                 break;
@@ -60,20 +60,20 @@ public class PrutKeyboard
             pressedKey = new PrutKey(keyCode);
             addKey(pressedKey);
         }
-        pressedKey.action = action;
+        pressedKey.setAction(action);
     }
     
     public int GetState(int keyCode)
     {
         for (PrutKey prutKey : prutKeys)
         {
-            if (prutKey.keyCode == keyCode) 
+            if (prutKey.getKeyCode() == keyCode)
             {
-                int oldState = prutKey.action;
-                if(prutKey.action == GLFW_RELEASE )
-                    prutKey.action = -1;
-                else if(prutKey.action == GLFW_PRESS)
-                    prutKey.action = GLFW_REPEAT;
+                int oldState = prutKey.getAction();
+                if(prutKey.getAction() == GLFW_RELEASE )
+                    prutKey.setAction(-1);
+                else if(prutKey.getAction() == GLFW_PRESS)
+                    prutKey.setAction( GLFW_REPEAT);
                 return oldState;
             }
         }

@@ -36,26 +36,38 @@ import org.apache.logging.log4j.Logger;
  * The arrow for the main menu
  * @author Wander
  */
-public class Arrow extends GameObject{
+public final class Arrow extends GameObject{
 
 
     private final static Logger logger = LogManager.getLogger(Arrow.class.getName());
+
+    private static final String VERTEX_SHADER = "/Assets/Shaders/UnShadedVertex.glsl";
+
+    private static final String FRAGMENT_SHADER = "/Assets/Shaders/UnShadedFragment.glsl";
+
+    private static final String TEXTURE = "/Assets/Textures/Arrow.png";
+
+    private static final String MESH = "/Assets/Meshes/Quad.obj";
+
+    private Arrow(){
+        throw new UnsupportedOperationException();
+    }
+
     public Arrow(Vector3<Float> startPos)
     {
-        initRenderer("Arrow.png");
+        initRenderer();
         this.setPosition(startPos);
-        this.setSize(new Vector3(0.5f,0.5f,0.5f));
-        this.rotate(new Vector3<>(1f,0f,0f), -90);
+        setSize(new Vector3<>(0.5f, 0.5f, 0.5f));
+        rotate(new Vector3<>(1f, 0f, 0f), -90);
         
     }
     
-    protected void initRenderer(String texture){
+    private void initRenderer(){
         try {
             this.setRenderer(new Renderer(
-                "/Assets/Shaders/UnShadedVertex.glsl",
-                "/Assets/Shaders/UnShadedFragment.glsl",
-                "/Assets/Textures/" + texture,
-                "/Assets/Meshes/Quad.obj"));
+                VERTEX_SHADER,
+                FRAGMENT_SHADER, TEXTURE,
+                MESH));
         } catch (PrutEngineException e) {
             logger.error(e);
         }

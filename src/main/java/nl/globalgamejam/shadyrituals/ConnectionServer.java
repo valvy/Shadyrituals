@@ -41,6 +41,7 @@ import java.io.OutputStreamWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -54,16 +55,12 @@ public class ConnectionServer extends BaseConnection {
      * An unique number to identify the clients
      */
     private int uniqueNumber = 0;
-    /**
-     * How long to wait for a connection
-     */
-    private final int TIME_OUT = 3000;
-    
+
     /**
      * The buffer containing all the data from the connected players
      * send to the connected players
      */
-    private final ArrayList<String> globalBuffer;
+    private final List<String> globalBuffer;
     
     protected ConnectionServer(){
         this.globalBuffer = new ArrayList<>();
@@ -104,7 +101,7 @@ public class ConnectionServer extends BaseConnection {
         /**
          * The buffer that it should send
          */
-        private final ArrayList<String> to;
+        private final List<String> to;
         
         
         /**
@@ -226,7 +223,7 @@ public class ConnectionServer extends BaseConnection {
     /**
      * The list containing all the clients
      */
-    private ArrayList<Client> clients;
+    private List<Client> clients;
     
     /**
      * The socket of the server
@@ -250,17 +247,15 @@ public class ConnectionServer extends BaseConnection {
         try {
            clients.add(new Client(this.uniqueNumber, serverSocket.accept()));
             this.uniqueNumber++;
-        } catch (IOException ex) {
-            logger.warn(ex);
         } catch (Exception ex) {
             logger.warn(ex);
         }
     }
     
     @Override
-    public ArrayList<ConnectedPlayer> getAllConnections() {
+    public List<ConnectedPlayer> getAllConnections() {
         //create a temporary list with all the players 
-        final ArrayList<ConnectedPlayer> result = new ArrayList<>();
+        final List<ConnectedPlayer> result = new ArrayList<>();
         
         //check the buffer for data
         for(String str : this.globalBuffer){
@@ -345,6 +340,10 @@ public class ConnectionServer extends BaseConnection {
     public boolean attemptToConnect() {
         try {
             serverSocket = new ServerSocket(PORT);
+            /*
+      How long to wait for a connection
+     */
+            int TIME_OUT = 3000;
             serverSocket.setSoTimeout(TIME_OUT);
             return true;
         } catch (IOException ex) {

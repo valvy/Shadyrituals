@@ -55,12 +55,7 @@ public final class MainCamera extends Camera {
      * which object should it follow
      */
     private GameObject followObject;
-    
-    /**
-     * The speed it follows
-     */
-    private final float movSpeed = 50f;
-    
+
     /**
      * Initializes the camera with the given position
      * @param position 
@@ -76,6 +71,10 @@ public final class MainCamera extends Camera {
     public void update(float tpf){
         super.update(tpf);
         if(this.followObject != null){//Follow the gameobject with linear interpolation (nice effect)
+            /*
+      The speed it follows
+     */
+            float movSpeed = 50f;
             this.setPosition(new Vector3<>(
                 PrutMath.lerp(this.getPosition().x,-this.followObject.getPosition().x, movSpeed * tpf),
                 PrutMath.lerp(this.getPosition().y,-this.followObject.getPosition().y, movSpeed * tpf),

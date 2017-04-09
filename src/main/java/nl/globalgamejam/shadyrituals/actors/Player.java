@@ -26,7 +26,6 @@
 package nl.globalgamejam.shadyrituals.actors;
 
 import nl.globalgamejam.shadyrituals.GameScene;
-import nl.globalgamejam.shadyrituals.Globals;
 import nl.globalgamejam.shadyrituals.BaseConnection;
 import nl.globalgamejam.shadyrituals.BaseConnection.ConnectedPlayer;
 import nl.hvanderheijden.prutengine.Application;
@@ -39,6 +38,7 @@ import nl.hvanderheijden.prutengine.core.math.Vector3;
 import nl.hvanderheijden.prutengine.exceptions.PrutEngineException;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The player
@@ -47,24 +47,27 @@ import java.util.ArrayList;
 public class Player extends Actor
 {
     private final GameScene gameScene;
-    private ArrayList<ScoreCube> scoreCubes = new ArrayList<ScoreCube>();
-    private float scoreCubeXStep = 1.5f;
+    private final List<ScoreCube> scoreCubes;
+    private final float scoreCubeXStep = 1.5f;
     private float scoreCubeX;
-    private float changeTimer;
-    private Vector3 lastPos = new Vector3(0f,0f,0f);
+    private final Vector3<Float> lastPos;
     private Element lastElement;
-    
+
+
+
     public Player(GameScene gameScene)
     {
         super(new Vector3<>(PrutMath.random(-100, 100),PrutMath.random(-100, 100), -10f));
-        this.setSize(new Vector3<Float>(2f, 2f, 2f));
+        this.scoreCubes = new ArrayList<>();
+        this.lastPos = new Vector3<>(0f, 0f, 0f);
+        this.setSize(new Vector3<>(2f, 2f, 2f));
         this.gameScene = gameScene;
-        changeTimer = (float)Math.random() * 10f + 1f;
+        float changeTimer = (float) Math.random() * 10f + 1f;
     }
     
     public void AddScore()
     {
-        ScoreCube scoreCube = new ScoreCube(new Vector3<Float>(scoreCubeX,0f,0f));
+        ScoreCube scoreCube = new ScoreCube(new Vector3<>(scoreCubeX, 0f, 0f));
         scoreCubes.add(scoreCube);
         gameScene.addGameObjectRealTime(scoreCube);
         scoreCubeX += scoreCubeXStep;
@@ -72,9 +75,8 @@ public class Player extends Actor
     
     public void ResetScore()
     {
-        for(int i = 0; i < scoreCubes.size(); i++)
-        {
-            gameScene.destroy(scoreCubes.get(i));
+        for (final ScoreCube scoreCube : scoreCubes) {
+            gameScene.destroy(scoreCube);
         }
         scoreCubes.removeAll(scoreCubes);
         scoreCubeX = 0;
@@ -83,7 +85,7 @@ public class Player extends Actor
     @Override
     public void update(float tpf) throws PrutEngineException {
         final Vector2<Integer> worldSize = SettingsManager.getInstance().getWorld_size();
-        Vector3<Float> nPos = new Vector3<>(this.getPosition());
+        final Vector3<Float> nPos = new Vector3<>(this.getPosition());
         if(this.getPosition().x > worldSize.x){nPos.x = (float)worldSize.x;
         }
         if(this.getPosition().x < -worldSize.x){
@@ -102,7 +104,7 @@ public class Player extends Actor
         int lineCountX = 1;
         for(int i = 0; i < scoreCubes.size(); i++)
         {
-            Vector3<Float> cubePosition = new Vector3(0f,0f,0f);
+            Vector3<Float> cubePosition = new Vector3<>(0f, 0f, 0f);
             if(i % 17 == 0)
             {
                 lineCountY ++;
@@ -124,14 +126,14 @@ public class Player extends Actor
                     BaseConnection.getInstance().getIdName(),
                     this.getPosition(),
                     this.currentElement));
-            lastPos = this.getPosition();
+            lastPos.set(this.getPosition());
             lastElement = this.currentElement;
         } 
     }
     
     public void PlayerInput(float tpf)
     {
-        Vector3 movePos = new Vector3(0f, 0f, 0f);
+        final Vector3<Float> movePos = new Vector3<>(0f, 0f, 0f);
         int moveKeyCount = 0;
 
         if(Application.getInstance().getPrutKeyBoard().GetState(GLFW_KEY_W) == GLFW_REPEAT || Application.getInstance().getPrutKeyBoard().GetState(GLFW_KEY_UP) == GLFW_REPEAT)
@@ -182,6 +184,6 @@ public class Player extends Actor
     {
         super.Die();
         ResetScore();
-        ((GameScene)this.gameScene).shakeScreen(100, 0.01f);
+        this.gameScene.shakeScreen();
     }
 }

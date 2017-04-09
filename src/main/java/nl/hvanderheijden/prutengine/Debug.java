@@ -29,8 +29,6 @@ import nl.hvanderheijden.prutengine.exceptions.InitException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import static nl.hvanderheijden.prutengine.SettingsManager.getInstance;
-
 /**
  * The class containing all the various methods for debugging
  * @author Heiko van der Heijden
@@ -63,7 +61,7 @@ public final class Debug {
      * Checks if the program is in debug mode
      * @return the debugmode
      */
-    public static final boolean isDebug(){
+    public static boolean isDebug(){
         return Debug.DEBUG;
     }
 }

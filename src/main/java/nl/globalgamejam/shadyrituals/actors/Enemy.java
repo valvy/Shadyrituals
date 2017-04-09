@@ -36,7 +36,9 @@ import nl.hvanderheijden.prutengine.exceptions.PrutEngineException;
 public final class Enemy extends Actor
 {
     private final String name;
-    
+
+
+
     /**
      * Initializes the enemy with the corresponding variables
      * @param startPos The starting position
@@ -48,7 +50,7 @@ public final class Enemy extends Actor
         super(startPos);
         this.name = name;
         this.currentElement = null;
-        this.setSize(new Vector3<Float>(2f, 2f, 2f));
+        this.setSize(new Vector3<>(2f, 2f, 2f));
         this.setPosition(startPos);
     }
     

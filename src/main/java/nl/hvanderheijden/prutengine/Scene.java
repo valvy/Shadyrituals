@@ -49,7 +49,7 @@ public abstract class Scene {
         this.gameObjects = new ArrayList<>();
         this.camera = new Camera(new Vector3<>(0f,0f,-4f));
         this.toDestroy = new ArrayList<>();
-        this.gameObjectsToAdd = new ArrayList<GameObject>();
+        this.gameObjectsToAdd = new ArrayList<>();
     }
     
     /**

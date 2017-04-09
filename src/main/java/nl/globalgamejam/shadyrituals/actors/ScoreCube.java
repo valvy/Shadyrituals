@@ -37,24 +37,34 @@ import org.apache.logging.log4j.Logger;
  * Each cube represents one kill
  * @author Jeffrey Verbeek
  */
-public class ScoreCube extends GameObject
+public final class ScoreCube extends GameObject
 {
     private final static Logger logger = LogManager.getLogger(ScoreCube.class.getName());
+
+    private static final String VERTEX_SHADER = "/Assets/Shaders/UnShadedVertex.glsl";
+
+    private static final String FRAGMENT_SHADER = "/Assets/Shaders/UnShadedFragment.glsl";
+
+    private static final String TEXTURE = "/Assets/Textures/cube.bmp";
+
+    private static final String MESH = "/Assets/Meshes/cube.obj";
+
+
+    private ScoreCube(){
+        throw new UnsupportedOperationException();
+    }
+
     public ScoreCube(Vector3<Float> startPos)
     {
-        initRenderer("cube.bmp");
+        initRenderer();
         this.setPosition(startPos);
-        this.setSize(new Vector3(0.25f,0.25f,0.25f));
+        this.setSize(new Vector3<>(0.25f, 0.25f, 0.25f));
     }
     
-    protected void initRenderer(String texture)
+    protected void initRenderer()
     {
         try {
-            this.setRenderer(new Renderer(
-                "/Assets/Shaders/UnShadedVertex.glsl",
-                "/Assets/Shaders/UnShadedFragment.glsl",
-                "/Assets/Textures/" + texture,
-                "/Assets/Meshes/cube.obj"));
+            this.setRenderer(new Renderer(VERTEX_SHADER,FRAGMENT_SHADER,TEXTURE,MESH));
         }
         catch(PrutEngineException e)
         {

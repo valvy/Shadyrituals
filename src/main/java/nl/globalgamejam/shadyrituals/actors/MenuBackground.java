@@ -31,7 +31,6 @@ import nl.hvanderheijden.prutengine.core.math.Vector3;
 import nl.hvanderheijden.prutengine.GameObject;
 import nl.hvanderheijden.prutengine.Renderer;
 import nl.hvanderheijden.prutengine.exceptions.PrutEngineException;
-import nl.hvanderheijden.prutengine.exceptions.ResourceNotFoundException;
 
 import static org.lwjgl.opengl.GL20.glGetUniformLocation;
 import static org.lwjgl.opengl.GL20.glUniform1f;
@@ -42,30 +41,40 @@ import static org.lwjgl.opengl.GL20.glUseProgram;
  * The mainmenu
  * @author Wander
  */
-public class MenuBackground extends GameObject
+public final class MenuBackground extends GameObject
 {
-    int time;
-    int resolution;
-    float timer = 0f;
-    
+    private int time;
+    private float timer = 0f;
+
+    private static final String VERTEX_SHADER = "/Assets/Shaders/UnShadedVertex.glsl";
+
+    private static final String FRAGMENT_SHADER = "/Assets/Shaders/LightShowFragment.glsl";
+
+
+    private static final String MESH = "/Assets/Meshes/Quad.obj";
+
+    private MenuBackground(){
+        throw new UnsupportedOperationException();
+    }
+
     public MenuBackground(Vector3<Float> startPos) throws PrutEngineException {
         initRenderer("menuscreen.png");
 
         this.setPosition(startPos);
-        this.setSize(new Vector3(2f,2f,2f));
-        this.rotate(new Vector3<>(1f,0f,0f), -90);
+        this.setSize(new Vector3<>(2f, 2f, 2f));
+        this.rotate(new Vector3<>(1f, 0f, 0f), -90);
     }
     
-    public void initRenderer(String texture) throws PrutEngineException {
+    public void initRenderer(final String tex) throws PrutEngineException {
 
         this.setRenderer(new Renderer(
-            "/Assets/Shaders/UnShadedVertex.glsl",
-            "/Assets/Shaders/LightShowFragment.glsl",
-            "/Assets/Textures/" + texture,
-            "/Assets/Meshes/Quad.obj"));
+            VERTEX_SHADER,
+            FRAGMENT_SHADER,
+            "/Assets/Textures/" + tex,
+            MESH));
 
         time = glGetUniformLocation(AssetManager.getProgram(this.getRenderer().getProgram()), "time");
-        resolution = glGetUniformLocation(AssetManager.getProgram(this.getRenderer().getProgram()), "resolution");
+        int resolution = glGetUniformLocation(AssetManager.getProgram(this.getRenderer().getProgram()), "resolution");
         glUseProgram(AssetManager.getProgram(this.getRenderer().getProgram()));
         glUniform2f(resolution,(int)Application.getInstance().getScreenSize().x,(int)Application.getInstance().getScreenSize().y);
 

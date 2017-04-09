@@ -36,7 +36,11 @@ import static org.lwjgl.opengl.GL20.glUseProgram;
 public class Camera extends GameObject{
     private boolean needUpdate = true;
     private final Matrix4x4 projection;
-    
+
+    private Camera(){
+        throw new UnsupportedOperationException();
+    }
+
     public Camera(final Vector3<Float> position){
         this.rotate(new Vector3<>(0f,1f,0f), 180);
         final float vovy = 50f, aspect = 1, near = 0.1f, far = 10000f; //Standard cam settings
@@ -45,6 +49,10 @@ public class Camera extends GameObject{
     }
     
     private void setProgramLocations(){
+
+        final String projectionName = "projection_matrix";
+        final String cameraMatrix = "cam_matrix";
+
         if(needUpdate){//Only update when the camera has moved.. this is a costly operation
             final Matrix4x4 perspective = Matrix4x4.multiply(Quaternion.quaternionToMatrix(this.getRotationQuaternion()),this.projection);
            
@@ -53,8 +61,8 @@ public class Camera extends GameObject{
             //Set the projection
             for(int dat : AssetManager.allPrograms()){
                 glUseProgram(dat);
-                glUniformMatrix4fv( glGetUniformLocation(dat, "projection_matrix"),false,perspective.getRawData());
-                glUniformMatrix4fv( glGetUniformLocation(dat, "cam_matrix"),true,matPosition.getRawData());
+                glUniformMatrix4fv( glGetUniformLocation(dat, projectionName),false,perspective.getRawData());
+                glUniformMatrix4fv( glGetUniformLocation(dat, cameraMatrix),true,matPosition.getRawData());
             }
             this.needUpdate = false;
         }

@@ -27,7 +27,7 @@ public final class SettingsManager {
     private  String ip = "";
 
     private SettingsManager() throws InitException {
-        world_size = new Vector2<Integer>(0,0);
+        world_size = new Vector2<>(0, 0);
         try (final InputStream in = SettingsManager.class.getResourceAsStream("/shadyrituals.properties")){
             Properties properties = new Properties();
             properties.load(in);

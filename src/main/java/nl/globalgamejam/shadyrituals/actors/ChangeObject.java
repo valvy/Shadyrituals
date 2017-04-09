@@ -26,7 +26,6 @@
 package nl.globalgamejam.shadyrituals.actors;
 
 import nl.globalgamejam.shadyrituals.GameScene;
-import nl.globalgamejam.shadyrituals.Globals;
 import nl.hvanderheijden.prutengine.Application;
 import nl.hvanderheijden.prutengine.AssetManager;
 import nl.hvanderheijden.prutengine.SettingsManager;
@@ -53,33 +52,40 @@ public class ChangeObject extends CollideAble
 {
 
     private final static Logger logger = LogManager.getLogger(ChangeObject.class.getName());
-    private final GameScene scene;
-        //Shader
-    int time = -1;
-    int resolution = -1;
-    float timer = 0f;
-    public ChangeObject(Vector3<Float> startPos, GameScene scene)
-    {
-        this.scene = scene;
+
+
+    private static final String VERTEX_SHADER = "/Assets/Shaders/UnShadedVertex.glsl";
+
+    private static final String FRAGMENT_SHADER = "/Assets/Shaders/GlowFragmentShader.glsl";
+
+    private static final String TEXTURE = "/Assets/Textures/Witch.png";
+
+    private static final String MESH = "/Assets/Meshes/Quad.obj";
+
+    //Shader
+    private  int time = -1;
+    private float timer = 0f;
+
+    private ChangeObject(){
+        throw new UnsupportedOperationException();
+    }
+
+    public ChangeObject(Vector3<Float> startPos, GameScene scene) {
+
         this.setPosition(startPos);
         this.rotate(new Vector3<>(1f,0f,0f), -90);
         this.setSize(new Vector3<>(1.4f,1.4f,1.4f));
-        this.boundingBox = new Vector4<Float>(1f, 1f, 1f, 1f);
+        this.boundingBox = new Vector4<>(1f, 1f, 1f, 1f);
         initRenderer();
     }
     
     public void initRenderer()
     {
         try {
-            this.setRenderer(new Renderer(
-                "/Assets/Shaders/UnShadedVertex.glsl",
-                //"Assets/Shaders/UnShadedFragment.glsl",
-                "/Assets/Shaders/GlowFragmentShader.glsl",
-                "/Assets/Textures/Witch.png",
-                "/Assets/Meshes/Quad.obj"));
+            this.setRenderer(new Renderer(VERTEX_SHADER, FRAGMENT_SHADER, TEXTURE, MESH));
             
             time = glGetUniformLocation(AssetManager.getProgram(this.getRenderer().getProgram()), "time");
-            resolution = glGetUniformLocation(AssetManager.getProgram(this.getRenderer().getProgram()), "resolution");
+            int resolution = glGetUniformLocation(AssetManager.getProgram(this.getRenderer().getProgram()), "resolution");
             glUseProgram(AssetManager.getProgram(this.getRenderer().getProgram()));
             //glUniform2f(resolution,1280,800);
             glUniform2f(resolution,(int)Application.getInstance().getScreenSize().x,(int)Application.getInstance().getScreenSize().y);

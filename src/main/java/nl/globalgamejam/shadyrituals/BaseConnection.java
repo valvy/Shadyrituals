@@ -31,8 +31,7 @@ import nl.hvanderheijden.prutengine.exceptions.InitException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.ArrayList;
-
+import java.util.List;
 
 
 /**
@@ -74,9 +73,9 @@ public abstract class BaseConnection implements Runnable{
      * The player that is currently conencted
      */
     public static class ConnectedPlayer{
-        public String id;
-        public Vector3<Float> currentPosition;
-        public Actor.Element playerElement;
+        public final String id;
+        public final Vector3<Float> currentPosition;
+        public final Actor.Element playerElement;
         public ConnectedPlayer(String id, Vector3<Float> currentPosition, Actor.Element playerElement){
             this.id = id;
             this.currentPosition = currentPosition;
@@ -88,7 +87,7 @@ public abstract class BaseConnection implements Runnable{
      * Asks the child for the connected players.
      * @return the list of players
      */
-    public abstract ArrayList<ConnectedPlayer> getAllConnections();
+    public abstract List<ConnectedPlayer> getAllConnections();
     
     /**
      * Gives the child the player data for the other players

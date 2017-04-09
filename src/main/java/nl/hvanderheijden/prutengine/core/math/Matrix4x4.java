@@ -57,7 +57,7 @@ public final class Matrix4x4 {
      * @param row4 
      */
     public Matrix4x4(Vector4<Float> row1, Vector4<Float> row2, Vector4<Float> row3, Vector4<Float> row4){
-        this.mat = new Vector4<Vector4<Float>> (row1,row2,row3,row4);
+        this.mat = new Vector4<>(row1, row2, row3, row4);
     }
     
     /**

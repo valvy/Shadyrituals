@@ -27,13 +27,43 @@ package nl.hvanderheijden.prutengine;
 
 import static org.lwjgl.glfw.GLFW.GLFW_RELEASE;
 
-public class PrutKey 
+public final class PrutKey
 {
-    public Boolean isPressed = false;
-    public int action = GLFW_RELEASE;
-    public int keyCode;
-    public PrutKey(int keyCode)
-    {
+
+
+
+    private Boolean isPressed = false;
+    private int action = GLFW_RELEASE;
+    private final int keyCode;
+
+    private PrutKey(){
+        throw new UnsupportedOperationException();
+    }
+
+
+
+    public PrutKey(int keyCode) {
         this.keyCode = keyCode;
+    }
+
+    public void setAction(int action) {
+        this.action = action;
+    }
+
+
+    public void setPressed(Boolean pressed) {
+        isPressed = pressed;
+    }
+
+    public Boolean getPressed() {
+        return isPressed;
+    }
+
+    public int getAction() {
+        return action;
+    }
+
+    public int getKeyCode() {
+        return keyCode;
     }
 }

@@ -29,7 +29,6 @@ import nl.hvanderheijden.prutengine.core.math.Matrix4x4;
 import nl.hvanderheijden.prutengine.core.math.Quaternion;
 import nl.hvanderheijden.prutengine.core.math.Vector3;
 import nl.hvanderheijden.prutengine.exceptions.PrutEngineException;
-import nl.hvanderheijden.prutengine.exceptions.ResourceNotFoundException;
 
 /**
  * An abstract representation a visible and invisible object in game.

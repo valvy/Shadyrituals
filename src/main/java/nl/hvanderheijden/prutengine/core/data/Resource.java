@@ -26,7 +26,6 @@
 
 package nl.hvanderheijden.prutengine.core.data;
 
-import nl.hvanderheijden.prutengine.SettingsManager;
 import nl.hvanderheijden.prutengine.exceptions.ResourceNotFoundException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -45,7 +44,15 @@ public abstract class Resource {
     private final String dataLocation;
     private int amountOfRef;
 
+    private Resource(){
+        throw new UnsupportedOperationException();
+    }
 
+    public Resource(final String fileLocation, final int position){
+        this.dataLocation = fileLocation;
+        this.amountOfRef = 0;//Starting at one.. with a zero delete the resource
+        this.memoryPosition = position;
+    }
 
     public abstract void destroy();
     
@@ -75,11 +82,6 @@ public abstract class Resource {
         }
     }
 
-    public Resource(final String fileLocation, final int position){
-        this.dataLocation = fileLocation;
-        this.amountOfRef = 0;//Starting at one.. with a zero delete the resource
-        this.memoryPosition = position;
-    }
 
     /**
      * Removes an reference
@@ -87,8 +89,8 @@ public abstract class Resource {
      * @return is the amount of references zero?
      */
     public boolean removeRef() {
-	this.amountOfRef--;
-	return amountOfRef == 0;
+        this.amountOfRef--;
+        return amountOfRef == 0;
     }
 
     /**
@@ -96,7 +98,7 @@ public abstract class Resource {
      * @return the position it can use this resource
      */
     public int addRef(){
-	this.amountOfRef++;
+	    this.amountOfRef++;
         return this.memoryPosition;
     }
 

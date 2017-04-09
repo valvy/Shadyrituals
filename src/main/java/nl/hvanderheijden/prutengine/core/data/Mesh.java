@@ -28,11 +28,10 @@ package nl.hvanderheijden.prutengine.core.data;
 
 import nl.hvanderheijden.prutengine.core.utilities.Primitives;
 import nl.hvanderheijden.prutengine.core.utilities.WaveFrontLoader;
-import java.io.IOException;
+
 import java.nio.FloatBuffer;
 
 import nl.hvanderheijden.prutengine.exceptions.PrutEngineException;
-import nl.hvanderheijden.prutengine.exceptions.ResourceNotFoundException;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15;
 import static org.lwjgl.opengl.GL15.glBindBuffer;
@@ -52,15 +51,12 @@ import static org.lwjgl.opengl.GL30.glGenVertexArrays;
  * @author Heiko van der Heijden
  */
 public final class Mesh extends Resource{
-    private final FloatBuffer rawVertexdata;
-    private final FloatBuffer rawUVData;
-    private final FloatBuffer rawNormalData;
     private final int vao;
     private final int size;
     private final int vertex_vbo;
     private final int uv_vbo;
-    private final int normal_vbo;
-    
+
+
     /**
      * @param fileLocation
      * @param position
@@ -68,25 +64,29 @@ public final class Mesh extends Resource{
      */
     public Mesh(final String fileLocation,final int position) throws PrutEngineException {
         super(fileLocation, position);
+        FloatBuffer rawVertexdata;
+        FloatBuffer rawUVData;
+        FloatBuffer rawNormalData;
+        int normal_vbo;
         if(!fileLocation.equals("Cube")){
             final WaveFrontLoader loader = new WaveFrontLoader(fileLocation);
             this.size = loader.triangleAmount();
             this.vao = glGenVertexArrays();
-            this.rawVertexdata = loader.rawVertexData();
-            this.rawUVData = loader.rawUVData();
-            this.rawNormalData = loader.rawNormalData();
+            rawVertexdata = loader.rawVertexData();
+            rawUVData = loader.rawUVData();
+            rawNormalData = loader.rawNormalData();
             this.vertex_vbo = this.bindVBO(0, 3, rawVertexdata);
-            this.uv_vbo = this.bindVBO(1, 2,rawUVData);
-            this.normal_vbo = this.bindVBO(2, 3, rawNormalData);
+            this.uv_vbo = this.bindVBO(1, 2, rawUVData);
+            normal_vbo = this.bindVBO(2, 3, rawNormalData);
         }else{
             this.vao = glGenVertexArrays();
-            this.rawVertexdata =  Primitives.Cube.rawVertexData();
-            this.rawUVData = Primitives.Cube.rawUVData();
-            this.rawNormalData = null;
+            rawVertexdata =  Primitives.Cube.rawVertexData();
+            rawUVData = Primitives.Cube.rawUVData();
+            rawNormalData = null;
             this.vertex_vbo = this.bindVBO(0, 3, Primitives.Cube.rawVertexData());
             this.uv_vbo = this.bindVBO(1,2,Primitives.Cube.rawUVData());
             this.size = Primitives.Cube.triangleAmount();
-            this.normal_vbo = 0;
+            normal_vbo = 0;
         }
     }
     

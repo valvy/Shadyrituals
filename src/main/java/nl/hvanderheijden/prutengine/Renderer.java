@@ -68,11 +68,17 @@ public class Renderer {
     private final Vector3<Float> lastSize;
     private final Vector3<Float> lastPosition;
     private final Matrix4x4 lastMat;
-    
+
+
+
     /**
      * the reference to the mv_matrix shader 
      */
     private final int glPos;
+
+    private Renderer(){
+        throw new UnsupportedOperationException();
+    }
     
     public Renderer(final String vShader,final String fShader,final String texture, final String meshName) throws PrutEngineException {
 
@@ -146,7 +152,6 @@ public class Renderer {
             glBindVertexArray(0);
         } catch (ResourceNotFoundException ex) {
             logger.error(ex);
-          //  Logger.getLogger(Renderer.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     

@@ -25,7 +25,6 @@
  */
 package nl.globalgamejam.shadyrituals.actors;
 
-import nl.globalgamejam.shadyrituals.Globals;
 import nl.hvanderheijden.prutengine.*;
 import nl.hvanderheijden.prutengine.core.math.Vector2;
 import nl.hvanderheijden.prutengine.core.math.Vector3;
@@ -43,13 +42,12 @@ import static org.lwjgl.opengl.GL20.glUseProgram;
  * The background of the game
  * @author Eddy
  */
-public class Background extends GameObject
+public final class Background extends GameObject
 {
 
     private final static Logger logger = LogManager.getLogger(Background.class.getName());
-    int time;
-    int resolution;
-    float timer = 0f;
+    private int time;
+    private float timer = 0f;
     
     public Background() throws PrutEngineException{
         try {
@@ -61,7 +59,7 @@ public class Background extends GameObject
             ));
            
            time = glGetUniformLocation(AssetManager.getProgram(this.getRenderer().getProgram()), "time");
-           resolution = glGetUniformLocation(AssetManager.getProgram(this.getRenderer().getProgram()), "resolution");
+            int resolution = glGetUniformLocation(AssetManager.getProgram(this.getRenderer().getProgram()), "resolution");
            glUseProgram(AssetManager.getProgram(this.getRenderer().getProgram()));
 
            glUniform2f(resolution,(int)Application.getInstance().getScreenSize().x,(int)Application.getInstance().getScreenSize().y);

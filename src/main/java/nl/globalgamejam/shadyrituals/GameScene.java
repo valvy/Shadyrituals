@@ -39,14 +39,12 @@ import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Vector;
 
 public class GameScene extends Scene
 {
     private final static Logger logger = LogManager.getLogger(GameScene.class.getName());
     private final ArrayList<Enemy> otherPlayers;
-    private Player pl;
-    
+
     public GameScene(){
         this.otherPlayers = new ArrayList<>();
     }
@@ -56,7 +54,7 @@ public class GameScene extends Scene
     {
         Application.getInstance().getWindow().setWindowTitle("game");
         this.setCamera(new MainCamera(new Vector3<>(0f,0f,0f)));
-        pl = new Player(this);
+        Player pl = new Player(this);
 
         ((MainCamera)this.camera).followObject(pl);
         
@@ -89,7 +87,7 @@ public class GameScene extends Scene
         return this.camera;
     }
     
-    public void shakeScreen(float magnitude, float duration){
+    public void shakeScreen(){
         ((MainCamera)this.camera).shakeScreen(1000f, 0.05f);
     }
     
