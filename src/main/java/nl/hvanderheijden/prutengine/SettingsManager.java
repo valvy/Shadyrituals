@@ -2,6 +2,8 @@ package nl.hvanderheijden.prutengine;
 
 import nl.hvanderheijden.prutengine.core.math.Vector2;
 import nl.hvanderheijden.prutengine.exceptions.InitException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,13 +14,13 @@ import java.util.Properties;
  */
 public final class SettingsManager {
 
+    private final static Logger logger = LogManager.getLogger(SettingsManager.class.getName());
+
     private static SettingsManager instance;
 
     private final Vector2<Integer> world_size;
 
-    public boolean isDebugMode() {
-        return debugMode;
-    }
+
 
     private boolean debugMode = false;
 
@@ -36,8 +38,13 @@ public final class SettingsManager {
             debugMode = Boolean.getBoolean(properties.getProperty("DEBUG"));
 
         } catch (IOException e) {
+            logger.error(e);
             throw new InitException("Could not initialize the settings");
         }
+    }
+
+    public boolean isDebugMode() {
+        return debugMode;
     }
 
     public String getIp() {

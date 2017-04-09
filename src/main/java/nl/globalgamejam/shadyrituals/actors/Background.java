@@ -30,9 +30,9 @@ import nl.hvanderheijden.prutengine.*;
 import nl.hvanderheijden.prutengine.core.math.Vector2;
 import nl.hvanderheijden.prutengine.core.math.Vector3;
 import nl.hvanderheijden.prutengine.exceptions.PrutEngineException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import static org.lwjgl.opengl.GL20.glGetUniformLocation;
 import static org.lwjgl.opengl.GL20.glUniform1f;
@@ -45,6 +45,8 @@ import static org.lwjgl.opengl.GL20.glUseProgram;
  */
 public class Background extends GameObject
 {
+
+    private final static Logger logger = LogManager.getLogger(Background.class.getName());
     int time;
     int resolution;
     float timer = 0f;
@@ -63,8 +65,8 @@ public class Background extends GameObject
            glUseProgram(AssetManager.getProgram(this.getRenderer().getProgram()));
 
            glUniform2f(resolution,(int)Application.getInstance().getScreenSize().x,(int)Application.getInstance().getScreenSize().y);
-        } catch (Exception ex) {
-            Logger.getLogger(Background.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (PrutEngineException ex) {
+            logger.warn("background not loaded..",ex);
         }
 
         Vector2<Integer> worldSize = SettingsManager.getInstance().getWorld_size();

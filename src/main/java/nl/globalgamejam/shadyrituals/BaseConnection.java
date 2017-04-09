@@ -28,10 +28,11 @@ package nl.globalgamejam.shadyrituals;
 import nl.globalgamejam.shadyrituals.actors.Actor;
 import nl.hvanderheijden.prutengine.core.math.Vector3;
 import nl.hvanderheijden.prutengine.exceptions.InitException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 
 /**
@@ -40,6 +41,8 @@ import java.util.logging.Logger;
  * @author Heiko van der Heijden 
  */
 public abstract class BaseConnection implements Runnable{
+
+    private final static Logger logger = LogManager.getLogger(BaseConnection.class.getName());
     /**
      * Called when the game wants to quit
      */
@@ -127,7 +130,8 @@ public abstract class BaseConnection implements Runnable{
             this.stop();
             this.thread.join();
         } catch (InterruptedException ex) {
-            Logger.getLogger(BaseConnection.class.getName()).log(Level.SEVERE, null, ex);
+            logger.info(ex);
+
         }
     }
     

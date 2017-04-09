@@ -25,6 +25,7 @@
  */
 package nl.hvanderheijden.prutengine;
 
+import nl.globalgamejam.shadyrituals.actors.Background;
 import nl.hvanderheijden.prutengine.core.data.GLProgram;
 import nl.hvanderheijden.prutengine.core.data.Mesh;
 import nl.hvanderheijden.prutengine.core.data.Shader;
@@ -33,6 +34,8 @@ import nl.hvanderheijden.prutengine.core.data.Texture;
 import nl.hvanderheijden.prutengine.exceptions.OpenGLException;
 import nl.hvanderheijden.prutengine.exceptions.PrutEngineException;
 import nl.hvanderheijden.prutengine.exceptions.ResourceNotFoundException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -45,7 +48,8 @@ import java.util.Map;
  * @author Heiko van der Heijden
  */
 public final class AssetManager {
-    
+
+
     /**
      * An unique number that represents a reference
      */
@@ -228,7 +232,7 @@ public final class AssetManager {
      * @return  the reference you can use to use this asset
      * @throws IOException  When the 3d mesh does not exists
      */
-    public static final int loadMesh(final String path) throws ResourceNotFoundException{
+    public static final int loadMesh(final String path) throws PrutEngineException{
         for(Mesh mesh : AssetManager.MESHES){
             if(mesh.getDataLocation().equals(path)){
                 return mesh.addRef();

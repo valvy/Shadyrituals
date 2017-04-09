@@ -29,6 +29,8 @@ import nl.hvanderheijden.prutengine.core.math.Vector3;
 import nl.hvanderheijden.prutengine.core.math.Vector4;
 import nl.hvanderheijden.prutengine.Renderer;
 import nl.hvanderheijden.prutengine.exceptions.PrutEngineException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Kills of the player when touched
@@ -36,6 +38,7 @@ import nl.hvanderheijden.prutengine.exceptions.PrutEngineException;
  */
 public class DeathWall extends CollideAble{
 
+    private final static Logger logger = LogManager.getLogger(DeathWall.class.getName());
     public DeathWall (Vector3<Float> position){
         this.setPosition(position);
         this.rotate(new Vector3<>(1f,0f,0f), -90); 
@@ -48,8 +51,8 @@ public class DeathWall extends CollideAble{
                 "/Assets/Textures/DeathWall.png",
                 "/Assets/Meshes/Quad.obj"));
         }
-        catch(Exception e ){
-            System.out.println(e);
+        catch(PrutEngineException e ){
+            logger.warn("Could not load deathwall, " , e);
         }
         
     }

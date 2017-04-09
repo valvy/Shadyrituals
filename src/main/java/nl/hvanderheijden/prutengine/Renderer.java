@@ -31,10 +31,11 @@ import nl.hvanderheijden.prutengine.core.math.Matrix4x4;
 import nl.hvanderheijden.prutengine.core.math.Quaternion;
 import nl.hvanderheijden.prutengine.exceptions.PrutEngineException;
 import nl.hvanderheijden.prutengine.exceptions.ResourceNotFoundException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 import static org.lwjgl.opengl.ARBInternalformatQuery2.GL_TEXTURE_2D;
 import static org.lwjgl.opengl.GL11.GL_TRIANGLES;
@@ -49,6 +50,7 @@ import static org.lwjgl.opengl.GL30.glBindVertexArray;
  * @author Heiko van der Heijden
  */
 public class Renderer {
+    private final static Logger logger = LogManager.getLogger(Renderer.class.getName());
     /**
      * An reference to the opengl program
      */
@@ -101,7 +103,7 @@ public class Renderer {
      * Renders the various attributes on screen
      * @param size
      * @param position
-     * @param rotMat 
+     * @param rotation
      */
     public void render(final Vector3<Float> size, final Vector3<Float> position, final Quaternion rotation){
 
@@ -143,7 +145,8 @@ public class Renderer {
             glDisableVertexAttribArray(0);
             glBindVertexArray(0);
         } catch (ResourceNotFoundException ex) {
-            Logger.getLogger(Renderer.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error(ex);
+          //  Logger.getLogger(Renderer.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     

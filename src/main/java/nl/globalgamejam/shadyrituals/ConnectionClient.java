@@ -32,6 +32,9 @@ import nl.hvanderheijden.prutengine.core.math.Vector3;
 import nl.hvanderheijden.prutengine.Debug;
 import com.sun.corba.se.impl.orbutil.concurrent.Mutex;
 import nl.hvanderheijden.prutengine.exceptions.InitException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 
 import java.io.BufferedWriter;
 import java.io.DataInputStream;
@@ -40,8 +43,6 @@ import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Manages the connection to a server. 
@@ -49,6 +50,8 @@ import java.util.logging.Logger;
  * @author Heiko van der Heijden 
  */
 public class ConnectionClient extends BaseConnection {
+
+    private final static Logger logger = LogManager.getLogger(ConnectionClient.class.getName());
     /**
      * The socket it want's to connect to
      */
@@ -106,7 +109,7 @@ public class ConnectionClient extends BaseConnection {
             }
         }
         catch (InterruptedException ex) {
-            Logger.getLogger(ConnectionServer.class.getName()).log(Level.SEVERE, null, ex);
+            logger.warn(ex);
         }finally{
             mutex.release();
         }
@@ -123,7 +126,7 @@ public class ConnectionClient extends BaseConnection {
            // Debug.log("addToBuffer: " + msg);
             this.to = msg;
         } catch (InterruptedException ex) {
-            Logger.getLogger(ConnectionServer.class.getName()).log(Level.SEVERE, null, ex);
+            logger.warn(ex);
         }finally{
             mutex.release();
         }
@@ -139,7 +142,7 @@ public class ConnectionClient extends BaseConnection {
             }
             
         } catch (IOException ex) {
-            Logger.getLogger(ConnectionClient.class.getName()).log(Level.SEVERE, null, ex);
+            logger.warn(ex);
         }
     }
 
@@ -151,6 +154,7 @@ public class ConnectionClient extends BaseConnection {
             bw= new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
             return true;
         } catch (IOException ex) {
+            logger.info(ex);
             return false;
         }
     }
@@ -182,7 +186,7 @@ public class ConnectionClient extends BaseConnection {
                     this.from.add(msg);
                 }
             } catch (InterruptedException ex) {
-                Logger.getLogger(ConnectionServer.class.getName()).log(Level.SEVERE, null, ex);
+                logger.warn(ex);
             }finally{
                 this.mutex.release();
                 this.send(to, bw);                           
@@ -194,10 +198,10 @@ public class ConnectionClient extends BaseConnection {
                  this.inputStream.close();
                  this.bw.close();
             } catch (IOException ex1) {
-                Logger.getLogger(ConnectionClient.class.getName()).log(Level.SEVERE, null, ex1);
+                logger.warn(ex1);
             }
-          Application.getInstance().quit();
-            Logger.getLogger(ConnectionClient.class.getName()).log(Level.SEVERE, null, ex);
+            Application.getInstance().quit();
+            logger.warn(ex);
         }
     }
     
@@ -212,7 +216,7 @@ public class ConnectionClient extends BaseConnection {
             bw.flush();
         }
         catch (IOException ex) {
-            Logger.getLogger(ConnectionClient.class.getName()).log(Level.SEVERE, null, ex);
+            logger.warn(ex);
         }
     }
 
@@ -241,7 +245,7 @@ public class ConnectionClient extends BaseConnection {
                 currentPosition.y = fi.nextFloat();
                 currentPosition.z = fi.nextFloat();
             }catch(java.util.InputMismatchException ex){
-                Logger.getLogger(ConnectionClient.class.getName()).log(Level.SEVERE, null, ex);
+                logger.warn(ex);
                 continue;
             }
             

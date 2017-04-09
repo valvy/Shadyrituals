@@ -31,6 +31,7 @@ import nl.hvanderheijden.prutengine.core.utilities.WaveFrontLoader;
 import java.io.IOException;
 import java.nio.FloatBuffer;
 
+import nl.hvanderheijden.prutengine.exceptions.PrutEngineException;
 import nl.hvanderheijden.prutengine.exceptions.ResourceNotFoundException;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15;
@@ -65,7 +66,7 @@ public final class Mesh extends Resource{
      * @param position
      * @throws java.io.IOException
      */
-    public Mesh(final String fileLocation,final int position) throws ResourceNotFoundException {
+    public Mesh(final String fileLocation,final int position) throws PrutEngineException {
         super(fileLocation, position);
         if(!fileLocation.equals("Cube")){
             final WaveFrontLoader loader = new WaveFrontLoader(fileLocation);

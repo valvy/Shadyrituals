@@ -31,14 +31,19 @@ import nl.hvanderheijden.prutengine.core.math.PrutMath;
 import nl.hvanderheijden.prutengine.core.math.Vector2;
 import nl.hvanderheijden.prutengine.core.math.Vector3;
 import nl.hvanderheijden.prutengine.exceptions.PrutEngineException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
 import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Vector;
 
 public class GameScene extends Scene
 {
+    private final static Logger logger = LogManager.getLogger(GameScene.class.getName());
     private final ArrayList<Enemy> otherPlayers;
     private Player pl;
     
@@ -72,9 +77,9 @@ public class GameScene extends Scene
             AssetManager.loadSound("/Assets/Sounds/death01.wav","death01");
          //   AssetManager.loadSound("Assets/Sounds/background.wav","bgm01");
         }
-        catch(Exception e)
+        catch(final IOException e)
         {
-            System.err.println(e.getMessage());
+            logger.info("could not find sound ",e);
         }
        // AssetManager.getSound("bgm01").PlaySound(-1);
     }

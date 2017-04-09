@@ -31,6 +31,8 @@ import nl.hvanderheijden.prutengine.core.math.Vector3;
 import nl.hvanderheijden.prutengine.GameObject;
 import nl.hvanderheijden.prutengine.Renderer;
 import nl.hvanderheijden.prutengine.exceptions.PrutEngineException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import static org.lwjgl.opengl.GL20.glGetUniformLocation;
 import static org.lwjgl.opengl.GL20.glUniform1f;
@@ -43,6 +45,8 @@ import static org.lwjgl.opengl.GL20.glUseProgram;
  */
 public class InfoBackground extends GameObject
 {
+
+    private final static Logger logger = LogManager.getLogger(InfoBackground.class.getName());
     int time;
     int resolution;
     float timer = 0f;
@@ -68,8 +72,8 @@ public class InfoBackground extends GameObject
             glUniform2f(resolution,(int)Application.getInstance().getScreenSize().x,(int)Application.getInstance().getScreenSize().y);
 
         }
-        catch(Exception e ){
-            System.out.println(e);
+        catch(PrutEngineException e ){
+            logger.warn("Could not load Infobackground.. ", e);
         }
     }
     

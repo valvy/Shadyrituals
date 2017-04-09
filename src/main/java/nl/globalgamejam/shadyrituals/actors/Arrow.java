@@ -28,13 +28,18 @@ package nl.globalgamejam.shadyrituals.actors;
 import nl.hvanderheijden.prutengine.core.math.Vector3;
 import nl.hvanderheijden.prutengine.GameObject;
 import nl.hvanderheijden.prutengine.Renderer;
+import nl.hvanderheijden.prutengine.exceptions.PrutEngineException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * The arrow for the main menu
  * @author Wander
  */
 public class Arrow extends GameObject{
-    
+
+
+    private final static Logger logger = LogManager.getLogger(Arrow.class.getName());
     public Arrow(Vector3<Float> startPos)
     {
         initRenderer("Arrow.png");
@@ -51,8 +56,10 @@ public class Arrow extends GameObject{
                 "/Assets/Shaders/UnShadedFragment.glsl",
                 "/Assets/Textures/" + texture,
                 "/Assets/Meshes/Quad.obj"));
+        } catch (PrutEngineException e) {
+            logger.error(e);
         }
-         catch(Exception e ){}
+
     }
     
     @Override

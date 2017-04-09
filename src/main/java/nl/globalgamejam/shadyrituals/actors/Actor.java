@@ -25,6 +25,7 @@
  */
 package nl.globalgamejam.shadyrituals.actors;
 
+import nl.globalgamejam.shadyrituals.GameScene;
 import nl.globalgamejam.shadyrituals.Globals;
 import nl.hvanderheijden.prutengine.Application;
 import nl.hvanderheijden.prutengine.AssetManager;
@@ -36,6 +37,9 @@ import nl.hvanderheijden.prutengine.core.math.Vector4;
 import nl.hvanderheijden.prutengine.Renderer;
 import nl.hvanderheijden.prutengine.exceptions.InitException;
 import nl.hvanderheijden.prutengine.exceptions.PrutEngineException;
+import nl.hvanderheijden.prutengine.exceptions.ResourceNotFoundException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import static org.lwjgl.opengl.GL20.glGetUniformLocation;
 import static org.lwjgl.opengl.GL20.glUniform1f;
@@ -50,6 +54,8 @@ import static org.lwjgl.opengl.GL20.glUseProgram;
  */
 public class Actor extends CollideAble
 {
+
+    private final static Logger logger = LogManager.getLogger(Actor.class.getName());
     /**
      * The element it currently is
      */
@@ -211,8 +217,12 @@ public class Actor extends CollideAble
             resolution = glGetUniformLocation(AssetManager.getProgram(this.getRenderer().getProgram()), "resolution");
             glUseProgram(AssetManager.getProgram(this.getRenderer().getProgram()));
             glUniform2f(resolution,(int)Application.getInstance().getScreenSize().x,(int)Application.getInstance().getScreenSize().y);
+        } catch (ResourceNotFoundException e) {
+            logger.error(e);
+        } catch (PrutEngineException e) {
+            logger.error(e);
         }
-        catch(Exception e ){}
+
     }
     
 

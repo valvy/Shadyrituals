@@ -28,6 +28,9 @@ package nl.globalgamejam.shadyrituals.actors;
 import nl.hvanderheijden.prutengine.core.math.Vector3;
 import nl.hvanderheijden.prutengine.GameObject;
 import nl.hvanderheijden.prutengine.Renderer;
+import nl.hvanderheijden.prutengine.exceptions.PrutEngineException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Represents the score of the player.
@@ -36,6 +39,7 @@ import nl.hvanderheijden.prutengine.Renderer;
  */
 public class ScoreCube extends GameObject
 {
+    private final static Logger logger = LogManager.getLogger(ScoreCube.class.getName());
     public ScoreCube(Vector3<Float> startPos)
     {
         initRenderer("cube.bmp");
@@ -52,9 +56,9 @@ public class ScoreCube extends GameObject
                 "/Assets/Textures/" + texture,
                 "/Assets/Meshes/cube.obj"));
         }
-        catch(Exception e)
+        catch(PrutEngineException e)
         {
-            System.out.println(e);
+            logger.warn("Could not load score cube..", e);
         }
     }
     

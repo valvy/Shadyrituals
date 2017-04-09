@@ -26,7 +26,10 @@
 
 package nl.hvanderheijden.prutengine.core.data;
 
+import nl.hvanderheijden.prutengine.SettingsManager;
 import nl.hvanderheijden.prutengine.exceptions.ResourceNotFoundException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.*;
 
@@ -36,9 +39,13 @@ import java.io.*;
  * @author Heiko van der Heijden
  */
 public abstract class Resource {
+    private final static Logger logger = LogManager.getLogger(Resource.class.getName());
+
     private final int memoryPosition;
     private final String dataLocation;
     private int amountOfRef;
+
+
 
     public abstract void destroy();
     
@@ -63,6 +70,7 @@ public abstract class Resource {
             }
             return result;
         } catch (final IOException ex){
+            logger.error(ex);
             throw new ResourceNotFoundException(String.format("File : %s has not been found", path));
         }
     }

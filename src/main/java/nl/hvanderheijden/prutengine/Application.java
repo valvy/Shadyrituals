@@ -26,9 +26,12 @@
 package nl.hvanderheijden.prutengine;
 
 import nl.globalgamejam.shadyrituals.BaseConnection;
+import nl.globalgamejam.shadyrituals.actors.Background;
 import nl.hvanderheijden.prutengine.core.math.Vector2;
 import nl.hvanderheijden.prutengine.core.View;
 import nl.hvanderheijden.prutengine.exceptions.PrutEngineException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.lwjgl.glfw.*;
 
 import java.util.Date;
@@ -44,7 +47,7 @@ import static org.lwjgl.system.MemoryUtil.*;
  */
 public final class Application {
     private static Application instance;
-
+    private final static Logger logger = LogManager.getLogger(Application.class.getName());
 
     private PrutKeyboard prutKeyBoard;
     private GLFWErrorCallback errorCallback;
@@ -94,9 +97,9 @@ public final class Application {
         int HEIGHT = vidMode.height();
 
         window = glfwCreateWindow(WIDTH, HEIGHT, "", monitor, NULL);
-        if ( window == NULL )
+        if ( window == NULL ) {
             throw new RuntimeException("Failed to create the GLFW window");
-
+        }
         // Setup a key callback. It will be called every time a key is pressed, repeated or released.
         glfwSetKeyCallback(window, keyCallback = new GLFWKeyCallback() {
             @Override
@@ -222,7 +225,7 @@ public final class Application {
             glfwDestroyWindow(window);
     //        keyCallback.release();
         } catch (PrutEngineException e) {
-            Debug.log(e.getMessage());
+            logger.error(e);
         } finally{
             glfwTerminate();
        //     errorCallback.release();

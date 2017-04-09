@@ -26,6 +26,8 @@
 package nl.hvanderheijden.prutengine;
 
 import nl.hvanderheijden.prutengine.exceptions.InitException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import static nl.hvanderheijden.prutengine.SettingsManager.getInstance;
 
@@ -35,14 +37,14 @@ import static nl.hvanderheijden.prutengine.SettingsManager.getInstance;
  */
 public final class Debug {
     private final static boolean DEBUG;
-
+    private final static Logger logger = LogManager.getLogger(Debug.class.getName());
 
     static{
         boolean deb = false;
         try {
             deb = SettingsManager.getInstance().isDebugMode();
         } catch (InitException e) {
-
+            logger.error(e);
         }
         DEBUG = deb;
     }

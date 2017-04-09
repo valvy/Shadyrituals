@@ -31,9 +31,9 @@ import nl.hvanderheijden.prutengine.core.math.Vector3;
 import nl.hvanderheijden.prutengine.GameObject;
 import nl.hvanderheijden.prutengine.Renderer;
 import nl.hvanderheijden.prutengine.exceptions.PrutEngineException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import static org.lwjgl.opengl.GL20.glGetUniformLocation;
 import static org.lwjgl.opengl.GL20.glUniform1f;
 import static org.lwjgl.opengl.GL20.glUniform2f;
@@ -45,6 +45,7 @@ import static org.lwjgl.opengl.GL20.glUseProgram;
  */
 public class SplashBackground extends GameObject
 {
+    private final static Logger logger = LogManager.getLogger(SplashBackground.class.getName());
     int time;
     int resolution;
     float timer = 0f;
@@ -61,8 +62,8 @@ public class SplashBackground extends GameObject
 
             glUniform2f(resolution,(int)Application.getInstance().getScreenSize().x,(int)Application.getInstance().getScreenSize().y);
         }
-        catch (Exception ex) {
-            Logger.getLogger(Background.class.getName()).log(Level.SEVERE, null, ex);
+        catch (PrutEngineException ex) {
+            logger.warn("Could not load splashbackground..", ex);
         }
         this.setSize(new Vector3<>(2f,2f,2f));
         this.rotate(new Vector3<>(1f,0f,0f), -90);

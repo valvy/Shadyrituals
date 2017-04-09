@@ -31,6 +31,9 @@ import nl.globalgamejam.shadyrituals.actors.Actor;
 import nl.hvanderheijden.prutengine.core.math.Vector3;
 import nl.hvanderheijden.prutengine.Debug;
 import com.sun.corba.se.impl.orbutil.concurrent.Mutex;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.BufferedWriter;
 import java.io.DataInputStream;
 import java.io.IOException;
@@ -39,14 +42,13 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Manages the server, and notifies all the clients connected to the server
  * @author Heiko van der Heijden 
  */
 public class ConnectionServer extends BaseConnection {
+    private final static Logger logger = LogManager.getLogger(ConnectionServer.class.getName());
 
     /**
      * An unique number to identify the clients
@@ -116,7 +118,7 @@ public class ConnectionServer extends BaseConnection {
                 dat = from;
             }
             catch (InterruptedException ex) {
-                Logger.getLogger(ConnectionServer.class.getName()).log(Level.SEVERE, null, ex);
+                logger.warn(ex);
             }finally{
                 mutex.release();
             }
@@ -132,7 +134,7 @@ public class ConnectionServer extends BaseConnection {
                 mutex.acquire();
                 this.to.add(msg);
             } catch (InterruptedException ex) {
-                Logger.getLogger(ConnectionServer.class.getName()).log(Level.SEVERE, null, ex);
+                logger.warn(ex);
             }finally{
                 mutex.release();
             }
@@ -162,7 +164,7 @@ public class ConnectionServer extends BaseConnection {
             try {
                 thread.join();
             } catch (InterruptedException ex) {
-                Logger.getLogger(ConnectionServer.class.getName()).log(Level.SEVERE, null, ex);
+                logger.warn(ex);
             }
         }
         
@@ -189,7 +191,7 @@ public class ConnectionServer extends BaseConnection {
                             this.from = msg;
                         }
                     } catch (InterruptedException ex) {
-                        Logger.getLogger(ConnectionServer.class.getName()).log(Level.SEVERE, null, ex);
+                        logger.warn(ex);
                     }finally{
                         String dat = NOTHING;
                         if(this.to.size() > 0){
@@ -202,7 +204,7 @@ public class ConnectionServer extends BaseConnection {
                     }
                 }
             } catch (IOException ex) {
-                Logger.getLogger(ConnectionServer.class.getName()).log(Level.SEVERE, null, ex);
+                logger.warn(ex);
             }
         }
         
@@ -216,7 +218,7 @@ public class ConnectionServer extends BaseConnection {
                 bw.write(msg);
                 bw.flush();
             }   catch (IOException ex) {
-                Logger.getLogger(ConnectionServer.class.getName()).log(Level.SEVERE, null, ex);
+                logger.warn(ex);
             }
         }
     }
@@ -249,9 +251,9 @@ public class ConnectionServer extends BaseConnection {
            clients.add(new Client(this.uniqueNumber, serverSocket.accept()));
             this.uniqueNumber++;
         } catch (IOException ex) {
-           //Logger.getLogger(ConnectionServer.class.getName()).log(Level.SEVERE, null, ex);
+            logger.warn(ex);
         } catch (Exception ex) {
-            //Logger.getLogger(ConnectionServer.class.getName()).log(Level.SEVERE, null, ex);
+            logger.warn(ex);
         }
     }
     
@@ -281,7 +283,7 @@ public class ConnectionServer extends BaseConnection {
                 currentPosition.y = fi.nextFloat();
                 currentPosition.z = fi.nextFloat();
             }catch(java.util.InputMismatchException ex){
-                Logger.getLogger(ConnectionClient.class.getName()).log(Level.SEVERE, null, ex);
+                logger.info(ex);
                 continue;
             }
           
@@ -346,6 +348,7 @@ public class ConnectionServer extends BaseConnection {
             serverSocket.setSoTimeout(TIME_OUT);
             return true;
         } catch (IOException ex) {
+            logger.info(ex);
             return false;
         }
     }

@@ -25,20 +25,28 @@
  */
 package nl.hvanderheijden.prutengine.core.utilities;
 
+import nl.hvanderheijden.prutengine.SettingsManager;
 import nl.hvanderheijden.prutengine.core.math.Vector2;
 import nl.hvanderheijden.prutengine.core.math.Vector3;
 import nl.hvanderheijden.prutengine.Debug;
 
 import java.io.*;
 import java.nio.FloatBuffer;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import nl.hvanderheijden.prutengine.exceptions.PrutEngineException;
 import nl.hvanderheijden.prutengine.exceptions.ResourceNotFoundException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.lwjgl.BufferUtils;
 
 public final class WaveFrontLoader {
+
+    private final static Logger logger = LogManager.getLogger(WaveFrontLoader.class.getName());
+
     //The tokens for parsing
     private static final String COMMENT = "#";
     private static final String VERTEX_TEXTURE = "vt";
@@ -52,7 +60,7 @@ public final class WaveFrontLoader {
     private final ArrayList<Vector3<Float>> normals;
     private final ArrayList<Vector3<Vector3<Integer>>> faces;
     
-    public WaveFrontLoader(final String path) throws ResourceNotFoundException{
+    public WaveFrontLoader(final String path) throws PrutEngineException{
         this.vertex = new ArrayList<>();
         this.vertexTexture = new ArrayList<>();
         this.normals = new ArrayList<>();
@@ -60,6 +68,7 @@ public final class WaveFrontLoader {
         try {
             this.loadFile(path);
         } catch (IOException e) {
+            logger.error(e);
             throw new ResourceNotFoundException(String.format("File %s has not been found", path));
         }
     }
@@ -191,15 +200,10 @@ public final class WaveFrontLoader {
         return result;
     }
     
-    private void loadFile(final String path) throws IOException{
-        final BufferedReader br;
-       // System.out.println(WaveFrontLoader.class.getResource(path).getPath());
-     //   br = //new BufferedReader(new InputStreamReader(
-               // new FileInputStream(WaveFrontLoader.class.getResource(path).getPath())));
-
+    private void loadFile(final String path) throws IOException, PrutEngineException {
 
         try(final InputStream str = getClass().getResourceAsStream(path)){
-            final BufferedReader reader = new BufferedReader(new InputStreamReader(str,"UTF8"));
+            final BufferedReader reader = new BufferedReader(new InputStreamReader(str, StandardCharsets.UTF_8));
             String line;
             while ((line = reader.readLine()) != null) {
            //     System.out.println(line);
@@ -220,34 +224,10 @@ public final class WaveFrontLoader {
                     Debug.log("unkown command error ignoring line");
                 }
             }
+        } catch(IOException ex){
+            logger.error(ex);
+            throw new PrutEngineException(String.format("Could not load file : %s", ex.getMessage()));
         }
 
-
-        /*
-        br = new BufferedReader(new InputStreamReader(getClass().getResource(path).openStream()));
-        try {
-            String line;
-            while ((line = br.readLine()) != null) {
-                System.out.println(line);
-
-                if(line.startsWith(COMMENT)){
-                    //Comment
-                }else if(line.startsWith(VERTEX_TEXTURE)){
-                    this.vertexTexture.add(this.parseVector2f(line.substring(VERTEX_TEXTURE.length())));
-                }else if(line.startsWith(VERTEX_NORMAL)) {
-                    this.normals.add(this.parseVector3f(line.substring(VERTEX_NORMAL.length())));
-                } else if(line.startsWith(VERTEX)){
-                    this.vertex.add(this.parseVector3f(line.substring(VERTEX.length())));
-     
-                }else if(line.startsWith(FACE)){
-                    line = line.replace("/", " ");
-                    this.faces.add(this.parseFace(line.substring(FACE.length())));
-                }else{
-                    Debug.log("unkown command error ignoring line");
-                }
-            }
-        } finally {
-            br.close();
-        }*/
     }
 }

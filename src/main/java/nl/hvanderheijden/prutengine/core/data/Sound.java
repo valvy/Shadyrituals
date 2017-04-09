@@ -26,6 +26,10 @@
 
 package nl.hvanderheijden.prutengine.core.data;
 
+import nl.hvanderheijden.prutengine.SettingsManager;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import javax.sound.sampled.AudioInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -40,6 +44,7 @@ import javax.sound.sampled.Clip;
  */
 public class Sound extends Resource
 {
+    private final static Logger logger = LogManager.getLogger(Sound.class.getName());
     public int soundID;
     private String name;
     private AudioFormat audioFormat;
@@ -73,7 +78,7 @@ public class Sound extends Resource
         }
         catch(Exception e)
         {
-             System.err.println(e.getMessage());
+             logger.error(e);
         }
     }
     public void PlaySound(int loopCount)
@@ -91,7 +96,7 @@ public class Sound extends Resource
         }
         catch(Exception e)
         {
-            System.err.println(e.getMessage());
+            logger.error(e);
         }
     }
     public int getSound()
