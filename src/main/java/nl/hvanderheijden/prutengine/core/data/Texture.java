@@ -59,12 +59,12 @@ public class Texture extends Resource{
     
     public Texture(String fileLocation, int position)  throws ResourceNotFoundException {
         super(fileLocation, position);
-        File scrFile = new File(Texture.class.getResource(fileLocation).getPath());
 
         //Mirror the texture firsrt
         BufferedImage image = null;
         try {
-            image = ImageIO.read(scrFile);
+            image = ImageIO.read(Texture.class.getResourceAsStream(fileLocation));
+
         } catch (IOException e) {
             throw new ResourceNotFoundException(String.format("File %s has not been found", fileLocation));
         }
