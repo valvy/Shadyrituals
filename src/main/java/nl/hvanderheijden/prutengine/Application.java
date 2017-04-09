@@ -187,8 +187,6 @@ public final class Application {
         }
     }
 
-    private Thread thread ;
-
     private void loop() throws PrutEngineException {
         long lastTime = 0;
         while (!glfwWindowShouldClose(window) ) {
@@ -226,12 +224,10 @@ public final class Application {
             AssetManager.clearTextureBuffer();
             AssetManager.clearMeshBuffer();
             glfwDestroyWindow(window);
-    //        keyCallback.release();
         } catch (PrutEngineException e) {
             logger.error(e);
         } finally{
             glfwTerminate();
-       //     errorCallback.release();
         }
     }
 }

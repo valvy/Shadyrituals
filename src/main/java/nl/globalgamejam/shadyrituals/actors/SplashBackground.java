@@ -78,9 +78,6 @@ public class SplashBackground extends GameObject
     public void update(float tpf) throws PrutEngineException
     {
         timer += 10 * tpf;
-
-
-       // this.rotate(new Vector3<>(0f,0f,100f), 100 * tpf);
         glUseProgram(AssetManager.getProgram(this.getRenderer().getProgram()));
         glUniform1f(this.time,timer);
 
