@@ -30,7 +30,6 @@ package nl.globalgamejam.shadyrituals;
 import nl.globalgamejam.shadyrituals.actors.Actor;
 import nl.hvanderheijden.prutengine.core.math.Vector3;
 import nl.hvanderheijden.prutengine.Debug;
-import com.sun.corba.se.impl.orbutil.concurrent.Mutex;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -43,6 +42,8 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Manages the server, and notifies all the clients connected to the server
@@ -91,7 +92,7 @@ public class ConnectionServer extends BaseConnection {
         /**
          * the mutex lock to avoid data races
          */
-        private final Mutex mutex;
+        private final Lock mutex;
         
         /**
          * the data what it did last time
@@ -111,13 +112,11 @@ public class ConnectionServer extends BaseConnection {
         public String getFrom(){
             String dat = NOTHING;
             try{
-                mutex.acquire();
+                mutex.lock();
                 dat = from;
             }
-            catch (InterruptedException ex) {
-                logger.warn(ex);
-            }finally{
-                mutex.release();
+            finally{
+                mutex.unlock();
             }
             return dat;
         }
@@ -128,12 +127,10 @@ public class ConnectionServer extends BaseConnection {
          */
         public void addToBuffer(String msg){
             try {
-                mutex.acquire();
+                mutex.lock();
                 this.to.add(msg);
-            } catch (InterruptedException ex) {
-                logger.warn(ex);
             }finally{
-                mutex.release();
+                mutex.unlock();
             }
         }
         
@@ -147,7 +144,7 @@ public class ConnectionServer extends BaseConnection {
             this.id =id;
             this.sock = sock;
             this.to = new ArrayList<>();
-            this.mutex = new Mutex();
+            this.mutex = new ReentrantLock();
             this.thread = new Thread(this);
             this.thread.start();
         }
@@ -159,7 +156,8 @@ public class ConnectionServer extends BaseConnection {
         public void stopConnection(){
             shouldStop = true;
             try {
-                thread.join();
+                thread.join(1);
+
             } catch (InterruptedException ex) {
                 logger.warn(ex);
             }
@@ -168,8 +166,8 @@ public class ConnectionServer extends BaseConnection {
         @Override
         public void run() {
             try {
-                DataInputStream inputStream = new DataInputStream(sock.getInputStream());
-                BufferedWriter bw= new BufferedWriter(new OutputStreamWriter(sock.getOutputStream()));
+                final DataInputStream inputStream = new DataInputStream(sock.getInputStream());
+                final BufferedWriter bw= new BufferedWriter(new OutputStreamWriter(sock.getOutputStream()));
 
                 int read;
                 byte[] buffer = new byte[1024];
@@ -182,26 +180,25 @@ public class ConnectionServer extends BaseConnection {
                         break;
                     }
                     try {
-                        this.mutex.acquire();
+                        this.mutex.lock();
                         String msg = new String(buffer, 0, read);
                         if(!msg.equals(NOTHING)){
                             this.from = msg;
                         }
-                    } catch (InterruptedException ex) {
-                        logger.warn(ex);
-                    }finally{
+                    } finally{
                         String dat = NOTHING;
                         if(this.to.size() > 0){
                             dat = to.get(0);
                             //Debug.log(dat);
                             this.to.remove(0);
                         }
-                        this.mutex.release();
+                        this.mutex.unlock();
                         this.send(dat, bw);                           
                     }
                 }
             } catch (IOException ex) {
                 logger.warn(ex);
+
             }
         }
         
@@ -258,7 +255,7 @@ public class ConnectionServer extends BaseConnection {
         final List<ConnectedPlayer> result = new ArrayList<>();
         
         //check the buffer for data
-        for(String str : this.globalBuffer){
+        for(final String str : this.globalBuffer){
             if(str.equals(NOTHING)){//do nothing.. the buffer is empty
                 return result;
             }
@@ -271,8 +268,7 @@ public class ConnectionServer extends BaseConnection {
             }
             String id = splitedData[0]; //parse it to an vector3
             final Vector3<Float> currentPosition = new Vector3<>(0f,0f,0f);
-            try{
-                final Scanner fi = new Scanner(splitedData[1]);
+            try(final Scanner fi = new Scanner(splitedData[1])){
                 Debug.log(str);
                 currentPosition.x = fi.nextFloat();
                 currentPosition.y = fi.nextFloat();

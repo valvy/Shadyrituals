@@ -127,7 +127,7 @@ public abstract class BaseConnection implements Runnable{
         this.shouldStop = true;
         try {
             this.stop();
-            this.thread.join();
+            this.thread.join(1 );
         } catch (InterruptedException ex) {
             logger.info(ex);
 

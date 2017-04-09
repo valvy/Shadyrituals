@@ -30,10 +30,11 @@ import nl.hvanderheijden.prutengine.Application;
 import nl.hvanderheijden.prutengine.SettingsManager;
 import nl.hvanderheijden.prutengine.core.math.Vector3;
 import nl.hvanderheijden.prutengine.Debug;
-import com.sun.corba.se.impl.orbutil.concurrent.Mutex;
+
 import nl.hvanderheijden.prutengine.exceptions.InitException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import sun.awt.Mutex;
 
 
 import java.io.BufferedWriter;
@@ -44,6 +45,8 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Manages the connection to a server. 
@@ -75,8 +78,8 @@ public class ConnectionClient extends BaseConnection {
     /**
      * Concurrency mutex to avoid data races
      */
-    private final Mutex mutex;
-    
+   // private final Mutex mutex;
+    private final Lock mutex;
     /**
      * The buffer that the client receives from the server
      */
@@ -91,7 +94,7 @@ public class ConnectionClient extends BaseConnection {
      * Initializes the client 
      */
     protected ConnectionClient() throws  InitException{
-        this.mutex = new Mutex();
+        this.mutex = new ReentrantLock();
         this.from = new ArrayList<>();
         IP = SettingsManager.getInstance().getIp();
     }
@@ -103,33 +106,29 @@ public class ConnectionClient extends BaseConnection {
     public String getFrom(){
         String dat = NOTHING;
         try{
-            mutex.acquire();
+            mutex.lock();
+            //mutex.acquire();
             if(this.from.size() > 0){
                 dat = from.get(0);
                 this.from.remove(0);
             }
         }
-        catch (InterruptedException ex) {
-            logger.warn(ex);
-        }finally{
-            mutex.release();
+        finally{
+            mutex.unlock();
         }
         return dat;
     }
-    
+
     /**
      * Sends a message to the client
      * @param msg 
      */
     public void addToBuffer(String msg){
         try {
-            mutex.acquire();
-           // Debug.log("addToBuffer: " + msg);
+            mutex.lock();
             this.to = msg;
-        } catch (InterruptedException ex) {
-            logger.warn(ex);
-        }finally{
-            mutex.release();
+        } finally{
+            mutex.unlock();
         }
     }
     
@@ -172,7 +171,8 @@ public class ConnectionClient extends BaseConnection {
                     break;
                 }
             try {
-                this.mutex.acquire();
+                //this.mutex.acquire();
+                this.mutex.lock();
                 String msg = new String(buffer, 0, read);
 
                 Debug.log(msg);
@@ -186,10 +186,8 @@ public class ConnectionClient extends BaseConnection {
                     }
                     this.from.add(msg);
                 }
-            } catch (InterruptedException ex) {
-                logger.warn(ex);
             }finally{
-                this.mutex.release();
+                this.mutex.unlock();
                 this.send(to, bw);                           
             }
         }   
@@ -203,6 +201,8 @@ public class ConnectionClient extends BaseConnection {
             }
             Application.getInstance().quit();
             logger.warn(ex);
+        }finally {
+         //   this.mutex.unlock();
         }
     }
     
@@ -224,7 +224,7 @@ public class ConnectionClient extends BaseConnection {
     @Override
     public List<ConnectedPlayer> getAllConnections() {
         String dat;
-        List<ConnectedPlayer> results = new ArrayList<>();
+        final List<ConnectedPlayer> results = new ArrayList<>();
         do{
             dat = getFrom();
             if(dat.equals(NOTHING)){//nothing to do
