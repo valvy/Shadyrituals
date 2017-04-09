@@ -48,15 +48,18 @@ public final class Background extends GameObject
     private final static Logger logger = LogManager.getLogger(Background.class.getName());
     private int time;
     private float timer = 0f;
-    
+
+    private static final String VERTEX_SHADER = "/Assets/Shaders/UnShadedVertex.glsl";
+
+    private static final String FRAGMENT_SHADER = "/Assets/Shaders/BackgroundFragment.glsl";
+
+    private static final String TEXTURE = "/Assets/Textures/eye.png";
+
+    private static final String MESH = "/Assets/Meshes/Quad.obj";
+
     public Background() throws PrutEngineException{
         try {
-            this.setRenderer(new Renderer(
-                "/Assets/Shaders/UnShadedVertex.glsl",
-                "/Assets/Shaders/BackgroundFragment.glsl",
-                "/Assets/Textures/eye.png",
-                "/Assets/Meshes/Quad.obj"
-            ));
+            this.setRenderer(new Renderer(VERTEX_SHADER,FRAGMENT_SHADER,TEXTURE, MESH));
            
            time = glGetUniformLocation(AssetManager.getProgram(this.getRenderer().getProgram()), "time");
             int resolution = glGetUniformLocation(AssetManager.getProgram(this.getRenderer().getProgram()), "resolution");
