@@ -34,7 +34,6 @@ import nl.hvanderheijden.prutengine.Debug;
 import nl.hvanderheijden.prutengine.exceptions.InitException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import sun.awt.Mutex;
 
 
 import java.io.BufferedWriter;
